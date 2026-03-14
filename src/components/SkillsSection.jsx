@@ -11,10 +11,43 @@ import {
 } from "react-icons/si";
 import { VscGithubAction } from "react-icons/vsc";
 
-function SkillsSection() {
+const SKILLS_COPY = {
+    en: {
+        heading: "Technical Arsenal",
+        subtitle: "Specialized toolsets for end-to-end engineering.",
+        categories: {
+            backend: "Backend",
+            devops: "DevOps",
+            database: "Database",
+        },
+    },
+    tr: {
+        heading: "Teknik Yetenekler",
+        subtitle: "Uctan uca muhendislik icin ozellesmis arac setleri.",
+        categories: {
+            backend: "Backend",
+            devops: "DevOps",
+            database: "Veritabani",
+        },
+    },
+    es: {
+        heading: "Arsenal Tecnico",
+        subtitle:
+            "Conjuntos de herramientas especializadas para ingenieria de extremo a extremo.",
+        categories: {
+            backend: "Backend",
+            devops: "DevOps",
+            database: "Base de Datos",
+        },
+    },
+};
+
+function SkillsSection({ language = "en" }) {
+    const copy = SKILLS_COPY[language] ?? SKILLS_COPY.en;
+
     const skills = [
         {
-            title: "Backend",
+            title: copy.categories.backend,
             items: [
                 { label: "FastAPI", Icon: SiFastapi },
                 { label: "ExpressJS", Icon: SiExpress },
@@ -24,7 +57,7 @@ function SkillsSection() {
             ],
         },
         {
-            title: "DevOps",
+            title: copy.categories.devops,
             items: [
                 { label: "Docker", Icon: FaDocker },
                 { label: "CI/CD Pipelines", Icon: SiGithubactions },
@@ -32,7 +65,7 @@ function SkillsSection() {
             ],
         },
         {
-            title: "Database",
+            title: copy.categories.database,
             items: [
                 { label: "PostgreSQL", Icon: SiPostgresql },
                 { label: "MongoDB", Icon: SiMongodb },
@@ -45,10 +78,10 @@ function SkillsSection() {
     return (
         <section id="skills" className="section-wrap py-20">
             <h2 className="text-center font-['Space_Grotesk'] text-4xl font-bold text-white light:text-slate-950">
-                Technical Arsenal
+                {copy.heading}
             </h2>
             <p className="mt-3 text-center text-sm text-slate-400 light:text-slate-600">
-                Specialized toolsets for end-to-end engineering.
+                {copy.subtitle}
             </p>
             <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {skills.map(({ title, items }) => (

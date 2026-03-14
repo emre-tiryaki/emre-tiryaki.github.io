@@ -2,7 +2,28 @@ import ProjectCard from "./ProjectCard";
 import projectToolkitPreview from "../assets/project_previews/project_toolkit.png";
 import typingGamePreview from "../assets/project_previews/typing_game.png";
 
-function ProjectsSection() {
+const PROJECTS_COPY = {
+    en: {
+        heading: "Featured Work",
+        subtitle: "Selected projects demonstrating architecture and logic.",
+        allGithub: "View All Github",
+    },
+    tr: {
+        heading: "One Cikan Calismalar",
+        subtitle: "Mimari ve is mantigini gosteren secili projeler.",
+        allGithub: "Tum GitHub Projeleri",
+    },
+    es: {
+        heading: "Trabajos Destacados",
+        subtitle:
+            "Proyectos seleccionados que demuestran arquitectura y logica.",
+        allGithub: "Ver Todo en GitHub",
+    },
+};
+
+function ProjectsSection({ language = "en" }) {
+    const copy = PROJECTS_COPY[language] ?? PROJECTS_COPY.en;
+
     const projects = [
         {
             image: `url(${projectToolkitPreview})`,
@@ -31,18 +52,17 @@ function ProjectsSection() {
                 <div className="flex items-end justify-between gap-4">
                     <div>
                         <h2 className="font-['Space_Grotesk'] text-4xl font-bold text-white light:text-slate-950">
-                            Featured Work
+                            {copy.heading}
                         </h2>
                         <p className="mt-3 text-sm text-slate-400 light:text-slate-600">
-                            Selected projects demonstrating architecture and
-                            logic.
+                            {copy.subtitle}
                         </p>
                     </div>
                     <a
                         href="#"
                         className="text-sm font-semibold text-sky-400 transition hover:text-sky-300 light:text-sky-700"
                     >
-                        View All Github →
+                        {copy.allGithub} →
                     </a>
                 </div>
                 <div className="mt-10 grid gap-6 lg:grid-cols-2">
@@ -54,6 +74,7 @@ function ProjectsSection() {
                             description={project.description}
                             githubLink={project.githubLink}
                             siteLink={project.siteLink}
+                            language={language}
                         />
                     ))}
                 </div>

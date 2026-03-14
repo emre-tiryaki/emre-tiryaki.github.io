@@ -17,7 +17,47 @@ const FALLBACK_QUOTES = [
     },
 ];
 
-function HeroSection() {
+const HERO_COPY = {
+    en: {
+        availability: "Available For New Opportunities",
+        role: "Fullstack Developer",
+        role2: "Data Scientist",
+        role3: "ML Engineer",
+        quoteLoading: "Loading quote...",
+        viewProjects: "View Projects",
+        contactMe: "Contact Me",
+        noPhotos: "No photos found in assets/personal_photos.",
+        prevLabel: "Previous photo",
+        nextLabel: "Next photo",
+    },
+    tr: {
+        availability: "Yeni Firsatlar Icin Uygun",
+        role: "Fullstack Developer",
+        role2: "Data Scientist",
+        role3: "ML Engineer",
+        quoteLoading: "Ozlu soz yukleniyor...",
+        viewProjects: "Projeleri Gor",
+        contactMe: "Iletisime Gec",
+        noPhotos: "assets/personal_photos klasorunde fotograf bulunamadi.",
+        prevLabel: "Onceki fotograf",
+        nextLabel: "Sonraki fotograf",
+    },
+    es: {
+        availability: "Disponible Para Nuevas Oportunidades",
+        role: "Desarrollador Fullstack",
+        role2: "Cientifico de Datos",
+        role3: "Ingeniero de ML",
+        quoteLoading: "Cargando cita...",
+        viewProjects: "Ver Proyectos",
+        contactMe: "Contactame",
+        noPhotos: "No se encontraron fotos en assets/personal_photos.",
+        prevLabel: "Foto anterior",
+        nextLabel: "Foto siguiente",
+    },
+};
+
+function HeroSection({ language = "en" }) {
+    const copy = HERO_COPY[language] ?? HERO_COPY.en;
     const photoModules = import.meta.glob("../assets/personal_photos/*.jpg", {
         eager: true,
         import: "default",
@@ -94,14 +134,14 @@ function HeroSection() {
                 <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
                     <div>
                         <p className="mb-6 inline-flex rounded-full border border-sky-500/50 bg-sky-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-sky-300 light:border-sky-600/50 light:bg-sky-600/10 light:text-sky-700">
-                            Available For New Opportunities
+                            {copy.availability}
                         </p>
                         <h1 className="max-w-3xl font-['Space_Grotesk'] text-5xl font-bold leading-tight tracking-tight text-white md:text-7xl light:text-slate-950">
                             Emre Tiryaki
                         </h1>
                     </div>
                     <div className="rounded-2xl border border-white/20 bg-slate-900/30 p-6 text-sm text-slate-300 light:text-slate-700">
-                        No photos found in assets/personal_photos.
+                        {copy.noPhotos}
                     </div>
                 </div>
             </section>
@@ -133,20 +173,20 @@ function HeroSection() {
             <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
                 <div>
                     <p className="mb-6 inline-flex rounded-full border border-sky-500/50 bg-sky-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-sky-300 light:border-sky-600/50 light:bg-sky-600/10 light:text-sky-700">
-                        Available For New Opportunities
+                        {copy.availability}
                     </p>
                     <h1 className="max-w-3xl font-['Space_Grotesk'] text-5xl font-bold leading-tight tracking-tight text-white md:text-7xl light:text-slate-950">
                         Emre Tiryaki
                     </h1>
                     <p className="mt-3 text-xl text-slate-200 md:text-2xl light:text-slate-700">
-                        Fullstack Developer{" "}
-                        <span className="px-2 text-sky-400">|</span> Data
-                        Scientist <span className="px-2 text-sky-400">|</span>{" "}
-                        ML Engineer
+                        {copy.role} <span className="px-2 text-sky-400">|</span>{" "}
+                        {copy.role2}{" "}
+                        <span className="px-2 text-sky-400">|</span>{" "}
+                        {copy.role3}
                     </p>
                     <div className="mt-8 max-w-2xl text-sm leading-7 text-slate-400 light:text-slate-600">
                         <p className="mt-2 text-sm leading-7 text-slate-300 light:text-slate-700">
-                            {isQuoteLoading && "Ozlu soz yukleniyor..."}
+                            {isQuoteLoading && copy.quoteLoading}
                             {!isQuoteLoading && quoteError}
                             {!isQuoteLoading &&
                                 !quoteError &&
@@ -159,13 +199,13 @@ function HeroSection() {
                             href="#projects"
                             className="rounded-lg bg-sky-500 px-6 py-3 text-sm font-bold text-white transition hover:bg-sky-400"
                         >
-                            View Projects
+                            {copy.viewProjects}
                         </a>
                         <a
                             href="#contact"
                             className="rounded-lg border border-white/20 bg-white/5 px-6 py-3 text-sm font-bold text-white transition hover:border-white/40 light:border-slate-400 light:bg-white light:text-slate-900"
                         >
-                            Contact Me
+                            {copy.contactMe}
                         </a>
                     </div>
                 </div>
@@ -206,7 +246,7 @@ function HeroSection() {
                             onClick={handlePrev}
                             disabled={total < 2}
                             className="absolute left-0 top-1/2 z-40 -translate-y-1/2 rounded-full border border-white/20 bg-[#05070b]/80 px-3 py-2 text-lg font-bold text-slate-200 backdrop-blur transition hover:border-sky-400 hover:text-sky-300 light:border-slate-400 light:bg-white/90 light:text-slate-700"
-                            aria-label="Previous photo"
+                            aria-label={copy.prevLabel}
                         >
                             ←
                         </button>
@@ -215,7 +255,7 @@ function HeroSection() {
                             onClick={handleNext}
                             disabled={total < 2}
                             className="absolute right-0 top-1/2 z-40 -translate-y-1/2 rounded-full border border-white/20 bg-[#05070b]/80 px-3 py-2 text-lg font-bold text-slate-200 backdrop-blur transition hover:border-sky-400 hover:text-sky-300 light:border-slate-400 light:bg-white/90 light:text-slate-700"
-                            aria-label="Next photo"
+                            aria-label={copy.nextLabel}
                         >
                             →
                         </button>
