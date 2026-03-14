@@ -37,6 +37,23 @@ function App() {
         localStorage.setItem(LANGUAGE_KEY, language);
     }, [language]);
 
+    useEffect(() => {
+        const clearHashOnScroll = () => {
+            if (!window.location.hash) return;
+
+            const cleanUrl = `${window.location.pathname}${window.location.search}`;
+            window.history.replaceState(null, "", cleanUrl);
+        };
+
+        window.addEventListener("scroll", clearHashOnScroll, {
+            passive: true,
+        });
+
+        return () => {
+            window.removeEventListener("scroll", clearHashOnScroll);
+        };
+    }, []);
+
     return (
         <div className="relative overflow-hidden bg-[#05070b] text-slate-100 transition-colors duration-300 light:bg-[#ecf3fa] light:text-slate-900">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(56,189,248,0.14),transparent_45%),radial-gradient(circle_at_90%_10%,rgba(14,165,233,0.15),transparent_40%)] light:bg-[radial-gradient(circle_at_10%_0%,rgba(14,165,233,0.16),transparent_40%),radial-gradient(circle_at_80%_15%,rgba(2,132,199,0.12),transparent_38%)]" />
