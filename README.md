@@ -1,16 +1,68 @@
-# React + Vite
+# Emre Tiryaki - Personal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern, cok dilli (EN/TR/ES) ve performans odakli bir portfolyo sitesi.
+Proje React + Vite + TailwindCSS ile gelistirildi.
 
-Currently, two official plugins are available:
+## Ozellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Cok dilli arayuz: English, Turkce, Espanol
+- Dil seciminin `localStorage` uzerinden kalici tutulmasi
+- Hero bolumunde fotograflarla kart benzeri carousel deneyimi
+- Ozlu soz API entegrasyonu + hata durumunda fallback ozlu sozler
+- Proje kartlarinda gorsel preview ve dis linkler
+- Responsive tasarim (mobil ve desktop uyumlu)
 
-## React Compiler
+## Teknoloji Yigini
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- Vite 8
+- TailwindCSS 3
+- React Icons
+- ESLint
 
-## Expanding the ESLint configuration
+## Proje Yapisi
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+`src/components` altinda bolum bazli bir yapi vardir:
+
+- `SiteHeader` / `RightSideNav` / `SiteFooter`
+- `HeroSection`
+- `PhilosophySection`
+- `SkillsSection` + `SkillCard`
+- `ProjectsSection` + `ProjectCard`
+- `ExperienceSection`
+
+## Kurulum
+
+```bash
+npm install
+```
+
+## Gelistirme
+
+```bash
+npm run dev
+```
+
+## Build Alma
+
+```bash
+npm run build
+```
+
+## Build Onizleme
+
+```bash
+npm run preview
+```
+
+## Lint
+
+```bash
+npm run lint
+```
+
+## Notlar
+
+- Varsayilan dil: `English`
+- Secilen dil `localStorage` icinde `language` anahtariyla saklanir.
+- Hero sliderda son gorulen fotograf indexi `localStorage` ile korunur.
