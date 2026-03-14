@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const HERO_ACTIVE_INDEX_KEY = "heroActivePhotoIndex";
+
 const FALLBACK_QUOTES = [
     {
         text: "Basari, her gun tekrarlanan kucuk cabalarin toplamidir.",
@@ -24,7 +26,17 @@ function HeroSection() {
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([, src]) => src);
 
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(() => {
+        if (typeof window === "undefined") return 0;
+        const storedValue = window.localStorage.getItem(HERO_ACTIVE_INDEX_KEY);
+        const parsedValue = Number.parseInt(storedValue ?? "", 10);
+
+        if (Number.isNaN(parsedValue) || parsedValue < 0) {
+            return 0;
+        }
+
+        return parsedValue;
+    });
     const [quote, setQuote] = useState(null);
     const [isQuoteLoading, setIsQuoteLoading] = useState(true);
     const [quoteError, setQuoteError] = useState("");
@@ -60,6 +72,21 @@ function HeroSection() {
     useEffect(() => {
         fetchQuote();
     }, []);
+
+    useEffect(() => {
+        if (typeof window === "undefined" || total < 1) return;
+
+        const normalizedIndex = ((activeIndex % total) + total) % total;
+        if (normalizedIndex !== activeIndex) {
+            setActiveIndex(normalizedIndex);
+            return;
+        }
+
+        window.localStorage.setItem(
+            HERO_ACTIVE_INDEX_KEY,
+            String(normalizedIndex),
+        );
+    }, [activeIndex, total]);
 
     if (total === 0) {
         return (
