@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ExperienceSection from "./components/ExperienceSection";
 import HeroSection from "./components/HeroSection";
-import PhilosophySection from "./components/MindsetSection";
+import PhilosophySection from "./components/PhilosophySection";
 import ProjectsSection from "./components/ProjectsSection";
 import RightSideNav from "./components/RightSideNav";
 import SiteFooter from "./components/SiteFooter";

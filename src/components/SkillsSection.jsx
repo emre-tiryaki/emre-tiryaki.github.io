@@ -10,6 +10,7 @@ import {
     SiRust,
 } from "react-icons/si";
 import { VscGithubAction } from "react-icons/vsc";
+import SkillCard from "./SkillCard";
 
 const SKILLS_COPY = {
     en: {
@@ -48,6 +49,7 @@ function SkillsSection({ language = "en" }) {
     const skills = [
         {
             title: copy.categories.backend,
+            Icon: FaCodeBranch,
             items: [
                 { label: "FastAPI", Icon: SiFastapi },
                 { label: "ExpressJS", Icon: SiExpress },
@@ -58,6 +60,7 @@ function SkillsSection({ language = "en" }) {
         },
         {
             title: copy.categories.devops,
+            Icon: FaDocker,
             items: [
                 { label: "Docker", Icon: FaDocker },
                 { label: "CI/CD Pipelines", Icon: SiGithubactions },
@@ -66,6 +69,7 @@ function SkillsSection({ language = "en" }) {
         },
         {
             title: copy.categories.database,
+            Icon: FaDatabase,
             items: [
                 { label: "PostgreSQL", Icon: SiPostgresql },
                 { label: "MongoDB", Icon: SiMongodb },
@@ -84,26 +88,13 @@ function SkillsSection({ language = "en" }) {
                 {copy.subtitle}
             </p>
             <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {skills.map(({ title, items }) => (
-                    <article key={title} className="glass-card p-6">
-                        <h3 className="font-['Space_Grotesk'] text-lg font-bold text-white light:text-slate-900">
-                            {title}
-                        </h3>
-                        <ul className="mt-4 space-y-2 text-sm text-slate-400 light:text-slate-600">
-                            {items.map((item) => (
-                                <li
-                                    key={item.label}
-                                    className="flex items-center gap-2"
-                                >
-                                    <item.Icon
-                                        className="h-4 w-4 text-sky-300"
-                                        aria-hidden="true"
-                                    />
-                                    <span>{item.label}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </article>
+                {skills.map(({ title, items, Icon }) => (
+                    <SkillCard
+                        key={title}
+                        title={title}
+                        items={items}
+                        Icon={Icon}
+                    />
                 ))}
             </div>
         </section>

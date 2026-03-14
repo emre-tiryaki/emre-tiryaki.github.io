@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const HERO_ACTIVE_INDEX_KEY = "heroActivePhotoIndex";
+const JUMPSCARE_CODE = "JUMPSCARE";
+const IDLE_TIMEOUT_MS = 6000;
 
 const FALLBACK_QUOTES = [
     {
@@ -80,6 +82,11 @@ function HeroSection({ language = "en" }) {
     const [quote, setQuote] = useState(null);
     const [isQuoteLoading, setIsQuoteLoading] = useState(true);
     const [quoteError, setQuoteError] = useState("");
+    const [isJumpscareActive, setIsJumpscareActive] = useState(false);
+
+    const keySequenceRef = useRef("");
+    const lastActivityRef = useRef(Date.now());
+    const jumpscareTimeoutRef = useRef(null);
 
     const total = photos.length;
 
@@ -128,6 +135,82 @@ function HeroSection({ language = "en" }) {
         );
     }, [activeIndex, total]);
 
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+
+        const markActivity = () => {
+            lastActivityRef.current = Date.now();
+            keySequenceRef.current = "";
+        };
+
+        const handleKeyDown = (event) => {
+            const tagName = event.target?.tagName;
+            if (
+                tagName === "INPUT" ||
+                tagName === "TEXTAREA" ||
+                tagName === "SELECT" ||
+                event.target?.isContentEditable
+            ) {
+                return;
+            }
+
+            if (total < 1) return;
+
+            const isIdle =
+                Date.now() - lastActivityRef.current >= IDLE_TIMEOUT_MS;
+            if (!isIdle) {
+                keySequenceRef.current = "";
+                return;
+            }
+
+            if (!/^[A-Z]$/.test(event.key)) {
+                keySequenceRef.current = "";
+                return;
+            }
+
+            keySequenceRef.current = (keySequenceRef.current + event.key).slice(
+                -JUMPSCARE_CODE.length,
+            );
+
+            if (keySequenceRef.current !== JUMPSCARE_CODE) return;
+
+            setIsJumpscareActive(true);
+            keySequenceRef.current = "";
+
+            if (jumpscareTimeoutRef.current) {
+                window.clearTimeout(jumpscareTimeoutRef.current);
+            }
+
+            jumpscareTimeoutRef.current = window.setTimeout(() => {
+                setIsJumpscareActive(false);
+            }, 1000);
+        };
+
+        const activityEvents = [
+            "mousemove",
+            "mousedown",
+            "scroll",
+            "touchstart",
+            "click",
+        ];
+
+        activityEvents.forEach((eventName) => {
+            window.addEventListener(eventName, markActivity, { passive: true });
+        });
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            activityEvents.forEach((eventName) => {
+                window.removeEventListener(eventName, markActivity);
+            });
+            window.removeEventListener("keydown", handleKeyDown);
+
+            if (jumpscareTimeoutRef.current) {
+                window.clearTimeout(jumpscareTimeoutRef.current);
+            }
+        };
+    }, [total]);
+
     if (total === 0) {
         return (
             <section id="about" className="section-wrap py-24 md:py-32">
@@ -170,6 +253,15 @@ function HeroSection({ language = "en" }) {
 
     return (
         <section id="about" className="section-wrap py-24 md:py-32">
+            {isJumpscareActive && (
+                <div className="fixed inset-0 z-[120] bg-black">
+                    <img
+                        src={photos[activeIndex]}
+                        alt="Jumpscare portrait"
+                        className="h-full w-full object-cover"
+                    />
+                </div>
+            )}
             <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
                 <div>
                     <p className="mb-6 inline-flex rounded-full border border-sky-500/50 bg-sky-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-sky-300 light:border-sky-600/50 light:bg-sky-600/10 light:text-sky-700">
@@ -211,21 +303,21 @@ function HeroSection({ language = "en" }) {
                 </div>
 
                 <div className="mx-auto w-full max-w-md lg:max-w-none">
-                    <div className="relative h-[370px] sm:h-[430px] lg:h-[500px]">
+                    <div className="relative h-[370px] [perspective:1400px] sm:h-[430px] lg:h-[500px]">
                         {photos.map((photo, index) => {
                             const slot = getSlot(index);
 
                             return (
                                 <article
                                     key={photo}
-                                    className={`absolute left-1/2 top-1/2 w-[60%] -translate-y-1/2 overflow-hidden rounded-2xl border border-white/20 bg-slate-900/30 shadow-2xl transition-[transform,opacity,filter] duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform ${
+                                    className={`absolute left-1/2 top-1/2 w-[60%] -translate-y-1/2 overflow-hidden rounded-2xl border border-white/20 bg-slate-900/30 shadow-2xl transition-[transform,opacity,filter] duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform transform-gpu ${
                                         slot === "left"
-                                            ? "z-10 -translate-x-[95%] scale-[0.88] opacity-65 blur-[1px]"
+                                            ? "z-10 -translate-x-[95%] scale-[0.88] -rotate-[8deg] opacity-65 blur-[1px]"
                                             : slot === "center"
                                               ? "z-30 -translate-x-1/2 scale-100 opacity-100 blur-0"
                                               : slot === "right"
-                                                ? "z-20 -translate-x-[5%] scale-[0.88] opacity-75 blur-[1px]"
-                                                : "pointer-events-none z-0 -translate-x-1/2 scale-[0.75] opacity-0 blur-[2px]"
+                                                ? "z-20 -translate-x-[5%] scale-[0.88] rotate-[8deg] opacity-75 blur-[1px]"
+                                                : "pointer-events-none z-0 -translate-x-1/2 scale-[0.75] opacity-0 blur-[2px] rotate-0"
                                     }`}
                                 >
                                     <img
