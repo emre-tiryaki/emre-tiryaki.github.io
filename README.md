@@ -1,5 +1,7 @@
 # Emre Tiryaki - Personal Portfolio
 
+siteye gitmek için: <a href="https://emre-tiryaki.github.io">emre-tiryaki.github.io<a>
+
 Modern, cok dilli (EN/TR/ES) ve performans odakli bir portfolyo sitesi.
 Proje React + Vite + TailwindCSS ile gelistirildi.
 
