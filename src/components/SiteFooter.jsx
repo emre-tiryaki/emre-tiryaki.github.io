@@ -70,7 +70,7 @@ function SiteFooter() {
 
                 <div className="text-center md:text-right">
                     <p className="font-['Space_Grotesk'] text-lg font-bold">
-                        ET.
+                        Emre Tiryaki
                     </p>
                     <p className="mt-2 text-sm text-slate-400 light:text-slate-600">
                         © 2026 Emre Tiryaki. Built with precision and passion.

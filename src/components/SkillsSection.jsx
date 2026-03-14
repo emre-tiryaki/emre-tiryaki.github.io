@@ -57,16 +57,16 @@ function SkillsSection() {
                             {title}
                         </h3>
                         <ul className="mt-4 space-y-2 text-sm text-slate-400 light:text-slate-600">
-                            {items.map(({ label, Icon }) => (
+                            {items.map((item) => (
                                 <li
-                                    key={label}
+                                    key={item.label}
                                     className="flex items-center gap-2"
                                 >
-                                    <Icon
+                                    <item.Icon
                                         className="h-4 w-4 text-sky-300"
                                         aria-hidden="true"
                                     />
-                                    <span>{label}</span>
+                                    <span>{item.label}</span>
                                 </li>
                             ))}
                         </ul>
