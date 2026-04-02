@@ -1,0 +1,16 @@
+[
+    {
+        "year": "2026",
+        "title": "TUA Astro Hackathon",
+        "participationKey": "participant",
+        "descriptionKey": "tua_astro_backend",
+        "sourceCode": "https://github.com/avicenna-astrohackhaton/new-backend"
+    },
+    {
+        "year": "2025",
+        "title": "Anadolu Ajansi Hackathon",
+        "participationKey": "participant_competitor",
+        "descriptionKey": "aa_hackathon_frontend",
+        "sourceCode": "https://github.com/HEGS-HABER"
+    }
+]
