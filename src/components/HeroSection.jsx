@@ -60,10 +60,14 @@ const HERO_COPY = {
 
 function HeroSection({ language = "en" }) {
     const copy = HERO_COPY[language] ?? HERO_COPY.en;
-    const photoModules = import.meta.glob("../assets/personal_photos/*.jpg", {
-        eager: true,
-        import: "default",
-    });
+    const photoModules = import.meta.glob(
+        "../assets/personal_photos/*.{jpg,jpeg,png}",
+        {
+            eager: true,
+            import: "default",
+        },
+    );
+
     const photos = Object.entries(photoModules)
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([, src]) => src);
