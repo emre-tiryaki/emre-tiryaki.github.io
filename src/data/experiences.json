@@ -1,6 +1,12 @@
 [
     {
         "year": "2026",
+        "title": "İnüfest",
+        "participationKey": "participant_competitor",
+        "descriptionKey": "inufest"
+    },
+    {
+        "year": "2026",
         "title": "TUA Astro Hackathon",
         "participationKey": "participant",
         "descriptionKey": "tua_astro_backend",

@@ -32,18 +32,24 @@ const PARTICIPATION_COPY = {
 
 const DESCRIPTION_COPY = {
     en: {
+        inufest:
+            "At Inufest, we built an AI system that grades handwritten student answers based on the teacher's instructions, rather than acting as an optical reader.",
         tua_astro_backend:
             "I participated in TUA Astro Hackathon and developed the backend system of the project.",
         aa_hackathon_frontend:
             "We collaborated in a high-intensity environment to develop a gamified new-page frontend.",
     },
     tr: {
+        inufest:
+            "İnüfest'te optik okuyucu olarak çalışan bir sistem değil, öğretmenin verdiği yönergeler doğrultusunda el yazısıyla yazılmış öğrenci cevaplarını notlandıran yapay zeka sistemi geliştirdik.",
         tua_astro_backend:
             "TUA Astro Hackathon'da katilimciydim ve projenin backend sistemini yaptim.",
         aa_hackathon_frontend:
             "Yuksek tempolu bir ortamda, oyunlastirilmis bir yeni sayfa arayuzu gelistirmek icin ekip olarak calistik.",
     },
     es: {
+        inufest:
+            "En Inufest desarrollamos un sistema de IA que califica respuestas escritas a mano por estudiantes segun las instrucciones del profesor, en lugar de funcionar como un lector optico.",
         tua_astro_backend:
             "Participe en TUA Astro Hackathon y desarrolle el sistema backend del proyecto.",
         aa_hackathon_frontend:
