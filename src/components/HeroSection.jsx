@@ -6,16 +6,16 @@ const IDLE_TIMEOUT_MS = 6000;
 
 const FALLBACK_QUOTES = [
     {
-        text: "Basari, her gun tekrarlanan kucuk cabalarin toplamidir.",
+        text: "Başarı, her gün tekrarlanan küçük çabaların toplamıdır.",
     },
     {
-        text: "Mukemmellik bir hedef degil, surekli bir gelisim yolculugudur.",
+        text: "Mükemmellik bir hedef değil, sürekli bir gelişim yolculuğudur.",
     },
     {
-        text: "Yarinlar bugun yaptiklarimizla insa edilir.",
+        text: "Yarınlar bugün yaptıklarımızla inşa edilir.",
     },
     {
-        text: "Vazgecmemek, yetenekten daha gucludur.",
+        text: "Vazgeçmemek, yetenekten daha güçlüdür.",
     },
 ];
 
@@ -33,16 +33,16 @@ const HERO_COPY = {
         nextLabel: "Next photo",
     },
     tr: {
-        availability: "Yeni Firsatlar Icin Uygun",
+        availability: "Yeni Fırsatlar İçin Uygun",
         role: "Fullstack Developer",
         role2: "Data Scientist",
         role3: "ML Engineer",
-        quoteLoading: "Ozlu soz yukleniyor...",
-        viewProjects: "Projeleri Gor",
-        contactMe: "Iletisime Gec",
-        noPhotos: "assets/personal_photos klasorunde fotograf bulunamadi.",
-        prevLabel: "Onceki fotograf",
-        nextLabel: "Sonraki fotograf",
+        quoteLoading: "Özlü söz yükleniyor...",
+        viewProjects: "Projeleri Gör",
+        contactMe: "İletişime Geç",
+        noPhotos: "assets/personal_photos klasöründe fotoğraf bulunamadı.",
+        prevLabel: "Önceki fotoğraf",
+        nextLabel: "Sonraki fotoğraf",
     },
     es: {
         availability: "Disponible Para Nuevas Oportunidades",

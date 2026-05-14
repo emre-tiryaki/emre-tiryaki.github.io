@@ -9,11 +9,11 @@ const PHILOSOPHY_COPY = {
     },
     tr: {
         badge: "Felsefe",
-        title: "Temiz Kod ve Olceklenebilirlik Benim Tutkum",
+        title: "Temiz Kod ve Ölçeklenebilirlik Benim Tutkum",
         paragraph1:
-            "Sistemin kalbinin attigi backend tarafini gelistirmekten buyuk keyif aliyorum. Verinin ham girdiden anlamli Data Science ciktilarina donusmesini gormek en sevdigim kisimlardan biri.",
+            "Sistemin kalbinin attığı backend tarafını geliştirmekten büyük keyif alıyorum. Verinin ham girdiden anlamlı Data Science çıktılarına dönüşmesini görmek en sevdiğim kısımlardan biri.",
         paragraph2:
-            "Beni her gun motive eden sey, karmasik problemleri yonetilebilir parcalara ayirmak ve tum yapbozu temiz, verimli bir sekilde yeniden birlestirmek.",
+            "Beni her gün motive eden şey, karmaşık problemleri yönetilebilir parçalara ayırmak ve tüm yapbozu temiz, verimli bir şekilde yeniden birleştirmek.",
     },
     es: {
         badge: "Filosofia",

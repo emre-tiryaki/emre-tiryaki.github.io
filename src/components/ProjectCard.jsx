@@ -7,9 +7,9 @@ const CARD_COPY = {
     },
     tr: {
         project: "Proje",
-        preview: "Onizleme",
+        preview: "Önizleme",
         github: "GitHub",
-        liveSite: "Canli Site",
+        liveSite: "Canlı Site",
     },
     es: {
         project: "Proyecto",
@@ -25,6 +25,8 @@ function ProjectCard({
     description,
     githubLink,
     siteLink,
+    codePrivate,
+    codePrivateLabel,
     language = "en",
 }) {
     const copy = CARD_COPY[language] ?? CARD_COPY.en;
@@ -52,14 +54,21 @@ function ProjectCard({
                     {description}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-4">
-                    <a
-                        href={githubLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex text-sm font-semibold text-sky-400 transition hover:text-sky-300 light:text-sky-700"
-                    >
-                        {copy.github} →
-                    </a>
+                    {githubLink && (
+                        <a
+                            href={githubLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex text-sm font-semibold text-sky-400 transition hover:text-sky-300 light:text-sky-700"
+                        >
+                            {copy.github} →
+                        </a>
+                    )}
+                    {codePrivate && !githubLink && codePrivateLabel && (
+                        <span className="inline-flex text-sm font-semibold text-slate-400 light:text-slate-600">
+                            {codePrivateLabel}
+                        </span>
+                    )}
                     {siteLink && (
                         <a
                             href={siteLink}

@@ -1,41 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    color-scheme: dark;
-  }
+    :root {
+        color-scheme: dark;
+    }
 
-  html,
-  body,
-  #root {
-    min-height: 100%;
-  }
+    html,
+    body,
+    #root {
+        min-height: 100%;
+    }
 
-  body {
-    margin: 0;
-    font-family: 'Manrope', sans-serif;
-    @apply bg-[#0a0d14] text-slate-200 antialiased;
-  }
+    body {
+        margin: 0;
+        font-family: "Manrope", sans-serif;
+        @apply bg-[#0a0d14] text-slate-200 antialiased;
+    }
 
-  .light body {
-    @apply bg-[#f2f6fb] text-slate-800;
-  }
+    .light body {
+        @apply bg-[#f2f6fb] text-slate-800;
+    }
 }
 
 @layer components {
-  .section-wrap {
-    @apply mx-auto w-full max-w-6xl px-6 md:px-10;
-  }
+    .section-wrap {
+        @apply mx-auto w-full max-w-6xl px-6 md:px-10;
+    }
 
-  .glass-card {
-    @apply rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition duration-300 hover:border-sky-400/40 hover:bg-white/[0.06];
-  }
+    .glass-card {
+        @apply rounded-xl border border-white/10 bg-white/[0.03] backdrop-blur-sm transition duration-300 hover:border-sky-400/40 hover:bg-white/[0.06];
+    }
 
-  .light .glass-card {
-    @apply border-slate-300/80 bg-white shadow-sm hover:border-sky-400/60;
-  }
+    .light .glass-card {
+        @apply border-slate-300/80 bg-white shadow-sm hover:border-sky-400/60;
+    }
+}
+
+@layer utilities {
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
 }

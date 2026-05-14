@@ -4,14 +4,17 @@ const EXPERIENCE_COPY = {
     en: {
         heading: "Experience",
         participationLabel: "Participation:",
+        codePrivate: "Source code is private",
     },
     tr: {
         heading: "Deneyim",
-        participationLabel: "Katilim:",
+        participationLabel: "Katılım:",
+        codePrivate: "Kaynak kodlar gizlidir",
     },
     es: {
         heading: "Experiencia",
         participationLabel: "Participacion:",
+        codePrivate: "El codigo fuente es privado",
     },
 };
 
@@ -21,8 +24,8 @@ const PARTICIPATION_COPY = {
         participant_competitor: "Participant / Competitor",
     },
     tr: {
-        participant: "Katilimci",
-        participant_competitor: "Katilimci / Yarismaci",
+        participant: "Katılımcı",
+        participant_competitor: "Katılımcı / Yarışmacı",
     },
     es: {
         participant: "Participante",
@@ -43,9 +46,9 @@ const DESCRIPTION_COPY = {
         inufest:
             "İnüfest'te optik okuyucu olarak çalışan bir sistem değil, öğretmenin verdiği yönergeler doğrultusunda el yazısıyla yazılmış öğrenci cevaplarını notlandıran yapay zeka sistemi geliştirdik.",
         tua_astro_backend:
-            "TUA Astro Hackathon'da katilimciydim ve projenin backend sistemini yaptim.",
+            "TUA Astro Hackathon'da katılımcıydım ve projenin backend sistemini yaptım.",
         aa_hackathon_frontend:
-            "Yuksek tempolu bir ortamda, oyunlastirilmis bir yeni sayfa arayuzu gelistirmek icin ekip olarak calistik.",
+            "Yüksek tempolu bir ortamda, oyunlaştırılmış bir yeni sayfa arayüzü geliştirmek için ekip olarak çalıştık.",
     },
     es: {
         inufest:
@@ -162,7 +165,7 @@ function ExperienceSection({ language = "en" }) {
                                             language,
                                         )}
                                     </p>
-                                    {experience.sourceCode && (
+                                    {experience.sourceCode ? (
                                         <a
                                             href={experience.sourceCode}
                                             target="_blank"
@@ -176,7 +179,11 @@ function ExperienceSection({ language = "en" }) {
                                                 )}
                                             </span>
                                         </a>
-                                    )}
+                                    ) : experience.codePrivate ? (
+                                        <span className="mt-5 inline-flex text-sm font-semibold text-slate-400 light:text-slate-600">
+                                            {copy.codePrivate}
+                                        </span>
+                                    ) : null}
                                     {experience.liveSite && (
                                         <a
                                             href={experience.liveSite}

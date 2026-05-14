@@ -7,11 +7,11 @@ const FOOTER_COPY = {
         copyright: "Built with precision and passion.",
     },
     tr: {
-        connect: "Baglanti",
+        connect: "Bağlantı",
         email: "E-posta",
         github: "GitHub",
         linkedin: "LinkedIn",
-        copyright: "Ozen ve tutkuyla gelistirildi.",
+        copyright: "Özen ve tutkuyla geliştirildi.",
     },
     es: {
         connect: "Contacto",

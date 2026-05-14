@@ -3,7 +3,8 @@
         "year": "2026",
         "title": "İnüfest",
         "participationKey": "participant_competitor",
-        "descriptionKey": "inufest"
+        "descriptionKey": "inufest",
+        "codePrivate": true
     },
     {
         "year": "2026",

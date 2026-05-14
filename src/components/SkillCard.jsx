@@ -1,9 +1,11 @@
-function SkillCard({ title, items, Icon }) {
+function SkillCard({ title, items, cardIcon }) {
+    const CardIcon = cardIcon;
+
     return (
         <article className="glass-card p-6">
             <div className="mb-4 flex justify-center">
                 <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-sky-400/40 bg-sky-500/10 text-sky-300 light:border-sky-500/40 light:bg-sky-500/10 light:text-sky-700">
-                    <Icon className="h-8 w-8" aria-hidden="true" />
+                    <CardIcon className="h-8 w-8" aria-hidden="true" />
                 </span>
             </div>
             <h3 className="text-center font-['Space_Grotesk'] text-lg font-bold text-white light:text-slate-900">

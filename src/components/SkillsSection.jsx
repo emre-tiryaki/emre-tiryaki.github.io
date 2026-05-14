@@ -24,11 +24,11 @@ const SKILLS_COPY = {
     },
     tr: {
         heading: "Teknik Yetenekler",
-        subtitle: "Uctan uca muhendislik icin ozellesmis arac setleri.",
+        subtitle: "Uçtan uca mühendislik için özelleşmiş araç setleri.",
         categories: {
             backend: "Backend",
             devops: "DevOps",
-            database: "Veritabani",
+            database: "Veritabanı",
         },
     },
     es: {
@@ -93,7 +93,7 @@ function SkillsSection({ language = "en" }) {
                         key={title}
                         title={title}
                         items={items}
-                        Icon={Icon}
+                        cardIcon={Icon}
                     />
                 ))}
             </div>

@@ -11,11 +11,11 @@ const HEADER_COPY = {
     },
     tr: {
         nav: [
-            ["Hakkimda", "#about"],
+            ["Hakkımda", "#about"],
             ["Yetenekler", "#skills"],
             ["Projeler", "#projects"],
             ["Deneyim", "#experience"],
-            ["Iletisim", "#contact"],
+            ["İletişim", "#contact"],
         ],
         languageLabel: "Dil",
     },
@@ -91,8 +91,8 @@ export default function SiteHeader({ language = "en", setLanguage }) {
                             className="appearance-none rounded-lg border border-white/20 bg-white/5 px-2 py-1.5 pr-8 text-xs font-semibold text-slate-100 outline-none transition focus:border-sky-400 light:border-slate-300 light:bg-white light:text-slate-900"
                         >
                             <option value="en">EN - English</option>
-                            <option value="tr">TR - Turkce</option>
-                            <option value="es">ES - Espanol</option>
+                            <option value="tr">TR - Türkçe</option>
+                            <option value="es">ES - Español</option>
                         </select>
                         <span
                             aria-hidden="true"
