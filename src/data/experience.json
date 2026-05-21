@@ -1,0 +1,48 @@
+[
+  {
+    "id": "software-persona",
+    "company": "Software Persona",
+    "title": "Yazılım Stajyeri",
+    "location": "Online",
+    "startDate": "Mayıs 2026",
+    "endDate": "Haziran 2026",
+    "type": "internship"
+  },
+  {
+    "id": "arch-of-sigma",
+    "company": "Arch of Sigma",
+    "title": "Bilgi Teknolojileri Stajyeri",
+    "location": "Online",
+    "startDate": "Nisan 2026",
+    "endDate": "Mayıs 2026",
+    "type": "internship"
+  },
+  {
+    "id": "inufest-2026",
+    "company": "İnüfest 2026",
+    "title": "Katılımcı / Yarışmacı",
+    "location": "Malatya",
+    "date": "Nisan 2026",
+    "duration": "3 gün",
+    "type": "competition",
+    "achievement": "Kendi kategorisinde 3. sıra"
+  },
+  {
+    "id": "tua-hackathon",
+    "company": "TUA Astro Hackathon",
+    "title": "Katılımcı",
+    "location": "Malatya",
+    "date": "Nisan 2026",
+    "duration": "2 gün",
+    "type": "hackathon"
+  },
+  {
+    "id": "aa-hackathon",
+    "company": "Anadolu Ajansı Medya Teknolojileri Hackathonu",
+    "title": "Katılımcı / Yarışmacı",
+    "location": null,
+    "date": "2025",
+    "duration": null,
+    "type": "hackathon"
+  }
+]

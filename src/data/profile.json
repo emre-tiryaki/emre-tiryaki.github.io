@@ -1,0 +1,171 @@
+{
+    "firstName": "Emre",
+    "lastName": "Tiryaki",
+    "headline": "Backend Developer | Software Engineer",
+    "summary": "Sistem mimarisi ve veri yönetimi (Backend) konularında derin teknik yetkinliğe sahip, modern web teknolojileri ve kullanıcı arayüzü geliştirme süreçlerinde deneyimli bir yazılım geliştiriciyim. Karmaşık iş mantıklarını (Business Logic) performanslı arayüzlere dönüştürme konusunda tutkuluyum.",
+    "location": "Samsun/Yakakent, Türkiye",
+    "contact": {
+        "email": "tiryakiemre18@gmail.com"
+    },
+    "socialLinks": {
+        "portfolio": "https://emre-tiryaki.github.io",
+        "github": "https://github.com/emre-tiryaki",
+        "linkedin": "https://www.linkedin.com/in/emre-tiryaki-7448b6290",
+        "x": "https://x.com/MrTiryaki",
+        "instagram": "https://www.instagram.com/emre._.tiryaki/"
+    },
+    "education": [
+        {
+            "id": "inonu",
+            "school": "İnönü Üniversitesi",
+            "degree": "Lisans",
+            "fieldOfStudy": "Yazılım Mühendisliği",
+            "startDate": "Ekim 2023",
+            "endDate": "Haziran 2027",
+            "gpa": "3.17/4.0",
+            "activities": "Google Developer Students Club"
+        }
+    ],
+    "languages": [
+        { "name": "Türkçe", "proficiency": "Ana Dil" },
+        {
+            "name": "İngilizce",
+            "proficiency": "Professional working proficiency (C1)"
+        }
+    ],
+    "certifications": [
+        {
+            "id": "claude-101",
+            "name": "Claude 101",
+            "authority": "Anthropic",
+            "date": "Nisan 2026",
+            "url": "https://verify.skilljar.com/c/dswoyv8ey3qe"
+        },
+        {
+            "id": "claude-code-101",
+            "name": "Claude Code 101",
+            "authority": "Anthropic",
+            "date": "Nisan 2026",
+            "url": "https://verify.skilljar.com/c/giejytpt8ofh"
+        },
+        {
+            "id": "intro-claude-cowork",
+            "name": "Introduction to Claude Cowork",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/4en3v689hk6n"
+        },
+        {
+            "id": "claude-code-action",
+            "name": "Claude Code in Action",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/djfvn3t4cnsi"
+        },
+        {
+            "id": "ai-fluency-foundations",
+            "name": "AI Fluency Framework & Foundations",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/44dcaz83qubg"
+        },
+        {
+            "id": "ai-fluency-small-biz",
+            "name": "AI Fluency for Small Businesses",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/gdktbnpasncj"
+        },
+        {
+            "id": "ai-capabilities",
+            "name": "AI Capabilities and Limitations",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/org5dzmnztki"
+        },
+        {
+            "id": "intro-subagents",
+            "name": "Introduction to subagents",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/9j4fxsi29byf"
+        },
+        {
+            "id": "intro-agent-skills",
+            "name": "Introduction to agent skills",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/fck3tc5vndtg"
+        },
+        {
+            "id": "ai-fluency-nonprofits",
+            "name": "AI Fluency for nonprofits",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/pkekmg6ij95w"
+        },
+        {
+            "id": "building-claude-api",
+            "name": "Building with the Claude API",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/7tfu6boxu3t2"
+        },
+        {
+            "id": "teaching-ai-fluency",
+            "name": "Teaching the AI Fluency Framework",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/7to6p7s4kdcs"
+        },
+        {
+            "id": "claude-vertex-ai",
+            "name": "Claude with Google Cloud's Vertex AI",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/viwkvbt7wt8y"
+        },
+        {
+            "id": "claude-bedrock",
+            "name": "Claude in Amazon Bedrock",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/y285cpt9sdgt"
+        },
+        {
+            "id": "mcp-advanced",
+            "name": "Model Context Protocol: Advanced Topics",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/ize9y4zzbhfx"
+        },
+        {
+            "id": "ai-fluency-students",
+            "name": "AI Fluency for students",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/e8r7nrsmnmm4"
+        },
+        {
+            "id": "ai-fluency-educators",
+            "name": "AI Fluency for educators",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/2gpgmagsi3g8"
+        },
+        {
+            "id": "intro-mcp",
+            "name": "Introduction to Model Context Protocol",
+            "authority": "Anthropic",
+            "date": "Mayıs 2026",
+            "url": "https://verify.skilljar.com/c/aiuuosjmxfhc"
+        },
+        {
+            "id": "tua-astro-cert",
+            "name": "TUA Astro Hackathon Malatya Katılım Sertifikası",
+            "authority": "Türkiye Uzay Ajansı",
+            "date": "Nisan 2026",
+            "url": null
+        }
+    ]
+}

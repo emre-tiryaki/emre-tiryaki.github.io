@@ -1,78 +1,86 @@
-import { useEffect, useState } from "react";
-import ExperienceSection from "./components/ExperienceSection";
-import HeroSection from "./components/HeroSection";
-import PhilosophySection from "./components/PhilosophySection";
-import ProjectsSection from "./components/ProjectsSection";
-import RightSideNav from "./components/RightSideNav";
-import SiteFooter from "./components/SiteFooter";
-import SiteHeader from "./components/SiteHeader";
-import SkillsSection from "./components/SkillsSection";
+import { useState, useEffect } from 'react';
+import Sidebar from './components/Sidebar';
+import StatusBar from './components/StatusBar';
+import AboutPanel from './components/panels/AboutPanel';
+import SkillsPanel from './components/panels/SkillsPanel';
+import ProjectsPanel from './components/panels/ProjectsPanel';
+import ExperiencePanel from './components/panels/ExperiencePanel';
+import CertificationsPanel from './components/panels/CertificationsPanel';
 
-const LANGUAGE_KEY = "language";
-const SUPPORTED_LANGUAGES = ["en", "tr", "es"];
+const TABS = [
+  { id: 'about', label: 'hakkimda.md', icon: '📄' },
+  { id: 'skills', label: 'yetenekler.json', icon: '📄' },
+  { id: 'projects', label: 'projeler.ts', icon: '📄' },
+  { id: 'experience', label: 'deneyim.log', icon: '📄' },
+  { id: 'certifications', label: 'sertifikalar.cert', icon: '📄' },
+];
+
+const THEME_KEY = 'portfolio-theme';
+
+function getInitialTheme() {
+  if (typeof window === 'undefined') return 'dark';
+  const saved = localStorage.getItem(THEME_KEY);
+  if (saved === 'dark' || saved === 'light') return saved;
+  return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
 
 function App() {
-    const [language, setLanguage] = useState(() => {
-        const savedLanguage = localStorage.getItem(LANGUAGE_KEY) ?? "en";
-        return SUPPORTED_LANGUAGES.includes(savedLanguage)
-            ? savedLanguage
-            : "en";
-    });
+  const [activeTab, setActiveTab] = useState('about');
+  const [theme, setTheme] = useState(getInitialTheme);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const [theme] = useState(() => {
-        const savedTheme = localStorage.getItem("theme");
-        const prefersLight =
-            window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: light)").matches;
-        return savedTheme ?? (prefersLight ? "light" : "dark");
-    });
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
+  }, [theme]);
 
-    useEffect(() => {
-        const root = document.documentElement;
-        root.classList.remove("light", "dark");
-        root.classList.add(theme);
-    }, [theme]);
+  const handleTabSelect = (tabId) => {
+    setActiveTab(tabId);
+    setSidebarOpen(false);
+  };
 
-    useEffect(() => {
-        localStorage.setItem(LANGUAGE_KEY, language);
-    }, [language]);
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
-    useEffect(() => {
-        const clearHashOnScroll = () => {
-            if (!window.location.hash) return;
+  const renderPanel = () => {
+    switch (activeTab) {
+      case 'about': return <AboutPanel />;
+      case 'skills': return <SkillsPanel />;
+      case 'projects': return <ProjectsPanel />;
+      case 'experience': return <ExperiencePanel />;
+      case 'certifications': return <CertificationsPanel />;
+      default: return <AboutPanel />;
+    }
+  };
 
-            const cleanUrl = `${window.location.pathname}${window.location.search}`;
-            window.history.replaceState(null, "", cleanUrl);
-        };
+  return (
+    <div className="app-layout">
+      {sidebarOpen && (
+        <div className="mobile-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
 
-        window.addEventListener("scroll", clearHashOnScroll, {
-            passive: true,
-        });
+      <Sidebar
+        tabs={TABS}
+        activeTab={activeTab}
+        onSelect={handleTabSelect}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+        isOpen={sidebarOpen}
+      />
 
-        return () => {
-            window.removeEventListener("scroll", clearHashOnScroll);
-        };
-    }, []);
-
-    return (
-        <div className="relative overflow-hidden bg-[#05070b] text-slate-100 transition-colors duration-300 light:bg-[#ecf3fa] light:text-slate-900">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(56,189,248,0.14),transparent_45%),radial-gradient(circle_at_90%_10%,rgba(14,165,233,0.15),transparent_40%)] light:bg-[radial-gradient(circle_at_10%_0%,rgba(14,165,233,0.16),transparent_40%),radial-gradient(circle_at_80%_15%,rgba(2,132,199,0.12),transparent_38%)]" />
-
-            <SiteHeader language={language} setLanguage={setLanguage} />
-
-            <RightSideNav language={language} />
-
-            <main id="top" className="relative z-10 pt-16">
-                <HeroSection language={language} />
-                <PhilosophySection language={language} />
-                <SkillsSection language={language} />
-                <ProjectsSection language={language} />
-                <ExperienceSection language={language} />
-            </main>
-
-            <SiteFooter language={language} />
+      <div className="panel-area">
+        <button className="mobile-menu-btn" onClick={() => setSidebarOpen(prev => !prev)} id="mobile-menu">
+          ☰
+        </button>
+        <div className="panel-content" key={activeTab}>
+          {renderPanel()}
         </div>
-    );
+      </div>
+
+      <StatusBar activeTab={activeTab} theme={theme} />
+    </div>
+  );
 }
 
 export default App;

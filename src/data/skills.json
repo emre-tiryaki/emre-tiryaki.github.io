@@ -1,0 +1,44 @@
+[
+  {
+    "id": "languages-prog",
+    "category": "Programlama Dilleri",
+    "icon": "code",
+    "items": ["Java", "JavaScript", "TypeScript", "Python", "Rust", "Go"]
+  },
+  {
+    "id": "frontend",
+    "category": "Frontend",
+    "icon": "layout",
+    "items": ["React", "Vue", "HTML", "Tailwind CSS", "TypeScript", "JavaScript"]
+  },
+  {
+    "id": "backend",
+    "category": "Backend",
+    "icon": "server",
+    "items": ["Spring Boot", "Node.js", "Express.js", "NestJS", "Axum (Rust)", "FastAPI"]
+  },
+  {
+    "id": "ai-ml",
+    "category": "AI / ML",
+    "icon": "brain",
+    "items": ["YOLO11", "TrOCR", "Qwen2-VL", "LSTM", "NumPy", "SciPy", "Ollama", "Image Processing", "Data Analysis"]
+  },
+  {
+    "id": "databases",
+    "category": "Veritabanları",
+    "icon": "database",
+    "items": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "SQL Server"]
+  },
+  {
+    "id": "devops",
+    "category": "DevOps & Araçlar",
+    "icon": "terminal",
+    "items": ["Docker", "Git", "GitHub Actions", "Linux", "Bash/Zsh Scripting", "CI/CD"]
+  },
+  {
+    "id": "concepts",
+    "category": "Kavramlar & Prensipler",
+    "icon": "book",
+    "items": ["Clean Code", "SOLID", "OOP", "Agile", "REST API", "CI/CD"]
+  }
+]
