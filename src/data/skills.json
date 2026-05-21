@@ -34,11 +34,5 @@
     "category": "DevOps & Araçlar",
     "icon": "terminal",
     "items": ["Docker", "Git", "GitHub Actions", "Linux", "Bash/Zsh Scripting", "CI/CD"]
-  },
-  {
-    "id": "concepts",
-    "category": "Kavramlar & Prensipler",
-    "icon": "book",
-    "items": ["Clean Code", "SOLID", "OOP", "Agile", "REST API", "CI/CD"]
   }
 ]
