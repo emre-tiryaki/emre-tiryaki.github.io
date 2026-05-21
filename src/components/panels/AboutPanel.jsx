@@ -132,15 +132,19 @@ function AboutPanel() {
 
       <h2 className="section-heading">Konuşulan Diller</h2>
       <div className="about-cards-row">
-        {profile.languages.map(lang => (
-          <div className="about-card card-hover" key={lang.name}>
-            <div className="about-card-icon">🌐</div>
-            <div className="about-card-content">
-              <div className="about-card-title">{lang.name}</div>
-              <div className="about-card-subtitle">{lang.proficiency}</div>
+        {profile.languages.map(lang => {
+          const FLAG_MAP = { 'Türkçe': '🇹🇷', 'İngilizce': '🇬🇧', 'İspanyolca': '🇪🇸', 'Almanca': '🇩🇪', 'Fransızca': '🇫🇷', 'Japonca': '🇯🇵', 'Çince': '🇨🇳', 'Korece': '🇰🇷', 'Arapça': '🇸🇦', 'Rusça': '🇷🇺', 'İtalyanca': '🇮🇹', 'Portekizce': '🇵🇹' };
+          const flag = FLAG_MAP[lang.name] || '🌐';
+          return (
+            <div className="about-card card-hover" key={lang.name}>
+              <div className="about-card-icon">{flag}</div>
+              <div className="about-card-content">
+                <div className="about-card-title">{lang.name}</div>
+                <div className="about-card-subtitle">{lang.proficiency}</div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
