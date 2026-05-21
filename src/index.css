@@ -594,64 +594,107 @@ body {
 .cert-card { cursor: default; }
 a.cert-card { cursor: pointer; }
 
-/* ══════════════════════════
-   SKILLS — Enhanced Visual
-   ══════════════════════════ */
-.skills-masonry {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+/* ══════════════════════════════════
+   SKILLS — Column Layout (scrollable)
+   ══════════════════════════════════ */
+.skills-columns-wrap {
+  overflow-x: auto;
+  margin: 0 -8px;
+  padding: 0 8px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
-.skill-card-v2 {
+.skills-columns {
+  display: flex;
+  gap: 16px;
+  min-width: max-content;
+}
+
+.skill-column {
   background: var(--bg-surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 22px;
-  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  border-radius: 14px;
+  padding: 24px;
+  min-width: 240px;
+  flex-shrink: 0;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.skill-column:hover {
+  border-color: var(--border-active);
+  box-shadow: var(--shadow-card);
+}
+
+.skill-column-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-column-cat-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.skill-column-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   cursor: default;
-  position: relative;
-  overflow: hidden;
 }
 
-.skill-card-v2::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: var(--card-accent, var(--accent));
-  border-radius: 12px 12px 0 0;
-  opacity: 0;
-  transition: opacity 200ms ease;
+.skill-column-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
 }
 
-.skill-card-v2:hover { border-color: var(--card-accent, var(--border-active)); box-shadow: var(--shadow-card); transform: translateY(-2px); }
-.skill-card-v2:hover::before { opacity: 1; }
-
-.skill-card-v2-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-
-.skill-card-v2-icon {
-  width: 40px; height: 40px; border-radius: 10px;
-  background: var(--badge-bg); color: var(--card-accent, var(--accent));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0;
+.skill-column-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: all 150ms ease;
+  cursor: default;
 }
 
-.skill-card-v2-title { font-size: 15px; font-weight: 600; color: var(--text-primary); cursor: default; }
-.skill-card-v2-count { font-size: 11px; color: var(--text-muted); cursor: default; }
-
-.skill-card-v2-items { display: flex; flex-wrap: wrap; gap: 8px; }
-
-.skill-chip {
-  font-size: 12px; padding: 6px 14px; border-radius: 20px;
-  background: var(--bg-hover); color: var(--text-secondary);
-  border: 1px solid var(--border); transition: all 200ms ease; cursor: default;
+.skill-column-item:hover {
+  background: var(--bg-hover);
 }
-.skill-chip:hover {
-  border-color: var(--card-accent, var(--accent));
-  color: var(--card-accent, var(--accent));
-  background: var(--bg-surface);
-  transform: translateY(-1px);
+
+.skill-col-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.skill-col-icon--mono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--badge-bg);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.skill-column-name {
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: default;
+  white-space: nowrap;
 }
 
 /* ══════════════════
@@ -833,7 +876,7 @@ a.cert-card { cursor: pointer; }
   .about-info { align-items: center; }
   .about-links { justify-content: center; }
   .projects-grid { grid-template-columns: 1fr; }
-  .skills-masonry { grid-template-columns: 1fr; }
+  .skill-column { min-width: 160px; }
   .certs-grid { grid-template-columns: 1fr; }
   .about-cards-row { grid-template-columns: 1fr; }
 

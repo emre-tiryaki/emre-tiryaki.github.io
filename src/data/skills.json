@@ -21,7 +21,7 @@
     "id": "ai-ml",
     "category": "AI / ML",
     "icon": "brain",
-    "items": ["YOLO11", "TrOCR", "Qwen2-VL", "LSTM", "NumPy", "SciPy", "Ollama", "Image Processing", "Data Analysis"]
+    "items": ["NumPy", "SciPy", "Ollama", "Image Processing", "Data Analysis"]
   },
   {
     "id": "databases",
