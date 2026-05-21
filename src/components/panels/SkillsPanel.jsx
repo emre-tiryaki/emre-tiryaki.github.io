@@ -12,25 +12,52 @@ const ICON_MAP = {
   book: VscBook,
 };
 
+const ACCENT_COLORS = [
+  'var(--accent)',
+  'var(--accent-green)',
+  'var(--accent-peach)',
+  'var(--accent-mauve)',
+  'var(--accent-red)',
+  'var(--accent-yellow)',
+  'var(--accent)',
+];
+
 function SkillsPanel() {
   return (
     <div id="panel-skills">
       <h1 className="panel-title">Teknik Yetenekler</h1>
       <p className="panel-subtitle">Alan bazlı kategorize edilmiş yetkinlik haritası</p>
 
-      <div className="skills-grid">
-        {skills.map(category => {
+      <div className="skills-masonry">
+        {skills.map((category, idx) => {
           const Icon = ICON_MAP[category.icon] || VscSymbolMisc;
+          const accentColor = ACCENT_COLORS[idx % ACCENT_COLORS.length];
+
           return (
-            <div className="skill-card" key={category.id} id={`skill-${category.id}`}>
-              <div className="skill-card-header">
-                <div className="skill-card-icon"><Icon /></div>
-                <div className="skill-card-title">{category.category}</div>
+            <div
+              className="skill-card-v2"
+              key={category.id}
+              id={`skill-${category.id}`}
+              style={{ '--card-accent': accentColor }}
+            >
+              <div className="skill-card-v2-header">
+                <div className="skill-card-v2-icon">
+                  <Icon />
+                </div>
+                <div>
+                  <div className="skill-card-v2-title">{category.category}</div>
+                  <div className="skill-card-v2-count">{category.items.length} teknoloji</div>
+                </div>
               </div>
-              <div className="skill-items">
+
+              <div className="skill-card-v2-items">
                 {category.items.map(item => (
-                  <span className="skill-badge" key={item}>{item}</span>
+                  <span className="skill-chip" key={item}>{item}</span>
                 ))}
+              </div>
+
+              <div className="skill-card-v2-bar">
+                <div className="skill-card-v2-bar-fill" style={{ width: `${Math.min(category.items.length * 14, 100)}%` }} />
               </div>
             </div>
           );

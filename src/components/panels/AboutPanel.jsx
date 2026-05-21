@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import profile from '../../data/profile.json';
 import { VscGithubInverted, VscMail, VscLinkExternal } from 'react-icons/vsc';
 
@@ -11,13 +11,22 @@ const photos = Object.entries(photoModules)
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([, src]) => src);
 
+const CAROUSEL_KEY = 'portfolio-carousel-index';
+
 function PhotoCarousel() {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(() => {
+    const saved = parseInt(localStorage.getItem(CAROUSEL_KEY), 10);
+    return (saved >= 0 && saved < photos.length) ? saved : 0;
+  });
   const total = photos.length;
+
+  useEffect(() => {
+    localStorage.setItem(CAROUSEL_KEY, String(index));
+  }, [index]);
 
   if (total === 0) {
     return (
-      <div className="photo-carousel-wrap">
+      <div className="carousel-container">
         <div className="photo-carousel-empty">Fotoğraf bulunamadı</div>
       </div>
     );
@@ -37,13 +46,13 @@ function PhotoCarousel() {
   };
 
   return (
-    <div className="photo-carousel-wrap" id="photo-carousel">
-      <div className="photo-carousel-track">
+    <div className="carousel-container" id="photo-carousel">
+      <div className="carousel-stage">
         {photos.map((photo, i) => {
           const slot = getSlot(i);
           return (
-            <div key={photo} className={`photo-slide photo-slide--${slot}`}>
-              <img src={photo} alt={`${profile.firstName} ${profile.lastName}`} />
+            <div key={photo} className={`carousel-slide carousel-slide--${slot}`}>
+              <img src={photo} alt={`${profile.firstName} ${profile.lastName}`} draggable="false" />
             </div>
           );
         })}
@@ -51,13 +60,13 @@ function PhotoCarousel() {
 
       {total > 1 && (
         <>
-          <button className="carousel-btn prev" onClick={handlePrev} aria-label="Önceki fotoğraf">←</button>
-          <button className="carousel-btn next" onClick={handleNext} aria-label="Sonraki fotoğraf">→</button>
-          <div className="carousel-dots">
+          <button className="carousel-arrow carousel-arrow--prev" onClick={handlePrev} aria-label="Önceki fotoğraf">‹</button>
+          <button className="carousel-arrow carousel-arrow--next" onClick={handleNext} aria-label="Sonraki fotoğraf">›</button>
+          <div className="carousel-indicators">
             {photos.map((_, i) => (
               <button
                 key={i}
-                className={`carousel-dot${i === index ? ' active' : ''}`}
+                className={`carousel-indicator${i === index ? ' active' : ''}`}
                 onClick={() => setIndex(i)}
                 aria-label={`Fotoğraf ${i + 1}`}
               />
@@ -72,13 +81,12 @@ function PhotoCarousel() {
 function AboutPanel() {
   return (
     <div id="panel-about">
-      <h1 className="panel-title">{profile.firstName} {profile.lastName}</h1>
-      <p className="panel-subtitle">{profile.headline}</p>
-
       <div className="about-header">
         <PhotoCarousel />
 
         <div className="about-info">
+          <h1 className="about-name">{profile.firstName} {profile.lastName}</h1>
+          <p className="about-headline-text">{profile.headline}</p>
           <p className="about-location">📍 {profile.location}</p>
           <p className="about-summary">{profile.summary}</p>
 
@@ -107,26 +115,30 @@ function AboutPanel() {
       </div>
 
       <h2 className="section-heading">Eğitim</h2>
-      <div className="info-grid">
+      <div className="about-cards-row">
         {profile.education.map(edu => (
-          <div className="edu-card card-hover" key={edu.id}>
-            <div className="edu-school">{edu.school}</div>
-            <div className="edu-field">{edu.degree} — {edu.fieldOfStudy}</div>
-            <div className="edu-details">
-              <div>{edu.startDate} – {edu.endDate}</div>
-              <div>GPA: {edu.gpa}</div>
-              {edu.activities && <div>Kulüpler: {edu.activities}</div>}
+          <div className="about-card card-hover" key={edu.id}>
+            <div className="about-card-icon">🎓</div>
+            <div className="about-card-content">
+              <div className="about-card-title">{edu.school}</div>
+              <div className="about-card-subtitle">{edu.degree} — {edu.fieldOfStudy}</div>
+              <div className="about-card-meta">{edu.startDate} – {edu.endDate}</div>
+              <div className="about-card-meta">GPA: {edu.gpa}</div>
+              {edu.activities && <div className="about-card-meta">🏢 {edu.activities}</div>}
             </div>
           </div>
         ))}
       </div>
 
       <h2 className="section-heading">Konuşulan Diller</h2>
-      <div className="info-grid">
+      <div className="about-cards-row">
         {profile.languages.map(lang => (
-          <div className="lang-card card-hover" key={lang.name}>
-            <div className="lang-name">{lang.name}</div>
-            <div className="lang-level">{lang.proficiency}</div>
+          <div className="about-card card-hover" key={lang.name}>
+            <div className="about-card-icon">🌐</div>
+            <div className="about-card-content">
+              <div className="about-card-title">{lang.name}</div>
+              <div className="about-card-subtitle">{lang.proficiency}</div>
+            </div>
           </div>
         ))}
       </div>
