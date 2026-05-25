@@ -16,6 +16,9 @@ const TABS = [
 ];
 
 const THEME_KEY = "portfolio-theme";
+const TAB_KEY = "portfolio-active-tab";
+
+const VALID_TABS = new Set(TABS.map((t) => t.id));
 
 function getInitialTheme() {
     if (typeof window === "undefined") return "dark";
@@ -26,8 +29,13 @@ function getInitialTheme() {
         : "dark";
 }
 
+function getInitialTab() {
+    const saved = localStorage.getItem(TAB_KEY);
+    return saved && VALID_TABS.has(saved) ? saved : "about";
+}
+
 function App() {
-    const [activeTab, setActiveTab] = useState("about");
+    const [activeTab, setActiveTab] = useState(getInitialTab);
     const [theme, setTheme] = useState(getInitialTheme);
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -38,6 +46,7 @@ function App() {
 
     const handleTabSelect = (tabId) => {
         setActiveTab(tabId);
+        localStorage.setItem(TAB_KEY, tabId);
         setSidebarOpen(false);
     };
 

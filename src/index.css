@@ -690,6 +690,21 @@ a.cert-card { cursor: pointer; }
   font-family: 'JetBrains Mono', monospace;
 }
 
+.skill-col-icon--svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.skill-col-icon--svg svg {
+  width: 20px;
+  height: 20px;
+}
+
 .skill-column-name {
   font-size: 14px;
   color: var(--text-secondary);
@@ -809,43 +824,53 @@ a.cert-card { cursor: pointer; }
 .exp-tl-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--text-muted); margin-top: 6px; cursor: default; }
 .exp-tl-achievement { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 4px 10px; border-radius: 6px; background: var(--achievement-bg); color: var(--achievement-text); margin-top: 8px; font-weight: 500; cursor: default; }
 
-/* CTA card at timeline top */
-.exp-cta-card {
+/* ── CTA Hero Banner (above timeline, standalone) ── */
+.exp-cta-hero {
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-color: var(--accent-green);
-  border-style: dashed;
-  background: rgba(166, 227, 161, 0.04);
+  justify-content: center;
+  gap: 20px;
+  padding: 24px 32px;
+  margin-bottom: 32px;
+  background: rgba(166, 227, 161, 0.05);
+  border: 1px dashed var(--accent-green);
+  border-radius: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease, transform 200ms ease;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.exp-cta-card:hover {
+.exp-cta-hero:hover {
+  background: rgba(166, 227, 161, 0.1);
   border-color: var(--accent-green);
-  background: rgba(166, 227, 161, 0.08);
+  transform: translateY(-2px);
 }
 
 .exp-cta-img {
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
   flex-shrink: 0;
   border-radius: 8px;
 }
 
-.exp-cta-text { cursor: default; }
+.exp-cta-text { cursor: pointer; }
 
 .exp-cta-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--accent-green);
-  cursor: default;
+  cursor: pointer;
 }
 
 .exp-cta-sub {
   font-size: 13px;
   color: var(--text-muted);
-  margin-top: 4px;
-  cursor: default;
+  margin-top: 6px;
+  cursor: pointer;
 }
 
 /* ══════════════════

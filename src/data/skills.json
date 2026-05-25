@@ -15,7 +15,7 @@
     "id": "backend",
     "category": "Backend",
     "icon": "server",
-    "items": ["Spring Boot", "Node.js", "Express.js", "NestJS", "Axum (Rust)", "FastAPI"]
+    "items": ["Spring Boot", "Node.js", "Express.js", "NestJS", "Axum", "FastAPI", "Gin"]
   },
   {
     "id": "ai-ml",

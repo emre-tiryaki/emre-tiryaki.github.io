@@ -3,12 +3,11 @@
     "lastName": "Tiryaki",
     "headline": "Backend Developer | Software Engineer",
     "summary": "Sistem mimarisi ve veri yönetimi (Backend) konularında derin teknik yetkinliğe sahip, modern web teknolojileri ve kullanıcı arayüzü geliştirme süreçlerinde deneyimli bir yazılım geliştiriciyim. Karmaşık iş mantıklarını (Business Logic) performanslı arayüzlere dönüştürme konusunda tutkuluyum.",
-    "location": "Samsun/Yakakent, Türkiye",
+    "location": "İstanbul/Sarıyer Türkiye",
     "contact": {
         "email": "tiryakiemre18@gmail.com"
     },
     "socialLinks": {
-        "portfolio": "https://emre-tiryaki.github.io",
         "github": "https://github.com/emre-tiryaki",
         "linkedin": "https://www.linkedin.com/in/emre-tiryaki-7448b6290",
         "x": "https://x.com/MrTiryaki",
@@ -165,7 +164,7 @@
             "name": "TUA Astro Hackathon Malatya Katılım Sertifikası",
             "authority": "Türkiye Uzay Ajansı",
             "date": "Nisan 2026",
-            "url": null
+            "url": "null"
         }
     ]
 }
