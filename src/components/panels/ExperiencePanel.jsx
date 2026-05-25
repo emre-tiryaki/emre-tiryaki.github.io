@@ -21,7 +21,6 @@ const CTA_IMAGES = Object.values(ctaImageModules);
 const CTA_TITLES = [
     "Sıradaki deneyimim siz olabilirsiniz",
     "Bu alanda sizde bulunabilirsiniz",
-    "Yazılımcı mı lazım?",
     "Beni işe mi almak istiyorsunuz?",
 ];
 
@@ -105,6 +104,23 @@ function getExperienceSortValue(item) {
 
     return Number.NEGATIVE_INFINITY;
 }
+
+function formatExperienceDate(item) {
+    if (item.startDate && item.endDate) {
+        return `${item.startDate} – ${item.endDate}`;
+    }
+
+    if (item.startDate) {
+        return item.startDate;
+    }
+
+    if (item.date) {
+        return item.date + (item.duration ? ` (${item.duration})` : "");
+    }
+
+    return item.duration || "";
+}
+
 function ExperiencePanel() {
     const sorted = [...experience].sort((a, b) => {
         return getExperienceSortValue(b) - getExperienceSortValue(a);
@@ -123,28 +139,50 @@ function ExperiencePanel() {
                 {sorted.map((item, idx) => {
                     const config =
                         TYPE_CONFIG[item.type] || TYPE_CONFIG.internship;
-                    const dateText = item.startDate
-                        ? `${item.startDate} – ${item.endDate}`
-                        : item.date +
-                          (item.duration ? ` (${item.duration})` : "");
+                    const dateText = formatExperienceDate(item);
                     const side = idx % 2 === 0 ? "left" : "right";
+                    const hasAchievement = Boolean(item.achievement);
 
                     return (
-                        <div
+                        <article
                             className={`exp-timeline-item exp-timeline-item--${side}`}
                             key={item.id}
                             style={{ "--exp-accent": config.color }}
                         >
-                            <div className="exp-timeline-dot" />
-                            <div className="exp-tl-card">
-                                <div className="exp-tl-header">
+                            <div
+                                className="exp-timeline-dot"
+                                aria-hidden="true"
+                            />
+                            <div
+                                className={`exp-tl-card ${
+                                    hasAchievement
+                                        ? "exp-tl-card--with-badge"
+                                        : ""
+                                }`}
+                            >
+                                {hasAchievement && (
+                                    <div
+                                        className="exp-tl-badge"
+                                        title={item.achievement}
+                                        aria-label={`Başarı: ${item.achievement}`}
+                                    >
+                                        <span className="exp-tl-badge-icon">
+                                            🏆
+                                        </span>
+                                        <span className="exp-tl-badge-tooltip">
+                                            {item.achievement}
+                                        </span>
+                                    </div>
+                                )}
+
+                                <header className="exp-tl-header">
                                     <h3 className="exp-tl-company">
                                         {item.company}
                                     </h3>
                                     <span className="exp-tl-type">
                                         {config.label}
                                     </span>
-                                </div>
+                                </header>
                                 <div className="exp-tl-role">{item.title}</div>
                                 <div className="exp-tl-meta">
                                     <span>📅 {dateText}</span>
@@ -152,13 +190,8 @@ function ExperiencePanel() {
                                         <span>📍 {item.location}</span>
                                     )}
                                 </div>
-                                {item.achievement && (
-                                    <div className="exp-tl-achievement">
-                                        🏆 {item.achievement}
-                                    </div>
-                                )}
                             </div>
-                        </div>
+                        </article>
                     );
                 })}
             </div>

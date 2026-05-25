@@ -42,6 +42,11 @@
     --private-text: #f38ba8;
     --achievement-bg: rgba(249, 226, 175, 0.1);
     --achievement-text: #f9e2af;
+    --achievement-badge-bg: linear-gradient(
+        135deg,
+        rgba(198, 146, 49, 0.95),
+        rgba(233, 196, 106, 0.95)
+    );
 }
 
 [data-theme="light"] {
@@ -72,6 +77,7 @@
     --private-text: #d20f39;
     --achievement-bg: rgba(223, 142, 29, 0.1);
     --achievement-text: #df8e1d;
+    --achievement-badge-bg: linear-gradient(135deg, #bf6700, #f2b84b);
 }
 
 /* ── Base ── */
@@ -988,15 +994,6 @@ a.cert-card {
     justify-content: flex-start;
     padding-right: calc(50% + 28px);
 }
-.exp-timeline-item--left .exp-tl-card {
-    text-align: right;
-}
-.exp-timeline-item--left .exp-tl-meta {
-    justify-content: flex-end;
-}
-.exp-timeline-item--left .exp-tl-links {
-    justify-content: flex-end;
-}
 
 /* Right items */
 .exp-timeline-item--right {
@@ -1025,12 +1022,21 @@ a.cert-card {
     border-radius: 12px;
     padding: 20px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    overflow: visible;
     transition:
         border-color 200ms ease,
         box-shadow 200ms ease,
         transform 200ms ease,
         background 200ms ease;
     cursor: default;
+}
+
+.exp-tl-card--with-badge {
+    padding-bottom: 26px;
 }
 
 .exp-tl-card:hover {
@@ -1041,17 +1047,19 @@ a.cert-card {
 }
 
 .exp-tl-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 4px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 8px 12px;
 }
 .exp-tl-company {
     font-size: 16px;
     font-weight: 600;
     color: var(--text-primary);
     cursor: default;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
 }
 .exp-tl-type {
     font-size: 10px;
@@ -1063,11 +1071,16 @@ a.cert-card {
     border-radius: 4px;
     background: var(--badge-bg);
     cursor: default;
+    white-space: nowrap;
+    justify-self: end;
+    align-self: start;
 }
 .exp-tl-role {
     font-size: 14px;
     color: var(--accent);
-    font-weight: 500;
+    font-weight: 600;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
     cursor: default;
 }
 .exp-tl-meta {
@@ -1076,7 +1089,9 @@ a.cert-card {
     flex-wrap: wrap;
     font-size: 12px;
     color: var(--text-muted);
-    margin-top: 6px;
+    margin-top: 0;
+    justify-content: flex-start;
+    line-height: 1.45;
     cursor: default;
 }
 .exp-tl-achievement {
@@ -1091,6 +1106,69 @@ a.cert-card {
     margin-top: 8px;
     font-weight: 500;
     cursor: default;
+}
+
+/* Achievement badge (circular trophy) positioned at top corner of card
+   - For left-side cards: show on the right-top corner
+   - For right-side cards: show on the left-top corner */
+.exp-tl-card {
+    position: relative;
+}
+.exp-tl-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--achievement-badge-bg, var(--achievement-bg));
+    color: var(--achievement-text);
+    border: 2px solid var(--bg-primary);
+    box-shadow: var(--shadow-card);
+    font-size: 16px;
+    line-height: 1;
+    z-index: 6;
+    transition: transform 120ms ease;
+}
+.exp-tl-badge-icon {
+    display: inline-block;
+}
+.exp-tl-badge:hover {
+    transform: translateY(-2px);
+}
+
+/* Tooltip for achievement text */
+.exp-tl-badge-tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: 0;
+    max-width: min(260px, calc(100vw - 48px));
+    transform: translateY(4px) scale(0.9);
+    transform-origin: bottom right;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    border-radius: 8px;
+    white-space: normal;
+    text-align: left;
+    line-height: 1.35;
+    font-size: 12px;
+    box-shadow: var(--shadow-card);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+        opacity 120ms ease,
+        transform 120ms ease;
+    z-index: 10;
+}
+.exp-tl-badge:hover .exp-tl-badge-tooltip {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
 }
 
 /* ── CTA Hero Banner (above timeline, standalone) ── */
