@@ -22,6 +22,7 @@ const CTA_TITLES = [
     "Sıradaki deneyimim siz olabilirsiniz",
     "Bu alanda sizde bulunabilirsiniz",
     "Yazılımcı mı lazım?",
+    "Beni işe mi almak istiyorsunuz?",
 ];
 
 const CTA_SUBTITLES = [
@@ -119,18 +120,18 @@ function ExperiencePanel() {
             <TimelineCTA />
 
             <div className="exp-timeline">
-
-                {sorted.map((item) => {
+                {sorted.map((item, idx) => {
                     const config =
                         TYPE_CONFIG[item.type] || TYPE_CONFIG.internship;
                     const dateText = item.startDate
                         ? `${item.startDate} – ${item.endDate}`
                         : item.date +
                           (item.duration ? ` (${item.duration})` : "");
+                    const side = idx % 2 === 0 ? "left" : "right";
 
                     return (
                         <div
-                            className="exp-timeline-item"
+                            className={`exp-timeline-item exp-timeline-item--${side}`}
                             key={item.id}
                             style={{ "--exp-accent": config.color }}
                         >
