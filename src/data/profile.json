@@ -34,6 +34,13 @@
     ],
     "certifications": [
         {
+            "id": "inufest-3rd-place-cert",
+            "name": "İnüfest 2026 Yazılım kategorisi 3.lük sertifikası",
+            "authority": "İnönü Üniversitesi",
+            "date": "Mayıs 2026",
+            "url": "null"
+        },
+        {
             "id": "claude-101",
             "name": "Claude 101",
             "authority": "Anthropic",
@@ -164,13 +171,6 @@
             "name": "TUA Astro Hackathon Malatya Katılım Sertifikası",
             "authority": "Türkiye Uzay Ajansı",
             "date": "Nisan 2026",
-            "url": "null"
-        },
-        {
-            "id": "inufest-3rd-place-cert",
-            "name": "İnüfest 2026 Yazılım kategorisi 3.lük sertifikası",
-            "authority": "İnönü Üniversitesi",
-            "date": "Mayıs 2026",
             "url": "null"
         }
     ]
