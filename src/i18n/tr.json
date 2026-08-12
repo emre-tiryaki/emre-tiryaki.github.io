@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımda",
+    "skills": "Yetenekler",
+    "education": "Eğitim",
+    "experience": "Deneyim",
+    "projects": "Projeler",
+    "certifications": "Sertifikalar"
+  },
+  "home": {
+    "greeting": "Merhaba, ben",
+    "role": "Backend Geliştirici"
+  },
+  "about": {
+    "summary": "Sistem mimarisi ve veri yönetimi (Backend) konularında derin teknik yetkinliğe sahip, modern web teknolojileri ve kullanıcı arayüzü geliştirme süreçlerinde deneyimli bir yazılım geliştiriciyim. Karmaşık iş mantıklarını (Business Logic) performanslı arayüzlere dönüştürme konusunda tutkuluyum.",
+    "location": "İstanbul/Sarıyer, Türkiye",
+    "contactTitle": "İletişim",
+    "email": "tiryakiemre18@gmail.com",
+    "languages": "Konuşulan Diller",
+    "githubActivity": "GitHub Aktivitesi",
+    "githubError": "Burada GitHub commit geçmişim vardı ama şu an bir hata oluştu.",
+    "githubEmpty": "Son 30 günde commit bulunamadı.",
+    "githubLoading": "Commitler yükleniyor...",
+    "languageNames": {
+      "Türkçe": "Türkçe",
+      "İngilizce": "İngilizce"
+    }
+  },
+  "skills": {
+    "title": "Yetenekler",
+    "subtitle": "Kullandığım teknolojiler ve araçlar"
+  },
+  "education": {
+    "title": "Eğitim",
+    "subtitle": "Akademik geçmişim",
+    "gpa": "GPA",
+    "degree": "Derece",
+    "field": "Bölüm"
+  },
+  "experience": {
+    "title": "Deneyim",
+    "subtitle": "Profesyonel stajlar ve teknik etkinlikler",
+    "hireMeTitle": "Sıradaki deneyimim siz olabilirsiniz",
+    "hireMeTitle2": "Bu alanda sizde bulunabilirsiniz",
+    "hireMeTitle3": "Beni işe mi almak istiyorsunuz?",
+    "hireMeSub": "Bana ulaşın",
+    "hireMeSub2": "Beni işe alın",
+    "hireMeSub3": "İletişime geçin",
+    "hireMeSub4": "Konuşalım",
+    "ongoing": "Devam ediyor",
+    "types": {
+      "all": "Tümü",
+      "internship": "Staj",
+      "hackathon": "Hackathon",
+      "competition": "Yarışma",
+      "work": "İş Deneyimi"
+    }
+  },
+  "projects": {
+    "title": "Projeler",
+    "subtitle": "Mimari ve iş mantığını gösteren seçili projeler",
+    "sourceCode": "Kaynak Kod",
+    "liveDemo": "Canlı Demo",
+    "privateRepo": "Kaynak kod gizlidir",
+    "techStack": "Teknoloji Yığını",
+    "prev": "Önceki",
+    "next": "Sonraki"
+  },
+  "certifications": {
+    "title": "Sertifikalar",
+    "subtitle": "Profesyonel gelişim ve doğrulanmış yetkinlikler",
+    "verify": "Doğrula"
+  }
+}

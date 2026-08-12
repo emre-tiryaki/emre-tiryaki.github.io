@@ -1,110 +1,46 @@
-import { useState, useEffect } from "react";
-import Sidebar from "./components/Sidebar";
-import StatusBar from "./components/StatusBar";
-import AboutPanel from "./components/panels/AboutPanel";
-import SkillsPanel from "./components/panels/SkillsPanel";
-import ProjectsPanel from "./components/panels/ProjectsPanel";
-import ExperiencePanel from "./components/panels/ExperiencePanel";
-import CertificationsPanel from "./components/panels/CertificationsPanel";
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import Navbar from './components/layout/Navbar';
+import StarfieldBackground from './components/layout/StarfieldBackground';
+import PageTransition from './components/layout/PageTransition';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import SkillsPage from './pages/SkillsPage';
+import EducationPage from './pages/EducationPage';
+import ExperiencePage from './pages/ExperiencePage';
+import ProjectsPage from './pages/ProjectsPage';
+import CertificationsPage from './pages/CertificationsPage';
 
-const TABS = [
-    { id: "about", label: "hakkimda.md", icon: "📄" },
-    { id: "skills", label: "yetenekler.json", icon: "📄" },
-    { id: "projects", label: "projeler.ts", icon: "📄" },
-    { id: "experience", label: "deneyim.log", icon: "📄" },
-    { id: "certifications", label: "sertifikalar.cert", icon: "📄" },
-];
+function AnimatedRoutes() {
+  const location = useLocation();
 
-const THEME_KEY = "portfolio-theme";
-const TAB_KEY = "portfolio-active-tab";
-
-const VALID_TABS = new Set(TABS.map((t) => t.id));
-
-function getInitialTheme() {
-    if (typeof window === "undefined") return "dark";
-    const saved = localStorage.getItem(THEME_KEY);
-    if (saved === "dark" || saved === "light") return saved;
-    return window.matchMedia?.("(prefers-color-scheme: light)").matches
-        ? "light"
-        : "dark";
-}
-
-function getInitialTab() {
-    const saved = localStorage.getItem(TAB_KEY);
-    return saved && VALID_TABS.has(saved) ? saved : "about";
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><HomePage /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><AboutPage /></PageTransition>} />
+        <Route path="/skills" element={<PageTransition><SkillsPage /></PageTransition>} />
+        <Route path="/education" element={<PageTransition><EducationPage /></PageTransition>} />
+        <Route path="/experience" element={<PageTransition><ExperiencePage /></PageTransition>} />
+        <Route path="/projects" element={<PageTransition><ProjectsPage /></PageTransition>} />
+        <Route path="/certifications" element={<PageTransition><CertificationsPage /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
 }
 
 function App() {
-    const [activeTab, setActiveTab] = useState(getInitialTab);
-    const [theme, setTheme] = useState(getInitialTheme);
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-
-    useEffect(() => {
-        document.documentElement.setAttribute("data-theme", theme);
-        localStorage.setItem(THEME_KEY, theme);
-    }, [theme]);
-
-    const handleTabSelect = (tabId) => {
-        setActiveTab(tabId);
-        localStorage.setItem(TAB_KEY, tabId);
-        setSidebarOpen(false);
-    };
-
-    const toggleTheme = () => {
-        setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-    };
-
-    const renderPanel = () => {
-        switch (activeTab) {
-            case "about":
-                return <AboutPanel />;
-            case "skills":
-                return <SkillsPanel />;
-            case "projects":
-                return <ProjectsPanel />;
-            case "experience":
-                return <ExperiencePanel />;
-            case "certifications":
-                return <CertificationsPanel />;
-            default:
-                return <AboutPanel />;
-        }
-    };
-
-    return (
-        <div className="app-layout">
-            {sidebarOpen && (
-                <div
-                    className="mobile-overlay"
-                    onClick={() => setSidebarOpen(false)}
-                />
-            )}
-
-            <Sidebar
-                tabs={TABS}
-                activeTab={activeTab}
-                onSelect={handleTabSelect}
-                theme={theme}
-                onToggleTheme={toggleTheme}
-                isOpen={sidebarOpen}
-            />
-
-            <div className="panel-area">
-                <button
-                    className="mobile-menu-btn"
-                    onClick={() => setSidebarOpen((prev) => !prev)}
-                    id="mobile-menu"
-                >
-                    ☰
-                </button>
-                <div className="panel-content" key={activeTab}>
-                    {renderPanel()}
-                </div>
-            </div>
-
-            <StatusBar activeTab={activeTab} theme={theme} />
-        </div>
-    );
+  return (
+    <BrowserRouter>
+      <div className="relative min-h-screen">
+        <StarfieldBackground />
+        <Navbar />
+        <main className="relative z-10 pt-16">
+          <AnimatedRoutes />
+        </main>
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;

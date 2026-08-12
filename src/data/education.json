@@ -1,0 +1,18 @@
+[
+  {
+    "id": "inonu",
+    "school": { "tr": "İnönü Üniversitesi", "en": "İnönü University" },
+    "logo": "inonu_university_logo.png",
+    "degree": { "tr": "Lisans", "en": "Bachelor's Degree" },
+    "field": { "tr": "Yazılım Mühendisliği", "en": "Software Engineering" },
+    "startDate": { "tr": "Ekim 2023", "en": "October 2023" },
+    "endDate": { "tr": "Haziran 2027", "en": "June 2027" },
+    "gpa": "3.17 / 4.0",
+    "activities": [
+      {
+        "name": "Google Developer Students Club",
+        "role": { "tr": "Üye", "en": "Member" }
+      }
+    ]
+  }
+]

@@ -1,38 +1,171 @@
 [
   {
-    "id": "languages-prog",
-    "category": "Programlama Dilleri",
-    "icon": "code",
-    "items": ["Java", "JavaScript", "TypeScript", "Python", "Rust", "Go"]
+    "id": "javascript-typescript",
+    "category": { "tr": "JavaScript / TypeScript", "en": "JavaScript / TypeScript" },
+    "categoryIcon": "javascript/javascript-original",
+    "span": "large",
+    "items": [
+      {
+        "name": "React",
+        "icon": "react/react-original",
+        "comment": { "tr": "Frontend projelerimde ana tercihim. Component mimarisi ve hook'larla hızlı, sürdürülebilir UI geliştirme.", "en": "My main choice for frontend projects. Fast, maintainable UI development with component architecture and hooks." }
+      },
+      {
+        "name": "Node.js",
+        "icon": "nodejs/nodejs-original",
+        "comment": { "tr": "JavaScript ekosisteminin gücünü backend'e taşımak için. Event-loop modeli ile yüksek I/O performansı.", "en": "Bringing JavaScript ecosystem power to the backend. High I/O performance with the event-loop model." }
+      },
+      {
+        "name": "Express.js",
+        "icon": "express/express-original",
+        "comment": { "tr": "Hızlı prototipleme ve REST API geliştirme için minimal ama güçlü bir tercih.", "en": "A minimal but powerful choice for rapid prototyping and REST API development." }
+      },
+      {
+        "name": "NestJS",
+        "icon": "nestjs/nestjs-original",
+        "comment": { "tr": "Büyük ölçekli projelerde modüler ve katmanlı mimari sağlıyor. TypeScript ile birlikte çok güçlü.", "en": "Provides modular and layered architecture for large-scale projects. Very powerful with TypeScript." }
+      },
+      {
+        "name": "TypeScript",
+        "icon": "typescript/typescript-original",
+        "comment": { "tr": "JavaScript projelerinde tip güvenliği ve daha iyi IDE desteği için vazgeçilmez.", "en": "Indispensable for type safety and better IDE support in JavaScript projects." }
+      }
+    ]
   },
   {
-    "id": "frontend",
-    "category": "Frontend",
-    "icon": "layout",
-    "items": ["React", "Vue", "HTML", "Tailwind CSS", "TypeScript", "JavaScript"]
+    "id": "python",
+    "category": { "tr": "Python", "en": "Python" },
+    "categoryIcon": "python/python-original",
+    "span": "medium",
+    "items": [
+      {
+        "name": "FastAPI",
+        "icon": "fastapi/fastapi-original",
+        "comment": { "tr": "Async ve yüksek performanslı API'ler için en sevdiğim Python framework'ü. Otomatik dokümantasyon harika.", "en": "My favorite Python framework for async, high-performance APIs. Automatic documentation is great." }
+      },
+      {
+        "name": "NumPy",
+        "icon": "numpy/numpy-original",
+        "comment": { "tr": "Bilimsel hesaplama ve veri işleme için temel araç. ML projelerinde sürekli yanımda.", "en": "The fundamental tool for scientific computing and data processing. Always with me in ML projects." }
+      }
+    ]
   },
   {
-    "id": "backend",
-    "category": "Backend",
-    "icon": "server",
-    "items": ["Spring Boot", "Node.js", "Express.js", "NestJS", "Axum", "FastAPI", "Gin"]
+    "id": "java",
+    "category": { "tr": "Java", "en": "Java" },
+    "categoryIcon": "java/java-original",
+    "span": "small",
+    "items": [
+      {
+        "name": "Spring Boot",
+        "icon": "spring/spring-original",
+        "comment": { "tr": "Enterprise düzeyde, production-ready uygulama geliştirme için endüstri standardı.", "en": "Industry standard for enterprise-level, production-ready application development." }
+      }
+    ]
   },
   {
-    "id": "ai-ml",
-    "category": "AI / ML",
-    "icon": "brain",
-    "items": ["NumPy", "SciPy", "Ollama", "Image Processing", "Data Analysis"]
+    "id": "rust",
+    "category": { "tr": "Rust", "en": "Rust" },
+    "categoryIcon": "rust/rust-original",
+    "span": "small",
+    "items": [
+      {
+        "name": "Axum",
+        "icon": "rust/rust-original",
+        "comment": { "tr": "Rust'ın bellek güvenliği garantileriyle son derece hızlı web servisleri yazmak için.", "en": "For writing extremely fast web services with Rust's memory safety guarantees." }
+      }
+    ]
+  },
+  {
+    "id": "go",
+    "category": { "tr": "Go", "en": "Go" },
+    "categoryIcon": "go/go-original-wordmark",
+    "span": "small",
+    "items": [
+      {
+        "name": "Gin",
+        "icon": "go/go-original-wordmark",
+        "comment": { "tr": "Go'nun sadeliğini web geliştirmeye taşıyan, performanslı ve minimal framework.", "en": "A performant and minimal framework that brings Go's simplicity to web development." }
+      }
+    ]
   },
   {
     "id": "databases",
-    "category": "Veritabanları",
-    "icon": "database",
-    "items": ["PostgreSQL", "MySQL", "MongoDB", "Redis", "SQL Server"]
+    "category": { "tr": "Veritabanları", "en": "Databases" },
+    "categoryIcon": "postgresql/postgresql-original",
+    "span": "large",
+    "items": [
+      {
+        "name": "PostgreSQL",
+        "icon": "postgresql/postgresql-original",
+        "comment": { "tr": "Ana ilişkisel veritabanı tercihim. Güçlü sorgu optimizasyonu ve JSONB desteği.", "en": "My primary relational database. Powerful query optimization and JSONB support." }
+      },
+      {
+        "name": "MongoDB",
+        "icon": "mongodb/mongodb-original",
+        "comment": { "tr": "Esnek şema gerektiren ve hızlı iterasyon istenen projelerde.", "en": "For projects requiring flexible schemas and fast iteration." }
+      },
+      {
+        "name": "Redis",
+        "icon": "redis/redis-original",
+        "comment": { "tr": "Cache, session yönetimi ve pub/sub mekanizmaları için. Performans kritik noktalarda şart.", "en": "For caching, session management, and pub/sub mechanisms. Essential at performance-critical points." }
+      },
+      {
+        "name": "MySQL",
+        "icon": "mysql/mysql-original",
+        "comment": { "tr": "Klasik ve güvenilir. Geniş ekosistemiyle kurumsal projelerde yaygın.", "en": "Classic and reliable. Widely used in enterprise projects with a large ecosystem." }
+      },
+      {
+        "name": "SQL Server",
+        "icon": "microsoftsqlserver/microsoftsqlserver-plain",
+        "comment": { "tr": "Kurumsal ortamlarda Microsoft stack projelerinde deneyim.", "en": "Experience in Microsoft stack projects in enterprise environments." }
+      }
+    ]
   },
   {
-    "id": "devops",
-    "category": "DevOps & Araçlar",
-    "icon": "terminal",
-    "items": ["Docker", "Git", "GitHub Actions", "Linux", "Bash/Zsh Scripting", "CI/CD"]
+    "id": "devops-tools",
+    "category": { "tr": "DevOps & Araçlar", "en": "DevOps & Tools" },
+    "categoryIcon": "docker/docker-original",
+    "span": "medium",
+    "items": [
+      {
+        "name": "Docker",
+        "icon": "docker/docker-original",
+        "comment": { "tr": "Konteynerleştirme olmadan proje teslim etmem. Tutarlı geliştirme ve üretim ortamı için şart.", "en": "I don't ship a project without containerization. Essential for consistent development and production environments." }
+      },
+      {
+        "name": "Git",
+        "icon": "git/git-original",
+        "comment": { "tr": "Versiyon kontrolünün vazgeçilmezi. Her projede, her gün.", "en": "The indispensable tool for version control. Every project, every day." }
+      },
+      {
+        "name": "Linux",
+        "icon": "linux/linux-original",
+        "comment": { "tr": "Ana geliştirme ve sunucu ortamım. Terminal'de yaşıyorum.", "en": "My main development and server environment. I live in the terminal." }
+      },
+      {
+        "name": "GitHub Actions",
+        "icon": "githubactions/githubactions-original",
+        "comment": { "tr": "CI/CD pipeline'ları için. Otomatik test ve deploy süreçleri.", "en": "For CI/CD pipelines. Automated testing and deployment processes." }
+      }
+    ]
+  },
+  {
+    "id": "ai-ml",
+    "category": { "tr": "Yapay Zeka / ML", "en": "AI / Machine Learning" },
+    "categoryIcon": null,
+    "span": "medium",
+    "items": [
+      {
+        "name": "Ollama",
+        "icon": "custom:ollama",
+        "comment": { "tr": "Yerel LLM çalıştırma ve entegrasyon. API bağımlılığı olmadan AI geliştirme.", "en": "Local LLM execution and integration. AI development without API dependency." }
+      },
+      {
+        "name": "YOLO",
+        "icon": "python/python-original",
+        "comment": { "tr": "Gerçek zamanlı nesne tespiti. OKUR projesinde sınav kağıdı analizi için kullandım.", "en": "Real-time object detection. Used in the OKUR project for exam paper analysis." }
+      }
+    ]
   }
 ]

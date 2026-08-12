@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "education": "Education",
+    "experience": "Experience",
+    "projects": "Projects",
+    "certifications": "Certifications"
+  },
+  "home": {
+    "greeting": "Hi, I'm",
+    "role": "Backend Developer"
+  },
+  "about": {
+    "summary": "I'm a software developer with deep technical expertise in system architecture and data management (Backend), experienced in modern web technologies and user interface development. I'm passionate about transforming complex business logic into high-performance interfaces.",
+    "location": "Istanbul/Sarıyer, Turkey",
+    "contactTitle": "Contact",
+    "email": "tiryakiemre18@gmail.com",
+    "languages": "Languages",
+    "githubActivity": "GitHub Activity",
+    "githubError": "My GitHub commit history was here, but an error occurred.",
+    "githubEmpty": "No commits found in the last 30 days.",
+    "githubLoading": "Loading commits...",
+    "languageNames": {
+      "Türkçe": "Turkish",
+      "İngilizce": "English"
+    }
+  },
+  "skills": {
+    "title": "Skills",
+    "subtitle": "Technologies and tools I use"
+  },
+  "education": {
+    "title": "Education",
+    "subtitle": "My academic background",
+    "gpa": "GPA",
+    "degree": "Degree",
+    "field": "Field of Study"
+  },
+  "experience": {
+    "title": "Experience",
+    "subtitle": "Professional internships and technical events",
+    "hireMeTitle": "You could be my next experience",
+    "hireMeTitle2": "You could be in this field too",
+    "hireMeTitle3": "Want to hire me?",
+    "hireMeSub": "Reach out",
+    "hireMeSub2": "Hire me",
+    "hireMeSub3": "Get in touch",
+    "hireMeSub4": "Let's talk",
+    "ongoing": "Ongoing",
+    "types": {
+      "all": "All",
+      "internship": "Internship",
+      "hackathon": "Hackathon",
+      "competition": "Competition",
+      "work": "Work Experience"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Selected projects showcasing architecture and business logic",
+    "sourceCode": "Source Code",
+    "liveDemo": "Live Demo",
+    "privateRepo": "Source code is private",
+    "techStack": "Tech Stack",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "certifications": {
+    "title": "Certifications",
+    "subtitle": "Professional development and verified competencies",
+    "verify": "Verify"
+  }
+}

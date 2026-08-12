@@ -1,20 +1,36 @@
 [
   {
     "id": "okur",
-    "title": "OKUR — Yapay Zeka Destekli Akıllı Sınav Değerlendirme Sistemi",
-    "description": "Eğitim sektöründe akademisyenlerin ve öğretmenlerin en büyük iş yüklerinden biri olan manuel sınav değerlendirme sürecini otonom hale getiren yenilikçi bir yapay zeka projesidir.",
-    "achievements": "İnüfest yarışmasında kendi kategorisinde 3. sıra",
+    "title": {
+      "tr": "OKUR — Yapay Zeka Destekli Akıllı Sınav Değerlendirme Sistemi",
+      "en": "OKUR — AI-Powered Intelligent Exam Evaluation System"
+    },
+    "description": {
+      "tr": "Eğitim sektöründe akademisyenlerin ve öğretmenlerin en büyük iş yüklerinden biri olan manuel sınav değerlendirme sürecini otonom hale getiren yenilikçi bir yapay zeka projesidir.",
+      "en": "An innovative AI project that autonomizes the manual exam evaluation process, one of the biggest workloads for academics and teachers in the education sector."
+    },
+    "achievements": {
+      "tr": "İnüfest yarışmasında kendi kategorisinde 3. sıra",
+      "en": "3rd place in its category at İnüfest competition"
+    },
     "techStack": ["Python", "YOLO11", "TrOCR", "Qwen2-VL", "Redis"],
     "tags": ["AI", "Backend", "Computer Vision"],
     "sourceCode": null,
     "liveDemo": null,
     "isPrivate": true,
-    "preview": "project_previews/OKUR/OKUR.jpeg"
+    "preview": "OKUR/OKUR.jpeg"
   },
   {
     "id": "tua-astro",
-    "title": "TUA Astro Hackathon — Kozmik Veri İşleme ve Ayıklama Hattı",
-    "description": "Uydu telemetri verileri için FastAPI ve PostgreSQL tabanlı, asenkron ve yüksek performanslı backend mimarisi. LSTM Autoencoder ile %90+ doğrulukta otonom anomali tespiti.",
+    "title": {
+      "tr": "TUA Astro Hackathon — Kozmik Veri İşleme ve Ayıklama Hattı",
+      "en": "TUA Astro Hackathon — Cosmic Data Processing and Extraction Pipeline"
+    },
+    "description": {
+      "tr": "Uydu telemetri verileri için FastAPI ve PostgreSQL tabanlı, asenkron ve yüksek performanslı backend mimarisi. LSTM Autoencoder ile %90+ doğrulukta otonom anomali tespiti.",
+      "en": "Async, high-performance backend architecture based on FastAPI and PostgreSQL for satellite telemetry data. Autonomous anomaly detection with 90%+ accuracy using LSTM Autoencoder."
+    },
+    "achievements": null,
     "techStack": ["FastAPI", "PostgreSQL", "NumPy", "SciPy", "LSTM"],
     "tags": ["Backend", "AI", "Data"],
     "sourceCode": "https://github.com/avicenna-astrohackhaton",
@@ -24,8 +40,15 @@
   },
   {
     "id": "hegs-haber",
-    "title": "HEGS HABER — Oyunlaştırılmış Haber Platformu",
-    "description": "Anadolu Ajansı Medya Teknolojileri Hackathonu. React ve TypeScript ile oyunlaştırılmış haber platformunun ölçeklenebilir frontend mimarisi tasarlandı.",
+    "title": {
+      "tr": "HEGS HABER — Oyunlaştırılmış Haber Platformu",
+      "en": "HEGS HABER — Gamified News Platform"
+    },
+    "description": {
+      "tr": "Anadolu Ajansı Medya Teknolojileri Hackathonu. React ve TypeScript ile oyunlaştırılmış haber platformunun ölçeklenebilir frontend mimarisi tasarlandı.",
+      "en": "Anadolu Agency Media Technologies Hackathon. Scalable frontend architecture for a gamified news platform designed with React and TypeScript."
+    },
+    "achievements": null,
     "techStack": ["React", "TypeScript", "Redux Toolkit", "Firebase", "Tailwind CSS"],
     "tags": ["Frontend", "Fullstack"],
     "sourceCode": "https://github.com/HEGS-HABER",
@@ -35,24 +58,38 @@
   },
   {
     "id": "typing-game",
-    "title": "Typing Game — Klavye Hızı Ölçme Uygulaması",
-    "description": "Express ile backend ve MongoDB ile veritabanı geliştirildi. JWT kullanılarak güvenli kimlik doğrulama süreçleri yapılandırıldı.",
+    "title": {
+      "tr": "Typing Game — Klavye Hızı Ölçme Uygulaması",
+      "en": "Typing Game — Keyboard Speed Measurement App"
+    },
+    "description": {
+      "tr": "Express ile backend ve MongoDB ile veritabanı geliştirildi. JWT kullanılarak güvenli kimlik doğrulama süreçleri yapılandırıldı.",
+      "en": "Backend developed with Express and database with MongoDB. Secure authentication processes configured using JWT."
+    },
+    "achievements": null,
     "techStack": ["Node.js", "Express", "MongoDB", "JWT"],
     "tags": ["Backend", "Fullstack"],
     "sourceCode": "https://github.com/emre-tiryaki/typing-game",
     "liveDemo": "https://typing-game-92pq.onrender.com/",
     "isPrivate": false,
-    "preview": "project_previews/typing_game/typing_game.png"
+    "preview": "typing_game/typing_game.png"
   },
   {
     "id": "project-toolkit",
-    "title": "Project-Toolkit — CLI Otomasyon Aracı",
-    "description": "Bash ve Zsh kullanarak proje oluşturma, yapılandırma ve yönetim süreçlerini otomatize eden bir komut satırı aracı.",
+    "title": {
+      "tr": "Project-Toolkit — CLI Otomasyon Aracı",
+      "en": "Project-Toolkit — CLI Automation Tool"
+    },
+    "description": {
+      "tr": "Bash ve Zsh kullanarak proje oluşturma, yapılandırma ve yönetim süreçlerini otomatize eden bir komut satırı aracı.",
+      "en": "A command-line tool that automates project creation, configuration and management processes using Bash and Zsh."
+    },
+    "achievements": null,
     "techStack": ["Bash", "Zsh", "Linux"],
     "tags": ["DevOps", "CLI"],
     "sourceCode": "https://github.com/emre-tiryaki/project-toolkit",
     "liveDemo": null,
     "isPrivate": false,
-    "preview": "project_previews/project_toolkit/project_toolkit.png"
+    "preview": "project_toolkit/project_toolkit.png"
   }
 ]
