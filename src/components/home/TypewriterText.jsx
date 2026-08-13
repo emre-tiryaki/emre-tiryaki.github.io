@@ -10,7 +10,7 @@ export default function TypewriterText() {
   const fullLine1 = `${greeting} ${name}`;
   const [displayed1, setDisplayed1] = useState('');
   const [displayed2, setDisplayed2] = useState('');
-  const [phase, setPhase] = useState('line1'); // 'line1' | 'line2' | 'done'
+  const [phase, setPhase] = useState('line1');
 
   useEffect(() => {
     setDisplayed1('');
@@ -23,11 +23,10 @@ export default function TypewriterText() {
       if (displayed1.length < fullLine1.length) {
         const timer = setTimeout(() => {
           setDisplayed1(fullLine1.slice(0, displayed1.length + 1));
-        }, 40);
+        }, 35);
         return () => clearTimeout(timer);
       } else {
-        // Small pause before line2
-        const timer = setTimeout(() => setPhase('line2'), 200);
+        const timer = setTimeout(() => setPhase('line2'), 180);
         return () => clearTimeout(timer);
       }
     }
@@ -36,7 +35,7 @@ export default function TypewriterText() {
       if (displayed2.length < role.length) {
         const timer = setTimeout(() => {
           setDisplayed2(role.slice(0, displayed2.length + 1));
-        }, 45);
+        }, 40);
         return () => clearTimeout(timer);
       } else {
         setPhase('done');
@@ -45,31 +44,31 @@ export default function TypewriterText() {
   }, [phase, displayed1, displayed2, fullLine1, role]);
 
   return (
-    <div className="space-y-3">
-      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-neutral-100 leading-tight">
+    <div className="space-y-4">
+      {/* Small Eyebrow Badge */}
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-xs font-mono text-orange-400">
+        <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+        <span>Backend Developer & Software Engineer</span>
+      </div>
+
+      {/* Main Heading */}
+      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-100 leading-tight">
         {displayed1}
         {phase === 'line1' && (
-          <span
-            className="inline-block w-0.5 h-10 ml-1 bg-orange-400 align-middle"
-            style={{ animation: phase === 'done' ? 'cursor-blink 1s infinite' : 'none' }}
-          />
+          <span className="inline-block w-1.5 h-10 ml-1 bg-orange-500 align-middle animate-pulse" />
         )}
       </h1>
-      <div className="h-10 sm:h-12">
+
+      {/* Role Subheading */}
+      <div className="min-h-[3rem]">
         {(phase === 'line2' || phase === 'done') && (
-          <p className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-orange-400">
+          <p className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-400 via-amber-400 to-orange-500 bg-clip-text text-transparent">
             {displayed2}
             {phase !== 'done' && (
-              <span
-                className="inline-block w-0.5 h-7 ml-1 bg-orange-400 align-middle"
-                style={{ animation: 'none' }}
-              />
+              <span className="inline-block w-1.5 h-8 ml-1 bg-orange-400 align-middle" />
             )}
             {phase === 'done' && (
-              <span
-                className="inline-block w-0.5 h-7 ml-1 bg-orange-400 align-middle opacity-0"
-                style={{ animation: 'cursor-blink 1.2s infinite' }}
-              />
+              <span className="inline-block w-1.5 h-8 ml-1 bg-orange-400 align-middle opacity-80 animate-pulse" />
             )}
           </p>
         )}

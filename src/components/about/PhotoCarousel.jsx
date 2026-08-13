@@ -26,7 +26,7 @@ export default function PhotoCarousel() {
   if (total === 0) {
     return (
       <div className="carousel-container flex items-center justify-center">
-        <span className="text-neutral-500 text-sm">No photos found</span>
+        <span className="text-neutral-500 text-sm font-mono">No photos found</span>
       </div>
     );
   }
@@ -56,7 +56,7 @@ export default function PhotoCarousel() {
             >
               <img
                 src={photo}
-                alt={`Emre Tiryaki — fotoğraf ${i + 1}`}
+                alt={`Emre Tiryaki — foto ${i + 1}`}
                 draggable="false"
               />
             </div>

@@ -3,8 +3,8 @@
  * 8 vertices rotated with Rx·Ry·Rz matrices → perspective projection → line drawing
  */
 
-const W = 60;
-const H = 30;
+const W = 80;
+const H = 38;
 
 function rotate(x, y, z, rx, ry, rz) {
   // Rotate around X
@@ -21,7 +21,7 @@ function rotate(x, y, z, rx, ry, rz) {
 
 function project(x, y, z) {
   const d = 5 + z;
-  const scale = 10;
+  const scale = 16;
   const px = Math.floor(W / 2 + (x * scale) / d);
   const py = Math.floor(H / 2 - (y * scale) / d);
   return [px, py];

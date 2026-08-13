@@ -17,40 +17,41 @@ export default function Navbar() {
   const { t, lang, setLanguage } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const navLinkClass = ({ isActive }) =>
-    `relative px-3 py-1.5 text-sm font-medium transition-colors duration-200 rounded-md ${
-      isActive
-        ? 'text-orange-400'
-        : 'text-neutral-400 hover:text-neutral-100'
-    }`;
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
+    <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
       <nav
-        className="mx-auto px-4 sm:px-6 h-16 flex items-center justify-between"
+        className="w-full max-w-5xl h-14 flex items-center justify-between px-5 rounded-2xl"
         style={{
-          background: 'rgba(10, 10, 10, 0.75)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(38, 38, 38, 0.6)',
+          background: 'rgba(12, 12, 12, 0.88)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255,255,255,0.09)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
         }}
       >
-        {/* Desktop nav links */}
+        {/* Desktop Nav Links */}
         <div className="hidden lg:flex items-center gap-1">
           {NAV_ITEMS.map(({ path, key }) => (
             <NavLink
               key={path}
               to={path}
               end={path === '/'}
-              className={navLinkClass}
+              className={({ isActive }) =>
+                `relative px-4 py-2 text-sm font-semibold rounded-xl transition-all duration-200 whitespace-nowrap ${
+                  isActive
+                    ? 'text-orange-400'
+                    : 'text-neutral-400 hover:text-slate-100 hover:bg-white/[0.06]'
+                }`
+              }
             >
               {({ isActive }) => (
                 <>
-                  {t(`nav.${key}`)}
+                  <span className="relative z-10">{t(`nav.${key}`)}</span>
                   {isActive && (
                     <motion.span
-                      layoutId="nav-underline"
-                      className="absolute bottom-0 left-2 right-2 h-0.5 bg-orange-400 rounded-full"
+                      layoutId="nav-pill"
+                      className="absolute inset-0 rounded-xl bg-orange-500/15 border border-orange-500/35"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
                 </>
@@ -59,60 +60,58 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Spacer on mobile */}
-        <div className="lg:hidden flex-1" />
+        {/* Mobile: logo/spacer */}
+        <div className="lg:hidden text-sm font-bold text-orange-400 tracking-tight">ET.</div>
 
-        {/* Language toggle + hamburger */}
-        <div className="flex items-center gap-3">
-          {/* Language toggle */}
+        {/* Right: Lang toggle + Hamburger */}
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setLanguage(lang === 'tr' ? 'en' : 'tr')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neutral-700 text-sm font-medium text-neutral-300 hover:border-orange-500 hover:text-orange-400 transition-all duration-200"
-            aria-label="Dil değiştir / Switch language"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-neutral-300 hover:text-orange-400 transition-all duration-200"
+            style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}
+            aria-label="Dil değiştir"
           >
             <span>{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
-            <span className="text-xs font-mono uppercase">{lang}</span>
+            <span className="font-mono">{lang.toUpperCase()}</span>
           </button>
 
-          {/* Hamburger (mobile) */}
           <button
-            className="lg:hidden p-2 rounded-md text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800 transition-colors"
+            className="lg:hidden p-2 rounded-xl text-neutral-300 hover:text-white transition-colors"
+            style={{ background: 'rgba(255,255,255,0.06)' }}
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Menü"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {menuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
+              {menuOpen
+                ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              }
             </svg>
           </button>
         </div>
       </nav>
 
-      {/* Mobile overlay menu */}
+      {/* Mobile Dropdown */}
       <AnimatePresence>
         {menuOpen && (
           <>
             <motion.div
-              className="fixed inset-0 z-40 bg-black/60"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
             />
             <motion.div
-              className="fixed top-16 left-0 right-0 z-50 flex flex-col gap-1 p-4"
+              className="fixed top-20 left-4 right-4 z-50 rounded-2xl p-3 flex flex-col gap-1"
               style={{
-                background: 'rgba(10, 10, 10, 0.95)',
-                backdropFilter: 'blur(20px)',
-                borderBottom: '1px solid rgba(38, 38, 38, 0.8)',
+                background: 'rgba(14,14,14,0.97)',
+                backdropFilter: 'blur(24px)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.6)',
               }}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: -8, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.97 }}
+              transition={{ duration: 0.18 }}
             >
               {NAV_ITEMS.map(({ path, key }) => (
                 <NavLink
@@ -121,14 +120,15 @@ export default function Navbar() {
                   end={path === '/'}
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
-                    `px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 min-h-[48px] flex items-center ${
+                    `px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-150 flex items-center justify-between min-h-[48px] ${
                       isActive
-                        ? 'bg-orange-500/15 text-orange-400 border border-orange-500/30'
-                        : 'text-neutral-300 hover:bg-neutral-800 hover:text-neutral-100'
+                        ? 'text-orange-400 bg-orange-500/15 border border-orange-500/30'
+                        : 'text-neutral-300 hover:text-white hover:bg-white/[0.06]'
                     }`
                   }
                 >
-                  {t(`nav.${key}`)}
+                  <span>{t(`nav.${key}`)}</span>
+                  <span className="text-neutral-600 text-xs">→</span>
                 </NavLink>
               ))}
             </motion.div>

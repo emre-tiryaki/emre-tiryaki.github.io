@@ -13,7 +13,6 @@ export default function HireMeCard() {
   const { t, tData } = useTranslation();
   const [variant, setVariant] = useState(null);
 
-  // Check if there is any active ongoing experience
   const hasActiveExperience = experienceData.some((item) => {
     const endStr = (tData(item.endDate) || '').toLowerCase();
     return endStr.includes('devam') || endStr.includes('present');
@@ -40,21 +39,21 @@ export default function HireMeCard() {
   return (
     <a
       href={`mailto:${t('about.email')}`}
-      className="group mb-8 block overflow-hidden rounded-2xl border border-orange-500/40 bg-gradient-to-r from-orange-950/40 via-neutral-900/80 to-neutral-900/90 p-6 transition-all duration-300 hover:border-orange-500 hover:shadow-2xl hover:shadow-orange-500/20"
+      className="group mb-8 block overflow-hidden rounded-3xl border border-orange-500/50 bg-gradient-to-r from-orange-950/40 via-neutral-900/90 to-neutral-900/90 p-6 sm:p-8 transition-all duration-300 hover:border-orange-500 hover:shadow-2xl hover:shadow-orange-500/25"
     >
-      <div className="flex flex-col sm:flex-row items-center gap-6">
+      <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
         {variant.img && (
           <img
             src={variant.img}
             alt=""
-            className="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-xl border border-orange-500/30 group-hover:scale-105 transition-transform duration-300 shrink-0"
+            className="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-2xl border-2 border-orange-500/40 group-hover:scale-105 transition-transform duration-300 shrink-0 shadow-lg"
           />
         )}
-        <div className="flex-1 text-center sm:text-left space-y-2">
-          <h2 className="text-xl sm:text-2xl font-bold text-neutral-100 group-hover:text-orange-400 transition-colors">
+        <div className="flex-1 space-y-2">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-100 group-hover:text-orange-400 transition-colors leading-tight">
             {t(`experience.${variant.titleKey}`)}
           </h2>
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-orange-400 group-hover:translate-x-1 transition-transform">
+          <span className="inline-flex items-center gap-2 text-sm font-bold text-orange-400 group-hover:translate-x-1 transition-transform">
             {t(`experience.${variant.subKey}`)} →
           </span>
         </div>

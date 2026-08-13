@@ -1,6 +1,4 @@
 import { useState, useMemo } from 'react';
-import HireMeCard from '../components/experience/HireMeCard';
-import ExperienceFilter from '../components/experience/ExperienceFilter';
 import ExperienceCardFactory from '../components/experience/ExperienceCardFactory';
 import experienceData from '../data/experience.json';
 import { useTranslation } from '../hooks/useTranslation';
@@ -15,74 +13,167 @@ const MONTHS = {
 
 function normalizeText(val) {
   if (!val) return '';
-  return String(val)
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '');
+  return String(val).toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
 }
 
 function getSortValue(item) {
-  const dateObj = typeof item.startDate === 'object' ? item.startDate.tr : item.startDate || item.date?.tr || item.date || '';
-  const normalized = normalizeText(dateObj);
-  const parts = normalized.split(/\s+/);
-  
-  let year = null;
-  let month = 0;
-
-  for (const part of parts) {
-    const num = parseInt(part, 10);
+  const raw = typeof item.startDate === 'object' ? item.startDate.tr : (item.startDate || item.date?.tr || item.date || '');
+  const n = normalizeText(raw);
+  const parts = n.split(/\s+/);
+  let year = null; let month = 0;
+  for (const p of parts) {
+    const num = parseInt(p, 10);
     if (num > 1900 && num < 2100) year = num;
-    if (MONTHS[part] !== undefined) month = MONTHS[part];
+    if (MONTHS[p] !== undefined) month = MONTHS[p];
   }
-
-  if (year !== null) return year * 12 + month;
-  return Number.NEGATIVE_INFINITY;
+  return year !== null ? year * 12 + month : -Infinity;
 }
+
+const TYPE_DOT_COLOR = {
+  internship:  '#f97316',
+  hackathon:   '#22c55e',
+  competition: '#eab308',
+  work:        '#3b82f6',
+};
 
 export default function ExperiencePage() {
   const { t } = useTranslation();
   const [activeType, setActiveType] = useState('all');
 
-  // Dynamically extract unique experience types from dataset
-  const availableTypes = useMemo(() => {
-    const typesSet = new Set(experienceData.map((e) => e.type));
-    return ['all', ...Array.from(typesSet)];
-  }, []);
+  const availableTypes = useMemo(
+    () => ['all', ...Array.from(new Set(experienceData.map(e => e.type)))],
+    []
+  );
 
-  // Sort newest first
-  const sortedExperiences = useMemo(() => {
-    return [...experienceData].sort((a, b) => getSortValue(b) - getSortValue(a));
-  }, []);
+  const sorted = useMemo(
+    () => [...experienceData].sort((a, b) => getSortValue(b) - getSortValue(a)),
+    []
+  );
 
-  // Filter based on selected type
-  const filteredExperiences = useMemo(() => {
-    if (activeType === 'all') return sortedExperiences;
-    return sortedExperiences.filter((item) => item.type === activeType);
-  }, [activeType, sortedExperiences]);
+  const filtered = useMemo(
+    () => activeType === 'all' ? sorted : sorted.filter(e => e.type === activeType),
+    [activeType, sorted]
+  );
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      {/* Header */}
-      <div className="text-center sm:text-left space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-100">{t('experience.title')}</h1>
-        <p className="text-sm sm:text-base text-neutral-400">{t('experience.subtitle')}</p>
+    /* Full viewport height column — no outer scroll */
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
+      padding: '1rem 2rem 0',
+      boxSizing: 'border-box',
+    }}>
+      {/* Page Header — fixed height */}
+      <div style={{ textAlign: 'center', marginBottom: '1.25rem', flexShrink: 0 }}>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100">{t('experience.title')}</h1>
+        <p className="text-base text-neutral-400 mt-1">{t('experience.subtitle')}</p>
       </div>
 
-      {/* Conditionally rendered Hire Me CTA Card */}
-      <HireMeCard />
+      {/* Body: fills remaining height, no overflow */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        gap: '2rem',
+        overflow: 'hidden',
+        minHeight: 0,   /* critical for flex children to shrink below content size */
+      }}>
 
-      {/* Dynamically Generated Filter Buttons */}
-      <ExperienceFilter
-        types={availableTypes}
-        activeType={activeType}
-        onSelect={setActiveType}
-      />
+        {/* LEFT: Scrollable experience timeline */}
+        <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minWidth: 0 }}>
+          {/* Gradient vertical line */}
+          <div style={{
+            position: 'absolute',
+            left: '1rem',
+            top: 0,
+            bottom: 0,
+            width: '2px',
+            background: 'linear-gradient(to bottom, rgba(249,115,22,0.7), rgba(249,115,22,0.03))',
+            pointerEvents: 'none',
+          }} />
 
-      {/* Experience Cards List */}
-      <div className="space-y-4">
-        {filteredExperiences.map((item) => (
-          <ExperienceCardFactory key={item.id} item={item} />
-        ))}
+          {/* Scrollable list */}
+          <div style={{
+            height: '100%',
+            overflowY: 'auto',
+            paddingBottom: '2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.25rem',
+          }}>
+            {filtered.map((item) => {
+              const dotColor = TYPE_DOT_COLOR[item.type] || '#f97316';
+              return (
+                <div key={item.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '1.25rem', position: 'relative' }}>
+                  {/* Dot on the line */}
+                  <div style={{ flexShrink: 0, marginTop: '1.25rem', position: 'relative', zIndex: 2 }}>
+                    <div style={{
+                      width: '2rem', height: '2rem', borderRadius: '50%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: `${dotColor}20`,
+                      border: `2px solid ${dotColor}`,
+                      boxShadow: `0 0 12px ${dotColor}55`,
+                    }}>
+                      <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: dotColor }} />
+                    </div>
+                  </div>
+
+                  {/* Card */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <ExperienceCardFactory item={item} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* RIGHT: Filter sidebar — fixed width, no scroll */}
+        <div style={{
+          width: '200px',
+          flexShrink: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.5rem',
+          paddingTop: '0.25rem',
+        }}>
+          <p style={{ fontSize: '0.7rem', fontFamily: 'monospace', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
+            Filtrele
+          </p>
+          {availableTypes.map((type) => {
+            const isActive = activeType === type;
+            const dotColor = TYPE_DOT_COLOR[type] || null;
+            return (
+              <button
+                key={type}
+                onClick={() => setActiveType(type)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.6rem',
+                  padding: '0.6rem 0.9rem', borderRadius: '0.75rem',
+                  fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', border: 'none', outline: 'none',
+                  textAlign: 'left', width: '100%',
+                  background: isActive ? (dotColor ? `${dotColor}20` : 'rgba(249,115,22,0.15)') : 'rgba(255,255,255,0.04)',
+                  boxShadow: isActive && dotColor ? `inset 0 0 0 1px ${dotColor}60` : 'inset 0 0 0 1px rgba(255,255,255,0.08)',
+                  color: isActive ? (dotColor || '#f97316') : '#94a3b8',
+                  transition: 'all 0.15s ease',
+                }}
+                onMouseEnter={e => !isActive && (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
+                onMouseLeave={e => !isActive && (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
+              >
+                {dotColor && (
+                  <span style={{
+                    width: '0.55rem', height: '0.55rem', borderRadius: '50%', flexShrink: 0,
+                    background: dotColor,
+                    boxShadow: isActive ? `0 0 8px ${dotColor}` : 'none',
+                  }} />
+                )}
+                {t(`experience.types.${type}`)}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

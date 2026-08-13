@@ -1,92 +1,109 @@
-import { useRef, useState } from 'react';
+import { useState, useCallback } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
 import ProjectCard from './ProjectCard';
 import { useTranslation } from '../../hooks/useTranslation';
 
+const variants = {
+  enter: (dir) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
+  center: { x: 0, opacity: 1 },
+  exit: (dir) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0 }),
+};
+
 export default function ProjectSlider({ projects }) {
   const { t } = useTranslation();
-  const sliderRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [[page, direction], setPage] = useState([0, 0]);
 
-  const handleScroll = () => {
-    if (!sliderRef.current) return;
-    const { scrollLeft, clientWidth } = sliderRef.current;
-    const index = Math.round(scrollLeft / clientWidth);
-    setCurrentIndex(index);
-  };
-
-  const scrollToIndex = (index) => {
-    if (!sliderRef.current) return;
-    const clientWidth = sliderRef.current.clientWidth;
-    sliderRef.current.scrollTo({
-      left: index * clientWidth,
-      behavior: 'smooth',
+  const paginate = useCallback((dir) => {
+    setPage(([p]) => {
+      const next = Math.min(Math.max(p + dir, 0), projects.length - 1);
+      return [next, dir];
     });
-  };
+  }, [projects.length]);
 
-  const handlePrev = () => {
-    if (currentIndex > 0) scrollToIndex(currentIndex - 1);
-  };
-
-  const handleNext = () => {
-    if (currentIndex < projects.length - 1) scrollToIndex(currentIndex + 1);
-  };
+  const canPrev = page > 0;
+  const canNext = page < projects.length - 1;
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto px-4 sm:px-12 py-4">
-      {/* Slider Container */}
-      <div
-        ref={sliderRef}
-        onScroll={handleScroll}
-        className="flex w-full overflow-x-auto snap-x snap-mandatory scrollbar-none space-x-6 pb-4"
-        style={{ scrollSnapType: 'x mandatory' }}
-      >
-        {projects.map((project) => (
-          <div
-            key={project.id}
-            className="w-full shrink-0 snap-center flex items-center justify-center"
+    <div className="w-full space-y-6">
+      {/* Slider viewport — overflow-hidden, side peeks via negative mx */}
+      <div className="relative overflow-hidden rounded-2xl" style={{ minHeight: 460 }}>
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={page}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }}
+            className="w-full"
           >
-            <ProjectCard project={project} />
-          </div>
-        ))}
+            <ProjectCard project={projects[page]} />
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      {/* Navigation Arrows */}
-      {currentIndex > 0 && (
+      {/* Controls row */}
+      <div className="flex items-center justify-center gap-6">
+        {/* Prev */}
         <button
-          onClick={handlePrev}
+          onClick={() => paginate(-1)}
+          disabled={!canPrev}
           aria-label={t('projects.prev')}
-          className="absolute left-0 sm:left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-neutral-900/90 border border-neutral-700 text-neutral-200 hover:text-orange-400 hover:border-orange-500 flex items-center justify-center transition-all z-20 backdrop-blur-md shadow-xl"
+          className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200"
+          style={{
+            background: canPrev ? 'rgba(249,115,22,0.15)' : 'rgba(255,255,255,0.04)',
+            border: `1px solid ${canPrev ? 'rgba(249,115,22,0.5)' : 'rgba(255,255,255,0.08)'}`,
+            color: canPrev ? '#fb923c' : '#4b5563',
+            cursor: canPrev ? 'pointer' : 'default',
+          }}
         >
-          <FiChevronLeft size={24} />
+          <FiChevronLeft size={22} />
         </button>
-      )}
 
-      {currentIndex < projects.length - 1 && (
+        {/* Dots */}
+        <div className="flex items-center gap-2">
+          {projects.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setPage(([p]) => [i, i > p ? 1 : -1])}
+              aria-label={`Slide ${i + 1}`}
+              style={{
+                width: i === page ? 28 : 10,
+                height: 10,
+                borderRadius: 5,
+                background: i === page ? '#f97316' : 'rgba(255,255,255,0.15)',
+                boxShadow: i === page ? '0 0 10px rgba(249,115,22,0.6)' : 'none',
+                transition: 'all 0.3s',
+                cursor: 'pointer',
+                border: 'none',
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Next */}
         <button
-          onClick={handleNext}
+          onClick={() => paginate(1)}
+          disabled={!canNext}
           aria-label={t('projects.next')}
-          className="absolute right-0 sm:right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-neutral-900/90 border border-neutral-700 text-neutral-200 hover:text-orange-400 hover:border-orange-500 flex items-center justify-center transition-all z-20 backdrop-blur-md shadow-xl"
+          className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200"
+          style={{
+            background: canNext ? 'rgba(249,115,22,0.15)' : 'rgba(255,255,255,0.04)',
+            border: `1px solid ${canNext ? 'rgba(249,115,22,0.5)' : 'rgba(255,255,255,0.08)'}`,
+            color: canNext ? '#fb923c' : '#4b5563',
+            cursor: canNext ? 'pointer' : 'default',
+          }}
         >
-          <FiChevronRight size={24} />
+          <FiChevronRight size={22} />
         </button>
-      )}
-
-      {/* Pagination Dots */}
-      <div className="flex items-center justify-center gap-2 mt-6">
-        {projects.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => scrollToIndex(i)}
-            aria-label={`Go to slide ${i + 1}`}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              i === currentIndex
-                ? 'bg-orange-500 scale-125 shadow-md shadow-orange-500/50'
-                : 'bg-neutral-800 hover:bg-neutral-600'
-            }`}
-          />
-        ))}
       </div>
+
+      {/* Indicator text */}
+      <p className="text-center text-xs font-mono text-neutral-500">
+        {page + 1} / {projects.length}
+      </p>
     </div>
   );
 }

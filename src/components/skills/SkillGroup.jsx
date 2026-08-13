@@ -8,29 +8,55 @@ export default function SkillGroup({ category, categoryIcon, items }) {
   const title = tData(category);
 
   return (
-    <div className="glass-card p-5 transition-all duration-300 hover:border-orange-500/40 hover:shadow-xl hover:shadow-orange-500/5 flex flex-col justify-between">
-      <div>
-        <div className="flex items-center gap-3 mb-4 pb-3 border-b border-neutral-800">
-          {categoryIcon && (
-            <img
-              src={`${DEVICON_BASE}${categoryIcon}.svg`}
-              alt={title}
-              width={24}
-              height={24}
-              className="object-contain"
-              onError={(e) => (e.currentTarget.style.display = 'none')}
-            />
-          )}
-          <h3 className="text-base font-bold text-neutral-200 uppercase tracking-wider">
-            {title}
-          </h3>
-        </div>
+    <div
+      style={{
+        background: 'rgba(255,255,255,0.035)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        borderRadius: '1rem',
+        padding: '1.5rem',        /* generous inner padding */
+        transition: 'border-color 0.25s',
+      }}
+      onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(249,115,22,0.4)'}
+      onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'}
+    >
+      {/* Category header */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '0.75rem',
+        paddingBottom: '1rem',
+        marginBottom: '1rem',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+      }}>
+        {categoryIcon && (
+          <img
+            src={`${DEVICON_BASE}${categoryIcon}.svg`}
+            alt={title}
+            width={26}
+            height={26}
+            style={{ objectFit: 'contain' }}
+            onError={e => e.currentTarget.style.display = 'none'}
+          />
+        )}
+        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#cbd5e1', textTransform: 'uppercase', letterSpacing: '0.08em', flex: 1 }}>
+          {title}
+        </span>
+        <span style={{
+          fontSize: '0.7rem', fontFamily: 'monospace', color: '#f97316',
+          background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.25)',
+          padding: '0.15rem 0.5rem', borderRadius: '999px',
+        }}>
+          {items.length}
+        </span>
+      </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {items.map((item) => (
-            <SkillCard key={item.name} {...item} />
-          ))}
-        </div>
+      {/* Skill cards — 3 per row, generous gap */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '0.75rem',
+      }}>
+        {items.map((item) => (
+          <SkillCard key={item.name} {...item} />
+        ))}
       </div>
     </div>
   );

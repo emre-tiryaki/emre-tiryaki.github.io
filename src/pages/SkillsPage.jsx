@@ -6,18 +6,51 @@ export default function SkillsPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      {/* Header */}
-      <div className="text-center sm:text-left space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-bold text-neutral-100">{t('skills.title')}</h1>
-        <p className="text-sm sm:text-base text-neutral-400">{t('skills.subtitle')}</p>
+    <div style={{
+      width: '100%',
+      maxWidth: '90rem',
+      margin: '0 auto',
+      paddingLeft: '2rem',
+      paddingRight: '2rem',
+      display: 'flex',
+      flexDirection: 'column',
+      /* height:100% fills the space left inside main after paddingTop/Bottom */
+      height: '100%',
+      overflow: 'hidden',
+      boxSizing: 'border-box',
+    }}>
+      {/* Page title — fixed, always just below navbar */}
+      <div style={{ textAlign: 'center', paddingTop: '0.5rem', paddingBottom: '1.25rem', flexShrink: 0 }}>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100">{t('skills.title')}</h1>
+        <p className="text-base text-neutral-400 mt-1">{t('skills.subtitle')}</p>
       </div>
 
-      {/* Dynamic Bento Grid Layout with masonry-like auto-fit columns */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-        {skillsData.map((group) => (
-          <SkillGroup key={group.id} {...group} />
-        ))}
+      {/* Masonry container — flex:1 makes it fill EVERY pixel from title bottom to screen bottom */}
+      <div style={{
+        flex: 1,
+        minHeight: 0,         /* allow shrinking below content size */
+        overflowY: 'auto',
+        paddingBottom: '1.5rem',
+      }}>
+        <div style={{
+          columns: 'auto',
+          columnWidth: '280px',
+          columnGap: '1.25rem',
+        }}>
+          {skillsData.map((group) => (
+            <div
+              key={group.id}
+              style={{
+                breakInside: 'avoid',
+                marginBottom: '1.25rem',
+                display: 'inline-block',
+                width: '100%',
+              }}
+            >
+              <SkillGroup {...group} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

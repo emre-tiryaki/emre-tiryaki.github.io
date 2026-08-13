@@ -11,9 +11,15 @@ import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import CertificationsPage from './pages/CertificationsPage';
 
+// Experience gets full-width stretch layout
+const FULL_WIDTH_PAGES = ['/experience'];
+
+// Pages with a visible header title — content starts from top, not vertically centered
+const TOP_ALIGNED_PAGES = ['/skills', '/education', '/experience', '/projects', '/certifications'];
+
+
 function AnimatedRoutes() {
   const location = useLocation();
-
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
@@ -29,15 +35,40 @@ function AnimatedRoutes() {
   );
 }
 
+function MainLayout() {
+  const location = useLocation();
+  const isFullWidth  = FULL_WIDTH_PAGES.includes(location.pathname);
+  const isTopAligned = TOP_ALIGNED_PAGES.includes(location.pathname);
+
+  return (
+    <main
+      style={{
+        position: 'relative',
+        zIndex: 10,
+        width: '100%',
+        height: '100vh',
+        paddingTop: '5rem',    /* clears floating navbar */
+        paddingBottom: '1.5rem',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems:     isFullWidth  ? 'stretch' : 'center',
+        justifyContent: isTopAligned ? 'flex-start' : 'center',
+        boxSizing: 'border-box',
+      }}
+    >
+      <AnimatedRoutes />
+    </main>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <div className="relative min-h-screen">
+      <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
         <StarfieldBackground />
         <Navbar />
-        <main className="relative z-10 pt-16">
-          <AnimatedRoutes />
-        </main>
+        <MainLayout />
       </div>
     </BrowserRouter>
   );
