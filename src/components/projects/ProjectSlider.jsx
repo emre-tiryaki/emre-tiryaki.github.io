@@ -7,27 +7,33 @@ import { useTranslation } from '../../hooks/useTranslation';
 const variants = {
   enter: (dir) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
   center: { x: 0, opacity: 1 },
-  exit: (dir) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0 }),
+  exit:  (dir) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0 }),
 };
 
 export default function ProjectSlider({ projects }) {
   const { t } = useTranslation();
   const [[page, direction], setPage] = useState([0, 0]);
+  const total = projects.length;
 
+  /* Circular navigation */
   const paginate = useCallback((dir) => {
     setPage(([p]) => {
-      const next = Math.min(Math.max(p + dir, 0), projects.length - 1);
+      const next = (p + dir + total) % total;   // wraps around
       return [next, dir];
     });
-  }, [projects.length]);
-
-  const canPrev = page > 0;
-  const canNext = page < projects.length - 1;
+  }, [total]);
 
   return (
-    <div className="w-full space-y-6">
-      {/* Slider viewport — overflow-hidden, side peeks via negative mx */}
-      <div className="relative overflow-hidden rounded-2xl" style={{ minHeight: 460 }}>
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1rem',
+      overflow: 'hidden',
+    }}>
+      {/* Card viewport — fills all available height */}
+      <div style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden', borderRadius: '1.25rem' }}>
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={page}
@@ -36,8 +42,8 @@ export default function ProjectSlider({ projects }) {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }}
-            className="w-full"
+            transition={{ duration: 0.38, ease: [0.22, 0.61, 0.36, 1] }}
+            style={{ position: 'absolute', inset: 0 }}
           >
             <ProjectCard project={projects[page]} />
           </motion.div>
@@ -45,39 +51,43 @@ export default function ProjectSlider({ projects }) {
       </div>
 
       {/* Controls row */}
-      <div className="flex items-center justify-center gap-6">
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        gap: '1.5rem', flexShrink: 0, paddingBottom: '0.5rem',
+      }}>
         {/* Prev */}
         <button
           onClick={() => paginate(-1)}
-          disabled={!canPrev}
           aria-label={t('projects.prev')}
-          className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200"
           style={{
-            background: canPrev ? 'rgba(249,115,22,0.15)' : 'rgba(255,255,255,0.04)',
-            border: `1px solid ${canPrev ? 'rgba(249,115,22,0.5)' : 'rgba(255,255,255,0.08)'}`,
-            color: canPrev ? '#fb923c' : '#4b5563',
-            cursor: canPrev ? 'pointer' : 'default',
+            width: '2.75rem', height: '2.75rem', borderRadius: '50%',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'rgba(249,115,22,0.15)',
+            border: '1px solid rgba(249,115,22,0.5)',
+            color: '#fb923c', cursor: 'pointer',
+            transition: 'all 0.18s ease',
           }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(249,115,22,0.3)'; e.currentTarget.style.transform = 'scale(1.08)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(249,115,22,0.15)'; e.currentTarget.style.transform = ''; }}
         >
           <FiChevronLeft size={22} />
         </button>
 
         {/* Dots */}
-        <div className="flex items-center gap-2">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           {projects.map((_, i) => (
             <button
               key={i}
               onClick={() => setPage(([p]) => [i, i > p ? 1 : -1])}
-              aria-label={`Slide ${i + 1}`}
+              aria-label={`Proje ${i + 1}`}
               style={{
-                width: i === page ? 28 : 10,
-                height: 10,
-                borderRadius: 5,
-                background: i === page ? '#f97316' : 'rgba(255,255,255,0.15)',
+                width: i === page ? '1.75rem' : '0.625rem',
+                height: '0.625rem',
+                borderRadius: '999px',
+                background: i === page ? '#f97316' : 'rgba(255,255,255,0.18)',
                 boxShadow: i === page ? '0 0 10px rgba(249,115,22,0.6)' : 'none',
-                transition: 'all 0.3s',
-                cursor: 'pointer',
-                border: 'none',
+                border: 'none', cursor: 'pointer',
+                transition: 'all 0.3s ease',
               }}
             />
           ))}
@@ -86,23 +96,25 @@ export default function ProjectSlider({ projects }) {
         {/* Next */}
         <button
           onClick={() => paginate(1)}
-          disabled={!canNext}
           aria-label={t('projects.next')}
-          className="w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200"
           style={{
-            background: canNext ? 'rgba(249,115,22,0.15)' : 'rgba(255,255,255,0.04)',
-            border: `1px solid ${canNext ? 'rgba(249,115,22,0.5)' : 'rgba(255,255,255,0.08)'}`,
-            color: canNext ? '#fb923c' : '#4b5563',
-            cursor: canNext ? 'pointer' : 'default',
+            width: '2.75rem', height: '2.75rem', borderRadius: '50%',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: 'rgba(249,115,22,0.15)',
+            border: '1px solid rgba(249,115,22,0.5)',
+            color: '#fb923c', cursor: 'pointer',
+            transition: 'all 0.18s ease',
           }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(249,115,22,0.3)'; e.currentTarget.style.transform = 'scale(1.08)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(249,115,22,0.15)'; e.currentTarget.style.transform = ''; }}
         >
           <FiChevronRight size={22} />
         </button>
       </div>
 
-      {/* Indicator text */}
-      <p className="text-center text-xs font-mono text-neutral-500">
-        {page + 1} / {projects.length}
+      {/* Counter */}
+      <p style={{ textAlign: 'center', fontSize: '0.75rem', fontFamily: 'monospace', color: '#475569', flexShrink: 0, marginTop: '-0.5rem', paddingBottom: '0.25rem' }}>
+        {page + 1} / {total}
       </p>
     </div>
   );

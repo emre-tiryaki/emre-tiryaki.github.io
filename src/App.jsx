@@ -11,8 +11,8 @@ import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import CertificationsPage from './pages/CertificationsPage';
 
-// Experience gets full-width stretch layout
-const FULL_WIDTH_PAGES = ['/experience'];
+// These pages get full-width stretch (no horizontal centering constraint)
+const FULL_WIDTH_PAGES = ['/experience', '/projects'];
 
 // Pages with a visible header title — content starts from top, not vertically centered
 const TOP_ALIGNED_PAGES = ['/skills', '/education', '/experience', '/projects', '/certifications'];

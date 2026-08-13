@@ -14,89 +14,183 @@ function resolvePreview(previewPath) {
 
 export default function ProjectCard({ project }) {
   const { t, tData } = useTranslation();
-  const title = tData(project.title);
-  const description = tData(project.description);
+  const title        = tData(project.title);
+  const description  = tData(project.description);
   const achievements = project.achievements ? tData(project.achievements) : null;
-  const previewSrc = resolvePreview(project.preview);
+  const previewSrc   = resolvePreview(project.preview);
 
   return (
-    <article className="glass-card flex flex-col md:flex-row overflow-hidden rounded-3xl min-h-[440px] max-w-4xl mx-auto w-full border border-white/10 transition-all duration-300 hover:border-orange-500/50 hover:shadow-2xl hover:shadow-orange-500/10">
-      {/* Left Column: Image / Preview */}
-      <div className="md:w-1/2 h-64 md:h-auto shrink-0 bg-neutral-950/80 relative overflow-hidden flex items-center justify-center border-b md:border-b-0 md:border-r border-neutral-800">
+    <article
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        overflow: 'hidden',
+        borderRadius: '1.25rem',
+        border: '1px solid rgba(255,255,255,0.1)',
+        background: 'rgba(255,255,255,0.03)',
+        backdropFilter: 'blur(12px)',
+        transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.borderColor = 'rgba(249,115,22,0.45)';
+        e.currentTarget.style.boxShadow   = '0 0 40px rgba(249,115,22,0.08)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+        e.currentTarget.style.boxShadow   = 'none';
+      }}
+    >
+      {/* LEFT — Preview image, half width */}
+      <div style={{
+        width: '50%',
+        flexShrink: 0,
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'rgba(10,10,10,0.8)',
+        borderRight: '1px solid rgba(255,255,255,0.07)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
         {previewSrc ? (
           <img
             src={previewSrc}
             alt={title}
-            className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', transition: 'transform 0.5s ease' }}
+            onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
+            onMouseLeave={e => e.currentTarget.style.transform = ''}
           />
         ) : (
-          <div className="flex flex-col items-center gap-3 text-neutral-600 p-8 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-500">
-              <FiGithub size={32} />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: '#52525b', padding: '2rem', textAlign: 'center' }}>
+            <div style={{ width: '5rem', height: '5rem', borderRadius: '1rem', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <FiGithub size={40} />
             </div>
-            <span className="text-xs font-mono">No Preview Image</span>
+            <span style={{ fontSize: '0.85rem', fontFamily: 'monospace' }}>No Preview</span>
           </div>
         )}
 
-        {/* Private repository badge overlay */}
         {project.isPrivate && (
-          <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/80 border border-neutral-700 text-neutral-300 text-xs font-mono backdrop-blur-md">
-            <FiLock size={12} className="text-orange-400" />
+          <div style={{
+            position: 'absolute', top: '1rem', left: '1rem',
+            display: 'flex', alignItems: 'center', gap: '0.4rem',
+            padding: '0.3rem 0.75rem', borderRadius: '999px',
+            background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.15)',
+            color: '#d4d4d8', fontSize: '0.75rem', fontFamily: 'monospace',
+            backdropFilter: 'blur(8px)',
+          }}>
+            <FiLock size={12} style={{ color: '#fb923c' }} />
             <span>{t('projects.privateRepo')}</span>
           </div>
         )}
       </div>
 
-      {/* Right Column: Project Details */}
-      <div className="p-6 sm:p-8 md:w-1/2 flex flex-col justify-between space-y-6">
-        <div className="space-y-4">
-          {/* Achievements Badge */}
+      {/* RIGHT — Project details */}
+      <div style={{
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        padding: '2.5rem 3rem',
+        overflow: 'hidden',
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {/* Achievement badge */}
           {achievements && (
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold shadow-md">
-              <span className="text-sm">🏆</span>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+              padding: '0.4rem 1rem', borderRadius: '999px',
+              background: 'rgba(234,179,8,0.12)', border: '1px solid rgba(234,179,8,0.35)',
+              color: '#fcd34d', fontSize: '0.85rem', fontWeight: 700,
+              alignSelf: 'flex-start',
+            }}>
+              <span style={{ fontSize: '1rem' }}>🏆</span>
               <span>{achievements}</span>
             </div>
           )}
 
-          <h3 className="text-2xl font-extrabold text-neutral-100 leading-snug tracking-tight">{title}</h3>
-          <p className="text-sm text-neutral-300 leading-relaxed font-normal">{description}</p>
+          {/* Title */}
+          <h3 style={{
+            fontSize: 'clamp(1.5rem, 2.5vw, 2.25rem)',
+            fontWeight: 800,
+            color: '#f1f5f9',
+            letterSpacing: '-0.02em',
+            lineHeight: 1.2,
+          }}>
+            {title}
+          </h3>
+
+          {/* Description */}
+          <p style={{
+            fontSize: 'clamp(0.9rem, 1.2vw, 1.05rem)',
+            color: '#94a3b8',
+            lineHeight: 1.7,
+            fontWeight: 400,
+          }}>
+            {description}
+          </p>
         </div>
 
-        <div className="space-y-4 pt-2">
-          {/* Tech Stack Badges */}
-          <div className="flex flex-wrap gap-2">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          {/* Tech Stack */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
             {project.techStack.map((tech) => (
               <span
                 key={tech}
-                className="px-3 py-1 rounded-xl bg-neutral-900 border border-neutral-800 text-xs font-mono font-semibold text-orange-400"
+                style={{
+                  padding: '0.35rem 0.85rem', borderRadius: '0.6rem',
+                  background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
+                  fontSize: '0.8rem', fontFamily: 'monospace', fontWeight: 600,
+                  color: '#fb923c',
+                }}
               >
                 {tech}
               </span>
             ))}
           </div>
 
-          {/* Action Links (Only rendered if present) */}
+          {/* Action links */}
           {(project.sourceCode || project.liveDemo) && (
-            <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-neutral-800/80">
+            <div style={{
+              display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem',
+              paddingTop: '1.25rem',
+              borderTop: '1px solid rgba(255,255,255,0.07)',
+            }}>
               {project.sourceCode && (
                 <a
                   href={project.sourceCode}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-xs font-semibold text-neutral-200 hover:text-white transition-all shadow-md"
+                  target="_blank" rel="noreferrer"
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '0.5rem',
+                    padding: '0.6rem 1.25rem', borderRadius: '999px',
+                    background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
+                    fontSize: '0.875rem', fontWeight: 600, color: '#e2e8f0',
+                    textDecoration: 'none', transition: 'all 0.18s ease',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = '#fff'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#e2e8f0'; }}
                 >
-                  <FiGithub size={15} />
+                  <FiGithub size={17} />
                   <span>{t('projects.sourceCode')}</span>
                 </a>
               )}
               {project.liveDemo && (
                 <a
                   href={project.liveDemo}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-xs font-semibold text-white shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105 transition-all"
+                  target="_blank" rel="noreferrer"
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '0.5rem',
+                    padding: '0.6rem 1.25rem', borderRadius: '999px',
+                    background: 'linear-gradient(135deg, #f97316, #f59e0b)',
+                    fontSize: '0.875rem', fontWeight: 700, color: '#fff',
+                    textDecoration: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.3)',
+                    transition: 'all 0.18s ease',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.04)'; e.currentTarget.style.boxShadow = '0 6px 28px rgba(249,115,22,0.45)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 20px rgba(249,115,22,0.3)'; }}
                 >
-                  <FiExternalLink size={15} />
+                  <FiExternalLink size={17} />
                   <span>{t('projects.liveDemo')}</span>
                 </a>
               )}
