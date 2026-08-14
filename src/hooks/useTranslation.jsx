@@ -1,10 +1,13 @@
-import { useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 import tr from '../i18n/tr.json';
 import en from '../i18n/en.json';
 
 const translations = { tr, en };
 
-export function useTranslation() {
+const LangContext = createContext(null);
+
+/* Wrap your app with this provider once */
+export function LangProvider({ children }) {
   const [lang, setLangState] = useState(
     () => localStorage.getItem('language') || 'tr'
   );
@@ -13,6 +16,20 @@ export function useTranslation() {
     localStorage.setItem('language', newLang);
     setLangState(newLang);
   }, []);
+
+  return (
+    <LangContext.Provider value={{ lang, setLanguage }}>
+      {children}
+    </LangContext.Provider>
+  );
+}
+
+/* All components call this — they all share the SAME lang state */
+export function useTranslation() {
+  const ctx = useContext(LangContext);
+  if (!ctx) throw new Error('useTranslation must be used inside <LangProvider>');
+
+  const { lang, setLanguage } = ctx;
 
   // UI string lookup: t('about.summary')
   const t = useCallback(
