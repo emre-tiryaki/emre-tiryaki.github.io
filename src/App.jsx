@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { AuthProvider } from './hooks/useAuth';
 import Navbar from './components/layout/Navbar';
 import StarfieldBackground from './components/layout/StarfieldBackground';
 import PageTransition from './components/layout/PageTransition';
@@ -10,9 +11,12 @@ import EducationPage from './pages/EducationPage';
 import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import CertificationsPage from './pages/CertificationsPage';
+import BlogListPage from './pages/blog/BlogListPage';
+import BlogPostPage from './pages/blog/BlogPostPage';
+import AdminPage from './pages/blog/AdminPage';
 
 // These pages get full-width stretch (no horizontal centering constraint)
-const FULL_WIDTH_PAGES = ['/experience', '/projects'];
+const FULL_WIDTH_PAGES = ['/experience', '/projects', '/blog'];
 
 // Pages with a visible header title — content starts from top, not vertically centered
 const TOP_ALIGNED_PAGES = ['/skills', '/education', '/experience', '/projects', '/certifications'];
@@ -30,6 +34,9 @@ function AnimatedRoutes() {
         <Route path="/experience" element={<PageTransition><ExperiencePage /></PageTransition>} />
         <Route path="/projects" element={<PageTransition><ProjectsPage /></PageTransition>} />
         <Route path="/certifications" element={<PageTransition><CertificationsPage /></PageTransition>} />
+        <Route path="/blog" element={<PageTransition><BlogListPage /></PageTransition>} />
+        <Route path="/blog/:postId" element={<PageTransition><BlogPostPage /></PageTransition>} />
+        <Route path="/admin" element={<PageTransition><AdminPage /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );
@@ -65,11 +72,13 @@ function MainLayout() {
 function App() {
   return (
     <BrowserRouter>
-      <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-        <StarfieldBackground />
-        <Navbar />
-        <MainLayout />
-      </div>
+      <AuthProvider>
+        <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+          <StarfieldBackground />
+          <Navbar />
+          <MainLayout />
+        </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
