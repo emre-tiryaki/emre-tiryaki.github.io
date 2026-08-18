@@ -20,7 +20,7 @@ export default function AdminPage() {
           ⚠ Firebase yapılandırılmamış.<br />
           <code>src/firebase/config.js</code> dosyasını doldur ve{' '}
           <code>firestore.rules</code> / <code>storage.rules</code> dosyalarını
-          Firebase konsoluna yükle. Detay: FIREBASE_SETUP.md
+          Firebase konsoluna yükle. Detay: .hermes/setup/FIREBASE_SETUP.md
         </p>
       </div>
     );

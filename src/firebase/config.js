@@ -1,28 +1,33 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Firebase configuration
+// Firebase configuration — değerler .env dosyasından (VITE_FIREBASE_*) okunur.
 //
-// BU DOSYAYI DOLDURMAN GEREKİYOR (bkz. FIREBASE_SETUP.md rehberi):
-//   1. https://console.firebase.google.com → proje oluştur
-//   2. Project settings → Your apps → Web app (</>) ekle
-//   3. Aşağıdaki firebaseConfig objesini yapıştır
+// .env DOSYASINI REPO'YA PUSHLAMA (zaten .gitignore'da).
+// Örnek .env yapısı:
+//   VITE_FIREBASE_API_KEY=...
+//   VITE_FIREBASE_AUTH_DOMAIN=...
+//   VITE_FIREBASE_PROJECT_ID=...
+//   VITE_FIREBASE_STORAGE_BUCKET=...
+//   VITE_FIREBASE_MESSAGING_SENDER_ID=...
+//   VITE_FIREBASE_APP_ID=...
+//   VITE_FIREBASE_MEASUREMENT_ID=...
 //
-// NOT: Firebase web API anahtarı HERKESçe tarayıcıda okunabilir (normaldir).
-// Güvenlik FIRESTORE/STORAGE SECURITY RULES ile sağlanır, anahtarla değil.
-// Bu dosyayı .gitignore'a EKLEME (deploy'da gerekiyor) ama anahtarı public'tir.
+// NOT: Firebase web API anahtarı tarayıcıda HERKESçe okunabilir (normaldir).
+// Güvenlik FIRESTORE / STORAGE SECURITY RULES ile sağlanır, anahtarla değil.
+// .env kullanmamızın sebebi: key'i VERSION CONTROL'e sokmamak (good practice).
 // ─────────────────────────────────────────────────────────────────────────────
 
+const env = import.meta.env;
+
 export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: env.VITE_FIREBASE_API_KEY,
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: env.VITE_FIREBASE_APP_ID,
+  measurementId: env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-// Config henüz doldurulmadıysa uygulamanın çökmesini önle (kullanıcıya uyarı ver)
+// Config dolu değilse uygulamanın çökmesini önle (kullanıcıya uyarı ver)
 export const isFirebaseConfigured = () =>
-  firebaseConfig.apiKey &&
-  firebaseConfig.apiKey !== "YOUR_API_KEY" &&
-  firebaseConfig.projectId &&
-  firebaseConfig.projectId !== "YOUR_PROJECT_ID";
+  !!firebaseConfig.apiKey && !!firebaseConfig.projectId;
