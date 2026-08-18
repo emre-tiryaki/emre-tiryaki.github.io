@@ -34,7 +34,8 @@ export function AuthProvider({ children }) {
           const cfg = await getDoc(doc(db, 'config', 'admins'));
           const uids = cfg.exists() ? cfg.data().uids || [] : [];
           setIsAdmin(uids.includes(u.uid));
-        } catch {
+        } catch (err) {
+          console.error('admin kontrol hatası:', err);
           setIsAdmin(false);
         }
       } else {
