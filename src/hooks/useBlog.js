@@ -157,10 +157,10 @@ export function useAdminBlog() {
     };
   }, []);
 
-  const createPost = useCallback(async (data) => {
+  const createPost = useCallback(async (data, publish = false) => {
     return addDoc(collection(db, 'posts'), {
       ...data,
-      published: false,
+      published: !!publish,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
