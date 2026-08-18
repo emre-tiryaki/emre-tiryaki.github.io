@@ -18,7 +18,7 @@ import { db } from '../firebase/init';
 // ── PUBLIC: yayınlanmış tüm gönderileri çek (liste) ──
 export function usePublishedPosts() {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(!db);
+  const [loading, setLoading] = useState(!!db);
   const [error, setError] = useState(db ? null : 'Firebase yapılandırılmamış');
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function usePublishedPosts() {
 // ── PUBLIC: tek gönderi (detay) ──
 export function usePost(postId) {
   const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(!db || !postId);
+  const [loading, setLoading] = useState(!!db && !!postId);
 
   useEffect(() => {
     if (!db || !postId) return;

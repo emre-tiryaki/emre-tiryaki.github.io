@@ -28,7 +28,7 @@ export default function BlogPostPage() {
           {t('blog.backToList')}
         </Link>
 
-        {loading && <p className="text-neutral-500 text-sm">…</p>}
+        {loading && <p className="text-neutral-500 text-sm">{t('blog.loading')}</p>}
         {!loading && !post && (
           <p className="text-neutral-500 text-sm">{t('blog.noPosts')}</p>
         )}

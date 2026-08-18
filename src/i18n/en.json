@@ -81,6 +81,7 @@
     "publishedAt": "Published",
     "by": "By",
     "noPosts": "No published posts yet.",
+    "loading": "Loading…",
     "backToList": "← All posts",
     "commentsTitle": "Comments",
     "noComments": "No comments yet. Be the first!",
