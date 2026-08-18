@@ -68,7 +68,7 @@ export default function AdminPanel() {
   const draftPosts = posts.filter((p) => !p.published);
 
   function renderPostList(list) {
-    if (loading) return <p className="text-neutral-500 text-sm">…</p>;
+    if (loading) return <p className="text-neutral-500 text-sm">{a.loading}</p>;
     if (list.length === 0)
       return <p className="text-neutral-500 text-sm">{a.emptyList}</p>;
     return list.map((p) => (
@@ -159,7 +159,7 @@ export default function AdminPanel() {
 
         {tab === 'comments' && (
           <div className="space-y-3">
-            {loading && <p className="text-neutral-500 text-sm">…</p>}
+            {loading && <p className="text-neutral-500 text-sm">{a.loading}</p>}
             {comments.length === 0 && (
               <p className="text-neutral-500 text-sm">{t('blog.noComments')}</p>
             )}

@@ -139,17 +139,22 @@ export async function submitComment({
 export function useAdminBlog() {
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
-  const [loading] = useState(!db);
+  const [loading, setLoading] = useState(!!db);
 
   useEffect(() => {
     if (!db) return;
+    let settled = 0;
+    const done = () => {
+      settled += 1;
+      if (settled >= 2) setLoading(false);
+    };
     const unsubPosts = onSnapshot(
       query(collection(db, 'posts'), orderBy('createdAt', 'desc')),
-      (snap) => setPosts(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
+      (snap) => { setPosts(snap.docs.map((d) => ({ id: d.id, ...d.data() }))); done(); }
     );
     const unsubComments = onSnapshot(
       query(collection(db, 'comments'), orderBy('createdAt', 'desc')),
-      (snap) => setComments(snap.docs.map((d) => ({ id: d.id, ...d.data() })))
+      (snap) => { setComments(snap.docs.map((d) => ({ id: d.id, ...d.data() }))); done(); }
     );
     return () => {
       unsubPosts();
