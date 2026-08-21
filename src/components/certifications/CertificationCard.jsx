@@ -1,5 +1,5 @@
 import { FiAward, FiExternalLink } from 'react-icons/fi';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 const anthropicLogo = new URL('../../assets/certification_icons/antrophic_certification_logo.jpeg', import.meta.url).href;
 

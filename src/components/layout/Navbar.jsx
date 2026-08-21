@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 const NAV_ITEMS = [
   { path: '/',               key: 'home'           },

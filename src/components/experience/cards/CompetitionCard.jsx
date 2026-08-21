@@ -1,4 +1,4 @@
-import { useTranslation } from '../../../hooks/useTranslation';
+import { useTranslation } from '../../../hooks/translation';
 
 export default function CompetitionCard({ company, title, location, date, duration, achievement }) {
   const { t, tData } = useTranslation();

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useTranslation } from '../../hooks/useTranslation';
-import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from '../../hooks/translation';
+import { useAuth } from '../../hooks/auth';
 
 export default function AdminLogin() {
   const { t } = useTranslation();
@@ -17,7 +17,7 @@ export default function AdminLogin() {
     setError('');
     try {
       await login(email, password);
-    } catch (err) {
+    } catch {
       setError(a.loginError);
     } finally {
       setBusy(false);

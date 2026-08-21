@@ -2,7 +2,7 @@ import PhotoCarousel from '../components/about/PhotoCarousel';
 import SocialLinks from '../components/about/SocialLinks';
 import LanguagesSection from '../components/about/LanguagesSection';
 import GitHubActivity from '../components/about/GitHubActivity';
-import { useTranslation } from '../hooks/useTranslation';
+import { useTranslation } from '../hooks/translation';
 
 const PAGE_STYLE = {
   width: '100%',

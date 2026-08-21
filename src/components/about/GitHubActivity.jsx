@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { FiExternalLink } from 'react-icons/fi';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 const GITHUB_USERNAME = 'emre-tiryaki';
 const TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
@@ -144,14 +144,19 @@ export default function GitHubActivity() {
 
   /* Fetch */
   useEffect(() => {
-    if (!TOKEN) { setStatus('no-token'); return; }
+    if (!TOKEN) {
+      queueMicrotask(() => setStatus('no-token'));
+      return;
+    }
 
     /* ── 1. Try cache first ── */
     const cached = readCache();
     if (cached) {
-      setWeeks(cached.weeks);
-      setTotal(cached.total);
-      setStatus('ok');
+      queueMicrotask(() => {
+        setWeeks(cached.weeks);
+        setTotal(cached.total);
+        setStatus('ok');
+      });
       return;   // no API call needed today
     }
 

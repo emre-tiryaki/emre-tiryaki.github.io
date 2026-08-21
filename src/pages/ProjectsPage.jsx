@@ -1,6 +1,6 @@
 import ProjectSlider from '../components/projects/ProjectSlider';
 import projectsData from '../data/projects.json';
-import { useTranslation } from '../hooks/useTranslation';
+import { useTranslation } from '../hooks/translation';
 
 export default function ProjectsPage() {
   const { t } = useTranslation();

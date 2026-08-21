@@ -1,5 +1,5 @@
-import { usePublishedPosts } from '../../hooks/useBlog';
-import { useTranslation } from '../../hooks/useTranslation';
+import { usePublishedPosts } from '../../hooks/usePosts';
+import { useTranslation } from '../../hooks/translation';
 import PostCard from '../../components/blog/PostCard';
 import { isFirebaseConfigured } from '../../firebase/config';
 

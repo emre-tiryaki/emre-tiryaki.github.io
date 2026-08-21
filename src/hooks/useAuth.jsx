@@ -1,19 +1,8 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from 'firebase/auth';
+import { useEffect, useState, useCallback } from 'react';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase/init';
-
-const AuthContext = createContext(null);
+import { AuthContext } from './auth';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null); // Firebase user (admin)
@@ -64,10 +53,4 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   );
-}
-
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>');
-  return ctx;
 }

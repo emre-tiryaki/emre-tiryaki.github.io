@@ -1,4 +1,4 @@
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 const FLAG_MAP = {
   Türkçe: '🇹🇷',

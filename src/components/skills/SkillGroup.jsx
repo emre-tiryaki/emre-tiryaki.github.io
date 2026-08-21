@@ -1,5 +1,5 @@
 import SkillCard from './SkillCard';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/';
 

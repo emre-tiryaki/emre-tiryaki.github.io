@@ -1,6 +1,6 @@
 import EducationCard from '../components/education/EducationCard';
 import educationData from '../data/education.json';
-import { useTranslation } from '../hooks/useTranslation';
+import { useTranslation } from '../hooks/translation';
 
 const PAGE_STYLE = {
   width: '100%',

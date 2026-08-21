@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import ExperienceCardFactory from '../components/experience/ExperienceCardFactory';
 import experienceData from '../data/experience.json';
-import { useTranslation } from '../hooks/useTranslation';
+import { useTranslation } from '../hooks/translation';
 
 const MONTHS = {
   ocak: 0, subat: 1, şubat: 1, mart: 2, nisan: 3, mayis: 4, mayıs: 4,

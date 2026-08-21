@@ -1,6 +1,6 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/';
 const ollamaIcon = new URL('../../assets/skills/ollama.png', import.meta.url).href;

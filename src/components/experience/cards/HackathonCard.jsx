@@ -1,4 +1,4 @@
-import { useTranslation } from '../../../hooks/useTranslation';
+import { useTranslation } from '../../../hooks/translation';
 
 export default function HackathonCard({ company, title, location, date, duration }) {
   const { t, tData } = useTranslation();

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createSpinningDonut } from './ascii/SpinningDonut';
 import { createRotatingCube } from './ascii/RotatingCube';
 import { createMatrixRain } from './ascii/MatrixRain';
@@ -13,9 +13,9 @@ const ANIMATIONS = [
 
 export default function AsciiAnimation() {
   const preRef = useRef(null);
-  const chosen = useMemo(
-    () => ANIMATIONS[Math.floor(Math.random() * ANIMATIONS.length)],
-    []
+  // Tek seferlik rastgele seçim → lazy initializer (render dışında, saf)
+  const [chosen] = useState(
+    () => ANIMATIONS[Math.floor(Math.random() * ANIMATIONS.length)]
   );
 
   useEffect(() => {

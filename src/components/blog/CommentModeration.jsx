@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useTranslation } from '../../hooks/useTranslation';
-import { fetchCommentEmail } from '../../hooks/useBlog';
+import { useState } from 'react';
+import { useTranslation } from '../../hooks/translation';
+import { fetchCommentEmail } from '../../hooks/useAdminBlog';
 
 function StatusBadge({ status }) {
   const { t } = useTranslation();

@@ -1,12 +1,13 @@
-import { useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { usePost, useApprovedComments } from '../../hooks/useBlog';
-import { useTranslation } from '../../hooks/useTranslation';
+import { usePost } from '../../hooks/usePosts';
+import { useApprovedComments } from '../../hooks/useComments';
+import { useTranslation } from '../../hooks/translation';
 import CommentList from '../../components/blog/CommentList';
 import CommentForm from '../../components/blog/CommentForm';
+import ImageCarousel from '../../components/blog/ImageCarousel';
+import { formatPostDate } from '../../lib/format';
 
 const PAGE_STYLE = {
-  width: '100%',
   maxWidth: '48rem',
   margin: '0 auto',
   paddingLeft: '1.5rem',
@@ -15,82 +16,13 @@ const PAGE_STYLE = {
   paddingBottom: '4rem',
 };
 
-/* ── Yatay snap-scroll carousel ── */
-function ImageCarousel({ images }) {
-  const trackRef = useRef(null);
-  const [activeIdx, setActiveIdx] = useState(0);
-
-  if (!images || images.length === 0) return null;
-
-  const handleScroll = () => {
-    if (!trackRef.current) return;
-    const { scrollLeft, clientWidth } = trackRef.current;
-    setActiveIdx(Math.round(scrollLeft / (clientWidth * 0.85 + 8)));
-  };
-
-  const scrollTo = (i) => {
-    if (!trackRef.current) return;
-    const itemW = trackRef.current.clientWidth * 0.85 + 8;
-    trackRef.current.scrollTo({ left: i * itemW, behavior: 'smooth' });
-  };
-
-  return (
-    <div className="relative w-full overflow-hidden rounded-2xl">
-      {/* Track */}
-      <div
-        ref={trackRef}
-        onScroll={handleScroll}
-        className="flex snap-x snap-mandatory overflow-x-auto gap-2 no-scrollbar"
-        style={{ scrollBehavior: 'smooth' }}
-      >
-        {images.map((src, i) => (
-          <div
-            key={i}
-            className="relative shrink-0 snap-center snap-always"
-          >
-            <img
-              src={src}
-              alt={`Fotoğraf ${i + 1}`}
-              loading="lazy"
-              className="rounded-2xl"
-              style={{ display: 'block', height: 320, width: 'auto', maxWidth: '85vw' }}
-            />
-          </div>
-        ))}
-        {/* Sağda boşluk — son fotoğraf snap'ten sonra solda kalmaz */}
-        <div className="shrink-0" style={{ width: '7.5%' }} />
-      </div>
-
-      {/* Dot indicator */}
-      {images.length > 1 && (
-        <div className="flex justify-center gap-1.5 mt-3">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => scrollTo(i)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === activeIdx ? 'w-5 bg-orange-400' : 'w-1.5 bg-neutral-600'
-              }`}
-              aria-label={`Fotoğraf ${i + 1}`}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function BlogPostPage() {
   const { postId } = useParams();
   const { post, loading } = usePost(postId);
   const { comments } = useApprovedComments(postId);
   const { t, tData, lang } = useTranslation();
 
-  const dateStr = post?.createdAt?.toDate?.()
-    ? post.createdAt.toDate().toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', {
-        day: 'numeric', month: 'long', year: 'numeric',
-      })
-    : '';
+  const dateStr = formatPostDate(post?.createdAt, lang);
 
   return (
     <div style={PAGE_STYLE}>
@@ -128,7 +60,7 @@ export default function BlogPostPage() {
 
           {/* Görseller — metnin altında, carousel */}
           {post.images?.length > 0 && (
-            <ImageCarousel images={post.images} />
+            <ImageCarousel images={post.images} height={420} />
           )}
 
           {/* Yorumlar */}

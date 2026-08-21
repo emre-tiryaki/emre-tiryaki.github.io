@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import CertificationCard from '../components/certifications/CertificationCard';
 import certificationsData from '../data/certifications.json';
-import { useTranslation } from '../hooks/useTranslation';
+import { useTranslation } from '../hooks/translation';
 
 const PAGE_STYLE = {
   width: '100%',

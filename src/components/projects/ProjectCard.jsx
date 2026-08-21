@@ -1,5 +1,5 @@
 import { FiGithub, FiExternalLink, FiLock } from 'react-icons/fi';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 const previewModules = import.meta.glob(
   '../../assets/project_previews/**/*.{jpg,jpeg,png,webp}',

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useTranslation } from '../../hooks/useTranslation';
-import { submitComment } from '../../hooks/useBlog';
+import { useTranslation } from '../../hooks/translation';
+import { submitComment } from '../../hooks/useComments';
 
 export default function CommentForm({ postId, parentId = null, onDone }) {
-  const { t, lang } = useTranslation();
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [content, setContent] = useState('');

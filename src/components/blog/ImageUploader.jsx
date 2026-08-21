@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase/init';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 // Admin'in Storage'a çoklu resim yüklemesi (max 4)
 export default function ImageUploader({ images, onChange }) {

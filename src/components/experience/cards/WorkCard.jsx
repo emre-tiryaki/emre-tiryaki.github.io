@@ -1,4 +1,4 @@
-import { useTranslation } from '../../../hooks/useTranslation';
+import { useTranslation } from '../../../hooks/translation';
 
 export default function WorkCard({ company, title, location, startDate, endDate }) {
   const { t, tData } = useTranslation();

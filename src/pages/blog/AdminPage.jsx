@@ -1,4 +1,4 @@
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/auth';
 import AdminLogin from '../../components/admin/AdminLogin';
 import AdminPanel from '../../components/admin/AdminPanel';
 import { isFirebaseConfigured } from '../../firebase/config';

@@ -1,6 +1,8 @@
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
+import ImageCarousel from './ImageCarousel';
+import { TwitterIcon, VerifiedIcon } from '../ui/icons';
+import { formatPostDate } from '../../lib/format';
 
 // Personal fotoğrafları Carousel ile aynı glob'dan çek
 const photoModules = import.meta.glob(
@@ -25,58 +27,16 @@ function readingTime(text = '') {
   return Math.max(1, Math.round(words / 200));
 }
 
-/* ── Yatay snap-scroll carousel ── */
-function ImageCarousel({ images }) {
-  const trackRef = useRef(null);
-
-  // Link tıklamasını engelle — sadece scroll hareketlerinde
-  const stopProp = (e) => e.preventDefault();
-
-  return (
-    <div
-      className="relative w-full"
-      /* carousel alanındaki tıklamaların Link'e geçmesini engelle */
-      onClick={stopProp}
-    >
-      <div
-        ref={trackRef}
-        className="flex snap-x snap-mandatory overflow-x-auto gap-2 no-scrollbar"
-        style={{ scrollBehavior: 'smooth' }}
-      >
-        {images.map((src, i) => (
-          <div
-            key={i}
-            className="shrink-0 snap-center snap-always"
-          >
-            <img
-              src={src}
-              alt={`Fotoğraf ${i + 1}`}
-              loading="lazy"
-              draggable={false}
-              className="rounded-xl"
-              style={{ display: 'block', height: 280, width: 'auto', maxWidth: '100%' }}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function PostCard({ post }) {
   const { t, tData, lang } = useTranslation();
   const title     = tData(post.title) || '';
   const rawBody   = tData(post.body)  || '';
-  const excerpt   = rawBody.replace(/[#*>`_\n]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 180);
+  const excerpt   = rawBody.replace(/[#*>`_\n]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200);
   const mins      = readingTime(rawBody);
   const hasImages = post.images && post.images.length > 0;
   const avatar    = pickPhoto(post.id);
 
-  const dateStr = post.createdAt?.toDate?.()
-    ? post.createdAt.toDate().toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-US', {
-        day: 'numeric', month: 'long', year: 'numeric',
-      })
-    : '';
+  const dateStr = formatPostDate(post.createdAt, lang);
 
   return (
     <Link
@@ -84,41 +44,63 @@ export default function PostCard({ post }) {
       className="glass-card block overflow-hidden transition-all duration-300"
       style={{ textDecoration: 'none' }}
     >
-      <div className="p-6 flex flex-col gap-5">
+      <div className="flex flex-col gap-4" style={{ padding: '1.25rem' }}>
 
-        {/* Yazar satırı */}
-        <div className="flex items-center gap-3">
-          {avatar && (
-            <img
-              src={avatar}
-              alt="Emre Tiryaki"
-              className="size-11 rounded-full object-cover object-top border border-white/10 shrink-0"
-            />
-          )}
-          <div className="flex flex-col leading-tight gap-0.5">
-            <span className="text-sm font-semibold text-slate-100">Emre Tiryaki</span>
-            {dateStr && (
-              <span className="text-xs font-mono text-neutral-500">{dateStr}</span>
+        {/* ── Header: Emre imzalı tweet ── */}
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-3">
+            {avatar && (
+              <img
+                src={avatar}
+                alt="Emre Tiryaki"
+                width={48}
+                height={48}
+                className="size-12 rounded-full object-cover object-top border border-white/10 shrink-0"
+              />
             )}
+            <div className="flex flex-col leading-tight gap-0.5">
+              <div className="flex items-center gap-1">
+                <span className="text-[15px] font-semibold text-slate-100 whitespace-nowrap">
+                  Emre Tiryaki
+                </span>
+                <VerifiedIcon className="size-[1.05em] text-sky-500" />
+              </div>
+              <div className="flex items-center gap-1 text-sm text-neutral-400">
+                <span className="hover:text-neutral-200 transition-colors whitespace-nowrap">
+                  @MrTiryaki
+                </span>
+                {dateStr && (
+                  <>
+                    <span className="text-neutral-600">·</span>
+                    <span className="whitespace-nowrap">{dateStr}</span>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
+
+          {/* Twitter/X ikonu (dekoratif — kartın tamamı linke gider) */}
+          <TwitterIcon className="text-xl text-neutral-500 hover:text-orange-400 transition-colors shrink-0" />
         </div>
 
-        {/* Başlık */}
-        <h3 className="text-xl font-extrabold text-slate-100 leading-snug">
-          {title}
-        </h3>
+        {/* ── Body: başlık + özet ── */}
+        <div className="flex flex-col gap-1.5">
+          {title && (
+            <h3 className="text-lg font-extrabold text-slate-100 leading-snug">
+              {title}
+            </h3>
+          )}
+          {excerpt && (
+            <p className="text-[15px] text-neutral-400 leading-relaxed">
+              {excerpt}{rawBody.length > 200 ? '…' : ''}
+            </p>
+          )}
+        </div>
 
-        {/* Özet */}
-        {excerpt && (
-          <p className="text-sm text-neutral-400 leading-relaxed line-clamp-3">
-            {excerpt}{rawBody.length > 180 ? '…' : ''}
-          </p>
-        )}
-
-        {/* Görseller — kaydırılabilir carousel */}
+        {/* ── Görseller — kaydırılabilir carousel ── */}
         {hasImages && <ImageCarousel images={post.images} />}
 
-        {/* Alt bar */}
+        {/* ── Footer: okuma süresi + devamı ── */}
         <div className="flex items-center justify-between pt-3 border-t border-white/[0.06]">
           <span className="text-xs font-mono text-neutral-500">
             {mins} {lang === 'tr' ? 'dk okuma' : 'min read'}

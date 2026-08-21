@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 import CommentForm from './CommentForm';
 
 function formatDate(ts, lang) {

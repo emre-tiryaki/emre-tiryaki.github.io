@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useTranslation } from '../../hooks/useTranslation';
-import { useAuth } from '../../hooks/useAuth';
-import { useAdminBlog } from '../../hooks/useBlog';
+import { useTranslation } from '../../hooks/translation';
+import { useAuth } from '../../hooks/auth';
+import { useAdminBlog } from '../../hooks/useAdminBlog';
 import PostComposer from '../blog/PostComposer';
 import CommentModerationRow from '../blog/CommentModeration';
 

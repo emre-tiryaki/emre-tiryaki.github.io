@@ -1,6 +1,6 @@
 import SkillGroup from '../components/skills/SkillGroup';
 import skillsData from '../data/skills.json';
-import { useTranslation } from '../hooks/useTranslation';
+import { useTranslation } from '../hooks/translation';
 
 export default function SkillsPage() {
   const { t } = useTranslation();

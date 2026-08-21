@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProjectCard from './ProjectCard';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 const variants = {
   enter: (dir) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),

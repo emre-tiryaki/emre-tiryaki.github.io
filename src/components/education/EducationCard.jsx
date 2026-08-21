@@ -1,4 +1,4 @@
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 const inonuLogo = new URL('../../assets/education/inonu_university_logo.png', import.meta.url).href;
 

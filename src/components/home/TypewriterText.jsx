@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '../../hooks/translation';
 
 export default function TypewriterText() {
   const { t } = useTranslation();
@@ -13,9 +13,11 @@ export default function TypewriterText() {
   const [phase, setPhase] = useState('line1');
 
   useEffect(() => {
-    setDisplayed1('');
-    setDisplayed2('');
-    setPhase('line1');
+    queueMicrotask(() => {
+      setDisplayed1('');
+      setDisplayed2('');
+      setPhase('line1');
+    });
   }, [greeting, role]);
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export default function TypewriterText() {
         }, 40);
         return () => clearTimeout(timer);
       } else {
-        setPhase('done');
+        queueMicrotask(() => setPhase('done'));
       }
     }
   }, [phase, displayed1, displayed2, fullLine1, role]);
