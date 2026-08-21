@@ -10,6 +10,8 @@ const PAGE_STYLE = {
   margin: '0 auto',
   paddingLeft: '1.5rem',
   paddingRight: '1.5rem',
+  paddingTop: '2.5rem',
+  paddingBottom: '3rem',
   display: 'block',
 };
 
@@ -18,28 +20,28 @@ export default function AboutPage() {
 
   return (
     <div style={PAGE_STYLE}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
         {/* Two-column hero */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <div className="flex justify-center">
             <PhotoCarousel />
           </div>
-          <div className="flex flex-col justify-center space-y-6 text-center lg:text-left">
-            <div>
+          <div className="flex flex-col justify-center space-y-9 text-center lg:text-left">
+            <div className="space-y-2">
               <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-100 tracking-tight">
                 Emre Tiryaki
               </h1>
-              <p className="text-lg font-bold mt-1"
+              <p className="text-lg font-bold"
                 style={{ background: 'linear-gradient(90deg,#fb923c,#f97316,#ea580c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 Backend Developer · Software Engineer
               </p>
-              <p className="text-sm text-neutral-400 mt-1.5 flex items-center justify-center lg:justify-start gap-1.5">
+              <p className="text-sm text-neutral-400 flex items-center justify-center lg:justify-start gap-1.5">
                 <span>📍</span><span>{t('about.location')}</span>
               </p>
             </div>
             <div
-              className="p-5 rounded-2xl text-sm text-neutral-200 leading-relaxed"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+              className="rounded-2xl text-sm text-neutral-200 leading-loose"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '1.25rem 1.5rem' }}
             >
               {t('about.summary')}
             </div>

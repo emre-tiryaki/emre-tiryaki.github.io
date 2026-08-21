@@ -15,31 +15,85 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase/init';
 
+// ── Cache yardımcıları ──
+const CACHE_TTL_MS = 4 * 60 * 60 * 1000; // 4 saat
+
+function readCache(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts > CACHE_TTL_MS) return null; // süresi dolmuş
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function writeCache(key, data) {
+  try {
+    localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data }));
+  } catch {
+    /* localStorage dolu veya private mod — sessizce geç */
+  }
+}
+
+// Firestore Timestamp'i JSON'dan restore ederken .toDate() metodunu ekle
+function restoreTimestamps(posts) {
+  return posts.map((p) => ({
+    ...p,
+    createdAt: p.createdAt
+      ? {
+          seconds: p.createdAt.seconds,
+          nanoseconds: p.createdAt.nanoseconds,
+          toDate: () => new Date(p.createdAt.seconds * 1000),
+        }
+      : null,
+  }));
+}
+
 // ── PUBLIC: yayınlanmış tüm gönderileri çek (liste) ──
 export function usePublishedPosts() {
+  const CACHE_KEY = 'blog_published_posts';
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(!!db);
   const [error, setError] = useState(db ? null : 'Firebase yapılandırılmamış');
 
   useEffect(() => {
     if (!db) return;
+
+    // 1. Cache varsa hemen kullan
+    const cached = readCache(CACHE_KEY);
+    if (cached) {
+      setPosts(restoreTimestamps(cached));
+      setLoading(false);
+      return;
+    }
+
+    // 2. Cache miss → Firestore'dan çek
     const q = query(
       collection(db, 'posts'),
       where('published', '==', true),
       orderBy('createdAt', 'desc')
     );
-    const unsub = onSnapshot(
-      q,
-      (snap) => {
-        setPosts(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+    getDocs(q)
+      .then((snap) => {
+        const data = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        // Timestamp'leri cache-safe JSON'a dönüştür
+        const serializable = data.map((p) => ({
+          ...p,
+          createdAt: p.createdAt
+            ? { seconds: p.createdAt.seconds, nanoseconds: p.createdAt.nanoseconds }
+            : null,
+        }));
+        writeCache(CACHE_KEY, serializable);
+        setPosts(restoreTimestamps(serializable));
         setLoading(false);
-      },
-      (err) => {
+      })
+      .catch((err) => {
         setError(err.message);
         setLoading(false);
-      }
-    );
-    return () => unsub();
+      });
   }, []);
 
   return { posts, loading, error };
@@ -52,11 +106,30 @@ export function usePost(postId) {
 
   useEffect(() => {
     if (!db || !postId) return;
+    const CACHE_KEY = `blog_post_${postId}`;
+
+    // 1. Cache varsa hemen kullan
+    const cached = readCache(CACHE_KEY);
+    if (cached) {
+      setPost(restoreTimestamps([cached])[0]);
+      setLoading(false);
+      return;
+    }
+
+    // 2. Cache miss → Firestore'dan çek
     let active = true;
     getDoc(doc(db, 'posts', postId)).then((d) => {
       if (!active) return;
       if (d.exists() && d.data().published) {
-        setPost({ id: d.id, ...d.data() });
+        const raw = { id: d.id, ...d.data() };
+        const serializable = {
+          ...raw,
+          createdAt: raw.createdAt
+            ? { seconds: raw.createdAt.seconds, nanoseconds: raw.createdAt.nanoseconds }
+            : null,
+        };
+        writeCache(CACHE_KEY, serializable);
+        setPost(restoreTimestamps([serializable])[0]);
       } else {
         setPost(null);
       }
@@ -69,6 +142,7 @@ export function usePost(postId) {
 
   return { post, loading };
 }
+
 
 // ── PUBLIC: onaylı yorumlar + 1-level yanıtlar ──
 export function useApprovedComments(postId) {

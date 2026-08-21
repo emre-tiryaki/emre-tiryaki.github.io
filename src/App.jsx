@@ -19,7 +19,10 @@ import AdminPage from './pages/blog/AdminPage';
 const FULL_WIDTH_PAGES = ['/experience', '/projects', '/blog'];
 
 // Pages with a visible header title — content starts from top, not vertically centered
-const TOP_ALIGNED_PAGES = ['/skills', '/education', '/experience', '/projects', '/certifications'];
+const TOP_ALIGNED_PAGES = ['/about', '/blog', '/skills', '/education', '/experience', '/projects', '/certifications'];
+
+// Pages that need vertical scrolling
+const SCROLLABLE_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications', '/blog'];
 
 
 function AnimatedRoutes() {
@@ -44,8 +47,11 @@ function AnimatedRoutes() {
 
 function MainLayout() {
   const location = useLocation();
-  const isFullWidth  = FULL_WIDTH_PAGES.includes(location.pathname);
-  const isTopAligned = TOP_ALIGNED_PAGES.includes(location.pathname);
+  const path = location.pathname;
+
+  const isFullWidth  = FULL_WIDTH_PAGES.some((p) => path === p || path.startsWith(p + '/'));
+  const isTopAligned = TOP_ALIGNED_PAGES.some((p) => path === p || path.startsWith(p + '/'));
+  const isScrollable = SCROLLABLE_PAGES.some((p) => path === p || path.startsWith(p + '/'));
 
   return (
     <main
@@ -56,7 +62,7 @@ function MainLayout() {
         height: '100vh',
         paddingTop: '5rem',    /* clears floating navbar */
         paddingBottom: '1.5rem',
-        overflow: 'hidden',
+        overflow: isScrollable ? 'auto' : 'hidden',
         display: 'flex',
         flexDirection: 'column',
         alignItems:     isFullWidth  ? 'stretch' : 'center',
