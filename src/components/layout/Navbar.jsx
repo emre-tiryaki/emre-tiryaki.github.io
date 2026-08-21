@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../hooks/translation';
-
+import Button from '../ui/Button';
 const NAV_ITEMS = [
   { path: '/',               key: 'home'           },
   { path: '/about',          key: 'about'          },
@@ -91,56 +91,37 @@ export default function Navbar() {
 
         {/* Right spacer + lang button */}
         <div className="hidden lg:flex items-center justify-end" style={{ flex: 1 }}>
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={() => setLanguage(lang === 'tr' ? 'en' : 'tr')}
             aria-label="Dil değiştir"
-            style={{
-              display: 'flex', alignItems: 'center', gap: '0.4rem',
-              padding: '0.45rem 0.9rem',
-              borderRadius: '0.65rem',
-              fontSize: '0.8rem', fontWeight: 700,
-              color: '#cbd5e1',
-              background: 'rgba(255,255,255,0.07)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              cursor: 'pointer',
-              transition: 'all 0.18s ease',
-              width: '6rem',
-              justifyContent: 'center',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.color = '#fb923c'; e.currentTarget.style.borderColor = 'rgba(249,115,22,0.4)'; }}
-            onMouseLeave={e => { e.currentTarget.style.color = '#cbd5e1'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
+            className="!w-24 justify-center"
           >
             <span>{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
             <span style={{ fontFamily: 'monospace' }}>{lang.toUpperCase()}</span>
-          </button>
+          </Button>
         </div>
 
         {/* ── Mobile layout: logo left, controls right ── */}
         <div className="lg:hidden flex items-center justify-between w-full">
           <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#fb923c', letterSpacing: '-0.01em' }}>ET.</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <button
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={() => setLanguage(lang === 'tr' ? 'en' : 'tr')}
               aria-label="Dil değiştir"
-              style={{
-                display: 'flex', alignItems: 'center', gap: '0.35rem',
-                padding: '0.4rem 0.75rem', borderRadius: '0.6rem',
-                fontSize: '0.75rem', fontWeight: 700, color: '#cbd5e1',
-                background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)',
-                cursor: 'pointer',
-              }}
             >
               <span>{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
               <span style={{ fontFamily: 'monospace' }}>{lang.toUpperCase()}</span>
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => setMenuOpen(v => !v)}
               aria-label="Menü"
-              style={{
-                padding: '0.45rem', borderRadius: '0.6rem',
-                background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)',
-                color: '#cbd5e1', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
+              className="!p-2"
             >
               <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {menuOpen
@@ -148,7 +129,7 @@ export default function Navbar() {
                   : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 }
               </svg>
-            </button>
+            </Button>
           </div>
         </div>
       </nav>

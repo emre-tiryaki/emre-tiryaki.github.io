@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase/init';
 import { useTranslation } from '../../hooks/translation';
+import Button from '../ui/Button';
 
 // Admin'in Storage'a çoklu resim yüklemesi (max 4)
 export default function ImageUploader({ images, onChange }) {
@@ -44,20 +45,22 @@ export default function ImageUploader({ images, onChange }) {
         {images.map((src, i) => (
           <div key={i} className="relative" style={{ width: 80, height: 80 }}>
             <img src={src} alt="" className="w-full h-full object-cover rounded-lg" />
-            <button
-              type="button"
+            <Button
+              variant="danger"
+              size="sm"
               onClick={() => onChange(images.filter((_, idx) => idx !== i))}
-              className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center"
+              style={{ position: 'absolute', top: -8, right: -8, width: 20, height: 20, padding: 0, borderRadius: '9999px', fontSize: '0.7rem' }}
+              aria-label="Kaldır"
             >
               ×
-            </button>
+            </Button>
           </div>
         ))}
       </div>
-      <label className="inline-block px-4 py-2 rounded-lg text-sm font-semibold text-orange-400 border border-orange-500/40 cursor-pointer hover:bg-orange-500/10">
+      <Button as="label" variant="secondary" size="sm" className="cursor-pointer">
         {uploading ? t('blog.admin.composer.uploading') : t('blog.admin.composer.addImages')}
         <input type="file" accept="image/*" multiple hidden onChange={handleFiles} disabled={uploading} />
-      </label>
+      </Button>
     </div>
   );
 }

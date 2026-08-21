@@ -265,3 +265,149 @@ body {
   background-size: 200% 100%;
   animation: skeleton-pulse 1.5s infinite ease-in-out;
 }
+
+/* ── Unified Button System ── */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: #e5e5e5;
+  --btn-border: rgba(255, 255, 255, 0.14);
+  --btn-bg-hover: rgba(255, 255, 255, 0.06);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 0.7rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: nowrap;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  transition: background 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 120ms ease, box-shadow 160ms ease, opacity 160ms ease;
+}
+.btn:hover:not(:disabled) {
+  background: var(--btn-bg-hover);
+  border-color: var(--btn-border-hover, var(--btn-border));
+  color: var(--btn-fg-hover, var(--btn-fg));
+}
+.btn:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn:focus-visible { outline: 2px solid rgba(249, 115, 22, 0.7); outline-offset: 2px; }
+
+.btn--sm { padding: 0.4rem 0.85rem; font-size: 0.78rem; border-radius: 0.6rem; }
+.btn--md { padding: 0.55rem 1.15rem; font-size: 0.875rem; }
+.btn--lg { padding: 0.7rem 1.5rem; font-size: 1rem; }
+
+.btn--primary {
+  --btn-bg: linear-gradient(135deg, #f97316, #f59e0b);
+  --btn-fg: #ffffff;
+  --btn-border: transparent;
+}
+.btn--primary:hover:not(:disabled) {
+  --btn-bg-hover: linear-gradient(135deg, #fb923c, #fbbf24);
+  --btn-fg-hover: #ffffff;
+}
+.btn--secondary {
+  --btn-bg: rgba(255, 255, 255, 0.05);
+  --btn-fg: #e5e5e5;
+  --btn-border: rgba(255, 255, 255, 0.14);
+}
+.btn--secondary:hover:not(:disabled) { --btn-bg-hover: rgba(255, 255, 255, 0.1); }
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: #a3a3a3;
+  --btn-border: transparent;
+}
+.btn--ghost:hover:not(:disabled) {
+  --btn-bg-hover: rgba(255, 255, 255, 0.06);
+  --btn-fg-hover: #f5f5f5;
+}
+.btn--success {
+  --btn-bg: #16a34a;
+  --btn-fg: #ffffff;
+  --btn-border: transparent;
+}
+.btn--success:hover:not(:disabled) { --btn-bg-hover: #22c55e; }
+.btn--danger {
+  --btn-bg: rgba(239, 68, 68, 0.12);
+  --btn-fg: #fca5a5;
+  --btn-border: rgba(239, 68, 68, 0.45);
+}
+.btn--danger:hover:not(:disabled) {
+  --btn-bg-hover: rgba(239, 68, 68, 0.2);
+  --btn-fg-hover: #fecaca;
+  --btn-border-hover: rgba(239, 68, 68, 0.7);
+}
+.btn--warning {
+  --btn-bg: #d97706;
+  --btn-fg: #ffffff;
+  --btn-border: transparent;
+}
+.btn--warning:hover:not(:disabled) { --btn-bg-hover: #ea580c; }
+
+/* ── Help tooltip (?) ── */
+.help-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: help;
+  user-select: none;
+  outline: none;
+}
+.help-tip:hover, .help-tip:focus {
+  background: rgba(249, 115, 22, 0.25);
+  color: #fb923c;
+}
+.help-tip__bubble {
+  position: absolute;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: max-content;
+  max-width: 16rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 0.6rem;
+  background: #1c1c1f;
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  color: #e5e5e5;
+  font-size: 0.74rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease, transform 140ms ease;
+  z-index: 50;
+}
+.help-tip:hover .help-tip__bubble,
+.help-tip:focus .help-tip__bubble {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.btn--link {
+  --btn-bg: transparent;
+  --btn-fg: #fb923c;
+  --btn-border: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+.btn--link:hover:not(:disabled) {
+  --btn-bg-hover: transparent;
+  --btn-fg-hover: #fdba74;
+}

@@ -1,69 +1,75 @@
-import { useState } from 'react';
+import useForm from '../../hooks/useForm';
 import { useTranslation } from '../../hooks/translation';
 import ImageUploader from './ImageUploader';
+import FormField from '../ui/FormField';
+import Button from '../ui/Button';
 
 // Admin: gönderi oluştur / düzenle
 // Not: parent (AdminPanel) bu bileşeni <PostComposer key={...}> ile mount eder,
-// bu yüzden initial değeri ilk render'da okunur (effect gerekmez).
+// bu yüzden initial değer ilk render'da okunur (effect gerekmez).
 // onSave(data, publish) — publish=true ise direkt yayınlanır, false ise taslak.
 export default function PostComposer({ initial, onSave, onCancel, saving }) {
   const { t } = useTranslation();
   const c = t('blog.admin.composer');
-  const [titleTr, setTitleTr] = useState(initial?.title?.tr || '');
-  const [titleEn, setTitleEn] = useState(initial?.title?.en || '');
-  const [bodyTr, setBodyTr] = useState(initial?.body?.tr || '');
-  const [bodyEn, setBodyEn] = useState(initial?.body?.en || '');
-  const [images, setImages] = useState(initial?.images || []);
 
-  function collectData() {
-    return {
-      title: { tr: titleTr, en: titleEn },
-      body: { tr: bodyTr, en: bodyEn },
-      images,
-    };
-  }
-
-  async function handleSave(publish) {
-    await onSave(collectData(), publish);
-  }
+  const form = useForm({
+    initial: {
+      titleTr: initial?.title?.tr || '',
+      titleEn: initial?.title?.en || '',
+      bodyTr: initial?.body?.tr || '',
+      bodyEn: initial?.body?.en || '',
+      images: initial?.images || [],
+    },
+    validate: (v) => {
+      const e = {};
+      if (!v.titleTr.trim()) e.titleTr = c.required;
+      if (!v.bodyTr.trim()) e.bodyTr = c.required;
+      if (v.images.length > 4) e.images = c.maxImages;
+      return e;
+    },
+    onSubmit: async (v, publish) => {
+      await onSave(
+        {
+          title: { tr: v.titleTr, en: v.titleEn },
+          body: { tr: v.bodyTr, en: v.bodyEn },
+          images: v.images,
+        },
+        publish
+      );
+    },
+  });
 
   const editing = !!(initial && initial.id);
 
   return (
-    <div className="glass-card rounded-2xl p-5 space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <input value={titleTr} onChange={(e) => setTitleTr(e.target.value)} placeholder={c.titleTr}
-          className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-neutral-100 outline-none focus:border-orange-500/50" />
-        <input value={titleEn} onChange={(e) => setTitleEn(e.target.value)} placeholder={c.titleEn}
-          className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-neutral-100 outline-none focus:border-orange-500/50" />
+    <div className="glass-card rounded-2xl" style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: '1rem' }}>
+        <FormField label={c.titleTr} name="titleTr" value={form.values.titleTr} onChange={form.setField} placeholder={c.titleTr} required error={form.errors.titleTr} />
+        <FormField label={c.titleEn} name="titleEn" value={form.values.titleEn} onChange={form.setField} placeholder={c.titleEn} error={form.errors.titleEn} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <textarea value={bodyTr} onChange={(e) => setBodyTr(e.target.value)} placeholder={c.bodyTr} rows={5}
-          className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-neutral-100 outline-none focus:border-orange-500/50 resize-none" />
-        <textarea value={bodyEn} onChange={(e) => setBodyEn(e.target.value)} placeholder={c.bodyEn} rows={5}
-          className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-neutral-100 outline-none focus:border-orange-500/50 resize-none" />
-      </div>
-      <ImageUploader images={images} onChange={setImages} />
 
-      <div className="flex flex-wrap gap-2">
-        {/* Taslağa kaydet (hem yeni hem düzenleme için) */}
-        <button onClick={() => handleSave(false)} disabled={saving}
-          className="px-5 py-2 rounded-lg text-sm font-bold text-neutral-100 border border-white/15 hover:bg-white/5"
-          style={{ opacity: saving ? 0.6 : 1 }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: '1rem' }}>
+        <FormField label={c.bodyTr} name="bodyTr" as="textarea" rows={6} value={form.values.bodyTr} onChange={form.setField} placeholder={c.bodyTr} required error={form.errors.bodyTr} />
+        <FormField label={c.bodyEn} name="bodyEn" as="textarea" rows={6} value={form.values.bodyEn} onChange={form.setField} placeholder={c.bodyEn} error={form.errors.bodyEn} />
+      </div>
+
+      <div>
+        {form.errors.images && (
+          <p style={{ fontSize: '0.72rem', color: '#fca5a5', marginBottom: '0.35rem' }}>{form.errors.images}</p>
+        )}
+        <ImageUploader images={form.values.images} onChange={(imgs) => form.setField('images', imgs)} />
+      </div>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+        <Button variant="secondary" onClick={() => form.handleSubmit(undefined, false)} disabled={saving}>
           {saving === 'draft' ? c.publishing : c.saveDraft}
-        </button>
-
-        {/* Direkt yayınla */}
-        <button onClick={() => handleSave(true)} disabled={saving}
-          className="px-5 py-2 rounded-lg text-sm font-bold text-white"
-          style={{ background: 'linear-gradient(135deg,#f97316,#f59e0b)', opacity: saving ? 0.6 : 1 }}>
+        </Button>
+        <Button variant="primary" onClick={() => form.handleSubmit(undefined, true)} disabled={saving}>
           {saving === 'publish' ? c.publishing : (editing ? c.updatePublish : c.publishNow)}
-        </button>
-
-        <button onClick={onCancel}
-          className="px-5 py-2 rounded-lg text-sm font-semibold text-neutral-300 border border-white/15 hover:bg-white/5">
+        </Button>
+        <Button variant="ghost" onClick={onCancel}>
           {c.cancel}
-        </button>
+        </Button>
       </div>
     </div>
   );

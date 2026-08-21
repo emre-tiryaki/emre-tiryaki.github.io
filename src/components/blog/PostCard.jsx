@@ -3,24 +3,7 @@ import { useTranslation } from '../../hooks/translation';
 import ImageCarousel from './ImageCarousel';
 import { TwitterIcon, VerifiedIcon } from '../ui/icons';
 import { formatPostDate } from '../../lib/format';
-
-// Personal fotoğrafları Carousel ile aynı glob'dan çek
-const photoModules = import.meta.glob(
-  '../../assets/personal_photos/*.{jpg,jpeg,png,JPG,JPEG,PNG}',
-  { eager: true, import: 'default' }
-);
-const photos = Object.entries(photoModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, src]) => src);
-
-function pickPhoto(id = '') {
-  if (!photos.length) return null;
-  let hash = 0;
-  for (let i = 0; i < id.length; i++) {
-    hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
-  }
-  return photos[hash % photos.length];
-}
+import { pickPhoto } from '../../lib/blog/avatar';
 
 function readingTime(text = '') {
   const words = text.trim().split(/\s+/).length;
@@ -44,11 +27,14 @@ export default function PostCard({ post }) {
       className="glass-card block overflow-hidden transition-all duration-300"
       style={{ textDecoration: 'none' }}
     >
-      <div className="flex flex-col gap-4" style={{ padding: '1.25rem' }}>
+      <div
+        className="flex flex-col"
+        style={{ padding: '1.25rem', gap: '1rem' }}
+      >
 
         {/* ── Header: Emre imzalı tweet ── */}
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center" style={{ gap: '0.75rem' }}>
             {avatar && (
               <img
                 src={avatar}
@@ -58,14 +44,14 @@ export default function PostCard({ post }) {
                 className="size-12 rounded-full object-cover object-top border border-white/10 shrink-0"
               />
             )}
-            <div className="flex flex-col leading-tight gap-0.5">
-              <div className="flex items-center gap-1">
+            <div className="flex flex-col leading-tight" style={{ gap: '0.125rem' }}>
+              <div className="flex items-center" style={{ gap: '0.25rem' }}>
                 <span className="text-[15px] font-semibold text-slate-100 whitespace-nowrap">
                   Emre Tiryaki
                 </span>
                 <VerifiedIcon className="size-[1.05em] text-sky-500" />
               </div>
-              <div className="flex items-center gap-1 text-sm text-neutral-400">
+              <div className="flex items-center text-sm text-neutral-400" style={{ gap: '0.25rem' }}>
                 <span className="hover:text-neutral-200 transition-colors whitespace-nowrap">
                   @MrTiryaki
                 </span>
@@ -84,7 +70,7 @@ export default function PostCard({ post }) {
         </div>
 
         {/* ── Body: başlık + özet ── */}
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col" style={{ gap: '0.375rem' }}>
           {title && (
             <h3 className="text-lg font-extrabold text-slate-100 leading-snug">
               {title}
@@ -101,7 +87,10 @@ export default function PostCard({ post }) {
         {hasImages && <ImageCarousel images={post.images} />}
 
         {/* ── Footer: okuma süresi + devamı ── */}
-        <div className="flex items-center justify-between pt-3 border-t border-white/[0.06]">
+        <div
+          className="flex items-center justify-between border-t border-white/[0.06]"
+          style={{ paddingTop: '0.75rem' }}
+        >
           <span className="text-xs font-mono text-neutral-500">
             {mins} {lang === 'tr' ? 'dk okuma' : 'min read'}
           </span>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from '../../hooks/translation';
 import { useAuth } from '../../hooks/auth';
+import Button from '../ui/Button';
 
 export default function AdminLogin() {
   const { t } = useTranslation();
@@ -40,13 +41,9 @@ export default function AdminLogin() {
             className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-neutral-100 outline-none focus:border-orange-500/50"
           />
           {error && <p className="text-xs text-red-400">{error}</p>}
-          <button
-            type="submit" disabled={busy}
-            className="w-full px-5 py-2.5 rounded-lg text-sm font-bold text-white"
-            style={{ background: 'linear-gradient(135deg,#f97316,#f59e0b)', opacity: busy ? 0.6 : 1 }}
-          >
+          <Button variant="primary" type="submit" disabled={busy} className="w-full">
             {a.loginBtn}
-          </button>
+          </Button>
         </form>
       </div>
     </div>

@@ -85,6 +85,7 @@
     "backToList": "← Tüm yazılar",
     "commentsTitle": "Yorumlar",
     "noComments": "Henüz yorum yok. İlk yorumu sen bırak!",
+    "writeComment": "Yorum yaz",
     "commentForm": {
       "name": "Adın",
       "namePlaceholder": "Adın (zorunlu)",
@@ -93,6 +94,7 @@
       "content": "Yorumun",
       "contentPlaceholder": "Düşüncelerini paylaş...",
       "reply": "Yanıtla",
+      "emailWhy": "E-posta opsiyoneldir. Bırakırsan, yorumun onaylandığında haber verebilirim — ama ayrı tutulur ve başkalarına asla gösterilmez.",
       "submit": "Gönder",
       "submitting": "Gönderiliyor...",
       "replySubmit": "Yanıtı Gönder",
@@ -137,6 +139,7 @@
         "bodyEn": "İçerik (EN)",
         "images": "Resimler (en fazla 4)",
         "addImages": "Resim Ekle",
+        "required": "Bu alan zorunlu.",
         "save": "Kaydet",
         "saveDraft": "Taslağa Kaydet",
         "publishNow": "Yayınla",

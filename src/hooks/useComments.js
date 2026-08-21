@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import {
   collection,
   query,
-  orderBy,
   where,
   onSnapshot,
   addDoc,
@@ -13,25 +12,35 @@ import {
 import { db } from '../firebase/init';
 
 // ── PUBLIC: onaylı yorumlar + 1-level yanıtlar ──
+// NOT: Tek 'where(postId)' sorgusu kullanırız; status filtresi ve sıralama
+// client-side yapılır. Böylece Firestore composite index (postId+status+
+// createdAt) gereksinimi ortadan kalkar — index eksikse yorumlar sessizce
+// boş dönüyordu.
 export function useApprovedComments(postId) {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(!db || !postId);
 
   useEffect(() => {
     if (!db || !postId) return;
-    const q = query(
-      collection(db, 'comments'),
-      where('postId', '==', postId),
-      where('status', '==', 'approved'),
-      orderBy('createdAt', 'asc')
-    );
+    const q = query(collection(db, 'comments'), where('postId', '==', postId));
     const unsub = onSnapshot(
       q,
       (snap) => {
-        setComments(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+        const list = snap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .filter((c) => c.status === 'approved')
+          .sort((a, b) => {
+            const ta = a.createdAt?.seconds || 0;
+            const tb = b.createdAt?.seconds || 0;
+            return ta - tb;
+          });
+        setComments(list);
         setLoading(false);
       },
-      () => setLoading(false)
+      (e) => {
+        console.error('Yorumlar yüklenemedi:', e);
+        setLoading(false);
+      }
     );
     return () => unsub();
   }, [postId]);

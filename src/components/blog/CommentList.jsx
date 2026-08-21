@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from '../../hooks/translation';
 import CommentForm from './CommentForm';
+import Button from '../ui/Button';
 
 function formatDate(ts, lang) {
   if (!ts?.toDate) return '';
@@ -26,14 +27,14 @@ export default function CommentList({ comments, postId }) {
   }
 
   return (
-    <div className="space-y-6">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {roots.map((c) => {
         const replies = repliesOf(c.id);
         return (
-          <div key={c.id} className="space-y-3">
+          <div key={c.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {/* Ana yorum */}
-            <div className="glass-card rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-1">
+            <div className="glass-card rounded-xl" style={{ padding: '1rem' }}>
+              <div className="flex items-center" style={{ gap: '0.5rem', marginBottom: '0.25rem' }}>
                 <span className="font-semibold text-neutral-100 text-sm">{c.authorName}</span>
                 <span className="text-xs text-neutral-500 font-mono">
                   {formatDate(c.createdAt, lang)}
@@ -42,20 +43,24 @@ export default function CommentList({ comments, postId }) {
               <p className="text-sm text-neutral-300 leading-relaxed whitespace-pre-wrap">
                 {c.content}
               </p>
-              <button
+              <Button
+                variant="link"
+                size="sm"
                 onClick={() => setReplyingTo(replyingTo === c.id ? null : c.id)}
-                className="mt-2 text-xs font-semibold text-orange-400 hover:text-orange-300"
               >
                 {t('blog.commentForm.reply')}
-              </button>
+              </Button>
             </div>
 
             {/* Yanıtlar (1-level) */}
             {replies.length > 0 && (
-              <div className="ml-6 space-y-2 border-l border-white/10 pl-4">
+              <div
+                className="border-l border-white/10"
+                style={{ marginLeft: '1.5rem', paddingLeft: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+              >
                 {replies.map((r) => (
-                  <div key={r.id} className="glass-card rounded-lg p-3">
-                    <div className="flex items-center gap-2 mb-1">
+                  <div key={r.id} className="glass-card rounded-lg" style={{ padding: '0.75rem' }}>
+                    <div className="flex items-center" style={{ gap: '0.5rem', marginBottom: '0.25rem' }}>
                       <span className="font-semibold text-neutral-200 text-sm">{r.authorName}</span>
                       <span className="text-xs text-neutral-500 font-mono">
                         {formatDate(r.createdAt, lang)}
@@ -71,7 +76,7 @@ export default function CommentList({ comments, postId }) {
 
             {/* Yanıt formu (sadece ana yoruma) */}
             {replyingTo === c.id && (
-              <div className="ml-6">
+              <div style={{ marginLeft: '1.5rem' }}>
                 <CommentForm postId={postId} parentId={c.id} onDone={() => setReplyingTo(null)} />
               </div>
             )}

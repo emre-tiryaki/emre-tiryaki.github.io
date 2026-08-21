@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from '../../hooks/translation';
 import { fetchCommentEmail } from '../../hooks/useAdminBlog';
+import Button from '../ui/Button';
 
 function StatusBadge({ status }) {
   const { t } = useTranslation();
@@ -39,12 +40,14 @@ export default function CommentModerationRow({ comment, onApprove, onReject, onD
         <span className="text-xs text-neutral-500 font-mono">
           {comment.createdAt?.toDate?.().toLocaleString() || ''}
         </span>
-        <button
+        <Button
+          variant="link"
+          size="sm"
           onClick={toggleEmail}
-          className="text-xs text-neutral-400 hover:text-orange-400 underline ml-auto"
+          className="ml-auto"
         >
           {t('blog.admin.commentEmail')}
-        </button>
+        </Button>
       </div>
 
       {showEmail && (
@@ -63,21 +66,18 @@ export default function CommentModerationRow({ comment, onApprove, onReject, onD
 
       <div className="flex gap-2 pt-1">
         {comment.status !== 'approved' && (
-          <button onClick={() => onApprove(comment.id)} disabled={busy}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-500">
+          <Button variant="success" size="sm" onClick={() => onApprove(comment.id)} disabled={busy}>
             {t('blog.admin.approve')}
-          </button>
+          </Button>
         )}
         {comment.status !== 'rejected' && (
-          <button onClick={() => onReject(comment.id)} disabled={busy}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-amber-600 hover:bg-amber-500">
+          <Button variant="warning" size="sm" onClick={() => onReject(comment.id)} disabled={busy}>
             {t('blog.admin.reject')}
-          </button>
+          </Button>
         )}
-        <button onClick={() => onDelete(comment.id)} disabled={busy}
-          className="px-3 py-1.5 rounded-lg text-xs font-bold text-red-300 border border-red-500/40 hover:bg-red-500/10">
+        <Button variant="danger" size="sm" onClick={() => onDelete(comment.id)} disabled={busy}>
           {t('blog.admin.delete')}
-        </button>
+        </Button>
       </div>
     </div>
   );

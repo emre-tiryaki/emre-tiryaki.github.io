@@ -85,6 +85,7 @@
     "backToList": "← All posts",
     "commentsTitle": "Comments",
     "noComments": "No comments yet. Be the first!",
+    "writeComment": "Write a comment",
     "commentForm": {
       "name": "Your name",
       "namePlaceholder": "Name (required)",
@@ -93,6 +94,7 @@
       "content": "Your comment",
       "contentPlaceholder": "Share your thoughts...",
       "reply": "Reply",
+      "emailWhy": "Your email is optional. If you leave it, I can notify you when your comment is approved — but it's stored separately and never shown to anyone else.",
       "submit": "Submit",
       "submitting": "Submitting...",
       "replySubmit": "Send Reply",
@@ -137,6 +139,7 @@
         "bodyEn": "Body (EN)",
         "images": "Images (max 4)",
         "addImages": "Add Images",
+        "required": "This field is required.",
         "save": "Save",
         "saveDraft": "Save as Draft",
         "publishNow": "Publish",

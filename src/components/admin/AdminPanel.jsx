@@ -4,6 +4,7 @@ import { useAuth } from '../../hooks/auth';
 import { useAdminBlog } from '../../hooks/useAdminBlog';
 import PostComposer from '../blog/PostComposer';
 import CommentModerationRow from '../blog/CommentModeration';
+import Button from '../ui/Button';
 
 const PAGE_STYLE = {
   width: '100%', maxWidth: '56rem', margin: '0 auto',
@@ -83,25 +84,21 @@ export default function AdminPanel() {
           </p>
         </div>
         {!p.published && (
-          <button onClick={() => handlePublish(p.id, true)}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold text-white" style={{ background: '#22c55e' }}>
+          <Button variant="success" size="sm" onClick={() => handlePublish(p.id, true)}>
             {a.publish}
-          </button>
+          </Button>
         )}
         {p.published && (
-          <button onClick={() => handlePublish(p.id, false)}
-            className="px-3 py-1.5 rounded-lg text-xs font-bold text-white" style={{ background: '#475569' }}>
+          <Button variant="secondary" size="sm" onClick={() => handlePublish(p.id, false)}>
             {a.unpublish}
-          </button>
+          </Button>
         )}
-        <button onClick={() => setEditing(p)}
-          className="px-3 py-1.5 rounded-lg text-xs font-bold text-neutral-200 border border-white/15 hover:bg-white/5">
+        <Button variant="secondary" size="sm" onClick={() => setEditing(p)}>
           {a.editPost}
-        </button>
-        <button onClick={() => handleDeletePost(p.id)}
-          className="px-3 py-1.5 rounded-lg text-xs font-bold text-red-300 border border-red-500/40 hover:bg-red-500/10">
+        </Button>
+        <Button variant="danger" size="sm" onClick={() => handleDeletePost(p.id)}>
           {a.delete}
-        </button>
+        </Button>
       </div>
     ));
   }
@@ -116,30 +113,31 @@ export default function AdminPanel() {
     <div style={PAGE_STYLE}>
       <div className="flex items-center justify-between mb-4 flexShrink-0">
         <h1 className="text-2xl font-extrabold text-slate-100">{a.title}</h1>
-        <button onClick={logout}
-          className="px-4 py-2 rounded-lg text-sm font-semibold text-neutral-300 border border-white/15 hover:bg-white/5">
+        <Button variant="secondary" size="sm" onClick={logout}>
           {a.logout}
-        </button>
+        </Button>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-2 mb-4 flexShrink-0 flex-wrap">
         {tabs.map((tb) => (
-          <button key={tb.id} onClick={() => setTab(tb.id)}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold ${tab === tb.id ? 'bg-orange-500/20 text-orange-400' : 'text-neutral-400 hover:text-neutral-200'}`}>
+          <Button
+            key={tb.id}
+            variant={tab === tb.id ? 'primary' : 'secondary'}
+            size="sm"
+            onClick={() => setTab(tb.id)}
+          >
             {tb.label} ({tb.count})
-          </button>
+          </Button>
         ))}
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, paddingBottom: '1rem' }}>
         {tab !== 'comments' && (
           <div className="mb-4">
-            <button onClick={() => setEditing('new')}
-              className="px-4 py-2 rounded-lg text-sm font-bold text-white"
-              style={{ background: 'linear-gradient(135deg,#f97316,#f59e0b)' }}>
+            <Button variant="primary" onClick={() => setEditing('new')}>
               {a.newPost}
-            </button>
+            </Button>
             {editing && (
               <div className="mt-4">
                 <PostComposer

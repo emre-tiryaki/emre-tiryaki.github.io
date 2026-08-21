@@ -18,6 +18,10 @@ import { useRef, useState, useEffect } from 'react';
 export default function ImageCarousel({ images, height = 280, rounded = 'rounded-2xl' }) {
   const trackRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(0);
+  // Sürükleme (drag) tespiti: gerçek tıklama navigate etsin, sadece
+  // kaydırma sonrası tıklama engellensin.
+  const dragStartX = useRef(0);
+  const movedRef = useRef(false);
 
   // Aktif nokta + snap hesabı: gerçek slide genişliğini ölçtüğü için
   // ince/kalın görsel karışımında da sapma olmaz.
@@ -67,9 +71,18 @@ export default function ImageCarousel({ images, height = 280, rounded = 'rounded
     <div
       className={`relative w-full overflow-hidden ${rounded} border border-white/[0.06] bg-black/20`}
       style={{ height }}
-      // Kart <Link> içinde kullanıldığında carousel etkileşimi
-      // (kaydırma / nokta) sayfaya gitmeyı tetiklemesin.
-      onClick={(e) => e.preventDefault()}
+      // Sürükle-kaydırma bittiyse tıklamayı engelle (Link'e gitmesin);
+      // ama düz tıklama (görsele basmak) navigate etsin.
+      onPointerDown={(e) => {
+        dragStartX.current = e.clientX;
+        movedRef.current = false;
+      }}
+      onPointerMove={(e) => {
+        if (Math.abs(e.clientX - dragStartX.current) > 6) movedRef.current = true;
+      }}
+      onClick={(e) => {
+        if (movedRef.current) e.preventDefault();
+      }}
     >
       <div
         ref={trackRef}

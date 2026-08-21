@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import ExperienceCardFactory from '../components/experience/ExperienceCardFactory';
 import experienceData from '../data/experience.json';
 import { useTranslation } from '../hooks/translation';
+import Button from '../components/ui/Button';
 
 const MONTHS = {
   ocak: 0, subat: 1, şubat: 1, mart: 2, nisan: 3, mayis: 4, mayıs: 4,
@@ -146,21 +147,17 @@ export default function ExperiencePage() {
             const isActive = activeType === type;
             const dotColor = TYPE_DOT_COLOR[type] || null;
             return (
-              <button
+              <Button
                 key={type}
+                variant="secondary"
                 onClick={() => setActiveType(type)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.6rem',
-                  padding: '0.6rem 0.9rem', borderRadius: '0.75rem',
-                  fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', border: 'none', outline: 'none',
-                  textAlign: 'left', width: '100%',
+                  justifyContent: 'flex-start', width: '100%',
                   background: isActive ? (dotColor ? `${dotColor}20` : 'rgba(249,115,22,0.15)') : 'rgba(255,255,255,0.04)',
                   boxShadow: isActive && dotColor ? `inset 0 0 0 1px ${dotColor}60` : 'inset 0 0 0 1px rgba(255,255,255,0.08)',
                   color: isActive ? (dotColor || '#f97316') : '#94a3b8',
-                  transition: 'all 0.15s ease',
                 }}
-                onMouseEnter={e => !isActive && (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
-                onMouseLeave={e => !isActive && (e.currentTarget.style.background = 'rgba(255,255,255,0.04)')}
               >
                 {dotColor && (
                   <span style={{
@@ -170,7 +167,7 @@ export default function ExperiencePage() {
                   }} />
                 )}
                 {t(`experience.types.${type}`)}
-              </button>
+              </Button>
             );
           })}
         </div>
