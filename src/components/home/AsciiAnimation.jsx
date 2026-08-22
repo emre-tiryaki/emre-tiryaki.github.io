@@ -3,12 +3,16 @@ import { createSpinningDonut } from './ascii/SpinningDonut';
 import { createRotatingCube } from './ascii/RotatingCube';
 import { createMatrixRain } from './ascii/MatrixRain';
 import { createSpinningGlobe } from './ascii/SpinningGlobe';
+import { createFireworks } from './ascii/Fireworks';
+import { createStarfield } from './ascii/Starfield';
 
 const ANIMATIONS = [
   { id: 'donut', create: createSpinningDonut, color: '#22c55e', label: 'Torus Donut 3D' },
   { id: 'cube', create: createRotatingCube, color: '#06b6d4', label: 'Rotating Cube 3D' },
   { id: 'matrix', create: createMatrixRain, color: '#22c55e', label: 'Matrix Digital Rain' },
   { id: 'globe', create: createSpinningGlobe, color: '#f97316', label: 'Rotating Sphere 3D' },
+  { id: 'fireworks', create: createFireworks, color: '#fb923c', label: 'ASCII Fireworks' },
+  { id: 'starfield', create: createStarfield, color: '#a78bfa', label: 'ASCII Starfield' },
 ];
 
 export default function AsciiAnimation() {
@@ -25,8 +29,8 @@ export default function AsciiAnimation() {
   }, [chosen]);
 
   return (
-    <div className="w-full max-w-xl rounded-2xl overflow-hidden"
-      style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+    <div className="w-full max-w-xl rounded-lg overflow-hidden"
+      style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '0.5rem' }}>
       {/* Terminal top bar — semi-transparent */}
       <div
         className="px-4 py-2.5 flex items-center justify-between"

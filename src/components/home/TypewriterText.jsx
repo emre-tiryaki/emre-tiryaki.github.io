@@ -1,5 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../../hooks/translation';
+
+// Bu oturumda typewriter efekti daha önce oynatıldı mı?
+// sessionStorage sayfa yenilenince TEMİZLENİR (efekt tekrar oynar),
+// SPA navigasyonunda (about -> home) KALIR (efekt oynamaz, son metin gösterilir).
+const SESSION_KEY = 'typewriterPlayed';
 
 export default function TypewriterText() {
   const { t } = useTranslation();
@@ -8,19 +13,17 @@ export default function TypewriterText() {
   const role = t('home.role');
 
   const fullLine1 = `${greeting} ${name}`;
-  const [displayed1, setDisplayed1] = useState('');
-  const [displayed2, setDisplayed2] = useState('');
-  const [phase, setPhase] = useState('line1');
+
+  // Efekt bu oturumda zaten oynadıysa baştan "done" (son metin direkt)
+  const alreadyPlayed = typeof window !== 'undefined' && sessionStorage.getItem(SESSION_KEY) === '1';
+  const [displayed1, setDisplayed1] = useState(alreadyPlayed ? fullLine1 : '');
+  const [displayed2, setDisplayed2] = useState(alreadyPlayed ? role : '');
+  const [phase, setPhase] = useState(alreadyPlayed ? 'done' : 'line1');
+  const playedRef = useRef(alreadyPlayed);
 
   useEffect(() => {
-    queueMicrotask(() => {
-      setDisplayed1('');
-      setDisplayed2('');
-      setPhase('line1');
-    });
-  }, [greeting, role]);
+    if (playedRef.current) return; // efekt bu oturumda zaten oynadı
 
-  useEffect(() => {
     if (phase === 'line1') {
       if (displayed1.length < fullLine1.length) {
         const timer = setTimeout(() => {
@@ -40,6 +43,9 @@ export default function TypewriterText() {
         }, 40);
         return () => clearTimeout(timer);
       } else {
+        // Efekt bitti -> bu oturumda oynatıldı olarak işaretle
+        sessionStorage.setItem(SESSION_KEY, '1');
+        playedRef.current = true;
         queueMicrotask(() => setPhase('done'));
       }
     }

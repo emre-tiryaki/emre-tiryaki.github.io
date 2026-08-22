@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from '../../hooks/translation';
 import { useAuth } from '../../hooks/auth';
 import Button from '../ui/Button';
+import FormField from '../ui/FormField';
 
 export default function AdminLogin() {
   const { t } = useTranslation();
@@ -26,23 +27,64 @@ export default function AdminLogin() {
   }
 
   return (
-    <div style={{ maxWidth: '24rem', margin: '0 auto' }}>
-      <div className="glass-card rounded-2xl p-6 space-y-4">
-        <h2 className="text-xl font-bold text-slate-100">{a.loginTitle}</h2>
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <input
-            type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-            placeholder={a.email} required
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-neutral-100 outline-none focus:border-orange-500/50"
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1.5rem',
+        boxSizing: 'border-box',
+      }}
+    >
+      <div
+        className="glass-card"
+        style={{
+          width: '100%',
+          maxWidth: '24rem',
+          padding: '2rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1.25rem',
+          boxSizing: 'border-box',
+        }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+          <h2 className="text-gradient-orange" style={{ fontSize: '1.4rem', fontWeight: 800, margin: 0 }}>
+            {a.loginTitle}
+          </h2>
+          <p style={{ fontSize: '0.8rem', color: '#737373', margin: 0 }}>{a.loginSubtitle}</p>
+        </div>
+
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+          <FormField
+            label={a.email}
+            name="email"
+            type="email"
+            value={email}
+            onChange={(name, v) => setEmail(v)}
+            placeholder={a.emailPlaceholder}
+            required
+            autoFocus
+            autoComplete="email"
           />
-          <input
-            type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-            placeholder={a.password} required
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-neutral-100 outline-none focus:border-orange-500/50"
+          <FormField
+            label={a.password}
+            name="password"
+            type="password"
+            value={password}
+            onChange={(name, v) => setPassword(v)}
+            placeholder={a.passwordPlaceholder}
+            required
+            autoComplete="new-password"
           />
-          {error && <p className="text-xs text-red-400">{error}</p>}
-          <Button variant="primary" type="submit" disabled={busy} className="w-full">
-            {a.loginBtn}
+
+          {error && (
+            <p style={{ fontSize: '0.78rem', color: '#fca5a5', margin: 0 }}>{error}</p>
+          )}
+
+          <Button variant="primary" type="submit" disabled={busy} style={{ width: '100%' }}>
+            {busy ? a.loggingIn : a.loginBtn}
           </Button>
         </form>
       </div>

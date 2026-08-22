@@ -108,8 +108,11 @@
     "admin": {
       "title": "Admin Panel",
       "loginTitle": "Admin Login",
+      "loginSubtitle": "Sign in with your admin account.",
       "email": "Email",
+      "emailPlaceholder": "example@email.com",
       "password": "Password",
+      "passwordPlaceholder": "••••••••",
       "loginBtn": "Log In",
       "logout": "Log Out",
       "loginError": "Login failed. Check email/password.",

@@ -83,7 +83,7 @@ export default function CommentItem({
   const initials = (comment.authorName || '?').trim().charAt(0).toUpperCase() || '?';
   // Email çözümü: admin içeride çeker (email state), public dışarıdan gelir
   const resolvedEmail = emailProp || email || null;
-  const avatarSrc = getPfp(resolvedEmail);
+  const avatarSrc = getPfp(resolvedEmail, comment.id);
 
   async function doAction(kind) {
     setWorking(true);
@@ -111,11 +111,11 @@ export default function CommentItem({
           <img
             src={avatarSrc}
             alt={comment.authorName}
-            width={32}
-            height={32}
+            width={40}
+            height={40}
             style={{
-              width: '2rem',
-              height: '2rem',
+              width: '2.5rem',
+              height: '2.5rem',
               borderRadius: '9999px',
               flexShrink: 0,
               objectFit: 'cover',
@@ -125,8 +125,8 @@ export default function CommentItem({
         ) : (
           <div
             style={{
-              width: '2rem',
-              height: '2rem',
+              width: '2.5rem',
+              height: '2.5rem',
               borderRadius: '9999px',
               flexShrink: 0,
               display: 'flex',
@@ -186,46 +186,54 @@ export default function CommentItem({
             borderTop: '1px solid rgba(255,255,255,0.06)',
           }}
         >
-          {onReply && (
-            <Button variant="link" size="sm" onClick={() => onReply(comment.id)} style={{ paddingLeft: 0 }}>
-              <FiCornerDownRight size={13} style={{ marginRight: '0.25rem' }} />
-              {t('blog.commentForm.reply')}
-            </Button>
-          )}
+          {/* Sol grup: yanıtla (confirm açıkken gizli) */}
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            {onReply && !confirming && (
+              <Button variant="link" size="sm" onClick={() => onReply(comment.id)} style={{ paddingLeft: 0 }}>
+                <FiCornerDownRight size={13} style={{ marginRight: '0.25rem' }} />
+                {t('blog.commentForm.reply')}
+              </Button>
+            )}
+          </div>
 
-          {isAdmin &&
-            (confirming ? (
-              <>
-                <span style={{ fontSize: '0.75rem', color: '#a3a3a3' }}>{t('blog.admin.sure')}</span>
-                <Button
-                  variant={confirming === 'approve' ? 'success' : confirming === 'reject' ? 'warning' : 'danger'}
-                  size="sm"
-                  onClick={() => doAction(confirming)}
-                  disabled={working}
-                >
-                  {working ? t('blog.admin.working') : labelFor(confirming)}
-                </Button>
-                <Button variant="secondary" size="sm" onClick={() => setConfirming(null)} disabled={working}>
-                  {t('blog.admin.cancel')}
-                </Button>
-              </>
-            ) : (
-              <>
-                {comment.status !== 'approved' && (
-                  <Button variant="success" size="sm" onClick={() => setConfirming('approve')} disabled={working}>
-                    {t('blog.admin.approve')}
+          {/* Sağ grup: onayla + sil (sağ altta, sil en sağda) — approve edilince reject edilemez, sadece silinebilir.
+              Confirm ("Emin misiniz?") SADECE burada, asla solda görünmez. */}
+          {isAdmin && (
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginLeft: 'auto', flexWrap: 'wrap' }}>
+              {confirming ? (
+                <>
+                  <span style={{ fontSize: '0.75rem', color: '#a3a3a3' }}>{t('blog.admin.sure')}</span>
+                  <Button
+                    variant={confirming === 'approve' ? 'success' : confirming === 'reject' ? 'warning' : 'danger'}
+                    size="sm"
+                    onClick={() => doAction(confirming)}
+                    disabled={working}
+                  >
+                    {working ? t('blog.admin.working') : labelFor(confirming)}
                   </Button>
-                )}
-                {comment.status !== 'rejected' && (
-                  <Button variant="warning" size="sm" onClick={() => setConfirming('reject')} disabled={working}>
-                    {t('blog.admin.reject')}
+                  <Button variant="secondary" size="sm" onClick={() => setConfirming(null)} disabled={working}>
+                    {t('blog.admin.cancel')}
                   </Button>
-                )}
-                <Button variant="danger" size="sm" onClick={() => setConfirming('delete')} disabled={working}>
-                  {t('blog.admin.delete')}
-                </Button>
-              </>
-            ))}
+                </>
+              ) : (
+                <>
+                  {comment.status !== 'approved' && comment.status !== 'rejected' && (
+                    <Button variant="success" size="sm" onClick={() => setConfirming('approve')} disabled={working}>
+                      {t('blog.admin.approve')}
+                    </Button>
+                  )}
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => setConfirming('delete')}
+                    disabled={working}
+                  >
+                    {t('blog.admin.delete')}
+                  </Button>
+                </>
+              )}
+            </div>
+          )}
         </div>
       )}
 

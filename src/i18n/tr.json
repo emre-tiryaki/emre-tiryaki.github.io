@@ -108,8 +108,11 @@
     "admin": {
       "title": "Yönetim Paneli",
       "loginTitle": "Admin Girişi",
+      "loginSubtitle": "Yönetici hesabınızla giriş yapın.",
       "email": "E-posta",
+      "emailPlaceholder": "ornek@eposta.com",
       "password": "Şifre",
+      "passwordPlaceholder": "••••••••",
       "loginBtn": "Giriş Yap",
       "logout": "Çıkış Yap",
       "loginError": "Giriş başarısız. E-posta/şifre kontrol et.",

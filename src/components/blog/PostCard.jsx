@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from '../../hooks/translation';
 import ImageCarousel from './ImageCarousel';
-import { TwitterIcon, VerifiedIcon } from '../ui/icons';
+import { VerifiedIcon } from '../ui/icons';
 import { formatPostDate } from '../../lib/format';
 import { pickPhoto } from '../../lib/blog/avatar';
 
@@ -52,21 +52,13 @@ export default function PostCard({ post }) {
                 <VerifiedIcon className="size-[1.05em] text-sky-500" />
               </div>
               <div className="flex items-center text-sm text-neutral-400" style={{ gap: '0.25rem' }}>
-                <span className="hover:text-neutral-200 transition-colors whitespace-nowrap">
-                  @MrTiryaki
-                </span>
                 {dateStr && (
-                  <>
-                    <span className="text-neutral-600">·</span>
-                    <span className="whitespace-nowrap">{dateStr}</span>
-                  </>
+                  <span className="whitespace-nowrap">{dateStr}</span>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Twitter/X ikonu (dekoratif — kartın tamamı linke gider) */}
-          <TwitterIcon className="text-xl text-neutral-500 hover:text-orange-400 transition-colors shrink-0" />
         </div>
 
         {/* ── Body: başlık + özet ── */}

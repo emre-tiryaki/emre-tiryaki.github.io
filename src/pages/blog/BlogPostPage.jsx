@@ -6,7 +6,7 @@ import { useTranslation } from '../../hooks/translation';
 import CommentList from '../../components/blog/CommentList';
 import CommentForm from '../../components/blog/CommentForm';
 import ImageCarousel from '../../components/blog/ImageCarousel';
-import { TwitterIcon, VerifiedIcon } from '../../components/ui/icons';
+import { VerifiedIcon } from '../../components/ui/icons';
 import { formatPostDate } from '../../lib/format';
 import { pickPhoto } from '../../lib/blog/avatar';
 import Button from '../../components/ui/Button';
@@ -76,26 +76,12 @@ export default function BlogPostPage() {
                       <VerifiedIcon className="size-[1.05em] text-sky-500" />
                     </div>
                     <div className="flex items-center gap-1 text-sm text-neutral-400">
-                      <span className="hover:text-neutral-200 transition-colors whitespace-nowrap">
-                        @MrTiryaki
-                      </span>
                       {dateStr && (
-                        <>
-                          <span className="text-neutral-600">·</span>
-                          <span className="whitespace-nowrap">{dateStr}</span>
-                        </>
+                        <span className="whitespace-nowrap">{dateStr}</span>
                       )}
                     </div>
                   </div>
                 </div>
-                <a
-                  href="https://x.com/MrTiryaki"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="shrink-0"
-                >
-                  <TwitterIcon className="text-xl text-neutral-500 hover:text-orange-400 transition-colors" />
-                </a>
               </div>
 
               {/* ── Başlık: tweet başlığı gibi büyük ── */}

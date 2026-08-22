@@ -1,7 +1,7 @@
 // Profil fotoğrafı seçici. Hem post (Emre imzalı) hem yorum avatarlarında kullanılır.
 //
-// getPfp(email) kuralları:
-//   • email yoksa                        → comment_pfps'ten rastgele (her seferinde değişir, kural yok)
+// getPfp(email, id) kuralları:
+//   • email yoksa                        → id ile hash'lenir → comment_pfps'ten (deterministik, re-render'da DEĞİŞMEZ)
 //   • email === OWNER_EMAIL             → personal_photos'tan (Emre'nin kendi fotoğrafları)
 //   • email var ama Emre değilse         → mail hash'lenir → comment_pfps'ten ilgili fotoğraf (deterministik)
 // pickPhoto(id)                         → post kartlarında Emre imzalı avatar (personal_photos, deterministik)
@@ -37,11 +37,12 @@ export function pickPhoto(id = '') {
   return personalPhotos[hashStr(id) % personalPhotos.length];
 }
 
-export function getPfp(email) {
-  // Mail yok → comment_pfps'ten rastgele (her render değişebilir)
+// id: yorumun stabil kimliği (comment.id). Mail yoksa bile avatar sabit kalsın diye kullanılır.
+export function getPfp(email, id = '') {
+  // Mail yok → id ile hash'le (deterministik: aynı yorum = aynı avatar, re-render'da değişmez)
   if (!email) {
     if (!commentPfps.length) return null;
-    return commentPfps[Math.floor(Math.random() * commentPfps.length)];
+    return commentPfps[hashStr('noid:' + id) % commentPfps.length];
   }
   // Emre'nin kendi maili → kendi fotoğraflarından (personal_photos)
   if (email.trim().toLowerCase() === OWNER_EMAIL) {
