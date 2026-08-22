@@ -132,6 +132,17 @@
       "draft": "Taslak",
       "emptyList": "Burada henüz bir şey yok.",
       "loading": "Yükleniyor…",
+      "statPosts": "Toplam Yazı",
+      "statPublished": "Yayında",
+      "statDrafts": "Taslak",
+      "statPending": "Bekleyen",
+      "sureShort": "Emin misin?",
+      "pendingLower": "bekliyor",
+      "filterAll": "Tümü",
+      "filterPending": "Bekleyen",
+      "filterApproved": "Onaylı",
+      "filterRejected": "Reddedilen",
+      "searchComments": "Yorumlarda ara…",
       "composer": {
         "titleTr": "Başlık (TR)",
         "titleEn": "Başlık (EN)",
@@ -152,7 +163,14 @@
       "commentAuthor": "Yorumcu",
       "commentEmail": "Mail",
       "noEmail": "—",
-      "viewPost": "Yazıyı Gör"
+      "viewPost": "Yazıyı Gör",
+      "cancel": "İptal",
+      "working": "İşleniyor...",
+      "sure": "Emin misiniz?",
+      "confirmApprove": "Yorumu onayla",
+      "confirmReject": "Yorumu reddet",
+      "confirmDelete": "Yorumu sil",
+      "confirmBody": "Bu işlemi onaylıyor musun?"
     }
   }
 }

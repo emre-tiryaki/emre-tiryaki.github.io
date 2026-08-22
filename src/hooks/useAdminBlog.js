@@ -80,6 +80,28 @@ export function useAdminBlog() {
     return deleteDoc(doc(db, 'comments', id));
   }, []);
 
+  // Admin panelinden bir yoruma yanıt yazmak için (admin imzalı, doğrudan onaylı)
+  const addComment = useCallback(async (data) => {
+    if (!db) return null;
+    const ref = await addDoc(collection(db, 'comments'), {
+      authorName: data.authorName,
+      authorEmail: data.authorEmail || null,
+      content: data.content,
+      postId: data.postId,
+      parentId: data.parentId || null,
+      status: data.status || 'pending',
+      createdAt: serverTimestamp(),
+    });
+    // Admin yanıtının maili de gizli koleksiyonda olsun ki panelde görünsün
+    if (data.authorEmail) {
+      await addDoc(collection(db, 'commentSecrets'), {
+        email: data.authorEmail,
+        refId: ref.id,
+      });
+    }
+    return ref;
+  }, []);
+
   return {
     posts,
     comments,
@@ -90,6 +112,7 @@ export function useAdminBlog() {
     publishPost,
     approveComment,
     deleteComment,
+    addComment,
   };
 }
 

@@ -132,6 +132,17 @@
       "draft": "Draft",
       "emptyList": "Nothing here yet.",
       "loading": "Loading…",
+      "statPosts": "Total Posts",
+      "statPublished": "Published",
+      "statDrafts": "Drafts",
+      "statPending": "Pending",
+      "sureShort": "Sure?",
+      "pendingLower": "pending",
+      "filterAll": "All",
+      "filterPending": "Pending",
+      "filterApproved": "Approved",
+      "filterRejected": "Rejected",
+      "searchComments": "Search comments…",
       "composer": {
         "titleTr": "Title (TR)",
         "titleEn": "Title (EN)",
@@ -152,7 +163,14 @@
       "commentAuthor": "Commenter",
       "commentEmail": "Email",
       "noEmail": "—",
-      "viewPost": "View Post"
+      "viewPost": "View Post",
+      "cancel": "Cancel",
+      "working": "Working...",
+      "sure": "Are you sure?",
+      "confirmApprove": "Approve comment",
+      "confirmReject": "Reject comment",
+      "confirmDelete": "Delete comment",
+      "confirmBody": "Are you sure you want to do this?"
     }
   }
 }

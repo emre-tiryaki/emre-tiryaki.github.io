@@ -58,11 +58,13 @@ export async function submitComment({
 }) {
   if (!db) throw new Error('Firebase yapılandırılmamış');
 
-  // 1) Ana yorum doc'u (mail HİÇ yazılmaz — gizlilik)
+  // 1) Ana yorum doc'u — mail gizli alan olarak da yazılır (sadece avatar hash'i için;
+  //    arayüzde GÖSTERİLMEZ; CommentItem showEmail=false olduğundan ekrana çıkmaz)
   const ref = await addDoc(collection(db, 'comments'), {
     postId,
     parentId: parentId || null,
     authorName: authorName.trim(),
+    authorEmail: email && email.trim() ? email.trim().toLowerCase() : null,
     content: content.trim(),
     status: 'pending',
     createdAt: serverTimestamp(),
