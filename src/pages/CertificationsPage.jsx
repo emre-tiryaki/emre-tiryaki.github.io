@@ -1,20 +1,8 @@
 import { useMemo } from 'react';
+import PageLayout from '../components/layout/PageLayout';
 import CertificationCard from '../components/certifications/CertificationCard';
 import certificationsData from '../data/certifications.json';
 import { useTranslation } from '../hooks/translation';
-
-const PAGE_STYLE = {
-  width: '100%',
-  maxWidth: '72rem',
-  margin: '0 auto',
-  paddingLeft: '1.5rem',
-  paddingRight: '1.5rem',
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-  overflow: 'hidden',
-  boxSizing: 'border-box',
-};
 
 export default function CertificationsPage() {
   const { t, tData } = useTranslation();
@@ -30,13 +18,12 @@ export default function CertificationsPage() {
   }, []);
 
   return (
-    <div style={PAGE_STYLE}>
-      {/* Fixed header */}
-      <div style={{ textAlign: 'center', marginBottom: '1.5rem', flexShrink: 0 }}>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100">{t('certifications.title')}</h1>
-        <p className="text-base text-neutral-400 mt-1">{t('certifications.subtitle')}</p>
-      </div>
-
+    <PageLayout
+      title={t('certifications.title')}
+      subtitle={t('certifications.subtitle')}
+      maxWidth="72rem"
+      fullHeight
+    >
       {/* Scrollable content area */}
       <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, paddingBottom: '1rem' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
@@ -64,6 +51,6 @@ export default function CertificationsPage() {
           ))}
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

@@ -16,13 +16,13 @@ import BlogPostPage from './pages/blog/BlogPostPage';
 import AdminPage from './pages/blog/AdminPage';
 
 // These pages get full-width stretch (no horizontal centering constraint)
-const FULL_WIDTH_PAGES = ['/experience', '/projects', '/blog'];
+const FULL_WIDTH_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications', '/blog', '/admin'];
 
 // Pages with a visible header title — content starts from top, not vertically centered
-const TOP_ALIGNED_PAGES = ['/about', '/blog', '/skills', '/education', '/experience', '/projects', '/certifications'];
+const TOP_ALIGNED_PAGES = ['/about', '/blog', '/skills', '/education', '/experience', '/projects', '/certifications', '/admin'];
 
 // Pages that need vertical scrolling
-const SCROLLABLE_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications', '/blog'];
+const SCROLLABLE_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications', '/blog', '/admin'];
 
 
 function AnimatedRoutes() {

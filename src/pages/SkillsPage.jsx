@@ -1,3 +1,4 @@
+import PageLayout from '../components/layout/PageLayout';
 import SkillGroup from '../components/skills/SkillGroup';
 import skillsData from '../data/skills.json';
 import { useTranslation } from '../hooks/translation';
@@ -6,25 +7,12 @@ export default function SkillsPage() {
   const { t } = useTranslation();
 
   return (
-    <div style={{
-      width: '100%',
-      maxWidth: '90rem',
-      margin: '0 auto',
-      paddingLeft: '2rem',
-      paddingRight: '2rem',
-      display: 'flex',
-      flexDirection: 'column',
-      /* height:100% fills the space left inside main after paddingTop/Bottom */
-      height: '100%',
-      overflow: 'hidden',
-      boxSizing: 'border-box',
-    }}>
-      {/* Page title — fixed, always just below navbar */}
-      <div style={{ textAlign: 'center', paddingTop: '0.5rem', paddingBottom: '1.25rem', flexShrink: 0 }}>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100">{t('skills.title')}</h1>
-        <p className="text-base text-neutral-400 mt-1">{t('skills.subtitle')}</p>
-      </div>
-
+    <PageLayout
+      title={t('skills.title')}
+      subtitle={t('skills.subtitle')}
+      maxWidth="90rem"
+      fullHeight
+    >
       {/* Masonry container — flex:1 makes it fill EVERY pixel from title bottom to screen bottom */}
       <div style={{
         flex: 1,
@@ -52,6 +40,6 @@ export default function SkillsPage() {
           ))}
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

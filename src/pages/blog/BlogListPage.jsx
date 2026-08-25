@@ -1,30 +1,19 @@
+import PageLayout from '../../components/layout/PageLayout';
 import { usePublishedPosts } from '../../hooks/usePosts';
 import { useTranslation } from '../../hooks/translation';
 import PostCard from '../../components/blog/PostCard';
 import { isFirebaseConfigured } from '../../firebase/config';
-
-const PAGE_STYLE = {
-  width: '100%',
-  maxWidth: '52rem',
-  margin: '0 auto',
-  paddingLeft: '1.5rem',
-  paddingRight: '1.5rem',
-  paddingTop: '2.5rem',
-  paddingBottom: '3rem',
-};
 
 export default function BlogListPage() {
   const { t } = useTranslation();
   const { posts, loading, error } = usePublishedPosts();
 
   return (
-    <div style={PAGE_STYLE}>
-      {/* Başlık */}
-      <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100">{t('blog.title')}</h1>
-        <p className="text-base text-neutral-400 mt-2">{t('blog.subtitle')}</p>
-      </div>
-
+    <PageLayout
+      title={t('blog.title')}
+      subtitle={t('blog.subtitle')}
+      maxWidth="52rem"
+    >
       {!isFirebaseConfigured() && (
         <p className="text-sm text-amber-400 text-center mb-4">
           ⚠ Firebase yapılandırılmamış — src/firebase/config.js dosyasını doldurun.
@@ -41,6 +30,6 @@ export default function BlogListPage() {
           <PostCard key={p.id} post={p} />
         ))}
       </div>
-    </div>
+    </PageLayout>
   );
 }

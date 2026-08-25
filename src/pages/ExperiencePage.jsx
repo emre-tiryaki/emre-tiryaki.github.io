@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import PageLayout from '../components/layout/PageLayout';
 import ExperienceCardFactory from '../components/experience/ExperienceCardFactory';
 import experienceData from '../data/experience.json';
 import { useTranslation } from '../hooks/translation';
@@ -57,22 +58,12 @@ export default function ExperiencePage() {
   );
 
   return (
-    /* Full viewport height column — no outer scroll */
-    <div style={{
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
-      padding: '1rem 2rem 0',
-      boxSizing: 'border-box',
-    }}>
-      {/* Page Header — fixed height */}
-      <div style={{ textAlign: 'center', marginBottom: '1.25rem', flexShrink: 0 }}>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100">{t('experience.title')}</h1>
-        <p className="text-base text-neutral-400 mt-1">{t('experience.subtitle')}</p>
-      </div>
-
+    <PageLayout
+      title={t('experience.title')}
+      subtitle={t('experience.subtitle')}
+      maxWidth="100%"
+      fullHeight
+    >
       {/* Body: fills remaining height, no overflow */}
       <div style={{
         flex: 1,
@@ -172,6 +163,6 @@ export default function ExperiencePage() {
           })}
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }
