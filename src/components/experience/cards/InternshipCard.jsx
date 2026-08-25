@@ -1,3 +1,4 @@
+import { FiCalendar, FiMapPin } from 'react-icons/fi';
 import { useTranslation } from '../../../hooks/translation';
 
 export default function InternshipCard({ company, title, location, startDate, endDate }) {
@@ -24,8 +25,16 @@ export default function InternshipCard({ company, title, location, startDate, en
         )}
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] font-mono text-neutral-500 border-t border-neutral-800/60 pt-2">
-        <span>📅 {tData(startDate)} – {endText}</span>
-        {location && <span>📍 {tData(location)}</span>}
+        <span className="inline-flex items-center gap-1">
+          <FiCalendar size={11} className="text-neutral-400" />
+          {tData(startDate)} – {endText}
+        </span>
+        {location && (
+          <span className="inline-flex items-center gap-1">
+            <FiMapPin size={11} className="text-neutral-400" />
+            {tData(location)}
+          </span>
+        )}
       </div>
     </div>
   );

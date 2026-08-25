@@ -1,170 +1,345 @@
 [
   {
-    "id": "javascript-typescript",
-    "category": { "tr": "JavaScript / TypeScript", "en": "JavaScript / TypeScript" },
+    "id": "javascript",
+    "category": {
+      "tr": "JavaScript",
+      "en": "JavaScript"
+    },
     "categoryIcon": "javascript/javascript-original",
+    "categoryComment": {
+      "tr": "Web projeleri yaparken çoğunlukla kullandığım dil.",
+      "en": "The primary language I use most often when building web projects."
+    },
     "span": "large",
     "items": [
       {
         "name": "React",
         "icon": "react/react-original",
-        "comment": { "tr": "Frontend projelerimde ana tercihim. Component mimarisi ve hook'larla hızlı, sürdürülebilir UI geliştirme.", "en": "My main choice for frontend projects. Fast, maintainable UI development with component architecture and hooks." }
+        "comment": {
+          "tr": "Frontend projelerimde ilk tercihim. Frontend'i kolayca ve temiz şekilde yazabilmemi sağlıyor.",
+          "en": "My first choice for frontend projects. It allows me to build clean and maintainable user interfaces with ease."
+        }
       },
       {
         "name": "Node.js",
         "icon": "nodejs/nodejs-original",
-        "comment": { "tr": "JavaScript ekosisteminin gücünü backend'e taşımak için. Event-loop modeli ile yüksek I/O performansı.", "en": "Bringing JavaScript ecosystem power to the backend. High I/O performance with the event-loop model." }
+        "comment": {
+          "tr": "JavaScript'i backend tarafına taşımak için kullandığım çalışma ortamı.",
+          "en": "The runtime environment I use to bring JavaScript to the backend."
+        }
       },
       {
         "name": "Express.js",
         "icon": "express/express-original",
-        "comment": { "tr": "Hızlı prototipleme ve REST API geliştirme için minimal ama güçlü bir tercih.", "en": "A minimal but powerful choice for rapid prototyping and REST API development." }
+        "comment": {
+          "tr": "Hızlıca REST API'ler tasarlamak için projelerimde sıklıkla başvurduğum tercihim.",
+          "en": "My go-to choice frequently used in my projects for rapidly designing REST APIs."
+        }
+      },
+      {
+        "name": "Fastify",
+        "icon": "fastify/fastify-plain",
+        "comment": {
+          "tr": "Express'ten daha hızlı ve daha minimal olduğu için profesyonel projelerde kullandığım favori REST framework'üm.",
+          "en": "My favorite REST framework for professional projects as it is faster and more minimal than Express."
+        }
       },
       {
         "name": "NestJS",
         "icon": "nestjs/nestjs-original",
-        "comment": { "tr": "Büyük ölçekli projelerde modüler ve katmanlı mimari sağlıyor. TypeScript ile birlikte çok güçlü.", "en": "Provides modular and layered architecture for large-scale projects. Very powerful with TypeScript." }
+        "comment": {
+          "tr": "Büyük ölçekli projelerde modüler ve katmanlı mimari sağlamasından dolayı tercih ederim.",
+          "en": "My choice for large-scale projects because it provides a structured, modular, and layered architecture."
+        }
       },
       {
         "name": "TypeScript",
         "icon": "typescript/typescript-original",
-        "comment": { "tr": "JavaScript projelerinde tip güvenliği ve daha iyi IDE desteği için vazgeçilmez.", "en": "Indispensable for type safety and better IDE support in JavaScript projects." }
+        "comment": {
+          "tr": "JavaScript projelerinde tip güvenliği ve daha iyi IDE desteği için vazgeçilmezimdir.",
+          "en": "Indispensable in JavaScript projects for type safety and superior IDE support."
+        }
       }
     ]
   },
   {
     "id": "python",
-    "category": { "tr": "Python", "en": "Python" },
+    "category": {
+      "tr": "Python",
+      "en": "Python"
+    },
     "categoryIcon": "python/python-original",
+    "categoryComment": {
+      "tr": "Veri işleme ve yapay zeka/ML geliştirmek için kullandığım dil.",
+      "en": "The language I use for data processing and building AI/ML models."
+    },
     "span": "medium",
     "items": [
       {
         "name": "FastAPI",
         "icon": "fastapi/fastapi-original",
-        "comment": { "tr": "Async ve yüksek performanslı API'ler için en sevdiğim Python framework'ü. Otomatik dokümantasyon harika.", "en": "My favorite Python framework for async, high-performance APIs. Automatic documentation is great." }
+        "comment": {
+          "tr": "Python ile backend yazmam gerektiği zaman seçtiğim ilk framework'tür.",
+          "en": "The first framework I pick whenever I need to build a backend in Python."
+        }
       },
       {
         "name": "NumPy",
         "icon": "numpy/numpy-original",
-        "comment": { "tr": "Bilimsel hesaplama ve veri işleme için temel araç. ML projelerinde sürekli yanımda.", "en": "The fundamental tool for scientific computing and data processing. Always with me in ML projects." }
-      }
-    ]
-  },
-  {
-    "id": "java",
-    "category": { "tr": "Java", "en": "Java" },
-    "categoryIcon": "java/java-original",
-    "span": "small",
-    "items": [
-      {
-        "name": "Spring Boot",
-        "icon": "spring/spring-original",
-        "comment": { "tr": "Enterprise düzeyde, production-ready uygulama geliştirme için endüstri standardı.", "en": "Industry standard for enterprise-level, production-ready application development." }
+        "comment": {
+          "tr": "Veri işleme için kullandığım kütüphane.",
+          "en": "The essential library I use for data processing and numerical computations."
+        }
       }
     ]
   },
   {
     "id": "rust",
-    "category": { "tr": "Rust", "en": "Rust" },
+    "category": {
+      "tr": "Rust",
+      "en": "Rust"
+    },
     "categoryIcon": "rust/rust-original",
+    "categoryComment": {
+      "tr": "Bellek güvenliği sağlaması ve kompozisyon tabanlı olması sayesinde scriptlerde ve bazı backend servislerinde çokça kullandığım dil.",
+      "en": "The language I frequently use for scripts and select backend services thanks to its memory safety and composition-based design."
+    },
     "span": "small",
     "items": [
       {
         "name": "Axum",
         "icon": "rust/rust-original",
-        "comment": { "tr": "Rust'ın bellek güvenliği garantileriyle son derece hızlı web servisleri yazmak için.", "en": "For writing extremely fast web services with Rust's memory safety guarantees." }
+        "comment": {
+          "tr": "Rust'ın bellek güvenliği garantileriyle son derece hızlı web servisleri yazmak için ana seçimim.",
+          "en": "My main choice for writing blazing-fast web services backed by Rust's memory safety guarantees."
+        }
+      },
+      {
+        "name": "Tokio",
+        "icon": "custom:tokio",
+        "comment": {
+          "tr": "Rust dilini asenkron ve eşzamanlı olarak kullanmamı sağladığı için Rust projelerimde sıklıkla kullanıyorum.",
+          "en": "Heavily used across my Rust projects to enable asynchronous execution and concurrency."
+        }
       }
     ]
   },
   {
     "id": "go",
-    "category": { "tr": "Go", "en": "Go" },
+    "category": {
+      "tr": "Go",
+      "en": "Go"
+    },
     "categoryIcon": "go/go-original-wordmark",
+    "categoryComment": {
+      "tr": "Yüksek eşzamanlılık, sade sözdizimi ve mikroservis mimarileriyle yüksek verimli backend geliştirmek için kullandığım dil.",
+      "en": "The language I use for high-efficiency backend development with strong concurrency, clean syntax, and microservice architectures."
+    },
     "span": "small",
     "items": [
       {
         "name": "Gin",
         "icon": "go/go-original-wordmark",
-        "comment": { "tr": "Go'nun sadeliğini web geliştirmeye taşıyan, performanslı ve minimal framework.", "en": "A performant and minimal framework that brings Go's simplicity to web development." }
+        "comment": {
+          "tr": "Go'nun sadeliğini web geliştirmeye taşıyan, performanslı ve minimal framework.",
+          "en": "A performant and minimal framework that brings the simplicity of Go to web development."
+        }
+      }
+    ]
+  },
+  {
+    "id": "api-protocols",
+    "category": {
+      "tr": "API & Protokoller",
+      "en": "APIs & Protocols"
+    },
+    "categoryIcon": "custom:network",
+    "categoryComment": {
+      "tr": "Servisler ve istemciler arasında modern veri transferi, sorgulama ve çift yönlü iletişim için kullandığım protokoller.",
+      "en": "Protocols and query standards I use for modern data transfer, querying, and bidirectional communication."
+    },
+    "span": "small",
+    "items": [
+      {
+        "name": "GraphQL",
+        "icon": "graphql/graphql-plain",
+        "comment": {
+          "tr": "REST API'lere alternatif olarak, istemcinin tam olarak ihtiyaç duyduğu veriyi esnek ve tip güvenli şekilde sorgulayabilmesi için kullandığım API sorgu dili.",
+          "en": "API query language I use as an alternative to REST, allowing clients to request exactly the data they need in a flexible and type-safe manner."
+        }
+      },
+      {
+        "name": "WebSockets",
+        "icon": "custom:websocket",
+        "comment": {
+          "tr": "İstemci ve sunucu arasında çift yönlü, düşük gecikmeli ve gerçek zamanlı (real-time) veri akışları kurmak için tercihim.",
+          "en": "My choice for establishing bidirectional, low-latency, and real-time data streaming between client and server."
+        }
       }
     ]
   },
   {
     "id": "databases",
-    "category": { "tr": "Veritabanları", "en": "Databases" },
-    "categoryIcon": "postgresql/postgresql-original",
+    "category": {
+      "tr": "Veritabanları",
+      "en": "Databases"
+    },
+    "categoryIcon": "custom:database",
+    "categoryComment": {
+      "tr": "Verilerimi modellemek ve saklamak için kullandığım araçlar.",
+      "en": "The tools I use for modeling, managing, and persisting data."
+    },
     "span": "large",
     "items": [
       {
         "name": "PostgreSQL",
         "icon": "postgresql/postgresql-original",
-        "comment": { "tr": "Ana ilişkisel veritabanı tercihim. Güçlü sorgu optimizasyonu ve JSONB desteği.", "en": "My primary relational database. Powerful query optimization and JSONB support." }
+        "comment": {
+          "tr": "İlişkisel veritabanı kullanacağım zaman ilk seçimim oluyor.",
+          "en": "My primary choice whenever I need a relational database."
+        }
       },
       {
         "name": "MongoDB",
         "icon": "mongodb/mongodb-original",
-        "comment": { "tr": "Esnek şema gerektiren ve hızlı iterasyon istenen projelerde.", "en": "For projects requiring flexible schemas and fast iteration." }
+        "comment": {
+          "tr": "Esnek şema gerektiren ve hızlı iterasyon istenen projelerde çokça kullanıyorum.",
+          "en": "Frequently used in projects that require flexible schemas and rapid iteration."
+        }
       },
       {
         "name": "Redis",
         "icon": "redis/redis-original",
-        "comment": { "tr": "Cache, session yönetimi ve pub/sub mekanizmaları için. Performans kritik noktalarda şart.", "en": "For caching, session management, and pub/sub mechanisms. Essential at performance-critical points." }
+        "comment": {
+          "tr": "Cache, session yönetimi ve pub/sub mekanizmaları için; performansın kritik olduğu noktalarda ilk başvurduğum teknolojidir.",
+          "en": "Used for caching, session management, and pub/sub mechanisms. My go-to solution for performance-critical bottlenecks."
+        }
       },
       {
         "name": "MySQL",
         "icon": "mysql/mysql-original",
-        "comment": { "tr": "Klasik ve güvenilir. Geniş ekosistemiyle kurumsal projelerde yaygın.", "en": "Classic and reliable. Widely used in enterprise projects with a large ecosystem." }
+        "comment": {
+          "tr": "Klasik ve güvenilir yapısı, ilk öğrendiğim veritabanı sistemi olması ve geniş ekosistemiyle güvenilir seçimimdir.",
+          "en": "A reliable choice with a vast ecosystem, being the first database system I learned and proven for its stability."
+        }
       },
       {
-        "name": "SQL Server",
-        "icon": "microsoftsqlserver/microsoftsqlserver-plain",
-        "comment": { "tr": "Kurumsal ortamlarda Microsoft stack projelerinde deneyim.", "en": "Experience in Microsoft stack projects in enterprise environments." }
+        "name": "Firebase",
+        "icon": "firebase/firebase-plain",
+        "comment": {
+          "tr": "Hızlı prototipleme ve BaaS çözümleri için kullanıyorum. Hatta bu sitenin blog kısmının backend'ini de Firebase ile yönetiyorum.",
+          "en": "I use it for rapid prototyping and BaaS solutions. In fact, I manage the backend of this site's blog section using Firebase."
+        }
       }
     ]
   },
   {
     "id": "devops-tools",
-    "category": { "tr": "DevOps & Araçlar", "en": "DevOps & Tools" },
+    "category": {
+      "tr": "DevOps & Araçlar",
+      "en": "DevOps & Tools"
+    },
     "categoryIcon": "docker/docker-original",
+    "categoryComment": {
+      "tr": "Konteynerleştirme, CI/CD süreçleri, versiyon kontrolü ve sürdürülebilir üretim ortamı yapılandırabilmek için kullandıklarım.",
+      "en": "Tools I use for containerization, CI/CD pipelines, version control, and configuring sustainable production environments."
+    },
     "span": "medium",
     "items": [
       {
         "name": "Docker",
         "icon": "docker/docker-original",
-        "comment": { "tr": "Konteynerleştirme olmadan proje teslim etmem. Tutarlı geliştirme ve üretim ortamı için şart.", "en": "I don't ship a project without containerization. Essential for consistent development and production environments." }
+        "comment": {
+          "tr": "Tüm projelerimi Dockerize ederek çalıştırırım. Farklı ortamlarda tutarlı çalışması ve yerel sisteme gereksiz servisler kurmak yerine imaj çalıştırmayı sağladığı için vazgeçilmezimdir.",
+          "en": "I run all my projects containerized with Docker. I love it because it ensures consistent execution across machines without cluttering my local system."
+        }
       },
       {
         "name": "Git",
         "icon": "git/git-original",
-        "comment": { "tr": "Versiyon kontrolünün vazgeçilmezi. Her projede, her gün.", "en": "The indispensable tool for version control. Every project, every day." }
+        "comment": {
+          "tr": "Versiyon kontrolünün vazgeçilmezi. Her projede, her gün kullanırım. Yazmama gerek var mıydı?",
+          "en": "The cornerstone of version control. I use it every single day in every project. Did I even need to mention it?"
+        }
       },
       {
         "name": "Linux",
         "icon": "linux/linux-original",
-        "comment": { "tr": "Ana geliştirme ve sunucu ortamım. Terminal'de yaşıyorum.", "en": "My main development and server environment. I live in the terminal." }
+        "comment": {
+          "tr": "Ana işletim sistemim olarak kullanıyorum ve terminalde yaşıyorum. I use Arch btw.",
+          "en": "My primary operating system and daily driver. I live in the terminal. I use Arch btw."
+        }
       },
       {
         "name": "GitHub Actions",
         "icon": "githubactions/githubactions-original",
-        "comment": { "tr": "CI/CD pipeline'ları için. Otomatik test ve deploy süreçleri.", "en": "For CI/CD pipelines. Automated testing and deployment processes." }
+        "comment": {
+          "tr": "Otomatik test ve deploy süreçleri için kullanıyorum. Bu siteyi de GitHub Actions ile yayınlıyorum :)",
+          "en": "Used for automated testing and deployment pipelines. In fact, this site is deployed via GitHub Actions :)"
+        }
+      },
+      {
+        "name": "AWS",
+        "icon": "amazonwebservices/amazonwebservices-plain-wordmark",
+        "comment": {
+          "tr": "Bulut altyapılarını öğrenme sürecindeyim. Şu ana kadar EC2 ile sunucu yapılandırma ve yönetimi üzerinde deneyim kazandım.",
+          "en": "Currently exploring cloud infrastructure. So far, I have gained hands-on experience with EC2 for server configuration and management."
+        }
+      },
+      {
+        "name": "Shell Scripting",
+        "icon": "bash/bash-original",
+        "comment": {
+          "tr": "Linux ortamında tekrarlayan işleri otomatize etmek, sistem yapılandırmalarını yönetmek ve iş akışlarını hızlandırmak için shell scriptleri yazar ve kullanırım.",
+          "en": "I write and use shell scripts to automate repetitive tasks, manage system configurations, and accelerate workflows in Linux."
+        }
+      },
+      {
+        "name": "RabbitMQ",
+        "icon": "rabbitmq/rabbitmq-original",
+        "comment": {
+          "tr": "Mikroservisler arası asenkron mesajlaşma, kuyruk yönetimi ve olay güdümlü mimariler kurmak için kullandığım mesaj kuyruğu sistemi.",
+          "en": "Message broker system I use for asynchronous inter-service communication, queue management, and building event-driven architectures."
+        }
+      },
+      {
+        "name": "Nginx",
+        "icon": "nginx/nginx-original",
+        "comment": {
+          "tr": "Sunucu ortamlarında reverse proxy, SSL sertifika yönetimi, yük dengeleme ve statik dosya sunumu için kullandığım web sunucusu.",
+          "en": "Web server I use for reverse proxying, SSL certificate management, load balancing, and serving static files in production environments."
+        }
       }
     ]
   },
   {
     "id": "ai-ml",
-    "category": { "tr": "Yapay Zeka / ML", "en": "AI / Machine Learning" },
-    "categoryIcon": null,
+    "category": {
+      "tr": "Yapay Zeka / ML",
+      "en": "AI / ML"
+    },
+    "categoryIcon": "custom:ai",
+    "categoryComment": {
+      "tr": "Kullandığım yapay zeka araçları ve makine öğrenmesi algoritmaları.",
+      "en": "AI tools and machine learning algorithms I utilize."
+    },
     "span": "medium",
     "items": [
       {
         "name": "Ollama",
         "icon": "custom:ollama",
-        "comment": { "tr": "Yerel LLM çalıştırma ve entegrasyon. API bağımlılığı olmadan AI geliştirme.", "en": "Local LLM execution and integration. AI development without API dependency." }
+        "comment": {
+          "tr": "Bilgisayarımda yapay zeka modelleri çalıştırmak için kullanıyorum. Projelerim için local modeller çok işime yarıyor.",
+          "en": "Used to run AI models locally on my machine. Local models prove extremely handy for my projects."
+        }
       },
       {
-        "name": "YOLO",
-        "icon": "python/python-original",
-        "comment": { "tr": "Gerçek zamanlı nesne tespiti. OKUR projesinde sınav kağıdı analizi için kullandım.", "en": "Real-time object detection. Used in the OKUR project for exam paper analysis." }
+        "name": "AI Agents",
+        "icon": "custom:hermes",
+        "comment": {
+          "tr": "Geliştirme süreçlerimi hızlandırmak ve otonom iş akışları kurmak için AI agent'lar kullanıyorum. Ağırlıklı olarak Hermes Agent tercih ediyorum.",
+          "en": "Utilizing AI agents to accelerate development workflows and automate tasks, primarily relying on Hermes Agent."
+        }
       }
     ]
   }

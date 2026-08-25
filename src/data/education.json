@@ -3,15 +3,63 @@
     "id": "inonu",
     "school": { "tr": "İnönü Üniversitesi", "en": "İnönü University" },
     "logo": "inonu_university_logo.png",
-    "degree": { "tr": "Lisans", "en": "Bachelor's Degree" },
+    "degree": { "tr": "Lisans", "en": "Bachelor of Science (B.S.)" },
     "field": { "tr": "Yazılım Mühendisliği", "en": "Software Engineering" },
-    "startDate": { "tr": "Ekim 2023", "en": "October 2023" },
-    "endDate": { "tr": "Haziran 2027", "en": "June 2027" },
-    "gpa": "3.17 / 4.0",
-    "activities": [
+    "status": { "tr": "4. Sınıf (Son Sınıf)", "en": "4th Year (Senior)" },
+    "startDate": { "tr": "Ekim 2023", "en": "Oct 2023" },
+    "endDate": { "tr": "Haziran 2027 (Beklenen)", "en": "June 2027" },
+    "gpa": "3.09 / 4.00",
+    "description": {
+      "tr": "Yazılım Mühendisliği lisans eğitimim boyunca algoritmik problem çözme, veri yapıları, nesneye yönelik mimari, ağ ve işletim sistemleri, veritabanı yönetimi ve görüntü işleme alanlarında güçlü teorik ve pratik mühendislik temeli kazandım.",
+      "en": "Throughout my Software Engineering education, I have developed strong foundations in algorithmic problem solving, data structures, OOP, network and operating systems, database management, and computer vision."
+    },
+    "specializations": [
+      { "tr": "Dağıtık Sistemler", "en": "Distributed Systems" },
+      { "tr": "Ağ & Sistem Mimarisi", "en": "Network & Systems Architecture" },
+      { "tr": "Bilgisayarlı Görü (CV)", "en": "Computer Vision" },
+      { "tr": "Veri Yapıları & Algoritmalar", "en": "Data Structures & Algorithms" },
+      { "tr": "Veritabanı Yönetimi", "en": "Database Engineering" }
+    ],
+    "courseCategories": [
       {
-        "name": "Google Developer Students Club",
-        "role": { "tr": "Üye", "en": "Member" }
+        "id": "core-cs",
+        "title": { "tr": "Algoritma & Programlama", "en": "Algorithms & Programming" },
+        "accent": "#f97316",
+        "courses": [
+          { "name": { "tr": "Veri Yapıları", "en": "Data Structures" }, "tag": "Trees, Graphs, Hash" },
+          { "name": { "tr": "Algoritma Analizi", "en": "Algorithm Analysis" }, "tag": "Big-O, Dynamic Prog." },
+          { "name": { "tr": "Nesneye Yönelik Programlama", "en": "Object-Oriented Programming" }, "tag": "Design Patterns, OOP" }
+        ]
+      },
+      {
+        "id": "systems-network",
+        "title": { "tr": "Sistemler & Ağlar", "en": "Systems & Networks" },
+        "accent": "#38bdf8",
+        "courses": [
+          { "name": { "tr": "Ağ Programlama", "en": "Network Programming" }, "tag": "TCP/UDP, Sockets" },
+          { "name": { "tr": "İşletim Sistemleri", "en": "Operating Systems" }, "tag": "Concurrency, Memory" },
+          { "name": { "tr": "Veritabanı Yönetim Sistemleri", "en": "Database Management Systems" }, "tag": "SQL, Indexing, ACID" },
+          { "name": { "tr": "Yazılım Tasarımı ve Mimarisi", "en": "Software Architecture" }, "tag": "Clean Arch, Microservices" }
+        ]
+      },
+      {
+        "id": "ai-data",
+        "title": { "tr": "Yapay Zeka & Veri", "en": "AI & Data Science" },
+        "accent": "#a855f7",
+        "courses": [
+          { "name": { "tr": "Görüntü İşleme", "en": "Image Processing" }, "tag": "OpenCV, Filtering" },
+          { "name": { "tr": "Veri Bilimi", "en": "Data Science" }, "tag": "Analytics, ML" },
+          { "name": { "tr": "Lineer Cebir", "en": "Linear Algebra" }, "tag": "Vectors, Eigenvalues" }
+        ]
+      },
+      {
+        "id": "web-engineering",
+        "title": { "tr": "Web & Mühendislik", "en": "Web & Engineering" },
+        "accent": "#10b981",
+        "courses": [
+          { "name": { "tr": "Web Programlama", "en": "Web Programming" }, "tag": "Full-Stack, REST APIs" },
+          { "name": { "tr": "Yazılım Gereksinimleri ve Analiz", "en": "Software Requirements & Analysis" }, "tag": "Agile, UML, Testing" }
+        ]
       }
     ]
   }

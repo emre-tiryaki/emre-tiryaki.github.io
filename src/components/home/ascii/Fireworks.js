@@ -1,33 +1,40 @@
 /**
- * ASCII Fireworks Animation
- * Rockets climb, explode into star bursts, then fade.
+ * ASCII Fireworks Animation with Vibrant Multi-Color Explosion Palettes
  */
 
 const SPARK = '.*#+';
 
-export function createFireworks(preElement) {
-  const COLS = 70;
-  const ROWS = 30;
+const PALETTES = [
+  ['#f43f5e', '#fb923c', '#facc15', '#ffffff'], // Fire (Red, Orange, Yellow, White)
+  ['#00f5d4', '#7b2cbf', '#ff007f', '#ffffff'], // Cyber (Cyan, Purple, Pink, White)
+  ['#4ade80', '#22d3ee', '#818cf8', '#ffffff'], // Aurora (Green, Cyan, Indigo, White)
+  ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff'], // Rainbow (Coral, Yellow, Emerald, Blue)
+  ['#c084fc', '#f472b6', '#38bdf8', '#ffffff'], // Pastel Glow (Lavender, Pink, Sky, White)
+];
 
-  // grid[r][c] = { ch, life }  life: 0 = empty
+export function createFireworks(preElement) {
+  const COLS = 64;
+  const ROWS = 24;
+
   const grid = Array.from({ length: ROWS }, () =>
-    Array.from({ length: COLS }, () => ({ ch: ' ', life: 0 }))
+    Array.from({ length: COLS }, () => ({ ch: ' ', color: null, life: 0 }))
   );
 
-  const rockets = []; // {c, r, target}
-  const particles = []; // {c, r, vc, vr, life, max}
+  const rockets = []; // { c, r, target, palette }
+  const particles = []; // { c, r, vc, vr, life, max, palette }
 
   let animFrameId = null;
   let lastTime = 0;
 
   function spawnRocket() {
     const c = 6 + Math.floor(Math.random() * (COLS - 12));
-    rockets.push({ c, r: ROWS - 1, target: 4 + Math.floor(Math.random() * 12) });
+    const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
+    rockets.push({ c, r: ROWS - 1, target: 3 + Math.floor(Math.random() * 8), palette });
   }
 
-  function explode(c, r) {
-    const count = 18 + Math.floor(Math.random() * 14);
-    const maxLife = 10 + Math.floor(Math.random() * 8);
+  function explode(c, r, palette) {
+    const count = 20 + Math.floor(Math.random() * 12);
+    const maxLife = 11 + Math.floor(Math.random() * 6);
     for (let i = 0; i < count; i++) {
       const ang = (Math.PI * 2 * i) / count + Math.random() * 0.3;
       const spd = 0.45 + Math.random() * 0.35;
@@ -38,12 +45,13 @@ export function createFireworks(preElement) {
         vr: Math.sin(ang) * spd,
         life: maxLife,
         max: maxLife,
+        palette,
       });
     }
   }
 
   function frame(timestamp) {
-    if (timestamp - lastTime < 55) {
+    if (timestamp - lastTime < 50) {
       animFrameId = requestAnimationFrame(frame);
       return;
     }
@@ -53,19 +61,19 @@ export function createFireworks(preElement) {
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
         if (grid[r][c].life > 0) grid[r][c].life--;
-        if (grid[r][c].life <= 0) grid[r][c] = { ch: ' ', life: 0 };
+        if (grid[r][c].life <= 0) grid[r][c] = { ch: ' ', color: null, life: 0 };
       }
     }
 
     // Rockets
-    if (Math.random() < 0.06) spawnRocket();
+    if (Math.random() < 0.08) spawnRocket();
     for (let i = rockets.length - 1; i >= 0; i--) {
       const rk = rockets[i];
-      grid[rk.r][rk.c] = { ch: '|', life: 3 };
+      grid[rk.r][rk.c] = { ch: '|', color: '#fde047', life: 3 };
       rk.r -= 1;
       if (rk.r <= rk.target) {
-        explode(rk.c, rk.r);
-        grid[rk.r][rk.c] = { ch: '@', life: 6 };
+        explode(rk.c, rk.r, rk.palette);
+        grid[rk.r][rk.c] = { ch: '@', color: '#ffffff', life: 5 };
         rockets.splice(i, 1);
       }
     }
@@ -75,7 +83,7 @@ export function createFireworks(preElement) {
       const p = particles[i];
       p.c += p.vc;
       p.r += p.vr;
-      p.vr += 0.02; // gravity
+      p.vr += 0.025; // gravity
       p.life--;
       const rr = Math.round(p.r);
       const cc = Math.round(p.c);
@@ -84,19 +92,36 @@ export function createFireworks(preElement) {
         rr >= 0 && rr < ROWS &&
         cc >= 0 && cc < COLS
       ) {
-        const ch = SPARK[Math.max(0, SPARK.length - Math.ceil((p.life / p.max) * SPARK.length) - 1)] || '*';
-        grid[rr][cc] = { ch, life: Math.max(grid[rr][cc].life, 4) };
+        const ratio = p.life / p.max;
+        const ch = SPARK[Math.max(0, SPARK.length - Math.ceil(ratio * SPARK.length) - 1)] || '*';
+        const colorIdx = Math.min(p.palette.length - 1, Math.floor((1 - ratio) * p.palette.length));
+        const color = p.palette[colorIdx];
+        grid[rr][cc] = { ch, color, life: Math.max(grid[rr][cc].life, 4) };
       }
       if (p.life <= 0) particles.splice(i, 1);
     }
 
-    let out = '';
+    let html = '';
     for (let r = 0; r < ROWS; r++) {
-      let line = '';
-      for (let c = 0; c < COLS; c++) line += grid[r][c].ch;
-      out += line + '\n';
+      let curColor = null;
+      let curText = '';
+      for (let c = 0; c < COLS; c++) {
+        const cell = grid[r][c];
+        if (cell.color !== curColor) {
+          if (curText) {
+            html += curColor ? `<span style="color:${curColor}">${curText}</span>` : curText;
+            curText = '';
+          }
+          curColor = cell.color;
+        }
+        curText += cell.ch;
+      }
+      if (curText) {
+        html += curColor ? `<span style="color:${curColor}">${curText}</span>` : curText;
+      }
+      html += '\n';
     }
-    preElement.textContent = out;
+    preElement.innerHTML = html;
 
     animFrameId = requestAnimationFrame(frame);
   }

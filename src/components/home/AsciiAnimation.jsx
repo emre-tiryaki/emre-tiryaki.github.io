@@ -7,12 +7,12 @@ import { createFireworks } from './ascii/Fireworks';
 import { createStarfield } from './ascii/Starfield';
 
 const ANIMATIONS = [
-  { id: 'donut', create: createSpinningDonut, color: '#22c55e', label: 'Torus Donut 3D' },
-  { id: 'cube', create: createRotatingCube, color: '#06b6d4', label: 'Rotating Cube 3D' },
-  { id: 'matrix', create: createMatrixRain, color: '#22c55e', label: 'Matrix Digital Rain' },
-  { id: 'globe', create: createSpinningGlobe, color: '#f97316', label: 'Rotating Sphere 3D' },
-  { id: 'fireworks', create: createFireworks, color: '#fb923c', label: 'ASCII Fireworks' },
-  { id: 'starfield', create: createStarfield, color: '#a78bfa', label: 'ASCII Starfield' },
+  { id: 'donut', create: createSpinningDonut, label: 'Torus Donut 3D' },
+  { id: 'cube', create: createRotatingCube, label: 'Rotating Cube 3D' },
+  { id: 'matrix', create: createMatrixRain, label: 'Matrix Digital Rain' },
+  { id: 'globe', create: createSpinningGlobe, label: 'Rotating Sphere 3D' },
+  { id: 'fireworks', create: createFireworks, label: 'ASCII Fireworks' },
+  { id: 'starfield', create: createStarfield, label: 'ASCII Starfield' },
 ];
 
 export default function AsciiAnimation() {
@@ -74,10 +74,10 @@ export default function AsciiAnimation() {
             fontFamily: "'JetBrains Mono', monospace",
             fontSize: 'clamp(9px, 1.3vw, 14px)',
             lineHeight: '1.2',
-            color: chosen.color,
+            color: '#e2e8f0',
             userSelect: 'none',
             letterSpacing: '0.04em',
-            textShadow: `0 0 10px ${chosen.color}60`,
+            textShadow: '0 0 12px rgba(255,255,255,0.15)',
           }}
         />
       </div>

@@ -1,12 +1,25 @@
 /**
- * Spinning Donut ASCII Animation
- * Based on Andy Sloane's donut.c algorithm
- * https://www.a1k0n.net/2011/07/20/donut-math.html
+ * Spinning Donut ASCII Animation with Dynamic Multi-Color 3D Shading
  */
 
-const W = 80;
+const W = 70;
 const H = 24;
 const CHARS = '.,-~:;=!*#$@';
+
+const COLOR_MAP = [
+  '#4338ca', // deep indigo (shadow)
+  '#6366f1', // indigo
+  '#8b5cf6', // purple
+  '#a855f7', // violet
+  '#ec4899', // pink
+  '#f43f5e', // rose
+  '#fb7185', // light rose
+  '#f97316', // orange
+  '#fb923c', // amber
+  '#facc15', // yellow
+  '#fde047', // light yellow
+  '#ffffff', // peak white highlight
+];
 
 export function createSpinningDonut(preElement) {
   let A = 0;
@@ -21,8 +34,10 @@ export function createSpinningDonut(preElement) {
     }
     lastTime = timestamp;
 
-    const output = new Array(W * H).fill(' ');
-    const zbuf = new Array(W * H).fill(0);
+    const output = Array.from({ length: H }, () =>
+      Array.from({ length: W }, () => ({ ch: ' ', color: null }))
+    );
+    const zbuf = Array.from({ length: H }, () => new Array(W).fill(0));
 
     for (let j = 0; j < 6.28; j += 0.07) {
       for (let i = 0; i < 6.28; i += 0.02) {
@@ -41,7 +56,6 @@ export function createSpinningDonut(preElement) {
 
         const x = Math.floor(W / 2 + (W / 2.5) * D * (cosI * h * cosB - t * sinB));
         const y = Math.floor(H / 2 + (H / 2.5) * D * (cosI * h * sinB + t * cosB));
-        const o = x + W * y;
         const L = Math.floor(
           8 * ((sinJ * sinA - sinI * cosJ * cosA) * cosB -
             sinI * cosJ * sinA -
@@ -49,18 +63,38 @@ export function createSpinningDonut(preElement) {
             cosI * cosJ * sinB)
         );
 
-        if (y >= 0 && y < H && x >= 0 && x < W && D > zbuf[o]) {
-          zbuf[o] = D;
-          output[o] = CHARS[Math.max(L, 0)];
+        if (y >= 0 && y < H && x >= 0 && x < W && D > zbuf[y][x]) {
+          zbuf[y][x] = D;
+          const lumIdx = Math.max(0, Math.min(CHARS.length - 1, L));
+          output[y][x] = {
+            ch: CHARS[lumIdx],
+            color: COLOR_MAP[lumIdx],
+          };
         }
       }
     }
 
-    let result = '';
+    let html = '';
     for (let y = 0; y < H; y++) {
-      result += output.slice(y * W, (y + 1) * W).join('') + '\n';
+      let curColor = null;
+      let curText = '';
+      for (let x = 0; x < W; x++) {
+        const cell = output[y][x];
+        if (cell.color !== curColor) {
+          if (curText) {
+            html += curColor ? `<span style="color:${curColor}">${curText}</span>` : curText;
+            curText = '';
+          }
+          curColor = cell.color;
+        }
+        curText += cell.ch;
+      }
+      if (curText) {
+        html += curColor ? `<span style="color:${curColor}">${curText}</span>` : curText;
+      }
+      html += '\n';
     }
-    preElement.textContent = result;
+    preElement.innerHTML = html;
 
     A += 0.07;
     B += 0.03;

@@ -10,9 +10,10 @@ export default function EducationPage() {
     <PageLayout
       title={t('education.title')}
       subtitle={t('education.subtitle')}
-      maxWidth="52rem"
+      maxWidth="64rem"
+      fullHeight={true}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', margin: 'auto 0' }}>
         {educationData.map((item) => (
           <EducationCard key={item.id} {...item} />
         ))}

@@ -4,10 +4,47 @@ import { useTranslation } from '../../hooks/translation';
 
 const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/';
 const ollamaIcon = new URL('../../assets/skills/ollama.png', import.meta.url).href;
+const tokioIcon = new URL('../../assets/skills/tokio.svg', import.meta.url).href;
+const websocketIcon = new URL('../../assets/skills/websocket.svg', import.meta.url).href;
 
-function SkillIcon({ icon, name }) {
+const agentIconModules = import.meta.glob('../../assets/skills/agents/*.{svg,png,jpg,jpeg,webp}', {
+  eager: true,
+  import: 'default',
+});
+const AGENT_ICONS = Object.entries(agentIconModules)
+  .sort(([pathA], [pathB]) => {
+    const isHermesA = pathA.toLowerCase().includes('hermes');
+    const isHermesB = pathB.toLowerCase().includes('hermes');
+    if (isHermesA && !isHermesB) return -1;
+    if (!isHermesA && isHermesB) return 1;
+    return pathA.localeCompare(pathB);
+  })
+  .map(([, url]) => url);
+
+function SkillIcon({ icon, name, activeAgentIcon }) {
   if (icon === 'custom:ollama') {
     return <img src={ollamaIcon} alt={name} width={40} height={40} style={{ objectFit: 'contain', borderRadius: '0.375rem' }} />;
+  }
+  if (icon === 'custom:tokio') {
+    return <img src={tokioIcon} alt={name} width={40} height={40} style={{ objectFit: 'contain' }} />;
+  }
+  if (icon === 'custom:websocket') {
+    return <img src={websocketIcon} alt={name} width={40} height={40} style={{ objectFit: 'contain' }} />;
+  }
+  if (icon === 'custom:hermes' || icon === 'custom:agent' || icon === 'custom:ai-agents') {
+    const currentSrc = activeAgentIcon || (AGENT_ICONS.length > 0 ? AGENT_ICONS[0] : null);
+    if (currentSrc) {
+      return (
+        <img
+          key={currentSrc}
+          src={currentSrc}
+          alt={name}
+          width={40}
+          height={40}
+          style={{ objectFit: 'contain', transition: 'transform 0.15s ease' }}
+        />
+      );
+    }
   }
   if (icon) {
     return (
@@ -35,7 +72,7 @@ function SkillIcon({ icon, name }) {
 }
 
 /** Portal tooltip — renders into document.body to escape all overflow:hidden containers */
-function TooltipPortal({ anchorRef, name, text }) {
+export function TooltipPortal({ anchorRef, name, text }) {
   const tooltipRef = useRef(null);
   const [pos, setPos] = useState({ top: 0, left: 0, showBelow: false, ready: false });
 
@@ -107,9 +144,24 @@ function TooltipPortal({ anchorRef, name, text }) {
 
 export default function SkillCard({ name, icon, comment }) {
   const [hovered, setHovered] = useState(false);
+  const [agentIconIndex, setAgentIconIndex] = useState(0);
   const cardRef = useRef(null);
   const { tData } = useTranslation();
   const commentText = comment ? tData(comment) : null;
+
+  const isAgent = icon === 'custom:hermes' || icon === 'custom:agent' || icon === 'custom:ai-agents' || name === 'AI Agents';
+
+  const randomizeAgentIcon = () => {
+    if (isAgent) {
+      setAgentIconIndex(prev => {
+        let next;
+        do {
+          next = Math.floor(Math.random() * AGENT_ICONS.length);
+        } while (next === prev && AGENT_ICONS.length > 1);
+        return next;
+      });
+    }
+  };
 
   return (
     <div
@@ -130,6 +182,7 @@ export default function SkillCard({ name, icon, comment }) {
       }}
       onMouseEnter={e => {
         setHovered(true);
+        randomizeAgentIcon();
         e.currentTarget.style.borderColor = 'rgba(249,115,22,0.55)';
         e.currentTarget.style.background   = 'rgba(249,115,22,0.07)';
         e.currentTarget.style.transform    = 'scale(1.05) translateY(-2px)';
@@ -137,6 +190,7 @@ export default function SkillCard({ name, icon, comment }) {
       }}
       onMouseLeave={e => {
         setHovered(false);
+        randomizeAgentIcon();
         e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
         e.currentTarget.style.background   = 'rgba(255,255,255,0.03)';
         e.currentTarget.style.transform    = '';
@@ -144,7 +198,7 @@ export default function SkillCard({ name, icon, comment }) {
       }}
     >
       <div style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <SkillIcon icon={icon} name={name} />
+        <SkillIcon icon={icon} name={name} activeAgentIcon={isAgent ? AGENT_ICONS[agentIconIndex] : null} />
       </div>
       <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#cbd5e1', textAlign: 'center', lineHeight: 1.3 }}>
         {name}

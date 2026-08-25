@@ -1,20 +1,26 @@
 /**
- * Matrix Rain ASCII Animation
- * Column-based falling characters (Katakana + Latin mix)
+ * Matrix Rain ASCII Animation - Classic Pure Green with Subtle Shade Transition
  */
 
 const CHARS =
   'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン' +
   'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*';
 
+const COLORS = [
+  '#15803d', // tail: dark matrix green
+  '#16a34a', // mid: classic green
+  '#22c55e', // body: vivid green
+  '#86efac', // head: soft glowing light green
+];
+
 export function createMatrixRain(preElement) {
-  // Use character-based grid
-  const FONT_W = 9; // approximate px per char for display
   const COLS = 60;
-  const ROWS = 28;
+  const ROWS = 24;
 
   const drops = Array.from({ length: COLS }, () => Math.floor(Math.random() * -ROWS));
-  const grid = Array.from({ length: ROWS }, () => new Array(COLS).fill(' '));
+  const grid = Array.from({ length: ROWS }, () =>
+    Array.from({ length: COLS }, () => ({ ch: ' ', color: null }))
+  );
   const brightness = Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
 
   let animFrameId = null;
@@ -25,17 +31,23 @@ export function createMatrixRain(preElement) {
   }
 
   function frame(timestamp) {
-    if (timestamp - lastTime < 80) {
+    if (timestamp - lastTime < 70) {
       animFrameId = requestAnimationFrame(frame);
       return;
     }
     lastTime = timestamp;
 
-    // Fade all brightness
+    // Fade brightness
     for (let r = 0; r < ROWS; r++) {
       for (let c = 0; c < COLS; c++) {
-        if (brightness[r][c] > 0) brightness[r][c]--;
-        else grid[r][c] = ' ';
+        if (brightness[r][c] > 0) {
+          brightness[r][c]--;
+          if (brightness[r][c] > 0) {
+            grid[r][c].color = COLORS[brightness[r][c] - 1];
+          } else {
+            grid[r][c] = { ch: ' ', color: null };
+          }
+        }
       }
     }
 
@@ -43,23 +55,39 @@ export function createMatrixRain(preElement) {
     for (let c = 0; c < COLS; c++) {
       const row = drops[c];
       if (row >= 0 && row < ROWS) {
-        grid[row][c] = randomChar();
-        brightness[row][c] = 3; // head brightness
-        // Trailing cells
-        if (row > 0) brightness[row - 1][c] = Math.max(brightness[row - 1][c], 2);
-        if (row > 1) brightness[row - 2][c] = Math.max(brightness[row - 2][c], 1);
+        grid[row][c] = {
+          ch: randomChar(),
+          color: COLORS[3], // Head is subtle soft light green
+        };
+        brightness[row][c] = 4;
       }
       drops[c]++;
-      if (drops[c] > ROWS + 5) {
-        drops[c] = Math.floor(Math.random() * -10);
+      if (drops[c] > ROWS + 4) {
+        drops[c] = Math.floor(Math.random() * -8);
       }
     }
 
-    let result = '';
+    let html = '';
     for (let r = 0; r < ROWS; r++) {
-      result += grid[r].join('') + '\n';
+      let curColor = null;
+      let curText = '';
+      for (let c = 0; c < COLS; c++) {
+        const cell = grid[r][c];
+        if (cell.color !== curColor) {
+          if (curText) {
+            html += curColor ? `<span style="color:${curColor}">${curText}</span>` : curText;
+            curText = '';
+          }
+          curColor = cell.color;
+        }
+        curText += cell.ch;
+      }
+      if (curText) {
+        html += curColor ? `<span style="color:${curColor}">${curText}</span>` : curText;
+      }
+      html += '\n';
     }
-    preElement.textContent = result;
+    preElement.innerHTML = html;
 
     animFrameId = requestAnimationFrame(frame);
   }

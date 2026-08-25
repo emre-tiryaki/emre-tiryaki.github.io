@@ -1,4 +1,4 @@
-import { FiAward, FiExternalLink } from 'react-icons/fi';
+import { FiAward, FiExternalLink, FiCalendar } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 
 const anthropicLogo = new URL('../../assets/certification_icons/antrophic_certification_logo.jpeg', import.meta.url).href;
@@ -36,7 +36,10 @@ export default function CertificationCard({ name, authority, authorityKey, date,
         </h4>
         <p className="text-xs text-neutral-400 mt-1 font-medium">{authName}</p>
         <div className="flex items-center gap-2 text-[11px] font-mono text-neutral-500 mt-2">
-          <span>📅 {certDate}</span>
+          <span className="inline-flex items-center gap-1">
+            <FiCalendar size={11} className="text-neutral-400" />
+            {certDate}
+          </span>
           {url && (
             <span className="flex items-center gap-1 text-orange-400 font-medium">
               • {t('certifications.verify')} <FiExternalLink size={10} />

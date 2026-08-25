@@ -1,3 +1,4 @@
+import { FiBriefcase, FiCalendar, FiMapPin } from 'react-icons/fi';
 import { useTranslation } from '../../../hooks/translation';
 
 export default function WorkCard({ company, title, location, startDate, endDate }) {
@@ -10,8 +11,9 @@ export default function WorkCard({ company, title, location, startDate, endDate 
       style={{ padding: '0.75rem 1rem', maxWidth: '520px' }}>
       <div className="flex items-start justify-between gap-2">
         <div>
-          <span className="inline-block px-2 py-0.5 text-[10px] font-mono font-bold rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/30 mb-1.5 uppercase tracking-wider">
-            💼 {t('experience.types.work')}
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-mono font-bold rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/30 mb-1.5 uppercase tracking-wider">
+            <FiBriefcase size={10} />
+            {t('experience.types.work')}
           </span>
           <h3 className="text-sm font-extrabold text-neutral-100 leading-tight">{company}</h3>
           <p className="text-xs font-semibold text-neutral-400 mt-0.5">{tData(title)}</p>
@@ -24,8 +26,16 @@ export default function WorkCard({ company, title, location, startDate, endDate 
         )}
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] font-mono text-neutral-500 border-t border-neutral-800/60 pt-2">
-        <span>📅 {tData(startDate)} – {endText}</span>
-        {location && <span>📍 {tData(location)}</span>}
+        <span className="inline-flex items-center gap-1">
+          <FiCalendar size={11} className="text-neutral-400" />
+          {tData(startDate)} – {endText}
+        </span>
+        {location && (
+          <span className="inline-flex items-center gap-1">
+            <FiMapPin size={11} className="text-neutral-400" />
+            {tData(location)}
+          </span>
+        )}
       </div>
     </div>
   );

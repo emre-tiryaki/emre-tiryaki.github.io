@@ -19,7 +19,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+    <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 select-none">
       <nav
         style={{
           width: '100%',
@@ -35,6 +35,8 @@ export default function Navbar() {
           WebkitBackdropFilter: 'blur(22px)',
           border: '1px solid rgba(255,255,255,0.09)',
           boxShadow: '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
+          userSelect: 'none',
+          WebkitUserSelect: 'none',
         }}
       >
         {/* ── Desktop layout: [spacer] [nav links centered] [lang button] ── */}
@@ -51,7 +53,7 @@ export default function Navbar() {
               to={path}
               end={path === '/'}
               className="relative"
-              style={{ textDecoration: 'none' }}
+              style={{ textDecoration: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
             >
               {({ isActive }) => (
                 <span
@@ -68,6 +70,8 @@ export default function Navbar() {
                     transition: 'all 0.18s ease',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none',
                   }}
                   onMouseEnter={e => {
                     if (!isActive) {
@@ -105,7 +109,7 @@ export default function Navbar() {
 
         {/* ── Mobile layout: logo left, controls right ── */}
         <div className="lg:hidden flex items-center justify-between w-full">
-          <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#fb923c', letterSpacing: '-0.01em' }}>ET.</span>
+          <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#fb923c', letterSpacing: '-0.01em', userSelect: 'none', WebkitUserSelect: 'none' }}>ET.</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Button
               variant="secondary"
@@ -152,6 +156,8 @@ export default function Navbar() {
                 border: '1px solid rgba(255,255,255,0.1)',
                 boxShadow: '0 20px 60px rgba(0,0,0,0.6)',
                 borderRadius: '1rem',
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
               }}
               initial={{ opacity: 0, y: -8, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -164,7 +170,7 @@ export default function Navbar() {
                   to={path}
                   end={path === '/'}
                   onClick={() => setMenuOpen(false)}
-                  style={{ textDecoration: 'none' }}
+                  style={{ textDecoration: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
                 >
                   {({ isActive }) => (
                     <div style={{
@@ -176,6 +182,8 @@ export default function Navbar() {
                       color: isActive ? '#fb923c' : '#cbd5e1',
                       background: isActive ? 'rgba(249,115,22,0.12)' : 'transparent',
                       border: isActive ? '1px solid rgba(249,115,22,0.3)' : '1px solid transparent',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
                     }}>
                       <span>{t(`nav.${key}`)}</span>
                       <span style={{ color: '#475569', fontSize: '0.75rem' }}>→</span>
