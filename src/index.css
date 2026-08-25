@@ -46,21 +46,37 @@ body {
   overflow: hidden;
 }
 
-/* ── Custom Scrollbar ── */
+/* ── Custom Sleek Dark Glass Scrollbar ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 5px;
+  height: 5px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #262626;
-  border-radius: 4px;
-  border: 2px solid #0a0a0a;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #f97316;
+  background: rgba(249, 115, 22, 0.75);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: rgba(249, 115, 22, 0.95);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* ── Hide scrollbar for Chrome, Safari and Opera ── */

@@ -1,10 +1,12 @@
-import { FiAward, FiExternalLink, FiCalendar } from 'react-icons/fi';
+import { FiAward, FiExternalLink, FiCalendar, FiCheckCircle } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 
 const anthropicLogo = new URL('../../assets/certification_icons/antrophic_certification_logo.jpeg', import.meta.url).href;
+const inonuLogo = new URL('../../assets/education/inonu_university_logo.png', import.meta.url).href;
 
 const AUTHORITY_ICONS = {
   anthropic: anthropicLogo,
+  inonu: inonuLogo,
 };
 
 export default function CertificationCard({ name, authority, authorityKey, date, url }) {
@@ -15,37 +17,119 @@ export default function CertificationCard({ name, authority, authorityKey, date,
   const logo = AUTHORITY_ICONS[authorityKey];
 
   const Tag = url ? 'a' : 'div';
-  const extraProps = url ? { href: url, target: '_blank', rel: 'noreferrer' } : {};
+  const extraProps = url
+    ? {
+        href: url,
+        target: '_blank',
+        rel: 'noreferrer',
+        title: `${certName} — ${t('certifications.verify')}`,
+      }
+    : {};
 
   return (
     <Tag
       {...extraProps}
-      className="glass-card p-5 rounded-2xl border border-white/10 transition-all duration-300 hover:border-orange-500/50 hover:shadow-xl hover:shadow-orange-500/10 flex items-start gap-4 group cursor-pointer"
+      className="group relative flex flex-col justify-between gap-3 rounded-2xl transition-all duration-250 overflow-hidden"
+      style={{
+        padding: '1.25rem 1.35rem',
+        borderRadius: '1.15rem',
+        background: 'rgba(255, 255, 255, 0.03)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        textDecoration: 'none',
+        cursor: url ? 'pointer' : 'default',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.45)';
+        e.currentTarget.style.background = 'rgba(249, 115, 22, 0.07)';
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.12)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+        e.currentTarget.style.transform = 'translateY(0px)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
     >
-      <div className="w-12 h-12 rounded-xl bg-neutral-900 border border-neutral-800 p-2 shrink-0 flex items-center justify-center overflow-hidden shadow-inner group-hover:scale-105 transition-transform">
-        {logo ? (
-          <img src={logo} alt={authName} className="w-full h-full object-contain rounded" />
-        ) : (
-          <FiAward className="text-orange-400" size={24} />
-        )}
-      </div>
-
-      <div className="flex-1 min-w-0">
-        <h4 className="text-sm font-bold text-neutral-100 group-hover:text-orange-400 transition-colors leading-snug line-clamp-2">
-          {certName}
-        </h4>
-        <p className="text-xs text-neutral-400 mt-1 font-medium">{authName}</p>
-        <div className="flex items-center gap-2 text-[11px] font-mono text-neutral-500 mt-2">
-          <span className="inline-flex items-center gap-1">
-            <FiCalendar size={11} className="text-neutral-400" />
-            {certDate}
-          </span>
-          {url && (
-            <span className="flex items-center gap-1 text-orange-400 font-medium">
-              • {t('certifications.verify')} <FiExternalLink size={10} />
-            </span>
+      {/* ── Top Row: Logo + (Authority Name & Date Pill & Status) ── */}
+      <div className="flex items-center gap-3">
+        {/* Logo Badge */}
+        <div
+          style={{
+            width: '2.85rem',
+            height: '2.85rem',
+            borderRadius: '0.75rem',
+            background: 'rgba(255, 255, 255, 0.04)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            padding: '0.35rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+            transition: 'transform 0.2s ease',
+          }}
+          className="group-hover:scale-105"
+        >
+          {logo ? (
+            <img
+              src={logo}
+              alt={authName}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '0.35rem' }}
+            />
+          ) : (
+            <FiAward className="text-orange-400" size={20} />
           )}
         </div>
+
+        {/* Authority Info + Date */}
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-bold tracking-wider uppercase text-neutral-200 group-hover:text-orange-400 transition-colors">
+              {authName}
+            </span>
+            <span className="text-neutral-600 text-xs select-none">•</span>
+            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-neutral-400">
+              <FiCalendar size={11} className="text-orange-400/80 shrink-0" />
+              <span>{certDate}</span>
+            </span>
+          </div>
+
+          {/* Verified Status */}
+          <div className="flex items-center gap-1.5 mt-0.5">
+            {url ? (
+              <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-400">
+                <FiCheckCircle size={11} />
+                <span>Doğrulanmış</span>
+              </span>
+            ) : (
+              <span className="text-[11px] font-medium text-neutral-500">
+                Resmi Sertifika
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Center / Bottom: Certification Name + Verify Button on Far Right ── */}
+      <div className="flex items-center justify-between gap-3 pt-1">
+        <h4 className="text-[0.92rem] font-bold text-slate-100 group-hover:text-orange-300 transition-colors leading-snug line-clamp-2 flex-1">
+          {certName}
+        </h4>
+
+        {/* Verify Action Button at Far Right */}
+        {url && (
+          <span
+            className="inline-flex items-center gap-2 rounded-lg text-xs font-semibold text-neutral-300 group-hover:text-orange-400 group-hover:border-orange-500/40 group-hover:bg-orange-500/10 transition-all duration-200 shrink-0 whitespace-nowrap select-none"
+            style={{
+              padding: '0.45rem 0.9rem',
+              background: 'rgba(255, 255, 255, 0.035)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+            }}
+          >
+            <span>{t('certifications.verify')}</span>
+            <FiExternalLink size={12} className="text-neutral-400 group-hover:text-orange-400 transition-colors" />
+          </span>
+        )}
       </div>
     </Tag>
   );
