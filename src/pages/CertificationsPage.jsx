@@ -64,7 +64,7 @@ export default function CertificationsPage() {
 
                     <span
                       style={{
-                        padding: '0.3rem 0.75rem',
+                        padding: '0.25rem 0.65rem',
                         borderRadius: '0.5rem',
                         fontFamily: 'monospace',
                         fontSize: '0.75rem',
@@ -110,7 +110,7 @@ export default function CertificationsPage() {
 
                 <span
                   style={{
-                    padding: '0.3rem 0.75rem',
+                    padding: '0.25rem 0.65rem',
                     borderRadius: '0.5rem',
                     fontFamily: 'monospace',
                     fontSize: '0.75rem',

@@ -46,12 +46,21 @@
     "type": "hackathon"
   },
   {
+    "id": "moka-united-fintech-hackathon",
+    "company": "Moka United AI Ideathon & Hackathon",
+    "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
+    "location": { "tr": "Online & İstanbul Gayrettepe", "en": "Online & Istanbul Gayrettepe" },
+    "date": { "tr": "Temmuz 2026", "en": "July 2026" },
+    "duration": { "tr": "7 gün", "en": "7 days" },
+    "type": "hackathon"
+  },
+  {
     "id": "aa-hackathon",
     "company": "Anadolu Ajansı Medya Teknolojileri Hackathonu",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
-    "location": { "tr": "İstanbul", "en": "Istanbul" },
+    "location": { "tr": "İstanbul Ümraniye", "en": "Istanbul Ümraniye" },
     "date": { "tr": "2025", "en": "2025" },
-    "duration": null,
+    "duration": { "tr": "2 gün", "en": "2 days" },
     "type": "hackathon"
   }
 ]

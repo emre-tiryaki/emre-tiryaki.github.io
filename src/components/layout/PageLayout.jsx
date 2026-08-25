@@ -36,12 +36,12 @@ export default function PageLayout({
           }}
         >
           {title && (
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight leading-tight">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-100 tracking-tight leading-tight select-none">
               {title}
             </h1>
           )}
           {subtitle && (
-            <p className="text-base text-neutral-400 mt-1 leading-normal">
+            <p className="text-base text-neutral-400 mt-1 leading-normal select-none">
               {subtitle}
             </p>
           )}

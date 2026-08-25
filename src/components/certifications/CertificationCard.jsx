@@ -41,13 +41,11 @@ export default function CertificationCard({ name, authority, authorityKey, date,
       onMouseEnter={e => {
         e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.45)';
         e.currentTarget.style.background = 'rgba(249, 115, 22, 0.07)';
-        e.currentTarget.style.transform = 'translateY(-2px)';
         e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.12)';
       }}
       onMouseLeave={e => {
         e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
         e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
-        e.currentTarget.style.transform = 'translateY(0px)';
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
@@ -88,14 +86,14 @@ export default function CertificationCard({ name, authority, authorityKey, date,
               {authName}
             </span>
             <span className="text-neutral-600 text-xs select-none">•</span>
-            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-neutral-400">
+            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-neutral-400 select-none">
               <FiCalendar size={11} className="text-orange-400/80 shrink-0" />
               <span>{certDate}</span>
             </span>
           </div>
 
           {/* Verified Status */}
-          <div className="flex items-center gap-1.5 mt-0.5">
+          <div className="flex items-center gap-1.5 mt-0.5 select-none">
             {url ? (
               <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-400">
                 <FiCheckCircle size={11} />

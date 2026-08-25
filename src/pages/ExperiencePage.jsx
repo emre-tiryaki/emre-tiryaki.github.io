@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import PageLayout from '../components/layout/PageLayout';
-import ExperienceCardFactory from '../components/experience/ExperienceCardFactory';
+import ExperienceCard from '../components/experience/ExperienceCard';
 import experienceData from '../data/experience.json';
 import { useTranslation } from '../hooks/translation';
 import Button from '../components/ui/Button';
@@ -68,13 +68,18 @@ export default function ExperiencePage() {
       <div style={{
         flex: 1,
         display: 'flex',
-        gap: '2rem',
+        justifyContent: 'space-between',
         overflow: 'hidden',
         minHeight: 0,   /* critical for flex children to shrink below content size */
       }}>
 
-        {/* LEFT: Scrollable experience timeline */}
-        <div style={{ flex: 1, position: 'relative', overflow: 'hidden', minWidth: 0 }}>
+        {/* LEFT: Scrollable experience timeline directly holding scrollbar next to cards */}
+        <div style={{
+          width: '100%',
+          maxWidth: '580px',
+          position: 'relative',
+          overflow: 'hidden',
+        }}>
           {/* Gradient vertical line */}
           <div style={{
             position: 'absolute',
@@ -91,6 +96,7 @@ export default function ExperiencePage() {
             height: '100%',
             overflowY: 'auto',
             paddingBottom: '2rem',
+            paddingRight: '0.65rem',
             display: 'flex',
             flexDirection: 'column',
             gap: '1.25rem',
@@ -114,7 +120,7 @@ export default function ExperiencePage() {
 
                   {/* Card */}
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <ExperienceCardFactory item={item} />
+                    <ExperienceCard {...item} />
                   </div>
                 </div>
               );
