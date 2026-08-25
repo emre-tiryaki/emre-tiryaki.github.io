@@ -28,10 +28,10 @@ export default function AboutPage() {
           </div>
           <div className="flex flex-col justify-center space-y-9 text-center lg:text-left">
             <div className="space-y-2">
-              <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-100 tracking-tight">
+              <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-100 tracking-tight select-none">
                 Emre Tiryaki
               </h1>
-              <p className="text-lg font-bold"
+              <p className="text-lg font-bold select-none"
                 style={{ background: 'linear-gradient(90deg,#fb923c,#f97316,#ea580c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 Backend Developer · Software Engineer
               </p>
