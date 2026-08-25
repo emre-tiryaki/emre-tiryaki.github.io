@@ -14,11 +14,15 @@
     "role": "Backend Geliştirici"
   },
   "about": {
+    "summaryTitle": "Hakkımda",
     "summary": "Sistem mimarisi ve veri yönetimi (Backend) konularında derin teknik yetkinliğe sahip, modern web teknolojileri ve kullanıcı arayüzü geliştirme süreçlerinde deneyimli bir yazılım geliştiriciyim. Karmaşık iş mantıklarını (Business Logic) performanslı arayüzlere dönüştürme konusunda tutkuluyum.",
-    "location": "İstanbul/Sarıyer, Türkiye",
+    "location": "Samsun",
+    "cvTitle": "CV",
+    "viewCv": "CV Görüntüle",
+    "downloadCv": "İndir",
     "contactTitle": "İletişim",
     "email": "tiryakiemre18@gmail.com",
-    "languages": "Konuşulan Diller",
+    "languages": "Diller",
     "githubActivity": "GitHub Aktivitesi",
     "githubError": "Burada GitHub commit geçmişim vardı ama şu an bir hata oluştu.",
     "githubEmpty": "Son 30 günde commit bulunamadı.",

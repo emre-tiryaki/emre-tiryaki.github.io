@@ -14,8 +14,12 @@
     "role": "Backend Developer"
   },
   "about": {
+    "summaryTitle": "About Me",
     "summary": "I'm a software developer with deep technical expertise in system architecture and data management (Backend), experienced in modern web technologies and user interface development. I'm passionate about transforming complex business logic into high-performance interfaces.",
-    "location": "Istanbul/Sarıyer, Turkey",
+    "location": "Turkey/Samsun",
+    "cvTitle": "CV",
+    "viewCv": "View CV",
+    "downloadCv": "Download",
     "contactTitle": "Contact",
     "email": "tiryakiemre18@gmail.com",
     "languages": "Languages",

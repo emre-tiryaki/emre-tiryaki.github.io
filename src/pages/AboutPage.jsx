@@ -1,7 +1,10 @@
 import PhotoCarousel from '../components/about/PhotoCarousel';
-import SocialLinks from '../components/about/SocialLinks';
-import LanguagesSection from '../components/about/LanguagesSection';
+import AboutSummary from '../components/about/AboutSummary';
+import ContactCard from '../components/about/ContactCard';
+import ResumeCard from '../components/about/ResumeCard';
+import LanguagesCard from '../components/about/LanguagesCard';
 import GitHubActivity from '../components/about/GitHubActivity';
+import LocationBadge from '../components/about/LocationBadge';
 import { useTranslation } from '../hooks/translation';
 
 const PAGE_STYLE = {
@@ -26,34 +29,25 @@ export default function AboutPage() {
           <div className="flex justify-center">
             <PhotoCarousel />
           </div>
-          <div className="flex flex-col justify-center space-y-9 text-center lg:text-left">
-            <div className="space-y-2">
-              <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-100 tracking-tight select-none">
-                Emre Tiryaki
-              </h1>
+          <div className="flex flex-col justify-center gap-6 text-center lg:text-left px-2 lg:px-4">
+            <div className="space-y-3">
+              <div className="flex flex-col lg:flex-row items-center lg:justify-between gap-3">
+                <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-100 tracking-tight select-none">
+                  Emre Tiryaki
+                </h1>
+                <LocationBadge />
+              </div>
               <p className="text-lg font-bold select-none"
                 style={{ background: 'linear-gradient(90deg,#fb923c,#f97316,#ea580c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 Backend Developer · Software Engineer
               </p>
-              <p className="text-sm text-neutral-400 flex items-center justify-center lg:justify-start gap-1.5">
-                <span>📍</span><span>{t('about.location')}</span>
-              </p>
             </div>
-            <div
-              className="rounded-2xl text-sm text-neutral-200 leading-loose"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', padding: '1.25rem 1.5rem' }}
-            >
-              {t('about.summary')}
+            <AboutSummary />
+            <div className="flex justify-between items-stretch gap-3 sm:gap-4 w-full">
+              <ContactCard />
+              <ResumeCard />
+              <LanguagesCard />
             </div>
-            <div className="space-y-3">
-              <p className="text-xs font-mono font-bold text-neutral-500 uppercase tracking-widest text-center lg:text-left">
-                {t('about.contactTitle')}
-              </p>
-              <div className="flex justify-center lg:justify-start">
-                <SocialLinks />
-              </div>
-            </div>
-            <LanguagesSection />
           </div>
         </div>
 
