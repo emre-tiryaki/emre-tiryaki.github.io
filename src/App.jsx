@@ -46,13 +46,6 @@ function AnimatedRoutes() {
 }
 
 function MainLayout() {
-  const location = useLocation();
-  const path = location.pathname;
-
-  const isFullWidth  = FULL_WIDTH_PAGES.some((p) => path === p || path.startsWith(p + '/'));
-  const isTopAligned = TOP_ALIGNED_PAGES.some((p) => path === p || path.startsWith(p + '/'));
-  const isScrollable = SCROLLABLE_PAGES.some((p) => path === p || path.startsWith(p + '/'));
-
   return (
     <main
       style={{
@@ -62,11 +55,11 @@ function MainLayout() {
         height: '100vh',
         paddingTop: '5rem',    /* clears floating navbar */
         paddingBottom: '1.5rem',
-        overflow: isScrollable ? 'auto' : 'hidden',
+        overflowY: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        alignItems:     isFullWidth  ? 'stretch' : 'center',
-        justifyContent: isTopAligned ? 'flex-start' : 'center',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
         boxSizing: 'border-box',
       }}
     >

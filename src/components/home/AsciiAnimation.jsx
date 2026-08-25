@@ -33,16 +33,33 @@ export default function AsciiAnimation() {
       style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '0.5rem' }}>
       {/* Terminal top bar — semi-transparent */}
       <div
-        className="px-4 py-2.5 flex items-center justify-between"
-        style={{ background: 'rgba(20,20,20,0.6)', borderBottom: '1px solid rgba(255,255,255,0.07)' }}
+        style={{
+          padding: '0 1rem',
+          height: '1.75rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: 'rgba(20,20,20,0.6)',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
+        }}
       >
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-red-500/80" />
-          <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
-          <span className="w-3 h-3 rounded-full bg-green-500/80" />
+        <div style={{ width: '4rem' }} />
+        <span className="text-[11px] font-mono text-neutral-400 text-center flex-1">
+          {chosen.label}
+        </span>
+        <div
+          style={{
+            width: '4rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            gap: '0.45rem',
+          }}
+        >
+          <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+          <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+          <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
         </div>
-        <span className="text-[11px] font-mono text-neutral-500">{chosen.label}</span>
-        <div className="w-14" />
       </div>
 
       {/* ASCII canvas — fully transparent background */}
