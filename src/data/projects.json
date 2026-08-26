@@ -1,5 +1,23 @@
 [
   {
+    "id": "clearsky",
+    "title": {
+      "tr": "ClearSky — Gerçek Zamanlı Uçuş Takip & Analiz Platformu",
+      "en": "ClearSky — Real-Time Flight Tracking & Analytics Platform"
+    },
+    "description": {
+      "tr": "OpenSky Network API'sinden canlı uçak verilerini toplayan, RabbitMQ üzerinden mikroservisler arası dağıtan ve GraphQL Subscription ile harita üzerinde gerçek zamanlı görselleştiren polyglot mikroservis mimarisi (Go + TypeScript).",
+      "en": "A polyglot microservices architecture (Go + TypeScript) that ingests live aircraft telemetry from OpenSky Network API, distributes streams over RabbitMQ, and renders real-time tracking via GraphQL Subscriptions."
+    },
+    "achievements": null,
+    "techStack": ["Go", "Node.js", "TypeScript", "RabbitMQ", "GraphQL", "Fastify", "MongoDB", "Docker"],
+    "tags": ["Backend", "Microservices", "Real-Time", "Go"],
+    "sourceCode": "https://github.com/emre-tiryaki/ClearSky",
+    "liveDemo": null,
+    "isPrivate": false,
+    "preview": "ClearSky"
+  },
+  {
     "id": "okur",
     "title": {
       "tr": "OKUR — Yapay Zeka Destekli Akıllı Sınav Değerlendirme Sistemi",
@@ -19,42 +37,6 @@
     "liveDemo": null,
     "isPrivate": true,
     "preview": "OKUR/OKUR.jpeg"
-  },
-  {
-    "id": "tua-astro",
-    "title": {
-      "tr": "TUA Astro Hackathon — Kozmik Veri İşleme ve Ayıklama Hattı",
-      "en": "TUA Astro Hackathon — Cosmic Data Processing and Extraction Pipeline"
-    },
-    "description": {
-      "tr": "Uydu telemetri verileri için FastAPI ve PostgreSQL tabanlı, asenkron ve yüksek performanslı backend mimarisi. LSTM Autoencoder ile %90+ doğrulukta otonom anomali tespiti.",
-      "en": "Async, high-performance backend architecture based on FastAPI and PostgreSQL for satellite telemetry data. Autonomous anomaly detection with 90%+ accuracy using LSTM Autoencoder."
-    },
-    "achievements": null,
-    "techStack": ["FastAPI", "PostgreSQL", "NumPy", "SciPy", "LSTM"],
-    "tags": ["Backend", "AI", "Data"],
-    "sourceCode": "https://github.com/avicenna-astrohackhaton",
-    "liveDemo": null,
-    "isPrivate": false,
-    "preview": null
-  },
-  {
-    "id": "hegs-haber",
-    "title": {
-      "tr": "HEGS HABER — Oyunlaştırılmış Haber Platformu",
-      "en": "HEGS HABER — Gamified News Platform"
-    },
-    "description": {
-      "tr": "Anadolu Ajansı Medya Teknolojileri Hackathonu. React ve TypeScript ile oyunlaştırılmış haber platformunun ölçeklenebilir frontend mimarisi tasarlandı.",
-      "en": "Anadolu Agency Media Technologies Hackathon. Scalable frontend architecture for a gamified news platform designed with React and TypeScript."
-    },
-    "achievements": null,
-    "techStack": ["React", "TypeScript", "Redux Toolkit", "Firebase", "Tailwind CSS"],
-    "tags": ["Frontend", "Fullstack"],
-    "sourceCode": "https://github.com/HEGS-HABER",
-    "liveDemo": null,
-    "isPrivate": false,
-    "preview": null
   },
   {
     "id": "typing-game",

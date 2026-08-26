@@ -30,26 +30,26 @@ export default function EducationCard({
       style={{
         width: '100%',
         borderRadius: '1.5rem',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        background: 'rgba(15, 15, 15, 0.92)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: 'rgba(255, 255, 255, 0.035)',
         padding: '1.75rem 2rem',
-        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
+        boxShadow: '0 16px 40px rgba(0, 0, 0, 0.4)',
         display: 'flex',
         flexDirection: 'column',
         gap: '1.35rem',
         userSelect: 'none',
         cursor: 'default',
-        transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
+        transition: 'all 0.25s ease',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.45)';
-        e.currentTarget.style.boxShadow = '0 25px 60px rgba(0, 0, 0, 0.65), 0 0 30px rgba(249, 115, 22, 0.08)';
+        e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.4)';
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.045)';
+        e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(249, 115, 22, 0.06)';
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-        e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06)';
+        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.035)';
+        e.currentTarget.style.boxShadow = '0 16px 40px rgba(0, 0, 0, 0.4)';
       }}
     >
       {/* ── TOP: School Header ── */}
@@ -61,7 +61,7 @@ export default function EducationCard({
               position: 'absolute',
               inset: '-3px',
               borderRadius: '1.15rem',
-              background: 'radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(249,115,22,0.25) 0%, transparent 70%)',
               filter: 'blur(6px)',
               zIndex: 0,
             }}
@@ -73,13 +73,13 @@ export default function EducationCard({
               width: '4.5rem',
               height: '4.5rem',
               borderRadius: '1rem',
-              background: 'rgba(22, 22, 22, 0.95)',
-              border: '1px solid rgba(255, 255, 255, 0.16)',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
               padding: '0.5rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
             }}
           >
             <img

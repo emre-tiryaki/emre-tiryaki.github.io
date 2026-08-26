@@ -5,9 +5,9 @@ import ProjectCard from './ProjectCard';
 import { useTranslation } from '../../hooks/translation';
 
 const variants = {
-  enter: (dir) => ({ x: dir > 0 ? '100%' : '-100%', opacity: 0 }),
+  enter: (dir) => ({ x: dir >= 0 ? '100%' : '-100%', opacity: 0 }),
   center: { x: 0, opacity: 1 },
-  exit:  (dir) => ({ x: dir > 0 ? '-100%' : '100%', opacity: 0 }),
+  exit:  (dir) => ({ x: dir >= 0 ? '-100%' : '100%', opacity: 0 }),
 };
 
 export default function ProjectSlider({ projects }) {
@@ -34,7 +34,7 @@ export default function ProjectSlider({ projects }) {
     }}>
       {/* Card viewport — fills all available height */}
       <div style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden', borderRadius: '1.25rem' }}>
-        <AnimatePresence mode="wait" custom={direction}>
+        <AnimatePresence mode="popLayout" custom={direction} initial={false}>
           <motion.div
             key={page}
             custom={direction}
@@ -42,8 +42,11 @@ export default function ProjectSlider({ projects }) {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.38, ease: [0.22, 0.61, 0.36, 1] }}
-            style={{ position: 'absolute', inset: 0 }}
+            transition={{
+              x: { duration: 0.32, ease: [0.25, 1, 0.5, 1] },
+              opacity: { duration: 0.25 },
+            }}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
           >
             <ProjectCard project={projects[page]} />
           </motion.div>

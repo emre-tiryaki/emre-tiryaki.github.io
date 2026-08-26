@@ -80,17 +80,6 @@ export default function ExperiencePage() {
           position: 'relative',
           overflow: 'hidden',
         }}>
-          {/* Gradient vertical line */}
-          <div style={{
-            position: 'absolute',
-            left: '1rem',
-            top: 0,
-            bottom: 0,
-            width: '2px',
-            background: 'linear-gradient(to bottom, rgba(249,115,22,0.7), rgba(249,115,22,0.03))',
-            pointerEvents: 'none',
-          }} />
-
           {/* Scrollable list */}
           <div style={{
             height: '100%',
@@ -100,26 +89,106 @@ export default function ExperiencePage() {
             display: 'flex',
             flexDirection: 'column',
             gap: '1.25rem',
+            position: 'relative',
           }}>
-            {filtered.map((item) => {
+            {filtered.map((item, index) => {
               const dotColor = TYPE_DOT_COLOR[item.type] || '#f97316';
+              const nextItem = filtered[index + 1];
+              const nextColor = nextItem ? (TYPE_DOT_COLOR[nextItem.type] || '#f97316') : null;
+
               return (
-                <div key={item.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '1.25rem', position: 'relative' }}>
-                  {/* Dot on the line */}
-                  <div style={{ flexShrink: 0, marginTop: '1.25rem', position: 'relative', zIndex: 2 }}>
-                    <div style={{
-                      width: '2rem', height: '2rem', borderRadius: '50%',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: `${dotColor}20`,
-                      border: `2px solid ${dotColor}`,
-                      boxShadow: `0 0 12px ${dotColor}55`,
-                    }}>
-                      <div style={{ width: '0.5rem', height: '0.5rem', borderRadius: '50%', background: dotColor }} />
+                <div
+                  key={item.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'stretch',
+                    gap: '1.25rem',
+                    position: 'relative',
+                  }}
+                >
+                  {/* Left Column: Node + Connector to next node */}
+                  <div
+                    style={{
+                      width: '2.25rem',
+                      flexShrink: 0,
+                      position: 'relative',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                    }}
+                  >
+                    {/* Glowing Concentric Jewel Node on the line */}
+                    <div
+                      style={{
+                        width: '2.25rem',
+                        height: '2.25rem',
+                        marginTop: '1.2rem',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'radial-gradient(circle at center, rgba(26,26,32,0.98) 0%, rgba(10,10,14,0.98) 100%)',
+                        border: `1.5px solid ${dotColor}`,
+                        boxShadow: `0 0 16px ${dotColor}55, 0 0 6px ${dotColor}80, inset 0 0 8px ${dotColor}25`,
+                        position: 'relative',
+                        zIndex: 3,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '1.15rem',
+                          height: '1.15rem',
+                          borderRadius: '50%',
+                          background: `${dotColor}18`,
+                          border: `1px solid ${dotColor}40`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: '0.45rem',
+                            height: '0.45rem',
+                            borderRadius: '50%',
+                            background: dotColor,
+                            boxShadow: `0 0 8px ${dotColor}`,
+                          }}
+                        />
+                      </div>
                     </div>
+
+                    {/* Dynamic Gradient Connector line to the next dot */}
+                    {nextColor && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '3.45rem', /* 1.2rem marginTop + 2.25rem dot height */
+                          bottom: '-2.45rem', /* 1.25rem row gap + 1.2rem next dot marginTop = exactly touches top of next dot */
+                          width: '2px',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          background: `linear-gradient(to bottom, ${dotColor} 0%, ${nextColor} 100%)`,
+                          boxShadow: `0 0 8px ${dotColor}40`,
+                          zIndex: 1,
+                        }}
+                      >
+                        {/* Soft ambient glow */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            inset: '-2px -2px',
+                            background: `linear-gradient(to bottom, ${dotColor}50 0%, ${nextColor}50 100%)`,
+                            filter: 'blur(3px)',
+                            pointerEvents: 'none',
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
 
                   {/* Card */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
                     <ExperienceCard {...item} />
                   </div>
                 </div>
