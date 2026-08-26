@@ -70,7 +70,9 @@
     "privateRepo": "Source code is private",
     "techStack": "Tech Stack",
     "prev": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "filterAll": "All",
+    "noResults": "No projects found for this technology."
   },
   "certifications": {
     "title": "Certifications",
