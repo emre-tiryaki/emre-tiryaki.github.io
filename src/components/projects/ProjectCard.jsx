@@ -303,12 +303,14 @@ function ImageLightbox({ images, activeIndex, onClose, onSelectIndex, title }) {
   );
 }
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, index = 0 }) {
   const { t, tData } = useTranslation();
   const title        = tData(project.title);
   const description  = tData(project.description);
   const achievements = project.achievements ? tData(project.achievements) : null;
   const images       = resolveProjectImages(project);
+
+  const isEvenRow = index % 2 === 1; // 1-based: row 1 (index 0) = left, row 2 (index 1) = right
 
   const [[photoPage, photoDirection], setPhotoPage] = useState([0, 0]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -336,10 +338,10 @@ export default function ProjectCard({ project }) {
       style={{
         width: '100%',
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: isEvenRow ? 'row-reverse' : 'row',
         flexWrap: 'wrap',
-        gap: '1.75rem',
-        padding: '1.5rem',
+        gap: '2rem',
+        padding: '1.65rem 2rem',
         borderRadius: '1.5rem',
         border: '1px solid rgba(255, 255, 255, 0.08)',
         background: 'rgba(255, 255, 255, 0.035)',
@@ -360,15 +362,15 @@ export default function ProjectCard({ project }) {
         setIsHovered(false);
       }}
     >
-      {/* ── LEFT: Interactive Preview Frame (Aspect Ratio 16:10) ── */}
+      {/* ── PHOTO FRAME: Left or Right based on row ── */}
       <div
         style={{
-          flex: '0 0 380px',
+          flex: '0 0 440px',
           maxWidth: '100%',
-          minWidth: '280px',
-          height: '250px',
+          minWidth: '300px',
+          height: '270px',
           position: 'relative',
-          borderRadius: '1rem',
+          borderRadius: '1.1rem',
           overflow: 'hidden',
           border: '1px solid rgba(255, 255, 255, 0.08)',
           background: 'radial-gradient(ellipse at center, rgba(30, 30, 42, 0.9) 0%, rgba(12, 12, 18, 0.98) 100%)',
@@ -408,36 +410,15 @@ export default function ProjectCard({ project }) {
               </AnimatePresence>
             </div>
 
-            {/* Top Right Badges: Photo Counter + Fullscreen */}
+            {/* Top Right: Fullscreen Button */}
             <div
               style={{
                 position: 'absolute',
                 top: '0.65rem',
                 right: '0.65rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
                 zIndex: 10,
               }}
             >
-              {totalPhotos > 1 && (
-                <span
-                  style={{
-                    padding: '0.2rem 0.55rem',
-                    borderRadius: '999px',
-                    background: 'rgba(0, 0, 0, 0.75)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: '#f1f5f9',
-                    fontSize: '0.72rem',
-                    fontFamily: 'monospace',
-                    fontWeight: 600,
-                    backdropFilter: 'blur(8px)',
-                  }}
-                >
-                  {photoPage + 1} / {totalPhotos}
-                </span>
-              )}
-
               <button
                 onClick={(e) => { e.stopPropagation(); setLightboxOpen(true); }}
                 aria-label="Tam Ekran"
@@ -582,51 +563,30 @@ export default function ProjectCard({ project }) {
         />
       )}
 
-      {/* ── RIGHT: Project Details ── */}
+      {/* ── PROJECT DETAILS: Text always left-aligned, footer controls direction-aware ── */}
       <div
         style={{
           flex: 1,
-          minWidth: '280px',
+          minWidth: '300px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
           gap: '1.25rem',
+          textAlign: 'left',
         }}
       >
-        {/* Top Info Group */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-          {/* Achievement Badge */}
-          {achievements && (
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-                padding: '0.28rem 0.8rem',
-                borderRadius: '999px',
-                background: 'rgba(234, 179, 8, 0.12)',
-                border: '1px solid rgba(234, 179, 8, 0.35)',
-                color: '#fcd34d',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                alignSelf: 'flex-start',
-                letterSpacing: '0.01em',
-              }}
-            >
-              <span style={{ fontSize: '0.9rem' }}>🏆</span>
-              <span>{achievements}</span>
-            </div>
-          )}
-
+        {/* Top Info Group (Always left-aligned) */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.65rem', textAlign: 'left' }}>
           {/* Title */}
           <h3
             style={{
-              fontSize: 'clamp(1.25rem, 1.8vw, 1.55rem)',
+              fontSize: 'clamp(1.3rem, 1.8vw, 1.6rem)',
               fontWeight: 800,
               color: '#f8fafc',
               letterSpacing: '-0.02em',
               lineHeight: 1.3,
               margin: 0,
+              textAlign: 'left',
             }}
           >
             {title}
@@ -635,11 +595,12 @@ export default function ProjectCard({ project }) {
           {/* Description */}
           <p
             style={{
-              fontSize: '0.925rem',
+              fontSize: '0.935rem',
               color: '#94a3b8',
               lineHeight: 1.65,
               fontWeight: 400,
               margin: 0,
+              textAlign: 'left',
             }}
           >
             {description}
@@ -657,7 +618,14 @@ export default function ProjectCard({ project }) {
           }}
         >
           {/* Tech Stack Pills */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '0.45rem',
+              justifyContent: isEvenRow ? 'flex-end' : 'flex-start',
+            }}
+          >
             {project.techStack.map((tech) => (
               <span
                 key={tech}
@@ -678,85 +646,128 @@ export default function ProjectCard({ project }) {
             ))}
           </div>
 
-          {/* Action Links */}
-          {(project.sourceCode || project.isPrivate || project.liveDemo) && (
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.65rem' }}>
-              {/* Live Demo Button */}
-              {project.liveDemo && (
-                <a
-                  href={project.liveDemo}
-                  target="_blank"
-                  rel="noreferrer"
+          {/* Action Row: Action Buttons + Achievement Badge on the opposite side */}
+          {(achievements || project.sourceCode || project.isPrivate || project.liveDemo) && (
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '0.75rem',
+                flexDirection: isEvenRow ? 'row-reverse' : 'row',
+              }}
+            >
+              {/* Action Buttons */}
+              {(project.sourceCode || project.isPrivate || project.liveDemo) && (
+                <div
                   style={{
-                    display: 'inline-flex',
+                    display: 'flex',
+                    flexWrap: 'wrap',
                     alignItems: 'center',
-                    gap: '0.45rem',
-                    padding: '0.5rem 1.15rem',
-                    borderRadius: '999px',
-                    background: 'linear-gradient(135deg, #f97316, #ea580c)',
-                    fontSize: '0.825rem',
-                    fontWeight: 700,
-                    color: '#fff',
-                    textDecoration: 'none',
-                    boxShadow: '0 4px 16px rgba(249, 115, 22, 0.35)',
-                    transition: 'all 0.18s ease',
+                    gap: '0.65rem',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 22px rgba(249, 115, 22, 0.5)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(249, 115, 22, 0.35)'; }}
                 >
-                  <FiExternalLink size={15} />
-                  <span>{t('projects.liveDemo')}</span>
-                </a>
+                  {/* Live Demo Button */}
+                  {project.liveDemo && (
+                    <a
+                      href={project.liveDemo}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.45rem',
+                        padding: '0.5rem 1.15rem',
+                        borderRadius: '999px',
+                        background: 'linear-gradient(135deg, #f97316, #ea580c)',
+                        fontSize: '0.825rem',
+                        fontWeight: 700,
+                        color: '#fff',
+                        textDecoration: 'none',
+                        boxShadow: '0 4px 16px rgba(249, 115, 22, 0.35)',
+                        transition: 'all 0.18s ease',
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 22px rgba(249, 115, 22, 0.5)'; }}
+                      onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(249, 115, 22, 0.35)'; }}
+                    >
+                      <FiExternalLink size={15} />
+                      <span>{t('projects.liveDemo')}</span>
+                    </a>
+                  )}
+
+                  {/* Source Code Link or Private Repo Disabled Badge */}
+                  {project.isPrivate ? (
+                    <div
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.45rem',
+                        padding: '0.5rem 1.15rem',
+                        borderRadius: '999px',
+                        background: 'rgba(255, 255, 255, 0.03)',
+                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                        fontSize: '0.825rem',
+                        fontWeight: 600,
+                        color: '#71717a',
+                        cursor: 'not-allowed',
+                        userSelect: 'none',
+                      }}
+                    >
+                      <FiLock size={14} style={{ color: '#71717a' }} />
+                      <span>{t('projects.privateRepo')}</span>
+                    </div>
+                  ) : (
+                    project.sourceCode && (
+                      <a
+                        href={project.sourceCode}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.45rem',
+                          padding: '0.5rem 1.15rem',
+                          borderRadius: '999px',
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                          fontSize: '0.825rem',
+                          fontWeight: 600,
+                          color: '#e2e8f0',
+                          textDecoration: 'none',
+                          transition: 'all 0.18s ease',
+                        }}
+                        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; e.currentTarget.style.color = '#e2e8f0'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'; }}
+                      >
+                        <FiGithub size={15} />
+                        <span>{t('projects.sourceCode')}</span>
+                      </a>
+                    )
+                  )}
+                </div>
               )}
 
-              {/* Source Code Link or Private Repo Disabled Badge */}
-              {project.isPrivate ? (
+              {/* Achievement Badge (rendered on the opposite side) */}
+              {achievements && (
                 <div
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.45rem',
-                    padding: '0.5rem 1.15rem',
+                    padding: '0.35rem 0.85rem',
                     borderRadius: '999px',
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    fontSize: '0.825rem',
-                    fontWeight: 600,
-                    color: '#71717a',
-                    cursor: 'not-allowed',
-                    userSelect: 'none',
+                    background: 'rgba(234, 179, 8, 0.12)',
+                    border: '1px solid rgba(234, 179, 8, 0.35)',
+                    color: '#fcd34d',
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.01em',
                   }}
                 >
-                  <FiLock size={14} style={{ color: '#71717a' }} />
-                  <span>{t('projects.privateRepo')}</span>
+                  <span style={{ fontSize: '0.9rem' }}>🏆</span>
+                  <span>{achievements}</span>
                 </div>
-              ) : (
-                project.sourceCode && (
-                  <a
-                    href={project.sourceCode}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.45rem',
-                      padding: '0.5rem 1.15rem',
-                      borderRadius: '999px',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      fontSize: '0.825rem',
-                      fontWeight: 600,
-                      color: '#e2e8f0',
-                      textDecoration: 'none',
-                      transition: 'all 0.18s ease',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; e.currentTarget.style.color = '#e2e8f0'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'; }}
-                  >
-                    <FiGithub size={15} />
-                    <span>{t('projects.sourceCode')}</span>
-                  </a>
-                )
               )}
             </div>
           )}

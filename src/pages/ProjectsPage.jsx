@@ -237,7 +237,7 @@ export default function ProjectsPage() {
       title={t('projects.title')}
       subtitle={t('projects.subtitle')}
       headerAction={filterDropdown}
-      maxWidth="72rem"
+      maxWidth="86rem"
       fullHeight
     >
       {/* Scrollable Project List */}
@@ -249,7 +249,7 @@ export default function ProjectsPage() {
           paddingBottom: '2.5rem',
           display: 'flex',
           flexDirection: 'column',
-          gap: '1.5rem',
+          gap: '1.75rem',
           scrollbarWidth: 'thin',
           scrollbarColor: 'rgba(249,115,22,0.35) transparent',
           minHeight: 0,
@@ -274,7 +274,7 @@ export default function ProjectsPage() {
               {t('projects.noResults')}
             </motion.div>
           ) : (
-            filtered.map(project => (
+            filtered.map((project, index) => (
               <motion.div
                 key={project.id}
                 layout
@@ -283,7 +283,7 @@ export default function ProjectsPage() {
                 exit={{ opacity: 0, y: -16 }}
                 transition={{ duration: 0.24, ease: [0.25, 1, 0.5, 1] }}
               >
-                <ProjectCard project={project} />
+                <ProjectCard project={project} index={index} />
               </motion.div>
             ))
           )}

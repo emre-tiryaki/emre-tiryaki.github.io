@@ -52,7 +52,7 @@
     "techStack": ["Node.js", "Express", "MongoDB", "JWT"],
     "tags": ["Backend", "Fullstack"],
     "sourceCode": "https://github.com/emre-tiryaki/typing-game",
-    "liveDemo": "https://typing-game-92pq.onrender.com/",
+    "liveDemo": null,
     "isPrivate": false,
     "preview": "typing_game/typing_game.png"
   },
