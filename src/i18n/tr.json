@@ -72,7 +72,11 @@
     "prev": "Önceki",
     "next": "Sonraki",
     "filterAll": "Tümü",
-    "noResults": "Bu teknoloji ile eşleşen proje bulunamadı."
+    "noResults": "Bu teknoloji ile eşleşen proje bulunamadı.",
+    "filterLabel": "Teknoloji Filtrele",
+    "filterSelected": "{n} teknoloji seçili",
+    "filterTitle": "Teknoloji Filtrele",
+    "filterClear": "Temizle"
   },
   "certifications": {
     "title": "Sertifikalar",

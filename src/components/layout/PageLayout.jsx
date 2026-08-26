@@ -2,6 +2,7 @@ export default function PageLayout({
   title,
   subtitle,
   children,
+  headerAction,
   maxWidth = '72rem',
   fullHeight = false,
   className = '',
@@ -29,10 +30,12 @@ export default function PageLayout({
       {/* Standardized Page Header — identical position across all pages */}
       {(title || subtitle) && (
         <div
-          className="text-center flex-shrink-0 w-full"
+          className="flex-shrink-0 w-full"
           style={{
+            position: 'relative',
             paddingTop: '0.25rem',
             paddingBottom: '1.5rem',
+            textAlign: 'center',
           }}
         >
           {title && (
@@ -44,6 +47,18 @@ export default function PageLayout({
             <p className="text-base text-neutral-400 mt-1 leading-normal select-none">
               {subtitle}
             </p>
+          )}
+
+          {/* Optional right-side action slot (e.g. filter button) */}
+          {headerAction && (
+            <div style={{
+              position: 'absolute',
+              right: 0,
+              top: '50%',
+              transform: 'translateY(-50%)',
+            }}>
+              {headerAction}
+            </div>
           )}
         </div>
       )}

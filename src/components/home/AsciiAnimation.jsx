@@ -44,7 +44,7 @@ export default function AsciiAnimation() {
         }}
       >
         <div style={{ width: '4rem' }} />
-        <span className="text-[11px] font-mono text-neutral-400 text-center flex-1">
+        <span className="text-[11px] font-mono text-neutral-400 text-center flex-1 select-none">
           {chosen.label}
         </span>
         <div

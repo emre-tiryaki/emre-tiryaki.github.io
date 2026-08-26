@@ -22,7 +22,7 @@ export default function BlogListPage() {
       {loading && <p className="text-neutral-500 text-sm text-center">{t('blog.loading')}</p>}
       {error && <p className="text-red-400 text-sm text-center">{error}</p>}
       {!loading && !error && posts.length === 0 && (
-        <p className="text-neutral-500 text-sm text-center">{t('blog.noPosts')}</p>
+        <p className="text-neutral-500 text-sm text-center select-none">{t('blog.noPosts')}</p>
       )}
 
       <div className="grid grid-cols-1 gap-6">

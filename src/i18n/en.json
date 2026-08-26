@@ -72,7 +72,11 @@
     "prev": "Previous",
     "next": "Next",
     "filterAll": "All",
-    "noResults": "No projects found for this technology."
+    "noResults": "No projects found for this technology.",
+    "filterLabel": "Filter by Tech",
+    "filterSelected": "{n} selected",
+    "filterTitle": "Filter by Technology",
+    "filterClear": "Clear"
   },
   "certifications": {
     "title": "Certifications",
