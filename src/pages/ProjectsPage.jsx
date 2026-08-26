@@ -237,7 +237,7 @@ export default function ProjectsPage() {
       title={t('projects.title')}
       subtitle={t('projects.subtitle')}
       headerAction={filterDropdown}
-      maxWidth="100%"
+      maxWidth="72rem"
       fullHeight
     >
       {/* Scrollable Project List */}
@@ -246,7 +246,7 @@ export default function ProjectsPage() {
           flex: 1,
           overflowY: 'auto',
           paddingRight: '0.5rem',
-          paddingBottom: '2rem',
+          paddingBottom: '2.5rem',
           display: 'flex',
           flexDirection: 'column',
           gap: '1.5rem',
@@ -264,8 +264,10 @@ export default function ProjectsPage() {
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.25 }}
               style={{
-                textAlign: 'center', color: '#52525b',
-                fontSize: '0.95rem', fontFamily: 'monospace',
+                textAlign: 'center',
+                color: '#52525b',
+                fontSize: '0.95rem',
+                fontFamily: 'monospace',
                 padding: '4rem 0',
               }}
             >
@@ -276,11 +278,10 @@ export default function ProjectsPage() {
               <motion.div
                 key={project.id}
                 layout
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.28, ease: [0.25, 1, 0.5, 1] }}
-                style={{ minHeight: '380px' }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.24, ease: [0.25, 1, 0.5, 1] }}
               >
                 <ProjectCard project={project} />
               </motion.div>

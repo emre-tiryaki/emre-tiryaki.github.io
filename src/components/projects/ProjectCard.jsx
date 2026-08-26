@@ -44,7 +44,9 @@ function resolveProjectImages(project) {
     });
   }
 
-  return resolved.sort((a, b) => a.path.localeCompare(b.path)).map(r => r.url);
+  return resolved
+    .sort((a, b) => (a.path || '').localeCompare(b.path || ''))
+    .map(r => r.url);
 }
 
 const slideVariants = {
@@ -100,9 +102,9 @@ function ImageLightbox({ images, activeIndex, onClose, onSelectIndex, title }) {
         position: 'fixed',
         inset: 0,
         zIndex: 999999,
-        background: 'rgba(0, 0, 0, 0.65)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
+        background: 'rgba(0, 0, 0, 0.7)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -333,20 +335,22 @@ export default function ProjectCard({ project }) {
     <article
       style={{
         width: '100%',
-        height: '100%',
         display: 'flex',
         flexDirection: 'row',
-        overflow: 'hidden',
-        borderRadius: '1.25rem',
+        flexWrap: 'wrap',
+        gap: '1.75rem',
+        padding: '1.5rem',
+        borderRadius: '1.5rem',
         border: '1px solid rgba(255, 255, 255, 0.08)',
         background: 'rgba(255, 255, 255, 0.035)',
         boxShadow: '0 16px 40px rgba(0, 0, 0, 0.4)',
         transition: 'all 0.25s ease',
+        boxSizing: 'border-box',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.4)';
         e.currentTarget.style.background = 'rgba(255, 255, 255, 0.045)';
-        e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(249, 115, 22, 0.06)';
+        e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(249, 115, 22, 0.06)';
         setIsHovered(true);
       }}
       onMouseLeave={e => {
@@ -356,25 +360,29 @@ export default function ProjectCard({ project }) {
         setIsHovered(false);
       }}
     >
-      {/* LEFT — Multi-Photo Interactive Gallery (50% width) */}
+      {/* ── LEFT: Interactive Preview Frame (Aspect Ratio 16:10) ── */}
       <div
         style={{
-          width: '50%',
-          flexShrink: 0,
+          flex: '0 0 380px',
+          maxWidth: '100%',
+          minWidth: '280px',
+          height: '250px',
           position: 'relative',
+          borderRadius: '1rem',
           overflow: 'hidden',
-          background: 'rgba(10, 10, 14, 0.6)',
-          borderRight: '1px solid rgba(255, 255, 255, 0.07)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          background: 'radial-gradient(ellipse at center, rgba(30, 30, 42, 0.9) 0%, rgba(12, 12, 18, 0.98) 100%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: totalPhotos > 0 ? 'pointer' : 'default',
+          boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.5)',
         }}
         onClick={() => { if (totalPhotos > 0) setLightboxOpen(true); }}
       >
         {totalPhotos > 0 ? (
           <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            {/* Active Image with Slide Animation */}
+            {/* Active Image with Directional Slide */}
             <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
               <AnimatePresence custom={photoDirection} initial={false} mode="popLayout">
                 <motion.img
@@ -400,86 +408,61 @@ export default function ProjectCard({ project }) {
               </AnimatePresence>
             </div>
 
-            {/* Top Badges: Private / Photo Counter / Fullscreen */}
+            {/* Top Right Badges: Photo Counter + Fullscreen */}
             <div
               style={{
                 position: 'absolute',
-                top: '0.85rem',
-                left: '0.85rem',
-                right: '0.85rem',
+                top: '0.65rem',
+                right: '0.65rem',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                gap: '0.4rem',
                 zIndex: 10,
-                pointerEvents: 'none',
               }}
             >
-              {project.isPrivate ? (
-                <div
+              {totalPhotos > 1 && (
+                <span
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    padding: '0.3rem 0.75rem',
+                    padding: '0.2rem 0.55rem',
                     borderRadius: '999px',
                     background: 'rgba(0, 0, 0, 0.75)',
                     border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: '#d4d4d8',
-                    fontSize: '0.75rem',
-                    fontFamily: 'monospace',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                >
-                  <FiLock size={12} style={{ color: '#fb923c' }} />
-                  <span>{t('projects.privateRepo')}</span>
-                </div>
-              ) : <div />}
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', pointerEvents: 'auto' }}>
-                {totalPhotos > 1 && (
-                  <span
-                    style={{
-                      padding: '0.25rem 0.65rem',
-                      borderRadius: '999px',
-                      background: 'rgba(0, 0, 0, 0.75)',
-                      border: '1px solid rgba(255, 255, 255, 0.15)',
-                      color: '#f1f5f9',
-                      fontSize: '0.75rem',
-                      fontFamily: 'monospace',
-                      fontWeight: 600,
-                      backdropFilter: 'blur(8px)',
-                    }}
-                  >
-                    {photoPage + 1} / {totalPhotos}
-                  </span>
-                )}
-
-                <button
-                  onClick={(e) => { e.stopPropagation(); setLightboxOpen(true); }}
-                  aria-label="Tam Ekran"
-                  style={{
-                    width: '1.85rem',
-                    height: '1.85rem',
-                    borderRadius: '50%',
-                    background: 'rgba(0, 0, 0, 0.75)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
                     color: '#f1f5f9',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
+                    fontSize: '0.72rem',
+                    fontFamily: 'monospace',
+                    fontWeight: 600,
                     backdropFilter: 'blur(8px)',
-                    transition: 'all 0.18s ease',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.color = '#fb923c'; e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.5)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = '#f1f5f9'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)'; }}
                 >
-                  <FiMaximize2 size={11} />
-                </button>
-              </div>
+                  {photoPage + 1} / {totalPhotos}
+                </span>
+              )}
+
+              <button
+                onClick={(e) => { e.stopPropagation(); setLightboxOpen(true); }}
+                aria-label="Tam Ekran"
+                style={{
+                  width: '1.75rem',
+                  height: '1.75rem',
+                  borderRadius: '50%',
+                  background: 'rgba(0, 0, 0, 0.75)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  color: '#f1f5f9',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(8px)',
+                  transition: 'all 0.18s ease',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#fb923c'; e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.5)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = '#f1f5f9'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)'; }}
+              >
+                <FiMaximize2 size={11} />
+              </button>
             </div>
 
-            {/* Prev / Next Arrows (visible when multiple photos exist) */}
+            {/* Prev / Next Chevrons */}
             {totalPhotos > 1 && (
               <>
                 <button
@@ -487,11 +470,11 @@ export default function ProjectCard({ project }) {
                   aria-label="Önceki Fotoğraf"
                   style={{
                     position: 'absolute',
-                    left: '0.65rem',
+                    left: '0.5rem',
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    width: '2.25rem',
-                    height: '2.25rem',
+                    width: '2rem',
+                    height: '2rem',
                     borderRadius: '50%',
                     background: 'rgba(0, 0, 0, 0.75)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -502,12 +485,12 @@ export default function ProjectCard({ project }) {
                     cursor: 'pointer',
                     zIndex: 10,
                     opacity: isHovered ? 1 : 0.6,
-                    transition: 'all 0.2s ease',
+                    transition: 'all 0.18s ease',
                   }}
                   onMouseEnter={e => { e.currentTarget.style.background = 'rgba(249, 115, 22, 0.85)'; e.currentTarget.style.opacity = '1'; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0, 0, 0, 0.75)'; e.currentTarget.style.opacity = isHovered ? '1' : '0.6'; }}
                 >
-                  <FiChevronLeft size={18} />
+                  <FiChevronLeft size={16} />
                 </button>
 
                 <button
@@ -515,11 +498,11 @@ export default function ProjectCard({ project }) {
                   aria-label="Sonraki Fotoğraf"
                   style={{
                     position: 'absolute',
-                    right: '0.65rem',
+                    right: '0.5rem',
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    width: '2.25rem',
-                    height: '2.25rem',
+                    width: '2rem',
+                    height: '2rem',
                     borderRadius: '50%',
                     background: 'rgba(0, 0, 0, 0.75)',
                     border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -530,25 +513,25 @@ export default function ProjectCard({ project }) {
                     cursor: 'pointer',
                     zIndex: 10,
                     opacity: isHovered ? 1 : 0.6,
-                    transition: 'all 0.2s ease',
+                    transition: 'all 0.18s ease',
                   }}
                   onMouseEnter={e => { e.currentTarget.style.background = 'rgba(249, 115, 22, 0.85)'; e.currentTarget.style.opacity = '1'; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0, 0, 0, 0.75)'; e.currentTarget.style.opacity = isHovered ? '1' : '0.6'; }}
                 >
-                  <FiChevronRight size={18} />
+                  <FiChevronRight size={16} />
                 </button>
 
-                {/* Bottom Interactive Thumbnail Strip */}
+                {/* Bottom Dots Indicator */}
                 <div
                   style={{
                     position: 'absolute',
-                    bottom: '0.75rem',
+                    bottom: '0.6rem',
                     left: '50%',
                     transform: 'translateX(-50%)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.4rem',
-                    padding: '0.35rem 0.6rem',
+                    gap: '0.35rem',
+                    padding: '0.25rem 0.5rem',
                     borderRadius: '999px',
                     background: 'rgba(0, 0, 0, 0.75)',
                     border: '1px solid rgba(255, 255, 255, 0.15)',
@@ -557,20 +540,20 @@ export default function ProjectCard({ project }) {
                   }}
                   onClick={e => e.stopPropagation()}
                 >
-                  {images.map((img, idx) => (
+                  {images.map((_, idx) => (
                     <button
                       key={idx}
                       onClick={(e) => handleThumbnailClick(e, idx)}
                       style={{
-                        width: idx === photoPage ? '1.5rem' : '0.5rem',
-                        height: '0.5rem',
+                        width: idx === photoPage ? '1.25rem' : '0.45rem',
+                        height: '0.45rem',
                         borderRadius: '999px',
-                        background: idx === photoPage ? '#f97316' : 'rgba(255, 255, 255, 0.3)',
+                        background: idx === photoPage ? '#f97316' : 'rgba(255, 255, 255, 0.35)',
                         boxShadow: idx === photoPage ? '0 0 8px rgba(249, 115, 22, 0.8)' : 'none',
                         border: 'none',
                         cursor: 'pointer',
                         padding: 0,
-                        transition: 'all 0.25s ease',
+                        transition: 'all 0.22s ease',
                       }}
                     />
                   ))}
@@ -579,11 +562,11 @@ export default function ProjectCard({ project }) {
             )}
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', color: '#52525b', padding: '2rem', textAlign: 'center' }}>
-            <div style={{ width: '5rem', height: '5rem', borderRadius: '1rem', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FiGithub size={40} />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', color: '#52525b', padding: '1.5rem', textAlign: 'center' }}>
+            <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: '0.75rem', background: 'rgba(255, 255, 255, 0.04)', border: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <FiGithub size={28} />
             </div>
-            <span style={{ fontSize: '0.85rem', fontFamily: 'monospace' }}>No Preview</span>
+            <span style={{ fontSize: '0.75rem', fontFamily: 'monospace' }}>No Preview</span>
           </div>
         )}
       </div>
@@ -599,63 +582,95 @@ export default function ProjectCard({ project }) {
         />
       )}
 
-      {/* RIGHT — Project details */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: '2.5rem 3rem',
-        overflow: 'hidden',
-      }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          {/* Achievement badge */}
+      {/* ── RIGHT: Project Details ── */}
+      <div
+        style={{
+          flex: 1,
+          minWidth: '280px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: '1.25rem',
+        }}
+      >
+        {/* Top Info Group */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+          {/* Achievement Badge */}
           {achievements && (
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              padding: '0.4rem 1rem', borderRadius: '999px',
-              background: 'rgba(234,179,8,0.12)', border: '1px solid rgba(234,179,8,0.35)',
-              color: '#fcd34d', fontSize: '0.85rem', fontWeight: 700,
-              alignSelf: 'flex-start',
-            }}>
-              <span style={{ fontSize: '1rem' }}>🏆</span>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                padding: '0.28rem 0.8rem',
+                borderRadius: '999px',
+                background: 'rgba(234, 179, 8, 0.12)',
+                border: '1px solid rgba(234, 179, 8, 0.35)',
+                color: '#fcd34d',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                alignSelf: 'flex-start',
+                letterSpacing: '0.01em',
+              }}
+            >
+              <span style={{ fontSize: '0.9rem' }}>🏆</span>
               <span>{achievements}</span>
             </div>
           )}
 
           {/* Title */}
-          <h3 style={{
-            fontSize: 'clamp(1.5rem, 2.5vw, 2.25rem)',
-            fontWeight: 800,
-            color: '#f1f5f9',
-            letterSpacing: '-0.02em',
-            lineHeight: 1.2,
-          }}>
+          <h3
+            style={{
+              fontSize: 'clamp(1.25rem, 1.8vw, 1.55rem)',
+              fontWeight: 800,
+              color: '#f8fafc',
+              letterSpacing: '-0.02em',
+              lineHeight: 1.3,
+              margin: 0,
+            }}
+          >
             {title}
           </h3>
 
           {/* Description */}
-          <p style={{
-            fontSize: 'clamp(0.9rem, 1.2vw, 1.05rem)',
-            color: '#94a3b8',
-            lineHeight: 1.7,
-            fontWeight: 400,
-          }}>
+          <p
+            style={{
+              fontSize: '0.925rem',
+              color: '#94a3b8',
+              lineHeight: 1.65,
+              fontWeight: 400,
+              margin: 0,
+            }}
+          >
             {description}
           </p>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          {/* Tech Stack */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+        {/* Bottom Group: Tech Stack + Actions */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            paddingTop: '1rem',
+            borderTop: '1px solid rgba(255, 255, 255, 0.07)',
+          }}
+        >
+          {/* Tech Stack Pills */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
             {project.techStack.map((tech) => (
               <span
                 key={tech}
                 style={{
-                  padding: '0.35rem 0.85rem', borderRadius: '0.6rem',
-                  background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-                  fontSize: '0.8rem', fontFamily: 'monospace', fontWeight: 600,
-                  color: '#fb923c',
+                  padding: '0.25rem 0.65rem',
+                  borderRadius: '0.5rem',
+                  background: 'rgba(255, 255, 255, 0.045)',
+                  border: '1px solid rgba(255, 255, 255, 0.09)',
+                  fontSize: '0.76rem',
+                  fontFamily: 'monospace',
+                  fontWeight: 600,
+                  color: '#fdba74',
+                  letterSpacing: '0.02em',
                 }}
               >
                 {tech}
@@ -663,49 +678,85 @@ export default function ProjectCard({ project }) {
             ))}
           </div>
 
-          {/* Action links */}
-          {(project.sourceCode || project.liveDemo) && (
-            <div style={{
-              display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem',
-              paddingTop: '1.25rem',
-              borderTop: '1px solid rgba(255,255,255,0.07)',
-            }}>
-              {project.sourceCode && (
-                <a
-                  href={project.sourceCode}
-                  target="_blank" rel="noreferrer"
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: '0.5rem',
-                    padding: '0.6rem 1.25rem', borderRadius: '999px',
-                    background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                    fontSize: '0.875rem', fontWeight: 600, color: '#e2e8f0',
-                    textDecoration: 'none', transition: 'all 0.18s ease',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = '#fff'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = '#e2e8f0'; }}
-                >
-                  <FiGithub size={17} />
-                  <span>{t('projects.sourceCode')}</span>
-                </a>
-              )}
+          {/* Action Links */}
+          {(project.sourceCode || project.isPrivate || project.liveDemo) && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.65rem' }}>
+              {/* Live Demo Button */}
               {project.liveDemo && (
                 <a
                   href={project.liveDemo}
-                  target="_blank" rel="noreferrer"
+                  target="_blank"
+                  rel="noreferrer"
                   style={{
-                    display: 'flex', alignItems: 'center', gap: '0.5rem',
-                    padding: '0.6rem 1.25rem', borderRadius: '999px',
-                    background: 'linear-gradient(135deg, #f97316, #f59e0b)',
-                    fontSize: '0.875rem', fontWeight: 700, color: '#fff',
-                    textDecoration: 'none', boxShadow: '0 4px 20px rgba(249,115,22,0.3)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    padding: '0.5rem 1.15rem',
+                    borderRadius: '999px',
+                    background: 'linear-gradient(135deg, #f97316, #ea580c)',
+                    fontSize: '0.825rem',
+                    fontWeight: 700,
+                    color: '#fff',
+                    textDecoration: 'none',
+                    boxShadow: '0 4px 16px rgba(249, 115, 22, 0.35)',
                     transition: 'all 0.18s ease',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.04)'; e.currentTarget.style.boxShadow = '0 6px 28px rgba(249,115,22,0.45)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = '0 4px 20px rgba(249,115,22,0.3)'; }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 22px rgba(249, 115, 22, 0.5)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(249, 115, 22, 0.35)'; }}
                 >
-                  <FiExternalLink size={17} />
+                  <FiExternalLink size={15} />
                   <span>{t('projects.liveDemo')}</span>
                 </a>
+              )}
+
+              {/* Source Code Link or Private Repo Disabled Badge */}
+              {project.isPrivate ? (
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.45rem',
+                    padding: '0.5rem 1.15rem',
+                    borderRadius: '999px',
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    fontSize: '0.825rem',
+                    fontWeight: 600,
+                    color: '#71717a',
+                    cursor: 'not-allowed',
+                    userSelect: 'none',
+                  }}
+                >
+                  <FiLock size={14} style={{ color: '#71717a' }} />
+                  <span>{t('projects.privateRepo')}</span>
+                </div>
+              ) : (
+                project.sourceCode && (
+                  <a
+                    href={project.sourceCode}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.45rem',
+                      padding: '0.5rem 1.15rem',
+                      borderRadius: '999px',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      fontSize: '0.825rem',
+                      fontWeight: 600,
+                      color: '#e2e8f0',
+                      textDecoration: 'none',
+                      transition: 'all 0.18s ease',
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'; e.currentTarget.style.color = '#e2e8f0'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'; }}
+                  >
+                    <FiGithub size={15} />
+                    <span>{t('projects.sourceCode')}</span>
+                  </a>
+                )
               )}
             </div>
           )}
