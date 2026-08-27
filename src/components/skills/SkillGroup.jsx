@@ -1,18 +1,7 @@
 import { useState, useRef } from 'react';
 import SkillCard, { TooltipPortal } from './SkillCard';
 import { useTranslation } from '../../hooks/translation';
-
-const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/';
-const databaseIcon = new URL('../../assets/skills/database.svg', import.meta.url).href;
-const aiIcon = new URL('../../assets/skills/ai-brain.svg', import.meta.url).href;
-const networkIcon = new URL('../../assets/skills/network-api.svg', import.meta.url).href;
-
-function getCategoryIconSrc(icon) {
-  if (icon === 'custom:database' || icon === 'database') return databaseIcon;
-  if (icon === 'custom:ai' || icon === 'ai' || icon === 'ai-brain') return aiIcon;
-  if (icon === 'custom:network' || icon === 'network' || icon === 'api') return networkIcon;
-  return `${DEVICON_BASE}${icon}.svg`;
-}
+import { getCategoryIconSrc } from '../../lib/media';
 
 export default function SkillGroup({ category, categoryIcon, categoryComment, comment, items }) {
   const { tData } = useTranslation();

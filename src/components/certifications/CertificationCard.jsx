@@ -1,23 +1,16 @@
 import { FiAward, FiExternalLink, FiCalendar, FiCheckCircle } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
+import { getAuthorityLogo } from '../../lib/media';
 
 const { surface, certCard } = THEME_COLORS;
-
-const anthropicLogo = new URL('../../assets/certification_icons/antrophic_certification_logo.jpeg', import.meta.url).href;
-const inonuLogo = new URL('../../assets/education/inonu_university_logo.png', import.meta.url).href;
-
-const AUTHORITY_ICONS = {
-  anthropic: anthropicLogo,
-  inonu: inonuLogo,
-};
 
 export default function CertificationCard({ name, authority, authorityKey, date, url }) {
   const { t, tData } = useTranslation();
   const certName = tData(name);
   const authName = tData(authority);
   const certDate = tData(date);
-  const logo = AUTHORITY_ICONS[authorityKey];
+  const logo = getAuthorityLogo(authorityKey);
 
   const Tag = url ? 'a' : 'div';
   const extraProps = url

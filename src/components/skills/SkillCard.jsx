@@ -1,25 +1,11 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from '../../hooks/translation';
+import { SKILL_CUSTOM_ICONS, AGENT_ICONS, getSkillIconSrc } from '../../lib/media';
 
-const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/';
-const ollamaIcon = new URL('../../assets/skills/ollama.png', import.meta.url).href;
-const tokioIcon = new URL('../../assets/skills/tokio.svg', import.meta.url).href;
-const websocketIcon = new URL('../../assets/skills/websocket.svg', import.meta.url).href;
-
-const agentIconModules = import.meta.glob('../../assets/skills/agents/*.{svg,png,jpg,jpeg,webp}', {
-  eager: true,
-  import: 'default',
-});
-const AGENT_ICONS = Object.entries(agentIconModules)
-  .sort(([pathA], [pathB]) => {
-    const isHermesA = pathA.toLowerCase().includes('hermes');
-    const isHermesB = pathB.toLowerCase().includes('hermes');
-    if (isHermesA && !isHermesB) return -1;
-    if (!isHermesA && isHermesB) return 1;
-    return pathA.localeCompare(pathB);
-  })
-  .map(([, url]) => url);
+const ollamaIcon = SKILL_CUSTOM_ICONS['custom:ollama'];
+const tokioIcon = SKILL_CUSTOM_ICONS['custom:tokio'];
+const websocketIcon = SKILL_CUSTOM_ICONS['custom:websocket'];
 
 function SkillIcon({ icon, name, activeAgentIcon }) {
   if (icon === 'custom:ollama') {
@@ -49,7 +35,7 @@ function SkillIcon({ icon, name, activeAgentIcon }) {
   if (icon) {
     return (
       <img
-        src={`${DEVICON_BASE}${icon}.svg`}
+        src={getSkillIconSrc(icon)}
         alt={name}
         width={40}
         height={40}

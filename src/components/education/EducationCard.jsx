@@ -1,17 +1,9 @@
 import { FiCalendar, FiAward, FiCode, FiLayers, FiCpu, FiGlobe, FiCheck } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
+import { getEducationLogo, CATEGORY_ICONS } from '../../lib/media';
 
 const { accent, surface, text, status: themeStatus, card } = THEME_COLORS;
-
-const inonuLogo = new URL('../../assets/education/inonu_university_logo.png', import.meta.url).href;
-
-const CATEGORY_ICONS = {
-  'core-cs': FiCode,
-  'systems-network': FiLayers,
-  'ai-data': FiCpu,
-  'web-engineering': FiGlobe,
-};
 
 export default function EducationCard({
   school,
@@ -85,7 +77,7 @@ export default function EducationCard({
             }}
           >
             <img
-              src={logo ? new URL(`../../assets/education/${logo}`, import.meta.url).href : inonuLogo}
+              src={logo ? new URL(`../../assets/education/${logo}`, import.meta.url).href : getEducationLogo()}
               alt={tData(school)}
               draggable={false}
               style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }}
