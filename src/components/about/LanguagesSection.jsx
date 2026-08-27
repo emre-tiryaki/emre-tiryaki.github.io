@@ -12,7 +12,7 @@ export default function LanguagesSection() {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <p className="text-xs font-mono font-bold text-neutral-400 uppercase tracking-widest mb-3 text-center">
+      <p className="text-xs font-bold text-neutral-400 uppercase tracking-widest mb-3 text-center">
         {t('about.languages')}
       </p>
       <div className="grid grid-cols-2 gap-2 place-items-center">

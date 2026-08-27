@@ -65,7 +65,7 @@ export default function ContactAndLanguages() {
           {/* Header */}
           <div className="flex items-center gap-1.5 text-neutral-400">
             <FiShare2 className="text-orange-400 text-xs" />
-            <span className="text-xs font-mono font-bold uppercase tracking-widest">
+            <span className="text-xs font-bold uppercase tracking-widest">
               {t('about.contactTitle')}
             </span>
           </div>
@@ -129,7 +129,7 @@ export default function ContactAndLanguages() {
             <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/30 text-orange-400 group-hover:bg-orange-500 group-hover:text-white transition-all duration-200 shadow-md">
               <FiFileText size={22} />
             </div>
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-300 group-hover:text-white transition-colors">
+            <span className="text-xs font-bold uppercase tracking-widest text-neutral-300 group-hover:text-white transition-colors">
               {t('about.cvTitle')}
             </span>
           </div>
@@ -149,7 +149,7 @@ export default function ContactAndLanguages() {
           {/* Header */}
           <div className="flex items-center gap-1.5 text-neutral-400">
             <FiGlobe className="text-orange-400 text-xs" />
-            <span className="text-xs font-mono font-bold uppercase tracking-widest">
+            <span className="text-xs font-bold uppercase tracking-widest">
               {t('about.languages')}
             </span>
           </div>

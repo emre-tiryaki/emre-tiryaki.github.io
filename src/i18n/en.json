@@ -75,6 +75,7 @@
     "hireMeSub3": "Get in touch",
     "hireMeSub4": "Let's talk",
     "ongoing": "Ongoing",
+    "filter": "Filter",
     "portfolioLink": "Portfolio / Website",
     "linkedinProfile": "LinkedIn Profile",
     "githubProfile": "GitHub Profile",
@@ -121,7 +122,12 @@
     "filterTechTitle": "Filter by Technology",
     "filterClear": "Clear",
     "enlargeImage": "Enlarge image",
-    "projectN": "Project {n}"
+    "projectN": "Project {n}",
+    "hackathonBadge": "Hackathon Project",
+    "hackathonNotice": "This project is a rapid concept/prototype built under time constraints during a hackathon event.",
+    "filterHackathon": "Hackathon Projects",
+    "filterPersonal": "Personal Projects",
+    "categoryTitle": "Category"
   },
   "certifications": {
     "title": "Certifications",

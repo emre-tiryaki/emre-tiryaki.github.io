@@ -76,7 +76,7 @@ function StatCard({ label, value, accent }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <p style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0, fontFamily: 'monospace' }}>
+      <p style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>
         {label}
       </p>
       <p
@@ -260,7 +260,7 @@ export default function AdminPanel() {
             <p className="font-semibold text-slate-100 text-sm truncate" style={{ margin: 0 }}>
               {p.title?.tr || p.title?.en || a.untitled}
             </p>
-            <p className="text-xs text-neutral-400" style={{ marginTop: '0.25rem', fontFamily: 'monospace' }}>
+            <p className="text-xs text-neutral-400" style={{ marginTop: '0.25rem' }}>
               {p.published ? '✅ ' + a.published : '📝 ' + a.draft}
               {p.images?.length > 0 ? ` · ${p.images.length} 🖼️` : ''}
             </p>
@@ -325,7 +325,7 @@ export default function AdminPanel() {
           <p className="text-gradient-orange" style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0 }}>
             {a.title}
           </p>
-          <p style={{ fontSize: '0.72rem', color: '#94a3b8', margin: '0.3rem 0 0', fontFamily: 'monospace' }}>
+          <p style={{ fontSize: '0.72rem', color: '#94a3b8', margin: '0.3rem 0 0' }}>
             {user?.email || 'admin'}
           </p>
         </div>
@@ -404,7 +404,7 @@ export default function AdminPanel() {
                   </span>
                 ) : (
                   item.count !== undefined && (
-                    <span style={{ color: '#64748b', fontSize: '0.75rem', fontFamily: 'monospace' }}>{item.count}</span>
+                    <span style={{ color: '#64748b', fontSize: '0.75rem' }}>{item.count}</span>
                   )
                 )}
               </button>
@@ -530,7 +530,6 @@ export default function AdminPanel() {
                       color: active ? '#fb923c' : '#94a3b8',
                       fontSize: '0.75rem',
                       fontWeight: active ? 700 : 500,
-                      fontFamily: 'monospace',
                       cursor: 'pointer',
                       boxShadow: active ? '0 0 12px rgba(249,115,22,0.15)' : 'none',
                       transition: 'all 0.16s ease',

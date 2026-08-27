@@ -1,10 +1,11 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronDown, FiX, FiTag, FiCode } from 'react-icons/fi';
+import { FiX, FiTag, FiCode, FiRotateCcw } from 'react-icons/fi';
 import PageLayout from '../components/layout/PageLayout';
 import ProjectCard from '../components/projects/ProjectCard';
 import projectsData from '../data/projects.json';
 import { useTranslation } from '../hooks/translation';
+import { useScrollMask } from '../hooks/useScrollMask';
 
 function extractTechs(projects) {
   const set = new Set();
@@ -18,232 +19,26 @@ function extractTags(projects) {
   return Array.from(set).sort((a, b) => a.localeCompare(b));
 }
 
-/* ─── Multi-select Dropdown ─── */
-function FilterDropdown({
-  label,
-  selectedLabel,
-  title,
-  clearLabel,
-  items,
-  selected,
-  onChange,
-  accentColor = '#fb923c',
-  accentBg = 'rgba(249, 115, 22, 0.1)',
-  accentBorder = 'rgba(249, 115, 22, 0.55)',
-  accentBadgeBg = 'rgba(249, 115, 22, 0.22)',
-  icon: Icon,
-  itemPrefix = '',
-}) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const handler = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
-
-  const toggle = (item) => {
-    onChange(selected.includes(item)
-      ? selected.filter(t => t !== item)
-      : [...selected, item]);
-  };
-
-  const hasSelection = selected.length > 0;
-
-  return (
-    <div ref={ref} style={{ position: 'relative' }}>
-      {/* Trigger */}
-      <button
-        onClick={() => setOpen(v => !v)}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.45rem',
-          padding: '0.4rem 0.85rem',
-          borderRadius: '0.7rem',
-          border: open || hasSelection
-            ? `1px solid ${accentBorder}`
-            : '1px solid rgba(255, 255, 255, 0.1)',
-          background: open || hasSelection
-            ? accentBg
-            : 'rgba(255, 255, 255, 0.035)',
-          color: hasSelection ? accentColor : '#a1a1aa',
-          fontSize: '0.78rem',
-          fontWeight: 600,
-          fontFamily: 'monospace',
-          cursor: 'pointer',
-          boxShadow: open || hasSelection ? `0 0 14px ${accentBg}` : 'none',
-          transition: 'all 0.18s ease',
-          whiteSpace: 'nowrap',
-          backdropFilter: 'blur(8px)',
-        }}
-      >
-        {Icon && <Icon size={12} />}
-        <span>
-          {hasSelection
-            ? selectedLabel.replace('{n}', selected.length)
-            : label}
-        </span>
-        <motion.span
-          animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.18 }}
-          style={{ display: 'flex', alignItems: 'center' }}
-        >
-          <FiChevronDown size={13} />
-        </motion.span>
-      </button>
-
-      {/* Dropdown Panel */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            key="dropdown"
-            initial={{ opacity: 0, y: -5, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -5, scale: 0.97 }}
-            transition={{ duration: 0.17, ease: [0.25, 1, 0.5, 1] }}
-            style={{
-              position: 'absolute',
-              top: 'calc(100% + 0.4rem)',
-              right: 0,
-              zIndex: 400,
-              minWidth: '220px',
-              borderRadius: '0.9rem',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              background: 'rgba(16, 16, 22, 0.97)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: '0 16px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.05)',
-              overflow: 'hidden',
-            }}
-          >
-            {/* Header row */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '0.65rem 0.85rem 0.4rem',
-              borderBottom: '1px solid rgba(255,255,255,0.07)',
-            }}>
-              <span style={{
-                fontSize: '0.68rem', color: '#71717a',
-                fontFamily: 'monospace', fontWeight: 600,
-                textTransform: 'uppercase', letterSpacing: '0.06em',
-              }}>
-                {title}
-              </span>
-              {hasSelection && (
-                <button
-                  onClick={() => onChange([])}
-                  style={{
-                    fontSize: '0.7rem', fontFamily: 'monospace', fontWeight: 600,
-                    color: '#f87171', background: 'none', border: 'none',
-                    cursor: 'pointer', padding: '0.1rem 0.35rem',
-                    borderRadius: '0.35rem', transition: 'background 0.13s',
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.12)'}
-                  onMouseLeave={e => e.currentTarget.style.background = 'none'}
-                >
-                  {clearLabel}
-                </button>
-              )}
-            </div>
-
-            {/* List */}
-            <div
-              className="scroll-mask-y"
-              style={{
-                maxHeight: '260px',
-                overflowY: 'auto',
-                padding: '0.5rem 0.35rem',
-                scrollbarWidth: 'thin',
-                scrollbarColor: `${accentColor}33 transparent`,
-              }}
-            >
-              {items.map(item => {
-                const isActive = selected.includes(item);
-                return (
-                  <button
-                    key={item}
-                    onClick={() => toggle(item)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: '0.55rem',
-                      width: '100%', padding: '0.42rem 0.65rem', borderRadius: '0.55rem',
-                      border: 'none',
-                      background: isActive ? accentBg : 'transparent',
-                      color: isActive ? accentColor : '#d4d4d8',
-                      fontSize: '0.8rem', fontFamily: 'monospace',
-                      fontWeight: isActive ? 700 : 400,
-                      cursor: 'pointer', textAlign: 'left',
-                      transition: 'all 0.13s ease',
-                    }}
-                    onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}
-                    onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = 'transparent'; }}
-                  >
-                    <span style={{
-                      width: '0.9rem', height: '0.9rem', borderRadius: '0.22rem', flexShrink: 0,
-                      border: isActive ? `1.5px solid ${accentColor}` : '1.5px solid rgba(255,255,255,0.2)',
-                      background: isActive ? accentBadgeBg : 'transparent',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      transition: 'all 0.13s ease',
-                    }}>
-                      {isActive && (
-                        <svg width="8" height="6" viewBox="0 0 9 7" fill="none">
-                          <path d="M1 3L3.5 5.5L8 1" stroke={accentColor} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      )}
-                    </span>
-                    {itemPrefix && <span>{itemPrefix}</span>}
-                    {item}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Selected pills footer */}
-            {hasSelection && (
-              <div style={{
-                display: 'flex', flexWrap: 'wrap', gap: '0.3rem',
-                padding: '0.5rem 0.7rem 0.6rem',
-                borderTop: '1px solid rgba(255,255,255,0.06)',
-              }}>
-                {selected.map(item => (
-                  <span key={item} style={{
-                    display: 'inline-flex', alignItems: 'center', gap: '0.28rem',
-                    padding: '0.2rem 0.55rem', borderRadius: '0.45rem',
-                    background: accentBg,
-                    border: `1px solid ${accentBorder}`,
-                    color: accentColor, fontSize: '0.72rem', fontWeight: 600, fontFamily: 'monospace',
-                  }}>
-                    {itemPrefix}{item}
-                    <button
-                      onClick={() => toggle(item)}
-                      style={{ display: 'flex', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', color: accentColor, padding: 0 }}
-                    >
-                      <FiX size={9} />
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
 /* ─── Main Page ─── */
 export default function ProjectsPage() {
   const { t } = useTranslation();
+  const [selectedCategories, setSelectedCategories] = useState([]); // 'hackathon' | 'personal'
   const [selectedTechs, setSelectedTechs] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
 
+  const [tagsScrollRef, tagsMaskStyle] = useScrollMask('vertical', 24);
+  const [projectsScrollRef, projectsMaskStyle] = useScrollMask('vertical', 28);
+  const [techsScrollRef, techsMaskStyle] = useScrollMask('vertical', 24);
+
   const allTechs = useMemo(() => extractTechs(projectsData), []);
   const allTags  = useMemo(() => extractTags(projectsData), []);
+
+  const hackathonCount = useMemo(() => projectsData.filter(p => p.isHackathon).length, []);
+  const personalCount  = useMemo(() => projectsData.filter(p => !p.isHackathon).length, []);
+
+  const handleToggleCategory = (cat) => {
+    setSelectedCategories(prev => prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]);
+  };
 
   const handleToggleTech = (tech) => {
     setSelectedTechs(prev => prev.includes(tech) ? prev.filter(t => t !== tech) : [...prev, tech]);
@@ -253,113 +48,618 @@ export default function ProjectsPage() {
     setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
   };
 
+  const clearAllFilters = () => {
+    setSelectedCategories([]);
+    setSelectedTechs([]);
+    setSelectedTags([]);
+  };
+
   const filtered = useMemo(() => {
     return projectsData.filter(p => {
-      const matchTechs = selectedTechs.length === 0 || selectedTechs.every(tech => (p.techStack || []).includes(tech));
-      const matchTags  = selectedTags.length === 0 || selectedTags.every(tag => (p.tags || []).includes(tag));
-      return matchTechs && matchTags;
-    });
-  }, [selectedTechs, selectedTags]);
+      // Category filter
+      const matchCategory =
+        selectedCategories.length === 0 ||
+        (selectedCategories.includes('hackathon') && p.isHackathon) ||
+        (selectedCategories.includes('personal') && !p.isHackathon);
 
-  const filterActions = (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap' }}>
-      <FilterDropdown
-        label={t('projects.filterTagsLabel')}
-        selectedLabel={t('projects.filterTagsSelected')}
-        title={t('projects.filterTagsTitle')}
-        clearLabel={t('projects.filterClear')}
-        items={allTags}
-        selected={selectedTags}
-        onChange={setSelectedTags}
-        accentColor="#a78bfa"
-        accentBg="rgba(139, 92, 246, 0.12)"
-        accentBorder="rgba(139, 92, 246, 0.5)"
-        accentBadgeBg="rgba(139, 92, 246, 0.22)"
-        icon={FiTag}
-        itemPrefix="#"
-      />
-      <FilterDropdown
-        label={t('projects.filterTechLabel')}
-        selectedLabel={t('projects.filterTechSelected')}
-        title={t('projects.filterTechTitle')}
-        clearLabel={t('projects.filterClear')}
-        items={allTechs}
-        selected={selectedTechs}
-        onChange={setSelectedTechs}
-        accentColor="#fb923c"
-        accentBg="rgba(249, 115, 22, 0.12)"
-        accentBorder="rgba(249, 115, 22, 0.5)"
-        accentBadgeBg="rgba(249, 115, 22, 0.22)"
-        icon={FiCode}
-      />
-    </div>
-  );
+      // Techs filter
+      const matchTechs =
+        selectedTechs.length === 0 ||
+        selectedTechs.every(tech => (p.techStack || []).includes(tech));
+
+      // Tags filter
+      const matchTags =
+        selectedTags.length === 0 ||
+        selectedTags.every(tag => (p.tags || []).includes(tag));
+
+      return matchCategory && matchTechs && matchTags;
+    });
+  }, [selectedCategories, selectedTechs, selectedTags]);
+
+  const hasAnyFilter = selectedCategories.length > 0 || selectedTags.length > 0 || selectedTechs.length > 0;
 
   return (
     <PageLayout
       title={t('projects.title')}
       subtitle={t('projects.subtitle')}
-      headerAction={filterActions}
-      maxWidth="86rem"
+      maxWidth="100%"
       fullHeight
     >
-      {/* Scrollable Project List */}
+      {/* ── 3-Column Layout: Left (Categories & Tags), Middle (Cards), Right (Tech) ── */}
       <div
-        className="scroll-mask-y"
         style={{
           flex: 1,
-          overflowY: 'auto',
-          paddingTop: '1rem',
-          paddingRight: '0.5rem',
-          paddingBottom: '2.5rem',
           display: 'flex',
-          flexDirection: 'column',
-          gap: '1.75rem',
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(249,115,22,0.35) transparent',
+          alignItems: 'stretch',
+          justifyContent: 'center',
+          gap: '1.5rem',
           minHeight: 0,
+          width: '100%',
+          maxWidth: '118rem',
+          margin: '0 auto',
+          paddingLeft: '0.5rem',
+          paddingRight: '0.5rem',
+          overflow: 'hidden',
         }}
       >
-        <AnimatePresence mode="popLayout">
-          {filtered.length === 0 ? (
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.25 }}
+        {/* ── LEFT COLUMN: Project Categories & Tags (Desktop) ── */}
+        <aside
+          className="hidden lg:flex flex-col gap-2.5"
+          style={{
+            width: '210px',
+            flexShrink: 0,
+            height: '100%',
+            minHeight: 0,
+            paddingTop: '0.25rem',
+          }}
+        >
+          {/* Header */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingBottom: '0.6rem',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+              flexShrink: 0,
+            }}
+          >
+            <div
               style={{
-                textAlign: 'center',
-                color: '#52525b',
-                fontSize: '0.95rem',
-                fontFamily: 'monospace',
-                padding: '4rem 0',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                color: '#c4b5fd',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
               }}
             >
-              {t('projects.noResults')}
-            </motion.div>
-          ) : (
-            filtered.map((project, index) => (
-              <motion.div
-                key={project.id}
-                layout
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.24, ease: [0.25, 1, 0.5, 1] }}
+              <FiTag size={13} style={{ color: '#a78bfa' }} />
+              <span>{t('projects.tags')}</span>
+            </div>
+
+            {(selectedCategories.length > 0 || selectedTags.length > 0) && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCategories([]);
+                  setSelectedTags([]);
+                }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#f87171',
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  padding: '0.1rem 0.35rem',
+                  borderRadius: '0.35rem',
+                  transition: 'opacity 0.15s ease',
+                }}
               >
-                <ProjectCard
-                  project={project}
-                  index={index}
-                  selectedTechs={selectedTechs}
-                  selectedTags={selectedTags}
-                  onToggleTech={handleToggleTech}
-                  onToggleTag={handleToggleTag}
-                />
+                {t('projects.filterClear')}
+              </button>
+            )}
+          </div>
+
+          {/* Scrollable Categories & Tags Container */}
+          <div
+            ref={tagsScrollRef}
+            style={{
+              flex: 1,
+              overflowY: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.35rem',
+              paddingRight: '0.35rem',
+              paddingBottom: '2.5rem',
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(139, 92, 246, 0.35) transparent',
+              minHeight: 0,
+              ...tagsMaskStyle,
+            }}
+          >
+            {/* 1. Category Filters: Hackathon & Personal */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', marginBottom: '0.5rem' }}>
+              {/* Hackathon Projects Button */}
+              {(() => {
+                const isHackActive = selectedCategories.includes('hackathon');
+                return (
+                  <button
+                    type="button"
+                    onClick={() => handleToggleCategory('hackathon')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '0.45rem 0.75rem',
+                      borderRadius: '0.65rem',
+                      border: '1px solid',
+                      borderColor: isHackActive ? 'rgba(168, 85, 247, 0.7)' : 'rgba(168, 85, 247, 0.25)',
+                      background: isHackActive ? 'rgba(168, 85, 247, 0.22)' : 'rgba(168, 85, 247, 0.05)',
+                      color: isHackActive ? '#f3e8ff' : '#d8b4fe',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      boxShadow: isHackActive ? '0 0 14px rgba(168, 85, 247, 0.25)' : 'none',
+                      transition: 'all 0.15s ease',
+                      width: '100%',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isHackActive) {
+                        e.currentTarget.style.background = 'rgba(168, 85, 247, 0.12)';
+                        e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.45)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isHackActive) {
+                        e.currentTarget.style.background = 'rgba(168, 85, 247, 0.05)';
+                        e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.25)';
+                      }
+                    }}
+                  >
+                    <span className="flex items-center gap-1.5 truncate">
+                      <span>⚡</span>
+                      <span>{t('projects.filterHackathon')}</span>
+                    </span>
+                    <span
+                      style={{
+                        fontSize: '0.68rem',
+                        padding: '0.1rem 0.35rem',
+                        borderRadius: '999px',
+                        background: isHackActive ? 'rgba(168, 85, 247, 0.4)' : 'rgba(255, 255, 255, 0.08)',
+                        color: isHackActive ? '#fff' : '#c084fc',
+                        fontWeight: 700,
+                        marginLeft: '0.3rem',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {hackathonCount}
+                    </span>
+                  </button>
+                );
+              })()}
+
+              {/* Personal Projects Button */}
+              {(() => {
+                const isPersonalActive = selectedCategories.includes('personal');
+                return (
+                  <button
+                    type="button"
+                    onClick={() => handleToggleCategory('personal')}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '0.45rem 0.75rem',
+                      borderRadius: '0.65rem',
+                      border: '1px solid',
+                      borderColor: isPersonalActive ? 'rgba(59, 130, 246, 0.7)' : 'rgba(59, 130, 246, 0.22)',
+                      background: isPersonalActive ? 'rgba(59, 130, 246, 0.22)' : 'rgba(59, 130, 246, 0.05)',
+                      color: isPersonalActive ? '#eff6ff' : '#93c5fd',
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      boxShadow: isPersonalActive ? '0 0 14px rgba(59, 130, 246, 0.25)' : 'none',
+                      transition: 'all 0.15s ease',
+                      width: '100%',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isPersonalActive) {
+                        e.currentTarget.style.background = 'rgba(59, 130, 246, 0.12)';
+                        e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.45)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isPersonalActive) {
+                        e.currentTarget.style.background = 'rgba(59, 130, 246, 0.05)';
+                        e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.22)';
+                      }
+                    }}
+                  >
+                    <span className="flex items-center gap-1.5 truncate">
+                      <span>💻</span>
+                      <span>{t('projects.filterPersonal')}</span>
+                    </span>
+                    <span
+                      style={{
+                        fontSize: '0.68rem',
+                        padding: '0.1rem 0.35rem',
+                        borderRadius: '999px',
+                        background: isPersonalActive ? 'rgba(59, 130, 246, 0.4)' : 'rgba(255, 255, 255, 0.08)',
+                        color: isPersonalActive ? '#fff' : '#60a5fa',
+                        fontWeight: 700,
+                        marginLeft: '0.3rem',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {personalCount}
+                    </span>
+                  </button>
+                );
+              })()}
+            </div>
+
+            {/* Separator */}
+            <div
+              style={{
+                height: '1px',
+                background: 'rgba(255, 255, 255, 0.07)',
+                margin: '0.25rem 0 0.5rem',
+              }}
+            />
+
+            {/* 2. Technical Tags */}
+            {allTags.map((tag) => {
+              const isActive = selectedTags.includes(tag);
+              return (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => handleToggleTag(tag)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.42rem 0.75rem',
+                    borderRadius: '0.6rem',
+                    border: '1px solid',
+                    borderColor: isActive ? 'rgba(167, 139, 250, 0.55)' : 'rgba(255, 255, 255, 0.07)',
+                    background: isActive ? 'rgba(139, 92, 246, 0.16)' : 'rgba(255, 255, 255, 0.025)',
+                    color: isActive ? '#e9d5ff' : '#a1a1aa',
+                    fontSize: '0.78rem',
+                    fontWeight: isActive ? 700 : 500,
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    boxShadow: isActive ? '0 0 12px rgba(139, 92, 246, 0.2)' : 'none',
+                    transition: 'all 0.15s ease',
+                    width: '100%',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.color = '#f4f4f5';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.025)';
+                      e.currentTarget.style.color = '#a1a1aa';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.07)';
+                    }
+                  }}
+                >
+                  <span className="truncate">#{tag}</span>
+                  {isActive && <FiX size={12} style={{ color: '#c4b5fd', flexShrink: 0, marginLeft: '0.3rem' }} />}
+                </button>
+              );
+            })}
+          </div>
+        </aside>
+
+        {/* ── MIDDLE: Scrollable Project Cards List ── */}
+        <div
+          ref={projectsScrollRef}
+          style={{
+            flex: '1 1 86rem',
+            maxWidth: '86rem',
+            minWidth: 0,
+            height: '100%',
+            overflowY: 'auto',
+            paddingTop: '0.25rem',
+            paddingRight: '0.5rem',
+            paddingBottom: '2.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.75rem',
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(249,115,22,0.35) transparent',
+            ...projectsMaskStyle,
+          }}
+        >
+          {/* Mobile Filter Chips Bar (Visible only on small screens < lg) */}
+          <div className="lg:hidden flex flex-col gap-2 pb-2 flex-shrink-0">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
+                {t('projects.filterLabel')}
+              </span>
+              {hasAnyFilter && (
+                <button
+                  type="button"
+                  onClick={clearAllFilters}
+                  className="text-xs text-red-400 hover:underline"
+                >
+                  {t('projects.filterClear')}
+                </button>
+              )}
+            </div>
+
+            {/* Horizontal Scroll Categories and Tags on Mobile */}
+            <div
+              className="flex items-center gap-1.5 overflow-x-auto pb-1"
+              style={{ scrollbarWidth: 'none' }}
+            >
+              <button
+                type="button"
+                onClick={() => handleToggleCategory('hackathon')}
+                style={{
+                  padding: '0.25rem 0.6rem',
+                  borderRadius: '0.45rem',
+                  fontSize: '0.72rem',
+                  fontWeight: selectedCategories.includes('hackathon') ? 700 : 500,
+                  background: selectedCategories.includes('hackathon') ? 'rgba(168, 85, 247, 0.25)' : 'rgba(168, 85, 247, 0.08)',
+                  border: selectedCategories.includes('hackathon') ? '1px solid rgba(168, 85, 247, 0.7)' : '1px solid rgba(168, 85, 247, 0.25)',
+                  color: selectedCategories.includes('hackathon') ? '#f3e8ff' : '#d8b4fe',
+                  whiteSpace: 'nowrap',
+                  cursor: 'pointer',
+                }}
+              >
+                ⚡ {t('projects.filterHackathon')}
+              </button>
+              <button
+                type="button"
+                onClick={() => handleToggleCategory('personal')}
+                style={{
+                  padding: '0.25rem 0.6rem',
+                  borderRadius: '0.45rem',
+                  fontSize: '0.72rem',
+                  fontWeight: selectedCategories.includes('personal') ? 700 : 500,
+                  background: selectedCategories.includes('personal') ? 'rgba(59, 130, 246, 0.25)' : 'rgba(59, 130, 246, 0.08)',
+                  border: selectedCategories.includes('personal') ? '1px solid rgba(59, 130, 246, 0.7)' : '1px solid rgba(59, 130, 246, 0.25)',
+                  color: selectedCategories.includes('personal') ? '#eff6ff' : '#93c5fd',
+                  whiteSpace: 'nowrap',
+                  cursor: 'pointer',
+                }}
+              >
+                💻 {t('projects.filterPersonal')}
+              </button>
+              {allTags.map((tag) => {
+                const isActive = selectedTags.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => handleToggleTag(tag)}
+                    style={{
+                      padding: '0.25rem 0.6rem',
+                      borderRadius: '0.45rem',
+                      fontSize: '0.72rem',
+                      fontWeight: isActive ? 700 : 500,
+                      background: isActive ? 'rgba(139, 92, 246, 0.22)' : 'rgba(255, 255, 255, 0.04)',
+                      border: isActive ? '1px solid rgba(167, 139, 250, 0.6)' : '1px solid rgba(255, 255, 255, 0.08)',
+                      color: isActive ? '#e9d5ff' : '#a1a1aa',
+                      whiteSpace: 'nowrap',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    #{tag}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Project Cards */}
+          <AnimatePresence mode="popLayout">
+            {filtered.length === 0 ? (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.25 }}
+                style={{
+                  textAlign: 'center',
+                  color: '#94a3b8',
+                  fontSize: '0.95rem',
+                  padding: '4rem 1rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '1rem',
+                }}
+              >
+                <p style={{ margin: 0 }}>{t('projects.noResults')}</p>
+                <button
+                  type="button"
+                  onClick={clearAllFilters}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    padding: '0.45rem 1rem',
+                    borderRadius: '999px',
+                    background: 'rgba(249, 115, 22, 0.14)',
+                    border: '1px solid rgba(249, 115, 22, 0.4)',
+                    color: '#fb923c',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(249, 115, 22, 0.22)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(249, 115, 22, 0.14)';
+                  }}
+                >
+                  <FiRotateCcw size={13} />
+                  <span>{t('projects.filterClear')}</span>
+                </button>
               </motion.div>
-            ))
-          )}
-        </AnimatePresence>
+            ) : (
+              filtered.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.24, ease: [0.25, 1, 0.5, 1] }}
+                >
+                  <ProjectCard
+                    project={project}
+                    index={index}
+                    selectedTechs={selectedTechs}
+                    selectedTags={selectedTags}
+                    onToggleTech={handleToggleTech}
+                    onToggleTag={handleToggleTag}
+                  />
+                </motion.div>
+              ))
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* ── RIGHT COLUMN: Technology Filters (Desktop) ── */}
+        <aside
+          className="hidden lg:flex flex-col gap-2.5"
+          style={{
+            width: '210px',
+            flexShrink: 0,
+            height: '100%',
+            minHeight: 0,
+            paddingTop: '0.25rem',
+          }}
+        >
+          {/* Header */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingBottom: '0.6rem',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+              flexShrink: 0,
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.45rem',
+                color: '#fed7aa',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
+              }}
+            >
+              <FiCode size={13} style={{ color: '#fb923c' }} />
+              <span>{t('projects.techStack')}</span>
+            </div>
+
+            {selectedTechs.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setSelectedTechs([])}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#f87171',
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  padding: '0.1rem 0.35rem',
+                  borderRadius: '0.35rem',
+                  transition: 'opacity 0.15s ease',
+                }}
+              >
+                {t('projects.filterClear')}
+              </button>
+            )}
+          </div>
+
+          {/* Techs Scrollable List */}
+          <div
+            ref={techsScrollRef}
+            style={{
+              flex: 1,
+              overflowY: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.35rem',
+              paddingRight: '0.35rem',
+              paddingBottom: '2.5rem',
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(249, 115, 22, 0.35) transparent',
+              minHeight: 0,
+              ...techsMaskStyle,
+            }}
+          >
+            {allTechs.map((tech) => {
+              const isActive = selectedTechs.includes(tech);
+              return (
+                <button
+                  key={tech}
+                  type="button"
+                  onClick={() => handleToggleTech(tech)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '0.42rem 0.75rem',
+                    borderRadius: '0.6rem',
+                    border: '1px solid',
+                    borderColor: isActive ? 'rgba(249, 115, 22, 0.55)' : 'rgba(255, 255, 255, 0.07)',
+                    background: isActive ? 'rgba(249, 115, 22, 0.16)' : 'rgba(255, 255, 255, 0.025)',
+                    color: isActive ? '#fdba74' : '#a1a1aa',
+                    fontSize: '0.78rem',
+                    fontWeight: isActive ? 700 : 500,
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    boxShadow: isActive ? '0 0 12px rgba(249, 115, 22, 0.2)' : 'none',
+                    transition: 'all 0.15s ease',
+                    width: '100%',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.currentTarget.style.color = '#f4f4f5';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.025)';
+                      e.currentTarget.style.color = '#a1a1aa';
+                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.07)';
+                    }
+                  }}
+                >
+                  <span className="truncate">{tech}</span>
+                  {isActive && <FiX size={12} style={{ color: '#fb923c', flexShrink: 0, marginLeft: '0.3rem' }} />}
+                </button>
+              );
+            })}
+          </div>
+        </aside>
       </div>
     </PageLayout>
   );

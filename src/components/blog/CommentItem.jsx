@@ -155,7 +155,7 @@ export default function CommentItem({
 
         {/* Admin: ismin sağında mail */}
         {showEmail && (
-          <span style={{ fontSize: '0.72rem', color: '#a3a3a3', fontFamily: 'monospace' }}>
+          <span style={{ fontSize: '0.72rem', color: '#a3a3a3' }}>
             {email === null ? '…' : email || t('blog.admin.noEmail')}
           </span>
         )}
@@ -163,7 +163,7 @@ export default function CommentItem({
         {/* Admin: durum rozeti */}
         {statusBadge && <StatusBadge status={comment.status} />}
 
-        <span style={{ fontSize: '0.72rem', color: '#737373', fontFamily: 'monospace', marginLeft: 'auto' }}>
+        <span style={{ fontSize: '0.72rem', color: '#737373', marginLeft: 'auto' }}>
           {formatDate(comment.createdAt, lang)}
         </span>
       </div>

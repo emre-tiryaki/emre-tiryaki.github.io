@@ -305,7 +305,7 @@ export default function PostComposer({ initial, onSave, onCancel, saving }) {
             />
           )}
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.35rem' }}>
-            <span style={{ fontSize: '0.7rem', color: '#64748b', fontFamily: 'monospace' }}>
+            <span style={{ fontSize: '0.7rem', color: '#64748b' }}>
               {c.wordsCount ? c.wordsCount.replace('{n}', wordCount) : `${wordCount} words`}
             </span>
           </div>
@@ -491,7 +491,7 @@ export default function PostComposer({ initial, onSave, onCancel, saving }) {
                 </span>
                 <VerifiedIcon style={{ width: '1rem', height: '1rem', color: '#0ea5e9' }} />
               </div>
-              <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontFamily: 'monospace' }}>
+              <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>
                 {t('blog.today')} · {t('blog.readTime', { n: mins })}
               </span>
             </div>
@@ -579,7 +579,7 @@ export default function PostComposer({ initial, onSave, onCancel, saving }) {
                   marginTop: '0.25rem',
                 }}
               >
-                <span style={{ fontSize: '0.72rem', color: '#64748b', fontFamily: 'monospace' }}>
+                <span style={{ fontSize: '0.72rem', color: '#64748b' }}>
                   {t('blog.readTime', { n: mins })}
                 </span>
                 <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#fb923c' }}>

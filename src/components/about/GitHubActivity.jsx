@@ -109,7 +109,6 @@ function TooltipPortal({ x, y, date, count, lang, t }) {
         padding: '0.3rem 0.65rem',
         fontSize: '0.7rem',
         color: '#e2e8f0',
-        fontFamily: 'monospace',
         whiteSpace: 'nowrap',
         boxShadow: '0 4px 20px rgba(0,0,0,0.7)',
       }}
@@ -226,13 +225,13 @@ export default function GitHubActivity() {
             </>
           )}
           {status !== 'ok' && (
-            <span style={{ color: '#475569', fontFamily: 'monospace', fontSize: '0.75rem' }}>{t('about.githubActivity')}</span>
+            <span style={{ color: '#475569', fontSize: '0.75rem' }}>{t('about.githubActivity')}</span>
           )}
         </p>
         <a
           href={`https://github.com/${GITHUB_USERNAME}`}
           target="_blank" rel="noreferrer"
-          style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.72rem', fontFamily: 'monospace', color: '#475569', textDecoration: 'none' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.72rem', color: '#475569', textDecoration: 'none' }}
           onMouseEnter={e => e.currentTarget.style.color = '#fb923c'}
           onMouseLeave={e => e.currentTarget.style.color = '#475569'}
         >
@@ -261,7 +260,7 @@ export default function GitHubActivity() {
         )}
 
         {(status === 'no-token' || status === 'error') && (
-          <p style={{ color: '#475569', fontSize: '0.75rem', fontFamily: 'monospace', textAlign: 'center', padding: '2rem 0' }}>
+          <p style={{ color: '#475569', fontSize: '0.75rem', textAlign: 'center', padding: '2rem 0' }}>
             {t('about.githubError')}
           </p>
         )}
@@ -280,7 +279,6 @@ export default function GitHubActivity() {
                 y={MONTH_LABEL_H - 4}
                 fontSize={10}
                 fill="#475569"
-                fontFamily="monospace"
               >
                 {name}
               </text>
@@ -294,7 +292,6 @@ export default function GitHubActivity() {
                 y={MONTH_LABEL_H + row * STEP_Y + cellH / 2 + 3}
                 fontSize={9}
                 fill="#374151"
-                fontFamily="monospace"
                 textAnchor="end"
               >
                 {label}
@@ -328,7 +325,7 @@ export default function GitHubActivity() {
               const legendX = DAY_LABEL_W;
               return (
                 <>
-                  <text x={legendX} y={legendY + cellH - 1} fontSize={9} fill="#374151" fontFamily="monospace">{t('about.githubLess')}</text>
+                  <text x={legendX} y={legendY + cellH - 1} fontSize={9} fill="#374151">{t('about.githubLess')}</text>
                   {samples.map((n, i) => (
                     <rect
                       key={n}
@@ -339,7 +336,7 @@ export default function GitHubActivity() {
                       stroke="rgba(255,255,255,0.04)" strokeWidth={0.5}
                     />
                   ))}
-                  <text x={legendX + 28 + samples.length * (cellW + 3) + 3} y={legendY + cellH - 1} fontSize={9} fill="#374151" fontFamily="monospace">{t('about.githubMore')}</text>
+                  <text x={legendX + 28 + samples.length * (cellW + 3) + 3} y={legendY + cellH - 1} fontSize={9} fill="#374151">{t('about.githubMore')}</text>
                 </>
               );
             })()}

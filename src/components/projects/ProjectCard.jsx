@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { FiGithub, FiExternalLink, FiLock, FiChevronLeft, FiChevronRight, FiMaximize2, FiX, FiTerminal } from 'react-icons/fi';
+import { FiGithub, FiExternalLink, FiLock, FiChevronLeft, FiChevronRight, FiMaximize2, FiX, FiTerminal, FiZap } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../hooks/translation';
 
@@ -130,7 +130,6 @@ function ImageLightbox({ images, activeIndex, onClose, onSelectIndex, title }) {
             <span
               style={{
                 fontSize: '0.8rem',
-                fontFamily: 'monospace',
                 padding: '0.2rem 0.6rem',
                 borderRadius: '999px',
                 background: 'rgba(249, 115, 22, 0.15)',
@@ -397,8 +396,29 @@ export default function ProjectCard({
             {title}
           </h3>
 
-          {/* Action Links & Achievements */}
+          {/* Action Links, Hackathon & Achievements */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexShrink: 0, flexWrap: 'wrap' }}>
+            {project.isHackathon && (
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  padding: '0.35rem 0.85rem',
+                  borderRadius: '999px',
+                  background: 'rgba(168, 85, 247, 0.14)',
+                  border: '1px solid rgba(168, 85, 247, 0.45)',
+                  color: '#d8b4fe',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  boxShadow: '0 0 14px rgba(168, 85, 247, 0.18)',
+                }}
+              >
+                <FiZap size={13} style={{ color: '#c084fc' }} />
+                <span>{t('projects.hackathonBadge')}</span>
+              </div>
+            )}
+
             {achievements && (
               <div
                 style={{
@@ -525,6 +545,29 @@ export default function ProjectCard({
           {description}
         </p>
 
+        {/* Hackathon Notice Banner */}
+        {project.isHackathon && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.55rem',
+              padding: '0.55rem 0.9rem',
+              borderRadius: '0.65rem',
+              background: 'rgba(168, 85, 247, 0.07)',
+              border: '1px dashed rgba(168, 85, 247, 0.3)',
+              color: '#d8b4fe',
+              fontSize: '0.8rem',
+              lineHeight: 1.5,
+              width: '100%',
+              boxSizing: 'border-box',
+            }}
+          >
+            <FiZap size={14} style={{ color: '#c084fc', flexShrink: 0 }} />
+            <span>{t('projects.hackathonNotice')}</span>
+          </div>
+        )}
+
         {/* Bottom Row: Tech Stack on Left, Tags on Right */}
         <div
           style={{
@@ -551,7 +594,6 @@ export default function ProjectCard({
                     background: isSelected ? 'rgba(249, 115, 22, 0.22)' : 'rgba(255, 255, 255, 0.045)',
                     border: isSelected ? '1px solid rgba(249, 115, 22, 0.6)' : '1px solid rgba(255, 255, 255, 0.09)',
                     fontSize: '0.76rem',
-                    fontFamily: 'monospace',
                     fontWeight: 600,
                     color: isSelected ? '#fb923c' : '#fdba74',
                     letterSpacing: '0.02em',
@@ -594,7 +636,6 @@ export default function ProjectCard({
                       background: isSelected ? 'rgba(139, 92, 246, 0.22)' : 'rgba(139, 92, 246, 0.08)',
                       border: isSelected ? '1px solid rgba(167, 139, 250, 0.65)' : '1px solid rgba(139, 92, 246, 0.24)',
                       fontSize: '0.76rem',
-                      fontFamily: 'monospace',
                       fontWeight: 600,
                       color: isSelected ? '#ddd6fe' : '#c4b5fd',
                       letterSpacing: '0.02em',
@@ -870,7 +911,29 @@ export default function ProjectCard({
         }}
       >
         {/* Top Info Group (Always left-aligned) */}
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.65rem', textAlign: 'left' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.65rem', textAlign: 'left', width: '100%' }}>
+          {/* Hackathon Badge */}
+          {project.isHackathon && (
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                padding: '0.3rem 0.85rem',
+                borderRadius: '999px',
+                background: 'rgba(168, 85, 247, 0.14)',
+                border: '1px solid rgba(168, 85, 247, 0.45)',
+                color: '#d8b4fe',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                boxShadow: '0 0 14px rgba(168, 85, 247, 0.18)',
+              }}
+            >
+              <FiZap size={13} style={{ color: '#c084fc' }} />
+              <span>{t('projects.hackathonBadge')}</span>
+            </div>
+          )}
+
           {/* Title */}
           <h3
             style={{
@@ -899,6 +962,30 @@ export default function ProjectCard({
           >
             {description}
           </p>
+
+          {/* Hackathon Notice Banner */}
+          {project.isHackathon && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.55rem',
+                padding: '0.55rem 0.9rem',
+                borderRadius: '0.65rem',
+                background: 'rgba(168, 85, 247, 0.07)',
+                border: '1px dashed rgba(168, 85, 247, 0.3)',
+                color: '#d8b4fe',
+                fontSize: '0.8rem',
+                lineHeight: 1.5,
+                width: '100%',
+                boxSizing: 'border-box',
+                marginTop: '0.2rem',
+              }}
+            >
+              <FiZap size={14} style={{ color: '#c084fc', flexShrink: 0 }} />
+              <span>{t('projects.hackathonNotice')}</span>
+            </div>
+          )}
         </div>
 
         {/* Bottom Group: Tech Stack + Actions */}
@@ -944,7 +1031,6 @@ export default function ProjectCard({
                       background: isSelected ? 'rgba(249, 115, 22, 0.22)' : 'rgba(255, 255, 255, 0.045)',
                       border: isSelected ? '1px solid rgba(249, 115, 22, 0.6)' : '1px solid rgba(255, 255, 255, 0.09)',
                       fontSize: '0.76rem',
-                      fontFamily: 'monospace',
                       fontWeight: 600,
                       color: isSelected ? '#fb923c' : '#fdba74',
                       letterSpacing: '0.02em',
@@ -995,7 +1081,6 @@ export default function ProjectCard({
                         background: isSelected ? 'rgba(139, 92, 246, 0.22)' : 'rgba(139, 92, 246, 0.08)',
                         border: isSelected ? '1px solid rgba(167, 139, 250, 0.65)' : '1px solid rgba(139, 92, 246, 0.24)',
                         fontSize: '0.76rem',
-                        fontFamily: 'monospace',
                         fontWeight: 600,
                         color: isSelected ? '#ddd6fe' : '#c4b5fd',
                         letterSpacing: '0.02em',

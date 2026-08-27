@@ -4,9 +4,11 @@ import PageLayout from '../components/layout/PageLayout';
 import CertificationCard from '../components/certifications/CertificationCard';
 import certificationsData from '../data/certifications.json';
 import { useTranslation } from '../hooks/translation';
+import { useScrollMask } from '../hooks/useScrollMask';
 
 export default function CertificationsPage() {
   const { t, tData } = useTranslation();
+  const [scrollRef, maskStyle] = useScrollMask('vertical', 24);
 
   const grouped = useMemo(() => {
     const map = new Map();
@@ -40,7 +42,7 @@ export default function CertificationsPage() {
     >
       {/* Scrollable content area */}
       <div
-        className="scroll-mask-y"
+        ref={scrollRef}
         style={{
           flex: 1,
           overflowY: 'auto',
@@ -48,6 +50,7 @@ export default function CertificationsPage() {
           paddingTop: '0.75rem',
           paddingBottom: '2.5rem',
           paddingRight: '0.35rem',
+          ...maskStyle,
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
@@ -77,7 +80,6 @@ export default function CertificationsPage() {
                         style={{
                           padding: '0.25rem 0.65rem',
                           borderRadius: '0.5rem',
-                          fontFamily: 'monospace',
                           fontSize: '0.75rem',
                           fontWeight: 700,
                           background: 'rgba(249, 115, 22, 0.12)',
@@ -125,7 +127,6 @@ export default function CertificationsPage() {
                     style={{
                       padding: '0.25rem 0.65rem',
                       borderRadius: '0.5rem',
-                      fontFamily: 'monospace',
                       fontSize: '0.75rem',
                       fontWeight: 700,
                       background: 'rgba(249, 115, 22, 0.12)',

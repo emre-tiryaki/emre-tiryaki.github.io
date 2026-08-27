@@ -83,7 +83,7 @@ export default function PostCard({ post }) {
           className="flex items-center justify-between border-t border-white/[0.06]"
           style={{ paddingTop: '0.75rem' }}
         >
-          <span className="text-xs font-mono text-neutral-500">
+          <span className="text-xs text-neutral-500">
             {t('blog.readTime', { n: mins })}
           </span>
           <span className="text-xs font-semibold text-orange-400">

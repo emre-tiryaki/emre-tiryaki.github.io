@@ -72,6 +72,7 @@
     "sourceCode": "https://github.com/HEGS-HABER/HEGS-SETUP",
     "liveDemo": null,
     "isPrivate": false,
+    "isHackathon": true,
     "preview": null
   },
   {
@@ -90,6 +91,7 @@
     "sourceCode": "https://github.com/inufest26/avicenna-frontend",
     "liveDemo": null,
     "isPrivate": false,
+    "isHackathon": true,
     "preview": null
   },
   {
@@ -127,5 +129,24 @@
     "liveDemo": null,
     "isPrivate": false,
     "preview": "project_toolkit/project_toolkit.png"
+  },
+  {
+    "id": "ofa-smartpay",
+    "title": {
+      "tr": "SmartPay Agent — FinTech Akıllı Yönlendirme & Otonom AI Ajanı",
+      "en": "SmartPay Agent — FinTech Smart Routing & Autonomous AI Agent"
+    },
+    "description": {
+      "tr": "Moka United AI Ideathon & Hackathon kapsamında geliştirilen; ödeme sistemleri ve sanal POS altyapılarındaki kesintileri gerçek zamanlı tespit eden, ML tabanlı akıllı yönlendirme (routing) yapan ve Google Gemini 2.0 Flash Tool Calling ile otonom müdahale sağlayan FinTech platformu.",
+      "en": "Developed for the Moka United AI Ideathon & Hackathon; a FinTech platform detecting virtual POS outages in real-time, performing ML-based payment routing, and executing autonomous remediation via Google Gemini 2.0 Flash Tool Calling."
+    },
+    "achievements": null,
+    "techStack": ["Node.js", "Express", "React", "Socket.IO", "Gemini 2.0 Flash", "SQLite", "Docker", "Docker Compose"],
+    "tags": ["FinTech", "AI Agent", "Gemini", "Fullstack", "Real-Time"],
+    "sourceCode": "https://github.com/inufest26/OFA",
+    "liveDemo": null,
+    "isPrivate": false,
+    "isHackathon": true,
+    "preview": null
   }
 ]

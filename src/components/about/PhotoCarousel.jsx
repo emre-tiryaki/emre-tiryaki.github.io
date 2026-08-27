@@ -28,7 +28,7 @@ export default function PhotoCarousel() {
   if (total === 0) {
     return (
       <div className="carousel-container flex items-center justify-center">
-        <span className="text-neutral-500 text-sm font-mono">{t('about.noPhotos')}</span>
+        <span className="text-neutral-500 text-sm">{t('about.noPhotos')}</span>
       </div>
     );
   }

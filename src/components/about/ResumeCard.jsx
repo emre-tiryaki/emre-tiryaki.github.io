@@ -35,10 +35,10 @@ export default function ResumeCard() {
 
         {/* Center: Title & Subtitle */}
         <div className="flex flex-col items-start leading-none">
-          <span className="text-sm font-mono font-bold tracking-wider text-neutral-100 group-hover:text-white transition-colors">
+          <span className="text-sm font-bold tracking-wider text-neutral-100 group-hover:text-white transition-colors">
             {t('about.cvTitle')}
           </span>
-          <span className="text-[10px] font-mono text-neutral-400 group-hover:text-orange-400 transition-colors mt-0.5">
+          <span className="text-[10px] text-neutral-400 group-hover:text-orange-400 transition-colors mt-0.5">
             PDF
           </span>
         </div>

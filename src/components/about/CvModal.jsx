@@ -70,7 +70,7 @@ export default function CvModal({ isOpen, onClose }) {
         >
           {/* Left: Only CV filename */}
           <div className="flex items-center">
-            <span className="text-xs sm:text-sm font-mono font-medium text-neutral-300">
+            <span className="text-xs sm:text-sm font-medium text-neutral-300">
               {fileName}
             </span>
           </div>

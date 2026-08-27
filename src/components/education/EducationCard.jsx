@@ -145,7 +145,6 @@ export default function EducationCard({
                   borderRadius: '0.65rem',
                   background: 'rgba(255, 255, 255, 0.05)',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
-                  fontFamily: 'monospace',
                   fontSize: '0.85rem',
                   color: '#e2e8f0',
                   whiteSpace: 'nowrap',
@@ -165,7 +164,6 @@ export default function EducationCard({
                   border: '1px solid rgba(249, 115, 22, 0.4)',
                   color: '#fb923c',
                   fontWeight: 800,
-                  fontFamily: 'monospace',
                   fontSize: '0.875rem',
                   whiteSpace: 'nowrap',
                 }}
@@ -301,7 +299,6 @@ export default function EducationCard({
                         <span
                           style={{
                             fontSize: '0.675rem',
-                            fontFamily: 'monospace',
                             color: '#94a3b8',
                             background: 'rgba(255, 255, 255, 0.04)',
                             padding: '0.1rem 0.45rem',

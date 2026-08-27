@@ -103,7 +103,7 @@ export default function Navbar() {
             className="!w-24 justify-center"
           >
             <span>{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
-            <span style={{ fontFamily: 'monospace' }}>{lang.toUpperCase()}</span>
+            <span>{lang.toUpperCase()}</span>
           </Button>
         </div>
 
@@ -118,7 +118,7 @@ export default function Navbar() {
               aria-label={t('nav.changeLanguage')}
             >
               <span>{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
-              <span style={{ fontFamily: 'monospace' }}>{lang.toUpperCase()}</span>
+              <span>{lang.toUpperCase()}</span>
             </Button>
             <Button
               variant="ghost"

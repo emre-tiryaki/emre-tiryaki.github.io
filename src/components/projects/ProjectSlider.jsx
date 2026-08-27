@@ -116,7 +116,7 @@ export default function ProjectSlider({ projects }) {
       </div>
 
       {/* Counter */}
-      <p style={{ textAlign: 'center', fontSize: '0.75rem', fontFamily: 'monospace', color: '#475569', flexShrink: 0, marginTop: '-0.5rem', paddingBottom: '0.25rem' }}>
+      <p style={{ textAlign: 'center', fontSize: '0.75rem', color: '#475569', flexShrink: 0, marginTop: '-0.5rem', paddingBottom: '0.25rem' }}>
         {page + 1} / {total}
       </p>
     </div>

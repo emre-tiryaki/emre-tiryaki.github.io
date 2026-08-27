@@ -117,7 +117,7 @@ export default function ExperienceCard({
       {/* ── Top Header: Type Badge + (Ongoing / Achievement / Duration Pills) ── */}
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <span
-          className="inline-flex items-center gap-1.5 rounded-lg text-xs font-bold font-mono uppercase tracking-wider"
+          className="inline-flex items-center gap-1.5 rounded-lg text-xs font-bold uppercase tracking-wider"
           style={{
             padding: '0.25rem 0.65rem',
             background: config.badgeBg,
@@ -165,7 +165,7 @@ export default function ExperienceCard({
         {/* Duration Pill (for Hackathons/Competitions without ongoing badge) */}
         {!achievementText && !isOngoing && durationText && (
           <span
-            className="inline-flex items-center gap-1 rounded-md text-[11px] font-mono text-neutral-300"
+            className="inline-flex items-center gap-1 rounded-md text-[11px] text-neutral-300"
             style={{
               padding: '0.2rem 0.55rem',
               background: 'rgba(255, 255, 255, 0.04)',
@@ -198,7 +198,7 @@ export default function ExperienceCard({
         {/* Far Right: Date & Location */}
         <div className="flex flex-col items-end text-right shrink-0">
           {dateDisplay && (
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-slate-200 select-none">
+            <div className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-200 select-none">
               <FiCalendar size={12} style={{ color: config.color }} className="shrink-0" />
               <span>{dateDisplay}</span>
             </div>

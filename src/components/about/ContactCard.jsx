@@ -45,7 +45,7 @@ export default function ContactCard() {
       {/* Header */}
       <div className="flex items-center gap-1.5 text-neutral-400">
         <FiShare2 className="text-orange-400 text-xs" />
-        <span className="text-xs font-mono font-bold uppercase tracking-widest">
+        <span className="text-xs font-bold uppercase tracking-widest">
           {t('about.contactTitle')}
         </span>
       </div>

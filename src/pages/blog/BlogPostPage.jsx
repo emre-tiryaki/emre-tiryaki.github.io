@@ -104,7 +104,7 @@ export default function BlogPostPage() {
                 className="flex items-center justify-between border-t border-white/[0.06]"
                 style={{ paddingTop: '1rem' }}
               >
-                <span className="text-xs font-mono text-neutral-500">
+                <span className="text-xs text-neutral-500">
                   {t('blog.readTime', { n: mins })}
                 </span>
                 {dateStr && (

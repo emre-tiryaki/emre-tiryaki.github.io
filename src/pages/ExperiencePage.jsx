@@ -5,6 +5,7 @@ import ExperienceDetailView from '../components/experience/ExperienceDetailView'
 import experienceData from '../data/experience.json';
 import projectsData from '../data/projects.json';
 import { useTranslation } from '../hooks/translation';
+import { useScrollMask } from '../hooks/useScrollMask';
 import Button from '../components/ui/Button';
 
 const MONTHS = {
@@ -30,23 +31,29 @@ function getSortValue(item) {
     if (num > 1900 && num < 2100) year = num;
     if (MONTHS[p] !== undefined) month = MONTHS[p];
   }
-  return year !== null ? year * 12 + month : -Infinity;
+  return year ? year * 100 + month : 0;
 }
-
-const TYPE_DOT_COLOR = {
-  internship:  '#f97316',
-  hackathon:   '#22c55e',
-  competition: '#eab308',
-  work:        '#3b82f6',
-};
 
 export default function ExperiencePage() {
   const { t } = useTranslation();
   const [activeType, setActiveType] = useState('all');
   const [selectedId, setSelectedId] = useState(null);
 
+  const [timelineRef, timelineMaskStyle] = useScrollMask('vertical', 24);
+  const [detailRef, detailMaskStyle] = useScrollMask('vertical', 28);
+
+  const TYPE_DOT_COLOR = useMemo(
+    () => ({
+      internship: '#3b82f6',
+      hackathon: '#8b5cf6',
+      competition: '#eab308',
+      work: '#22c55e',
+    }),
+    []
+  );
+
   const availableTypes = useMemo(
-    () => ['all', ...Array.from(new Set(experienceData.map(e => e.type)))],
+    () => ['all', 'internship', 'hackathon', 'competition', 'work'],
     []
   );
 
@@ -97,7 +104,7 @@ export default function ExperiencePage() {
         }}>
           {/* Scrollable list with generous padding so glows and shadows are never clipped */}
           <div
-            className="scroll-mask-y"
+            ref={timelineRef}
             style={{
               height: '100%',
               overflowY: 'auto',
@@ -111,6 +118,7 @@ export default function ExperiencePage() {
               position: 'relative',
               scrollbarWidth: 'thin',
               scrollbarColor: 'rgba(249, 115, 22, 0.3) transparent',
+              ...timelineMaskStyle,
             }}
           >
             {filtered.map((item, index) => {
@@ -228,7 +236,7 @@ export default function ExperiencePage() {
 
         {/* ── MIDDLE: Scrollable Experience Detail View ── */}
         <div
-          className="scroll-mask-y"
+          ref={detailRef}
           style={{
             flex: 1,
             minWidth: 0,
@@ -239,6 +247,7 @@ export default function ExperiencePage() {
             paddingBottom: '2.5rem',
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgba(249, 115, 22, 0.35) transparent',
+            ...detailMaskStyle,
           }}
         >
           <ExperienceDetailView
@@ -256,8 +265,8 @@ export default function ExperiencePage() {
           gap: '0.5rem',
           paddingTop: '0.25rem',
         }}>
-          <p style={{ fontSize: '0.7rem', fontFamily: 'monospace', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
-            Filtrele
+          <p style={{ fontSize: '0.7rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
+            {t('experience.filter')}
           </p>
           {availableTypes.map((type) => {
             const isActive = activeType === type;

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -24,6 +24,7 @@ import {
   FiGlobe,
 } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
+import { useScrollMask } from '../../hooks/useScrollMask';
 
 const TYPE_THEME = {
   internship: {
@@ -232,7 +233,6 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
             <span
               style={{
                 fontSize: '0.8rem',
-                fontFamily: 'monospace',
                 padding: '0.2rem 0.65rem',
                 borderRadius: '999px',
                 background: 'rgba(249, 115, 22, 0.15)',
@@ -523,7 +523,6 @@ function EmbeddedProjectCard({ project }) {
                 border: '1px solid rgba(255, 255, 255, 0.08)',
                 color: '#94a3b8',
                 fontSize: '0.75rem',
-                fontFamily: 'monospace',
                 userSelect: 'none',
               }}
             >
@@ -736,7 +735,6 @@ function EmbeddedProjectCard({ project }) {
                     background: 'rgba(249, 115, 22, 0.12)',
                     border: '1px solid rgba(249, 115, 22, 0.25)',
                     fontSize: '0.73rem',
-                    fontFamily: 'monospace',
                     fontWeight: 600,
                     color: '#fdba74',
                   }}
@@ -758,7 +756,6 @@ function EmbeddedProjectCard({ project }) {
                       background: 'rgba(139, 92, 246, 0.1)',
                       border: '1px solid rgba(139, 92, 246, 0.25)',
                       fontSize: '0.73rem',
-                      fontFamily: 'monospace',
                       fontWeight: 600,
                       color: '#c4b5fd',
                     }}
@@ -789,7 +786,7 @@ function EmbeddedProjectCard({ project }) {
 export default function ExperienceDetailView({ experience, projectsData = [] }) {
   const { t, tData } = useTranslation();
   const [lightboxIndex, setLightboxIndex] = useState(null);
-  const galleryScrollRef = useRef(null);
+  const [galleryScrollRef, galleryMaskStyle] = useScrollMask('horizontal', 24);
 
   const scrollGallery = (direction) => {
     if (galleryScrollRef.current) {
@@ -890,7 +887,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                   color: theme.badgeText,
                   fontSize: '0.76rem',
                   fontWeight: 700,
-                  fontFamily: 'monospace',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                 }}
@@ -952,13 +948,13 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
             {/* Date & Duration */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
               {dateDisplay && (
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: '#e2e8f0', fontSize: '0.82rem', fontFamily: 'monospace' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', color: '#e2e8f0', fontSize: '0.82rem' }}>
                   <FiCalendar size={13} style={{ color: theme.color }} />
                   <span>{dateDisplay}</span>
                 </div>
               )}
               {durationText && (
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: '#94a3b8', fontSize: '0.78rem', fontFamily: 'monospace' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: '#94a3b8', fontSize: '0.78rem' }}>
                   <FiClock size={12} />
                   <span>{durationText}</span>
                 </div>
@@ -1085,7 +1081,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                   margin: 0,
                   fontSize: '0.9rem',
                   fontWeight: 700,
-                  fontFamily: 'monospace',
                   textTransform: 'uppercase',
                   letterSpacing: '0.06em',
                   color: '#94a3b8',
@@ -1121,7 +1116,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                   margin: 0,
                   fontSize: '0.9rem',
                   fontWeight: 700,
-                  fontFamily: 'monospace',
                   textTransform: 'uppercase',
                   letterSpacing: '0.06em',
                   color: '#94a3b8',
@@ -1132,7 +1126,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
               <span
                 style={{
                   fontSize: '0.72rem',
-                  fontFamily: 'monospace',
                   padding: '0.15rem 0.5rem',
                   borderRadius: '999px',
                   background: 'rgba(249, 115, 22, 0.15)',
@@ -1163,7 +1156,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                   margin: 0,
                   fontSize: '0.9rem',
                   fontWeight: 700,
-                  fontFamily: 'monospace',
                   textTransform: 'uppercase',
                   letterSpacing: '0.06em',
                   color: '#94a3b8',
@@ -1174,7 +1166,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
               <span
                 style={{
                   fontSize: '0.72rem',
-                  fontFamily: 'monospace',
                   padding: '0.15rem 0.5rem',
                   borderRadius: '999px',
                   background: 'rgba(249, 115, 22, 0.15)',
@@ -1384,7 +1375,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                     margin: 0,
                     fontSize: '0.9rem',
                     fontWeight: 700,
-                    fontFamily: 'monospace',
                     textTransform: 'uppercase',
                     letterSpacing: '0.06em',
                     color: '#94a3b8',
@@ -1395,7 +1385,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                 <span
                   style={{
                     fontSize: '0.72rem',
-                    fontFamily: 'monospace',
                     padding: '0.15rem 0.5rem',
                     borderRadius: '999px',
                     background: 'rgba(255, 255, 255, 0.08)',
@@ -1472,10 +1461,9 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
               )}
             </div>
 
-            {/* Horizontal Scrollable Gallery Strip with Edge Fade Mask */}
+            {/* Horizontal Scrollable Gallery Strip with Dynamic Edge Fade Mask */}
             <div
               ref={galleryScrollRef}
-              className="scroll-mask-x"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -1489,6 +1477,7 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                 paddingTop: '0.25rem',
                 scrollbarWidth: 'thin',
                 scrollbarColor: 'rgba(249, 115, 22, 0.35) transparent',
+                ...galleryMaskStyle,
               }}
             >
               {photos.map((src, index) => (
@@ -1579,7 +1568,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                       margin: 0,
                       fontSize: '0.9rem',
                       fontWeight: 700,
-                      fontFamily: 'monospace',
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
                       color: '#94a3b8',

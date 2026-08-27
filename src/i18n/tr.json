@@ -75,6 +75,7 @@
     "hireMeSub3": "İletişime geçin",
     "hireMeSub4": "Konuşalım",
     "ongoing": "Devam ediyor",
+    "filter": "Filtrele",
     "portfolioLink": "Portfolyo / Web Sitesi",
     "linkedinProfile": "LinkedIn Profili",
     "githubProfile": "GitHub Profili",
@@ -121,7 +122,12 @@
     "filterTechTitle": "Teknoloji Filtrele",
     "filterClear": "Temizle",
     "enlargeImage": "Resmi büyüt",
-    "projectN": "Proje {n}"
+    "projectN": "Proje {n}",
+    "hackathonBadge": "Hackathon Projesi",
+    "hackathonNotice": "Bu proje, kısıtlı süre ve şartlar altında bir hackathon etkinliği kapsamında geliştirilmiş konsept/prototip bir çalışmadır.",
+    "filterHackathon": "Hackathon Projeleri",
+    "filterPersonal": "Kişisel Projeler",
+    "categoryTitle": "Kategori"
   },
   "certifications": {
     "title": "Sertifikalar",

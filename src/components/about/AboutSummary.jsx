@@ -16,7 +16,7 @@ export default function AboutSummary() {
     >
       <div className="flex items-center gap-1.5 mb-2.5 text-neutral-400">
         <FiUser className="text-orange-400 text-xs" />
-        <span className="text-xs font-mono font-bold uppercase tracking-widest">
+        <span className="text-xs font-bold uppercase tracking-widest">
           {t('about.summaryTitle') || 'ABOUT ME'}
         </span>
       </div>
