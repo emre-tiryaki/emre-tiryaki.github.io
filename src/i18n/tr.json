@@ -60,6 +60,14 @@
       "hackathon": "Hackathon",
       "competition": "Yarışma",
       "work": "İş Deneyimi"
+    },
+    "details": {
+      "overviewTitle": "Deneyim Özeti",
+      "projectsTitle": "Geliştirilen Projeler",
+      "galleryTitle": "Fotoğraflar & Anlar",
+      "highlightsTitle": "Öne Çıkanlar & Kazanımlar",
+      "selectPrompt": "Detayları görüntülemek için sol taraftan bir deneyim seçin.",
+      "noProjects": "Bu deneyime bağlı kayıtlı proje bulunmuyor."
     }
   },
   "projects": {
@@ -67,6 +75,7 @@
     "subtitle": "Mimari ve iş mantığını gösteren seçili projeler",
     "sourceCode": "Kaynak Kod",
     "liveDemo": "Canlı Demo",
+    "private": "Kaynak kodlar gizlidir",
     "privateRepo": "Kaynak kodlar gizlidir",
     "techStack": "Teknoloji Yığını",
     "tags": "Etiketler",

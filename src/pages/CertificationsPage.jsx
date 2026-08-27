@@ -39,7 +39,17 @@ export default function CertificationsPage() {
       fullHeight
     >
       {/* Scrollable content area */}
-      <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, paddingBottom: '2rem', paddingRight: '0.35rem' }}>
+      <div
+        className="scroll-mask-y"
+        style={{
+          flex: 1,
+          overflowY: 'auto',
+          minHeight: 0,
+          paddingTop: '0.75rem',
+          paddingBottom: '2.5rem',
+          paddingRight: '0.35rem',
+        }}
+      >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
           {/* Side-by-Side Compact Groups (e.g. İnönü Üniversitesi & TUA) */}
           {compactGroups.length > 0 && (

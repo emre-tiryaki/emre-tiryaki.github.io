@@ -46,8 +46,8 @@
       "en": "An innovative AI project that autonomizes the manual exam evaluation process, one of the biggest workloads for academics and teachers in the education sector."
     },
     "achievements": {
-      "tr": "İnüfest yarışmasında kendi kategorisinde 3. sıra",
-      "en": "3rd place in its category at İnüfest competition"
+      "tr": "İnüfest 3.lük Ödülü",
+      "en": "İnüfest 3rd Place Award"
     },
     "techStack": ["Python", "YOLO11", "TrOCR", "Qwen2-VL", "Redis"],
     "tags": ["AI", "Computer Vision", "Backend"],

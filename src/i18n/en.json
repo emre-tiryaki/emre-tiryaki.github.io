@@ -60,6 +60,14 @@
       "hackathon": "Hackathon",
       "competition": "Competition",
       "work": "Work Experience"
+    },
+    "details": {
+      "overviewTitle": "Experience Overview",
+      "projectsTitle": "Developed Projects",
+      "galleryTitle": "Photos & Moments",
+      "highlightsTitle": "Highlights & Learnings",
+      "selectPrompt": "Select an experience from the left to view details.",
+      "noProjects": "No linked projects for this experience."
     }
   },
   "projects": {
@@ -67,6 +75,7 @@
     "subtitle": "Selected projects showcasing architecture and business logic",
     "sourceCode": "Source Code",
     "liveDemo": "Live Demo",
+    "private": "Source code is private",
     "privateRepo": "Source code is private",
     "techStack": "Tech Stack",
     "tags": "Tags",

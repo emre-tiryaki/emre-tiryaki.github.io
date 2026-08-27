@@ -1,7 +1,9 @@
 import { useState, useMemo } from 'react';
 import PageLayout from '../components/layout/PageLayout';
 import ExperienceCard from '../components/experience/ExperienceCard';
+import ExperienceDetailView from '../components/experience/ExperienceDetailView';
 import experienceData from '../data/experience.json';
+import projectsData from '../data/projects.json';
 import { useTranslation } from '../hooks/translation';
 import Button from '../components/ui/Button';
 
@@ -41,6 +43,7 @@ const TYPE_DOT_COLOR = {
 export default function ExperiencePage() {
   const { t } = useTranslation();
   const [activeType, setActiveType] = useState('all');
+  const [selectedId, setSelectedId] = useState(null);
 
   const availableTypes = useMemo(
     () => ['all', ...Array.from(new Set(experienceData.map(e => e.type)))],
@@ -57,6 +60,15 @@ export default function ExperiencePage() {
     [activeType, sorted]
   );
 
+  const activeExperience = useMemo(() => {
+    if (!selectedId) return null;
+    return filtered.find(e => e.id === selectedId) || null;
+  }, [selectedId, filtered]);
+
+  const handleCardClick = (id) => {
+    setSelectedId(prev => (prev === id ? null : id));
+  };
+
   return (
     <PageLayout
       title={t('experience.title')}
@@ -64,37 +76,48 @@ export default function ExperiencePage() {
       maxWidth="100%"
       fullHeight
     >
-      {/* Body: fills remaining height, no overflow */}
+      {/* Body: 3-column layout filling remaining height */}
       <div style={{
         flex: 1,
         display: 'flex',
-        justifyContent: 'space-between',
+        gap: '1.5rem',
         overflow: 'hidden',
-        minHeight: 0,   /* critical for flex children to shrink below content size */
+        minHeight: 0,
+        userSelect: 'none',
       }}>
 
-        {/* LEFT: Scrollable experience timeline directly holding scrollbar next to cards */}
+        {/* ── LEFT: Scrollable experience timeline ── */}
         <div style={{
-          width: '100%',
-          maxWidth: '580px',
+          width: '470px',
+          flexShrink: 0,
           position: 'relative',
           overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
         }}>
-          {/* Scrollable list */}
-          <div style={{
-            height: '100%',
-            overflowY: 'auto',
-            paddingBottom: '2rem',
-            paddingRight: '0.65rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.25rem',
-            position: 'relative',
-          }}>
+          {/* Scrollable list with generous padding so glows and shadows are never clipped */}
+          <div
+            className="scroll-mask-y"
+            style={{
+              height: '100%',
+              overflowY: 'auto',
+              paddingTop: '1.25rem',
+              paddingBottom: '2.5rem',
+              paddingLeft: '1.25rem',
+              paddingRight: '1rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.25rem',
+              position: 'relative',
+              scrollbarWidth: 'thin',
+              scrollbarColor: 'rgba(249, 115, 22, 0.3) transparent',
+            }}
+          >
             {filtered.map((item, index) => {
               const dotColor = TYPE_DOT_COLOR[item.type] || '#f97316';
               const nextItem = filtered[index + 1];
               const nextColor = nextItem ? (TYPE_DOT_COLOR[nextItem.type] || '#f97316') : null;
+              const isSelected = activeExperience?.id === item.id;
 
               return (
                 <div
@@ -128,10 +151,13 @@ export default function ExperiencePage() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         background: 'radial-gradient(circle at center, rgba(26,26,32,0.98) 0%, rgba(10,10,14,0.98) 100%)',
-                        border: `1.5px solid ${dotColor}`,
-                        boxShadow: `0 0 16px ${dotColor}55, 0 0 6px ${dotColor}80, inset 0 0 8px ${dotColor}25`,
+                        border: isSelected ? `2px solid ${dotColor}` : `1.5px solid ${dotColor}`,
+                        boxShadow: isSelected
+                          ? `0 0 22px ${dotColor}, 0 0 8px ${dotColor}, inset 0 0 10px ${dotColor}`
+                          : `0 0 14px ${dotColor}55, 0 0 6px ${dotColor}80, inset 0 0 8px ${dotColor}25`,
                         position: 'relative',
                         zIndex: 3,
+                        transition: 'all 0.2s ease',
                       }}
                     >
                       <div
@@ -163,8 +189,8 @@ export default function ExperiencePage() {
                       <div
                         style={{
                           position: 'absolute',
-                          top: '3.45rem', /* 1.2rem marginTop + 2.25rem dot height */
-                          bottom: '-2.45rem', /* 1.25rem row gap + 1.2rem next dot marginTop = exactly touches top of next dot */
+                          top: '3.45rem',
+                          bottom: '-2.45rem',
                           width: '2px',
                           left: '50%',
                           transform: 'translateX(-50%)',
@@ -173,7 +199,6 @@ export default function ExperiencePage() {
                           zIndex: 1,
                         }}
                       >
-                        {/* Soft ambient glow */}
                         <div
                           style={{
                             position: 'absolute',
@@ -189,7 +214,11 @@ export default function ExperiencePage() {
 
                   {/* Card */}
                   <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-                    <ExperienceCard {...item} />
+                    <ExperienceCard
+                      {...item}
+                      isSelected={isSelected}
+                      onClick={() => handleCardClick(item.id)}
+                    />
                   </div>
                 </div>
               );
@@ -197,9 +226,30 @@ export default function ExperiencePage() {
           </div>
         </div>
 
-        {/* RIGHT: Filter sidebar — fixed width, no scroll */}
+        {/* ── MIDDLE: Scrollable Experience Detail View ── */}
+        <div
+          className="scroll-mask-y"
+          style={{
+            flex: 1,
+            minWidth: 0,
+            height: '100%',
+            overflowY: 'auto',
+            paddingTop: '1rem',
+            paddingRight: '0.65rem',
+            paddingBottom: '2.5rem',
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(249, 115, 22, 0.35) transparent',
+          }}
+        >
+          <ExperienceDetailView
+            experience={activeExperience}
+            projectsData={projectsData}
+          />
+        </div>
+
+        {/* ── RIGHT: Filter sidebar ── */}
         <div style={{
-          width: '200px',
+          width: '180px',
           flexShrink: 0,
           display: 'flex',
           flexDirection: 'column',

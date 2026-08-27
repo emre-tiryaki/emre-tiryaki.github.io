@@ -153,10 +153,16 @@ function FilterDropdown({
             </div>
 
             {/* List */}
-            <div style={{
-              maxHeight: '260px', overflowY: 'auto', padding: '0.35rem',
-              scrollbarWidth: 'thin', scrollbarColor: `${accentColor}33 transparent`,
-            }}>
+            <div
+              className="scroll-mask-y"
+              style={{
+                maxHeight: '260px',
+                overflowY: 'auto',
+                padding: '0.5rem 0.35rem',
+                scrollbarWidth: 'thin',
+                scrollbarColor: `${accentColor}33 transparent`,
+              }}
+            >
               {items.map(item => {
                 const isActive = selected.includes(item);
                 return (
@@ -299,9 +305,11 @@ export default function ProjectsPage() {
     >
       {/* Scrollable Project List */}
       <div
+        className="scroll-mask-y"
         style={{
           flex: 1,
           overflowY: 'auto',
+          paddingTop: '1rem',
           paddingRight: '0.5rem',
           paddingBottom: '2.5rem',
           display: 'flex',

@@ -89,6 +89,22 @@ body {
   scrollbar-width: none;  /* Firefox */
 }
 
+/* ── Smooth Scroll Edge Fade Mask ── */
+.scroll-mask-y {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 28px, black calc(100% - 24px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 28px, black calc(100% - 24px), transparent 100%);
+}
+
+.scroll-mask-x {
+  mask-image: linear-gradient(to right, transparent 0%, black 28px, black calc(100% - 28px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 28px, black calc(100% - 28px), transparent 100%);
+}
+
+.scroll-mask-top {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 28px, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 28px, black 100%);
+}
+
 /* ── Glassmorphism Utility ── */
 .glass-panel {
   background: rgba(255, 255, 255, 0.03);

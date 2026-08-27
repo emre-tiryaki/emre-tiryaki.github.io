@@ -58,6 +58,8 @@ export default function ExperienceCard({
   duration,
   achievement,
   type = 'internship',
+  isSelected = false,
+  onClick,
 }) {
   const { t, tData } = useTranslation();
   const config = TYPE_CONFIG[type] || TYPE_CONFIG.internship;
@@ -77,23 +79,39 @@ export default function ExperienceCard({
 
   return (
     <div
+      onClick={onClick}
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
       className="group relative flex flex-col justify-between gap-3.5 rounded-2xl transition-all duration-250"
       style={{
         padding: '1.25rem 1.45rem',
         borderRadius: '1.15rem',
         width: '100%',
-        background: 'rgba(255, 255, 255, 0.03)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        background: isSelected
+          ? (config.hoverBg || 'rgba(249, 115, 22, 0.08)')
+          : 'rgba(255, 255, 255, 0.03)',
+        border: isSelected
+          ? `1.5px solid ${config.color}`
+          : '1px solid rgba(255, 255, 255, 0.08)',
+        boxShadow: isSelected
+          ? `0 12px 36px rgba(0, 0, 0, 0.55), 0 0 20px ${config.color}30, inset 0 0 16px ${config.color}12`
+          : 'none',
+        cursor: onClick ? 'pointer' : 'default',
+        userSelect: 'none',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = config.hoverBorder;
-        e.currentTarget.style.background = config.hoverBg;
-        e.currentTarget.style.boxShadow = `0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px ${config.hoverShadow}`;
+        if (!isSelected) {
+          e.currentTarget.style.borderColor = config.hoverBorder;
+          e.currentTarget.style.background = config.hoverBg;
+          e.currentTarget.style.boxShadow = `0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px ${config.hoverShadow}`;
+        }
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
-        e.currentTarget.style.boxShadow = 'none';
+        if (!isSelected) {
+          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+          e.currentTarget.style.boxShadow = 'none';
+        }
       }}
     >
       {/* ── Top Header: Type Badge + (Ongoing / Achievement / Duration Pills) ── */}

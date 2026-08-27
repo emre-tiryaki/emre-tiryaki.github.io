@@ -2,11 +2,29 @@
   {
     "id": "avikon-full-stack-stajyerligi",
     "company": "Avikon",
+    "url": "https://www.avikon.com.tr/tr",
     "title": { "tr": "Full Stack Stajyerliği", "en": "Full Stack Internship" },
     "location": { "tr": "Pendik, İstanbul, Türkiye · Hibrit", "en": "Pendik, Istanbul, Turkey · Hybrid" },
     "startDate": { "tr": "Temmuz 2026", "en": "July 2026" },
-    "endDate": { "tr": "Devam ediyor", "en": "Present" },
-    "type": "internship"
+    "endDate": { "tr": "Ağustos 2026", "en": "August 2026" },
+    "type": "internship",
+    "story": {
+      "tr": "Avikon bünyesinde hibrit olarak gerçekleştirdiğim staj sürecinde, gerçek zamanlı telemetri verilerinin işlenmesi, dağıtık mikroservis mimarileri ve modern arayüz geliştirme süreçlerinde aktif rol aldım. OpenSky Network API entegrasyonu, RabbitMQ tabanlı mesajlaşma ve GraphQL abonelikleri ile uçtan uca canlı uçuş takip platformu (ClearSky) mimarisini kurguladım.",
+      "en": "During my hybrid internship at Avikon, I played an active role in processing real-time telemetry data, distributed microservices architectures, and modern UI engineering. I architected and implemented the end-to-end live flight tracking platform (ClearSky) using OpenSky Network API, RabbitMQ messaging, and GraphQL subscriptions."
+    },
+    "projectIds": ["clearsky"],
+    "photos": [],
+    "customSections": [
+      {
+        "id": "focus-areas",
+        "title": { "tr": "Odak Alanları & Katkılar", "en": "Focus Areas & Contributions" },
+        "items": [
+          { "tr": "Go ve TypeScript ile asenkron polyglot mikroservis mimarisi", "en": "Asynchronous polyglot microservice architecture with Go & TypeScript" },
+          { "tr": "RabbitMQ topic exchange ile yüksek verimli olay akışı ve kuyruk yönetimi", "en": "High-throughput event streaming & queue management via RabbitMQ topic exchange" },
+          { "tr": "Harita üzerinde gerçek zamanlı konum görselleştirmesi ve rota oynatma", "en": "Real-time position rendering and route playback on interactive maps" }
+        ]
+      }
+    ]
   },
   {
     "id": "software-persona",
@@ -15,7 +33,13 @@
     "location": { "tr": "Online", "en": "Remote" },
     "startDate": { "tr": "Mayıs 2026", "en": "May 2026" },
     "endDate": { "tr": "Haziran 2026", "en": "June 2026" },
-    "type": "internship"
+    "type": "internship",
+    "story": {
+      "tr": "Software Persona bünyesinde uzaktan yazılım stajyeri olarak modern backend sistemleri, REST API tasarımı ve veri tabanı yönetimi konularında çalışmalar gerçekleştirdim.",
+      "en": "Worked remotely as a Software Intern at Software Persona, focusing on modern backend systems, REST API design, and database management."
+    },
+    "projectIds": [],
+    "photos": []
   },
   {
     "id": "arch-of-sigma",
@@ -24,43 +48,87 @@
     "location": { "tr": "Online", "en": "Remote" },
     "startDate": { "tr": "Nisan 2026", "en": "April 2026" },
     "endDate": { "tr": "Mayıs 2026", "en": "May 2026" },
-    "type": "internship"
+    "type": "internship",
+    "story": {
+      "tr": "Arch of Sigma bünyesinde bilgi teknolojileri altyapısı, sistem optimizasyonları ve yazılım geliştirme süreçlerine katkıda bulundum.",
+      "en": "Contributed to IT infrastructure, system optimizations, and software development workflows at Arch of Sigma."
+    },
+    "projectIds": [],
+    "photos": []
   },
   {
     "id": "inufest-2026",
     "company": "İnüfest 2026",
+    "url": "https://www.inonu.edu.tr/inufest/menu/34438/inufest-2026ya-davetlisiniz",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
     "location": { "tr": "Malatya", "en": "Malatya" },
     "date": { "tr": "Nisan 2026", "en": "April 2026" },
     "duration": { "tr": "3 gün", "en": "3 days" },
     "type": "competition",
-    "achievement": { "tr": "Kendi kategorisinde 3. sıra", "en": "3rd place in its category" }
+    "achievement": { "tr": "3.lük Ödülü", "en": "3rd Place Award" },
+    "story": {
+      "tr": "İnönü Üniversitesi bünyesinde düzenlenen İnüfest 2026 yarışmasına katılarak eğitimde sınav değerlendirme süreçlerini otomatikleştiren yapay zeka tabanlı OKUR projesini geliştirdik. Takım olarak yoğun bir çalışma sonucunda bilgisayarlı görü ve OCR teknolojilerini entegre ederek kategorimizde 3. lük derecesi elde ettik.",
+      "en": "Participating in the İnüfest 2026 competition organized by İnönü University, we developed the OKUR project—an AI-driven system automating exam paper evaluations. Through intensive teamwork integrating Computer Vision and OCR models, our solution achieved 3rd place in its category."
+    },
+    "projectIds": ["okur"],
+    "photos": [],
+    "customSections": [
+      {
+        "id": "highlights",
+        "title": { "tr": "Teknik Çıkarımlar & Kazanımlar", "en": "Technical Learnings & Takeaways" },
+        "items": [
+          { "tr": "Kısıtlı sürede YOLO11 ve TrOCR modellerinin uçtan uca entegrasyonu", "en": "End-to-end rapid integration of YOLO11 and TrOCR models under tight deadlines" },
+          { "tr": "Optik form ve sınav kağıtlarının otonom tespiti ve değerlendirilmesi", "en": "Autonomous detection and grading of optical forms and exam papers" }
+        ]
+      }
+    ]
   },
   {
     "id": "tua-hackathon",
-    "company": "TUA Astro Hackathon",
+    "company": "TUA Astro Hackathon Malatya 2026",
+    "url": "https://tuaastrohackathon.com/tr/astro-hackathon-2026/2026-local-events/malatya?tab=details",
     "title": { "tr": "Katılımcı", "en": "Participant" },
     "location": { "tr": "Malatya", "en": "Malatya" },
     "date": { "tr": "Nisan 2026", "en": "April 2026" },
     "duration": { "tr": "2 gün", "en": "2 days" },
-    "type": "hackathon"
+    "type": "hackathon",
+    "story": {
+      "tr": "Türkiye Uzay Ajansı (TUA) tarafından düzenlenen Astro Hackathon'da uzay teknolojileri ve astronomik veri setlerinin analizi üzerine prototip geliştirdik.",
+      "en": "Developed prototypes analyzing space tech and astronomical datasets during the Astro Hackathon organized by the Turkish Space Agency (TUA)."
+    },
+    "projectIds": [],
+    "photos": []
   },
   {
     "id": "moka-united-fintech-hackathon",
     "company": "Moka United AI Ideathon & Hackathon",
+    "url": "https://coderspace.io/etkinlikler/fintech-hackathon-hack-the-idea/",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
     "location": { "tr": "Online & İstanbul Gayrettepe", "en": "Online & Istanbul Gayrettepe" },
     "date": { "tr": "Temmuz 2026", "en": "July 2026" },
     "duration": { "tr": "7 gün", "en": "7 days" },
-    "type": "hackathon"
+    "type": "hackathon",
+    "story": {
+      "tr": "Moka United AI Ideathon & Hackathon kapsamında finansal teknolojiler (FinTech) ve yapay zeka entegrasyonu alanında yenilikçi çözümler ürettik.",
+      "en": "Built innovative FinTech solutions integrating AI models during the Moka United AI Ideathon & Hackathon."
+    },
+    "projectIds": [],
+    "photos": []
   },
   {
     "id": "aa-hackathon",
-    "company": "Anadolu Ajansı Medya Teknolojileri Hackathonu",
+    "company": "Anadolu Ajansı Medya Teknolojileri Hackathonu v2.0",
+    "url": "https://www.aa.com.tr/tr/info/infografik/47594",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
     "location": { "tr": "İstanbul Ümraniye", "en": "Istanbul Ümraniye" },
     "date": { "tr": "2025", "en": "2025" },
     "duration": { "tr": "2 gün", "en": "2 days" },
-    "type": "hackathon"
+    "type": "hackathon",
+    "story": {
+      "tr": "Anadolu Ajansı Medya Teknolojileri Hackathonu'nda medya, içerik işleme ve haber akışları üzerine odaklanan teknik çözümler geliştirdik.",
+      "en": "Developed technical solutions focused on media processing and news stream workflows at the Anadolu Agency Media Technologies Hackathon."
+    },
+    "projectIds": [],
+    "photos": []
   }
 ]

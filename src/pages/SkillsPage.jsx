@@ -14,12 +14,16 @@ export default function SkillsPage() {
       fullHeight
     >
       {/* Masonry container — flex:1 makes it fill EVERY pixel from title bottom to screen bottom */}
-      <div style={{
-        flex: 1,
-        minHeight: 0,         /* allow shrinking below content size */
-        overflowY: 'auto',
-        paddingBottom: '1.5rem',
-      }}>
+      <div
+        className="scroll-mask-y"
+        style={{
+          flex: 1,
+          minHeight: 0,
+          overflowY: 'auto',
+          paddingTop: '0.75rem',
+          paddingBottom: '2rem',
+        }}
+      >
         <div style={{
           columns: 'auto',
           columnWidth: '280px',
