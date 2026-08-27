@@ -64,6 +64,7 @@
     "details": {
       "overviewTitle": "Deneyim Özeti",
       "projectsTitle": "Geliştirilen Projeler",
+      "teamTitle": "Takım Arkadaşlarım",
       "galleryTitle": "Fotoğraflar & Anlar",
       "highlightsTitle": "Öne Çıkanlar & Kazanımlar",
       "selectPrompt": "Detayları görüntülemek için sol taraftan bir deneyim seçin.",
@@ -97,7 +98,8 @@
   "certifications": {
     "title": "Sertifikalar",
     "subtitle": "Profesyonel gelişim ve doğrulanmış yetkinlikler",
-    "verify": "Doğrula"
+    "verify": "Doğrula",
+    "countLabel": "{n} Sertifika"
   },
   "blog": {
     "nav": "Blog",

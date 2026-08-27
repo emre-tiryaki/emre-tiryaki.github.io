@@ -57,6 +57,42 @@
     "preview": "OKUR/OKUR.jpeg"
   },
   {
+    "id": "hegs-haber",
+    "title": {
+      "tr": "HEGS Haber — Akıllı Medya & Oyunlaştırılmış Mikroservis Platformu",
+      "en": "HEGS Haber — Intelligent Media & Gamified Microservices Platform"
+    },
+    "description": {
+      "tr": "Anadolu Ajansı Medya Teknolojileri Hackathonu için geliştirilen; canlı haber akışlarını web scraping ile toplayan, OpenAI ile özetleyen, otomatik çengel bulmaca türeten ve WebSockets ile çok oyunculu canlı haber bilgi yarışması sunan Spring Boot ve FastAPI tabanlı polyglot mikroservis platformu.",
+      "en": "A polyglot microservices platform (Spring Boot + FastAPI) developed for the Anadolu Agency Hackathon that scrapes live news streams, generates AI summaries, and produces automated crosswords alongside a real-time multiplayer news quiz engine via WebSockets."
+    },
+    "achievements": null,
+    "techStack": ["Spring Boot", "FastAPI", "React", "PostgreSQL", "Docker", "OpenAI API", "WebSockets", "Firebase"],
+    "tags": ["Microservices", "AI", "Spring Boot", "FastAPI", "Fullstack"],
+    "sourceCode": "https://github.com/HEGS-HABER/HEGS-SETUP",
+    "liveDemo": null,
+    "isPrivate": false,
+    "preview": null
+  },
+  {
+    "id": "avicenna",
+    "title": {
+      "tr": "Avicenna — Uzay Telemetri & Radyasyon Simülasyonu Platformu",
+      "en": "Avicenna — Space Telemetry & Radiation Simulation Platform"
+    },
+    "description": {
+      "tr": "TUA Astro Hackathon kapsamında geliştirilen; ESA Mission uydu telemetri verilerini işleyen, dinamik uzay radyasyon anomalilerini simüle eden (bit-flip / spike) ve telemetri akışlarını anomali tespit algoritmalarıyla gerçek zamanlı izleyen web platformu.",
+      "en": "Developed for the TUA Astro Hackathon; a space telemetry platform that processes ESA Mission satellite datasets, simulates dynamic radiation anomalies (bit-flips and spikes), and monitors telemetry streams via real-time anomaly detection algorithms."
+    },
+    "achievements": null,
+    "techStack": ["Python", "FastAPI", "React", "Data Simulation", "Telemetry", "SQLite"],
+    "tags": ["Space Tech", "Telemetry", "Simulation", "AI", "Fullstack"],
+    "sourceCode": "https://github.com/inufest26/avicenna-frontend",
+    "liveDemo": null,
+    "isPrivate": false,
+    "preview": null
+  },
+  {
     "id": "typing-game",
     "title": {
       "tr": "Typing Game — Klavye Hızı Ölçme Uygulaması",

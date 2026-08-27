@@ -72,6 +72,23 @@
     },
     "projectIds": ["okur"],
     "photos": [],
+    "team": [
+      {
+        "name": "Mehmet Sinan Sönmez",
+        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
+        "github": "https://github.com/10sinan"
+      },
+      {
+        "name": "Mustafa Yıldız",
+        "linkedin": "https://www.linkedin.com/in/mustafayiildiz/",
+        "github": "https://github.com/Mustafayildiiz"
+      },
+      {
+        "name": "Selim Demirci",
+        "linkedin": "https://www.linkedin.com/in/selimdemirci/",
+        "github": "https://github.com/selimdmrc0"
+      }
+    ],
     "customSections": [
       {
         "id": "highlights",
@@ -93,11 +110,45 @@
     "duration": { "tr": "2 gün", "en": "2 days" },
     "type": "hackathon",
     "story": {
-      "tr": "Türkiye Uzay Ajansı (TUA) tarafından düzenlenen Astro Hackathon'da uzay teknolojileri ve astronomik veri setlerinin analizi üzerine prototip geliştirdik.",
-      "en": "Developed prototypes analyzing space tech and astronomical datasets during the Astro Hackathon organized by the Turkish Space Agency (TUA)."
+      "tr": "Türkiye Uzay Ajansı (TUA) tarafından düzenlenen Astro Hackathon Malatya 2026 kapsamında uzay araçları ve uydu telemetri sistemlerinin güvenliği üzerine Avicenna platformunu geliştirdik. ESA Mission uydu telemetri veri setlerini işleyerek dinamik uzay radyasyon anomalilerini (bit-flip / spike) simüle eden, backend üzerinde anomali tespit algoritmaları çalıştıran ve React arayüzü ile uydu durumunu gerçek zamanlı görselleştiren uçtan uca bir mimari kurguladık.",
+      "en": "At the TUA Astro Hackathon Malatya 2026 organized by the Turkish Space Agency (TUA), we engineered the Avicenna platform focused on spacecraft and satellite telemetry resilience. We processed ESA Mission satellite telemetry datasets, simulated dynamic space radiation anomalies (bit-flips and spikes), implemented backend anomaly detection algorithms, and visualized real-time satellite metrics via a React frontend dashboard."
     },
-    "projectIds": [],
-    "photos": []
+    "projectIds": ["avicenna"],
+    "photos": [],
+    "team": [
+      {
+        "name": "Elif Kavurga",
+        "portfolio": "https://elifkavurga.github.io/Portfolyo/",
+        "linkedin": "https://www.linkedin.com/in/elifkavurga/",
+        "github": "https://github.com/ElifKavurga"
+      },
+      {
+        "name": "Mehmet Sinan Sönmez",
+        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
+        "github": "https://github.com/10sinan"
+      },
+      {
+        "name": "Mustafa Yıldız",
+        "linkedin": "https://www.linkedin.com/in/mustafayiildiz/",
+        "github": "https://github.com/Mustafayildiiz"
+      },
+      {
+        "name": "Selim Demirci",
+        "linkedin": "https://www.linkedin.com/in/selimdemirci/",
+        "github": "https://github.com/selimdmrc0"
+      }
+    ],
+    "customSections": [
+      {
+        "id": "modules",
+        "title": { "tr": "Geliştirilen Sistem Bileşenleri & Modüller", "en": "Developed System Components & Modules" },
+        "items": [
+          { "tr": "avicenna-frontend: React tabanlı uydu telemetrisi ve anomali takip gösterge paneli (Dashboard)", "en": "avicenna-frontend: Space telemetry and anomaly tracking dashboard built with React" },
+          { "tr": "new-backend: Python tabanlı anomali tespit motoru (anomaly_detector) ve REST API veri servisi", "en": "new-backend: Python-powered anomaly detection engine and telemetry REST API data service" },
+          { "tr": "data-simulation: ESA Mission verileri üzerinde dinamik uzay radyasyonu ve bit-flip simülasyon motoru", "en": "data-simulation: Dynamic space radiation and bit-flip simulation engine over ESA Mission datasets" }
+        ]
+      }
+    ]
   },
   {
     "id": "moka-united-fintech-hackathon",
@@ -113,7 +164,14 @@
       "en": "Built innovative FinTech solutions integrating AI models during the Moka United AI Ideathon & Hackathon."
     },
     "projectIds": [],
-    "photos": []
+    "photos": [],
+    "team": [
+      {
+        "name": "Mehmet Sinan Sönmez",
+        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
+        "github": "https://github.com/10sinan"
+      }
+    ]
   },
   {
     "id": "aa-hackathon",
@@ -125,10 +183,38 @@
     "duration": { "tr": "2 gün", "en": "2 days" },
     "type": "hackathon",
     "story": {
-      "tr": "Anadolu Ajansı Medya Teknolojileri Hackathonu'nda medya, içerik işleme ve haber akışları üzerine odaklanan teknik çözümler geliştirdik.",
-      "en": "Developed technical solutions focused on media processing and news stream workflows at the Anadolu Agency Media Technologies Hackathon."
+      "tr": "Anadolu Ajansı Medya Teknolojileri Hackathonu v2.0 kapsamında haber tüketimini yapay zeka ve interaktif oyunlaştırma ile yeniden tasarlayan HEGS Haber platformunu geliştirdik. Spring Boot ve FastAPI mikroservis mimarisi üzerinde haber kazıma, yapay zeka ile otomatik özetleme/içerik analizi, haberden çengel bulmaca türetme ve WebSockets tabanlı gerçek zamanlı bilgi yarışması motorunu uçtan uca Docker Compose ile orkestre ettik.",
+      "en": "At the Anadolu Agency Media Technologies Hackathon v2.0, we engineered the HEGS Haber platform—redesigning news consumption through AI and interactive gamification. Built upon a Spring Boot and FastAPI microservices architecture, we integrated automated web scraping, AI summarization/content analysis, automated crossword generation, and a real-time WebSocket multiplayer quiz engine orchestrated via Docker Compose."
     },
-    "projectIds": [],
-    "photos": []
+    "projectIds": ["hegs-haber"],
+    "photos": [],
+    "team": [
+      {
+        "name": "Mehmet Sinan Sönmez",
+        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
+        "github": "https://github.com/10sinan"
+      },
+      {
+        "name": "Hüseyin Kırteke",
+        "github": "https://github.com/KamerGG"
+      },
+      {
+        "name": "Taylan Mert (Güneş) Doğan",
+        "github": "https://github.com/Gunes00"
+      }
+    ],
+    "customSections": [
+      {
+        "id": "modules",
+        "title": { "tr": "Geliştirilen Mikroservisler & Mimari", "en": "Developed Microservices & Architecture" },
+        "items": [
+          { "tr": "Spring Boot REST Backend: Kullanıcı yönetimi, haber veritabanı ve PostgreSQL veri altyapısı", "en": "Spring Boot REST backend: User management, article persistence, and PostgreSQL data infrastructure" },
+          { "tr": "FastAPI + OpenAI AI Servisi: Haber analizi, duygu analizi ve akıllı metin özetleme", "en": "FastAPI + OpenAI AI service: News analysis, sentiment extraction, and intelligent summarization" },
+          { "tr": "FastAPI Crossword Servisi: Haber metinlerinden otomatik çengel bulmaca türetme motoru", "en": "FastAPI Crossword service: Automated crossword puzzle generation engine from news articles" },
+          { "tr": "FastAPI + WebSockets Quiz Motoru: Canlı ve çok oyunculu anlık haber bilgi yarışması", "en": "FastAPI + WebSockets quiz engine: Real-time multiplayer live news quiz platform" },
+          { "tr": "Docker Compose: 7 farklı bağımsız mikroservisin tek komutla uçtan uca orkestrasyonu", "en": "Docker Compose: End-to-end single-command orchestration of 7 independent microservices" }
+        ]
+      }
+    ]
   }
 ]

@@ -13,13 +13,19 @@ export function useTranslation() {
 
   const { lang, setLanguage } = ctx;
 
-  // UI string lookup: t('about.summary')
+  // UI string lookup: t('about.summary') or t('projects.filterSelected', { n: 3 })
   const t = useCallback(
-    (keyPath) => {
-      const result = keyPath
+    (keyPath, params) => {
+      let result = keyPath
         .split('.')
         .reduce((obj, key) => obj?.[key], translations[lang]);
-      return result ?? keyPath;
+      if (result === undefined || result === null) return keyPath;
+      if (typeof result === 'string' && params && typeof params === 'object') {
+        Object.entries(params).forEach(([k, v]) => {
+          result = result.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v));
+        });
+      }
+      return result;
     },
     [lang]
   );

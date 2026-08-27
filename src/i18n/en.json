@@ -63,7 +63,8 @@
     },
     "details": {
       "overviewTitle": "Experience Overview",
-      "projectsTitle": "Developed Projects",
+      "projectsTitle": "Projects Developed",
+      "teamTitle": "Teammates",
       "galleryTitle": "Photos & Moments",
       "highlightsTitle": "Highlights & Learnings",
       "selectPrompt": "Select an experience from the left to view details.",
@@ -97,7 +98,8 @@
   "certifications": {
     "title": "Certifications",
     "subtitle": "Professional development and verified competencies",
-    "verify": "Verify"
+    "verify": "Verify",
+    "countLabel": "{n} Certificates"
   },
   "blog": {
     "nav": "Blog",

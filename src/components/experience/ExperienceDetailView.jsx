@@ -18,6 +18,10 @@ import {
   FiExternalLink,
   FiLock,
   FiMaximize2,
+  FiUsers,
+  FiUser,
+  FiLinkedin,
+  FiGlobe,
 } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 
@@ -813,6 +817,12 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
     return resolveExperiencePhotos(experience);
   }, [experience]);
 
+  // Resolve team members with deterministic random shuffle
+  const teamMembers = useMemo(() => {
+    if (!experience || !Array.isArray(experience.team)) return [];
+    return pseudoRandomShuffle(experience.team, (experience.id || 'exp') + '_team_shuffle_v1');
+  }, [experience]);
+
   const checkScroll = useCallback(() => {
     const el = galleryScrollRef.current;
     if (!el) return;
@@ -1183,6 +1193,226 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
               {relatedProjects.map((project) => (
                 <EmbeddedProjectCard key={project.id} project={project} />
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── MODULAR SECTION: TEAM MEMBERS / TEŞEKKÜR & KİŞİLER ── */}
+        {Array.isArray(experience.team) && experience.team.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+              <FiUsers size={15} style={{ color: '#fb923c' }} />
+              <h3
+                style={{
+                  margin: 0,
+                  fontSize: '0.9rem',
+                  fontWeight: 700,
+                  fontFamily: 'monospace',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                  color: '#94a3b8',
+                }}
+              >
+                {t('experience.details.teamTitle')}
+              </h3>
+              <span
+                style={{
+                  fontSize: '0.72rem',
+                  fontFamily: 'monospace',
+                  padding: '0.15rem 0.5rem',
+                  borderRadius: '999px',
+                  background: 'rgba(249, 115, 22, 0.15)',
+                  border: '1px solid rgba(249, 115, 22, 0.35)',
+                  color: '#fb923c',
+                  fontWeight: 700,
+                }}
+              >
+                {teamMembers.length}
+              </span>
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '0.75rem',
+                alignItems: 'center',
+              }}
+            >
+              {teamMembers.map((member, idx) => {
+                const portfolioUrl = member.portfolio || member.url;
+                const linkedinUrl = member.linkedin;
+                const githubUrl = member.github;
+                const hasAnyLink = Boolean(portfolioUrl || linkedinUrl || githubUrl);
+
+                return (
+                  <div
+                    key={idx}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.65rem',
+                      padding: '0.42rem 0.65rem 0.42rem 0.5rem',
+                      borderRadius: '0.75rem',
+                      background: 'rgba(255, 255, 255, 0.035)',
+                      border: '1px solid rgba(255, 255, 255, 0.08)',
+                      transition: 'all 0.18s ease',
+                    }}
+                  >
+                    {/* Avatar Icon */}
+                    <div
+                      style={{
+                        width: '1.65rem',
+                        height: '1.65rem',
+                        borderRadius: '0.5rem',
+                        background: 'rgba(255, 255, 255, 0.06)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#94a3b8',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <FiUser size={12} />
+                    </div>
+
+                    {/* Member Name */}
+                    <span
+                      style={{
+                        fontSize: '0.86rem',
+                        fontWeight: 600,
+                        color: '#e2e8f0',
+                        userSelect: 'text',
+                        marginRight: hasAnyLink ? '0.15rem' : 0,
+                      }}
+                    >
+                      {member.name}
+                    </span>
+
+                    {/* Action Link Icons: Portfolio, LinkedIn, GitHub */}
+                    {hasAnyLink && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                        {/* Portfolio Button */}
+                        {portfolioUrl && (
+                          <a
+                            href={portfolioUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Portfolyo / Web Sitesi"
+                            aria-label={`${member.name} Portfolyo`}
+                            style={{
+                              width: '1.6rem',
+                              height: '1.6rem',
+                              borderRadius: '0.45rem',
+                              background: 'rgba(249, 115, 22, 0.12)',
+                              border: '1px solid rgba(249, 115, 22, 0.3)',
+                              color: '#fb923c',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              textDecoration: 'none',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = 'rgba(249, 115, 22, 0.25)';
+                              e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.65)';
+                              e.currentTarget.style.boxShadow = '0 0 10px rgba(249, 115, 22, 0.4)';
+                              e.currentTarget.style.color = '#fff';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = 'rgba(249, 115, 22, 0.12)';
+                              e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.3)';
+                              e.currentTarget.style.boxShadow = 'none';
+                              e.currentTarget.style.color = '#fb923c';
+                            }}
+                          >
+                            <FiGlobe size={11} />
+                          </a>
+                        )}
+
+                        {/* LinkedIn Button */}
+                        {linkedinUrl && (
+                          <a
+                            href={linkedinUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="LinkedIn Profili"
+                            aria-label={`${member.name} LinkedIn`}
+                            style={{
+                              width: '1.6rem',
+                              height: '1.6rem',
+                              borderRadius: '0.45rem',
+                              background: 'rgba(10, 102, 194, 0.15)',
+                              border: '1px solid rgba(10, 102, 194, 0.35)',
+                              color: '#60a5fa',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              textDecoration: 'none',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = 'rgba(10, 102, 194, 0.3)';
+                              e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.7)';
+                              e.currentTarget.style.boxShadow = '0 0 10px rgba(59, 130, 246, 0.45)';
+                              e.currentTarget.style.color = '#fff';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = 'rgba(10, 102, 194, 0.15)';
+                              e.currentTarget.style.borderColor = 'rgba(10, 102, 194, 0.35)';
+                              e.currentTarget.style.boxShadow = 'none';
+                              e.currentTarget.style.color = '#60a5fa';
+                            }}
+                          >
+                            <FiLinkedin size={11} />
+                          </a>
+                        )}
+
+                        {/* GitHub Button */}
+                        {githubUrl && (
+                          <a
+                            href={githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="GitHub Profili"
+                            aria-label={`${member.name} GitHub`}
+                            style={{
+                              width: '1.6rem',
+                              height: '1.6rem',
+                              borderRadius: '0.45rem',
+                              background: 'rgba(255, 255, 255, 0.08)',
+                              border: '1px solid rgba(255, 255, 255, 0.18)',
+                              color: '#e2e8f0',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              textDecoration: 'none',
+                              cursor: 'pointer',
+                              transition: 'all 0.15s ease',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+                              e.currentTarget.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.3)';
+                              e.currentTarget.style.color = '#fff';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.18)';
+                              e.currentTarget.style.boxShadow = 'none';
+                              e.currentTarget.style.color = '#e2e8f0';
+                            }}
+                          >
+                            <FiGithub size={11} />
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

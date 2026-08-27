@@ -72,21 +72,23 @@ export default function CertificationsPage() {
                       {tData(certs[0].authority)}
                     </h2>
 
-                    <span
-                      style={{
-                        padding: '0.25rem 0.65rem',
-                        borderRadius: '0.5rem',
-                        fontFamily: 'monospace',
-                        fontSize: '0.75rem',
-                        fontWeight: 700,
-                        background: 'rgba(249, 115, 22, 0.12)',
-                        border: '1px solid rgba(249, 115, 22, 0.35)',
-                        color: '#fb923c',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {certs.length} Sertifika
-                    </span>
+                    {certs.length > 1 && (
+                      <span
+                        style={{
+                          padding: '0.25rem 0.65rem',
+                          borderRadius: '0.5rem',
+                          fontFamily: 'monospace',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          background: 'rgba(249, 115, 22, 0.12)',
+                          border: '1px solid rgba(249, 115, 22, 0.35)',
+                          color: '#fb923c',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {t('certifications.countLabel', { n: certs.length })}
+                      </span>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 gap-4 flex-1">
@@ -118,21 +120,23 @@ export default function CertificationsPage() {
                   {tData(certs[0].authority)}
                 </h2>
 
-                <span
-                  style={{
-                    padding: '0.25rem 0.65rem',
-                    borderRadius: '0.5rem',
-                    fontFamily: 'monospace',
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    background: 'rgba(249, 115, 22, 0.12)',
-                    border: '1px solid rgba(249, 115, 22, 0.35)',
-                    color: '#fb923c',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {certs.length} Sertifika
-                </span>
+                {certs.length > 1 && (
+                  <span
+                    style={{
+                      padding: '0.25rem 0.65rem',
+                      borderRadius: '0.5rem',
+                      fontFamily: 'monospace',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      background: 'rgba(249, 115, 22, 0.12)',
+                      border: '1px solid rgba(249, 115, 22, 0.35)',
+                      color: '#fb923c',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {t('certifications.countLabel', { n: certs.length })}
+                  </span>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
