@@ -18,6 +18,24 @@
     "preview": "ClearSky"
   },
   {
+    "id": "repograb",
+    "title": {
+      "tr": "RepoGrab — Etkileşimli TUI & Paralel Depo İndirme Aracı",
+      "en": "RepoGrab — Interactive TUI & Parallel Repository Downloader"
+    },
+    "description": {
+      "tr": "GitHub ve GitLab depolarından belirli dosya veya klasörleri sezgisel bir terminal arayüzü üzerinden seçerek, Go'nun eşzamanlılık mimarisiyle paralel ve yüksek hızlı şekilde indirmeyi sağlayan CLI aracı.",
+      "en": "A high-performance CLI utility built in Go with an interactive terminal interface, enabling selective and parallel downloading of files and directories from GitHub and GitLab repositories."
+    },
+    "achievements": null,
+    "techStack": ["Go", "GitHub API", "GitLab API"],
+    "tags": ["Go", "CLI", "TUI"],
+    "sourceCode": "https://github.com/emre-tiryaki/RepoGrab",
+    "liveDemo": null,
+    "isPrivate": false,
+    "preview": "repograb"
+  },
+  {
     "id": "okur",
     "title": {
       "tr": "OKUR — Yapay Zeka Destekli Akıllı Sınav Değerlendirme Sistemi",

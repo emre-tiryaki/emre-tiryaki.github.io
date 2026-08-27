@@ -104,7 +104,16 @@ export default function CommentItem({
     k === 'approve' ? t('blog.admin.approve') : k === 'reject' ? t('blog.admin.reject') : t('blog.admin.delete');
 
   return (
-    <div className="glass-card rounded-xl" style={{ padding: '1rem', boxSizing: 'border-box' }}>
+    <div
+      style={{
+        padding: '1.15rem 1.25rem',
+        borderRadius: '1rem',
+        background: 'rgba(255, 255, 255, 0.035)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
+        boxSizing: 'border-box',
+        transition: 'border-color 0.25s ease',
+      }}
+    >
       {/* ÜST SATIR — herkeste aynı; admin'e ek elementler eklenir */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
         {avatarSrc ? (

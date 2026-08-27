@@ -38,15 +38,18 @@ export default function AdminLogin() {
       }}
     >
       <div
-        className="glass-card"
         style={{
           width: '100%',
           maxWidth: '24rem',
-          padding: '2rem',
+          padding: '2.25rem 2rem',
+          borderRadius: '1rem',
+          background: 'rgba(255, 255, 255, 0.035)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
           display: 'flex',
           flexDirection: 'column',
           gap: '1.25rem',
           boxSizing: 'border-box',
+          transition: 'border-color 0.25s ease',
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>

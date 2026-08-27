@@ -6,29 +6,32 @@ import { forwardRef } from 'react';
 
 const BASE_INPUT = {
   width: '100%',
-  background: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.10)',
-  color: '#f5f5f5',
+  background: 'rgba(255, 255, 255, 0.035)',
+  border: '1px solid rgba(255, 255, 255, 0.08)',
+  color: '#f8fafc',
   fontSize: '0.875rem',
-  borderRadius: '0.65rem',
-  padding: '0.6rem 0.8rem',
+  borderRadius: '0.75rem',
+  padding: '0.65rem 0.9rem',
   outline: 'none',
-  transition: 'border-color 150ms ease, box-shadow 150ms ease',
+  transition: 'border-color 160ms ease, box-shadow 160ms ease, background 160ms ease',
   fontFamily: 'inherit',
+  boxSizing: 'border-box',
 };
 
-const TEXTAREA_EXTRA = { resize: 'vertical', lineHeight: '1.5' };
+const TEXTAREA_EXTRA = { resize: 'vertical', lineHeight: '1.6' };
 
 function focusStyle(el, hasError) {
   if (!el) return;
-  el.style.borderColor = hasError ? 'rgba(239,68,68,0.7)' : 'rgba(249,115,22,0.6)';
+  el.style.borderColor = hasError ? 'rgba(239, 68, 68, 0.7)' : 'rgba(249, 115, 22, 0.6)';
+  el.style.background = 'rgba(255, 255, 255, 0.055)';
   el.style.boxShadow = hasError
-    ? '0 0 0 3px rgba(239,68,68,0.15)'
-    : '0 0 0 3px rgba(249,115,22,0.15)';
+    ? '0 0 0 3px rgba(239, 68, 68, 0.15)'
+    : '0 0 16px rgba(249, 115, 22, 0.15), 0 0 0 1px rgba(249, 115, 22, 0.3)';
 }
 function blurStyle(el) {
   if (!el) return;
-  el.style.borderColor = 'rgba(255,255,255,0.10)';
+  el.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+  el.style.background = 'rgba(255, 255, 255, 0.035)';
   el.style.boxShadow = 'none';
 }
 

@@ -9,6 +9,7 @@ import {
   FiX,
   FiTrash2,
   FiUpload,
+  FiFeather,
 } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { useAuth } from '../../hooks/auth';
@@ -17,15 +18,13 @@ import PostComposer from '../blog/PostComposer';
 import CommentItem from '../blog/CommentItem';
 import Button from '../ui/Button';
 
-// Layout: sol sidebar (nav + çıkış) + sağ içerik (istatistikler + liste)
-// Tüm panel viewport'a sabitlenir; SADECE sağdaki liste alanı scroll olur.
-// Böylece sekme/içerik değişince sidebar nav butonları yerinden oynamaz.
 const ROOT_STYLE = {
   width: '100%',
-  maxWidth: '72rem',
-  height: '100dvh',
+  maxWidth: '88rem',
+  height: '100%',
+  flex: 1,
+  minHeight: 0,
   margin: '0 auto',
-  padding: '1.5rem',
   display: 'flex',
   gap: '1.5rem',
   alignItems: 'stretch',
@@ -34,20 +33,18 @@ const ROOT_STYLE = {
 };
 
 const SIDEBAR_STYLE = {
-  width: '15rem',
+  width: '16rem',
   flexShrink: 0,
   display: 'flex',
   flexDirection: 'column',
   gap: '1.25rem',
-  padding: '1.25rem',
-  borderRadius: '1.25rem',
-  background: 'rgba(18,18,18,0.7)',
-  backdropFilter: 'blur(16px)',
-  WebkitBackdropFilter: 'blur(16px)',
-  border: '1px solid rgba(255,255,255,0.08)',
-  boxShadow: '0 8px 32px rgba(0,0,0,0.37)',
+  padding: '1.5rem 1.25rem',
+  borderRadius: '1rem',
+  background: 'rgba(255, 255, 255, 0.035)',
+  border: '1px solid rgba(255, 255, 255, 0.08)',
   boxSizing: 'border-box',
   overflow: 'hidden',
+  transition: 'border-color 0.25s ease',
 };
 
 const CONTENT_STYLE = {
@@ -62,30 +59,33 @@ const CONTENT_STYLE = {
 };
 
 function StatCard({ label, value, accent }) {
+  const [hovered, setHovered] = useState(false);
   return (
     <div
       style={{
         flex: 1,
         minWidth: '7.5rem',
-        padding: '1rem 1.25rem',
+        padding: '1.15rem 1.35rem',
         borderRadius: '1rem',
-        background: 'rgba(20,20,20,0.65)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255,255,255,0.07)',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+        background: hovered ? 'rgba(255, 255, 255, 0.045)' : 'rgba(255, 255, 255, 0.035)',
+        border: hovered ? '1px solid rgba(249, 115, 22, 0.4)' : '1px solid rgba(255, 255, 255, 0.08)',
         boxSizing: 'border-box',
+        transition: 'all 0.22s ease',
+        cursor: 'default',
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      <p style={{ fontSize: '0.72rem', color: '#a3a3a3', textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>
+      <p style={{ fontSize: '0.72rem', color: '#94a3b8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0, fontFamily: 'monospace' }}>
         {label}
       </p>
       <p
         style={{
-          fontSize: '1.75rem',
+          fontSize: '1.85rem',
           fontWeight: 800,
-          margin: '0.25rem 0 0',
-          color: accent || '#f5f5f5',
+          margin: '0.35rem 0 0',
+          color: accent || '#f8fafc',
+          lineHeight: 1,
         }}
       >
         {value}
@@ -103,7 +103,7 @@ export default function AdminPanel() {
     approveComment, deleteComment, addComment,
   } = useAdminBlog();
 
-  const [tab, setTab] = useState('published'); // published | drafts | comments
+  const [tab, setTab] = useState('published'); // 'published' | 'drafts' | 'editor' | 'comments'
   const [editing, setEditing] = useState(null); // post objesi | 'new' | null
   const [saving, setSaving] = useState(false); // false | 'draft' | 'publish'
   const [deletingPostId, setDeletingPostId] = useState(null); // inline confirm için
@@ -135,13 +135,14 @@ export default function AdminPanel() {
   async function handleSavePost(data, publish) {
     setSaving(publish ? 'publish' : 'draft');
     try {
-      if (editing === 'new') {
+      if (editing === 'new' || !editing?.id) {
         await createPost(data, publish);
       } else if (editing?.id) {
         await updatePost(editing.id, data);
         if (publish) await publishPost(editing.id, true);
       }
       setEditing(null);
+      setTab(publish ? 'published' : 'drafts');
     } finally {
       setSaving(false);
     }
@@ -150,6 +151,7 @@ export default function AdminPanel() {
   async function handlePublish(id, published) {
     await publishPost(id, published);
   }
+
   async function handleDeletePost(id) {
     if (deletingPostId === id) {
       await deletePost(id);
@@ -158,13 +160,15 @@ export default function AdminPanel() {
       setDeletingPostId(id);
     }
   }
+
   async function handleApprove(id, approve) {
     await approveComment(id, user.uid, approve);
   }
+
   async function handleDeleteComment(id) {
     await deleteComment(id);
   }
-  // Admin panelinden bir yoruma yanıt yaz (giriş yapılan adminin adı + mailiyle, doğrudan onaylı)
+
   async function handleAdminReply(parentId, data) {
     await addComment({
       authorName: user?.displayName || user?.email || 'Emre Tiryaki',
@@ -187,6 +191,7 @@ export default function AdminPanel() {
             textAlign: 'center',
             borderRadius: '1rem',
             border: '1px dashed rgba(255,255,255,0.1)',
+            background: 'rgba(255, 255, 255, 0.02)',
             color: '#737373',
             fontSize: '0.875rem',
           }}
@@ -199,13 +204,24 @@ export default function AdminPanel() {
       return (
         <div
           key={p.id}
-          className="glass-card rounded-xl"
           style={{
-            padding: '1rem',
+            padding: '1rem 1.25rem',
+            borderRadius: '1rem',
+            background: 'rgba(255, 255, 255, 0.035)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
             display: 'flex',
             alignItems: 'center',
             gap: '1rem',
             flexWrap: 'wrap',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.4)';
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.045)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
+            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.035)';
           }}
         >
           {cover ? (
@@ -216,9 +232,9 @@ export default function AdminPanel() {
                 width: '3.5rem',
                 height: '3.5rem',
                 objectFit: 'cover',
-                borderRadius: '0.6rem',
+                borderRadius: '0.65rem',
                 flexShrink: 0,
-                border: '1px solid rgba(255,255,255,0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
               }}
             />
           ) : (
@@ -226,13 +242,14 @@ export default function AdminPanel() {
               style={{
                 width: '3.5rem',
                 height: '3.5rem',
-                borderRadius: '0.6rem',
+                borderRadius: '0.65rem',
                 flexShrink: 0,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: 'rgba(255,255,255,0.04)',
-                color: '#525252',
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                color: '#64748b',
               }}
             >
               <FiFileText size={20} />
@@ -240,10 +257,10 @@ export default function AdminPanel() {
           )}
 
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p className="font-semibold text-neutral-100 text-sm truncate">
+            <p className="font-semibold text-slate-100 text-sm truncate" style={{ margin: 0 }}>
               {p.title?.tr || p.title?.en || '(başlıksız)'}
             </p>
-            <p className="text-xs text-neutral-500" style={{ marginTop: '0.2rem' }}>
+            <p className="text-xs text-neutral-400" style={{ marginTop: '0.25rem', fontFamily: 'monospace' }}>
               {p.published ? '✅ ' + a.published : '📝 ' + a.draft}
               {p.images?.length > 0 ? ` · ${p.images.length} 🖼️` : ''}
             </p>
@@ -261,7 +278,14 @@ export default function AdminPanel() {
                 {a.unpublish}
               </Button>
             )}
-            <Button variant="secondary" size="sm" onClick={() => setEditing(p)}>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => {
+                setEditing(p);
+                setTab('editor');
+              }}
+            >
               <FiEdit3 size={14} style={{ marginRight: '0.3rem' }} />
               {a.editPost}
             </Button>
@@ -287,6 +311,7 @@ export default function AdminPanel() {
   }
 
   const navItems = [
+    { id: 'editor', label: a.tabEditor || 'Yazı Editörü', icon: FiFeather },
     { id: 'published', label: a.tabPublished, icon: FiFileText, count: publishedPosts.length },
     { id: 'drafts', label: a.tabDrafts, icon: FiEdit3, count: draftPosts.length },
     { id: 'comments', label: a.tabComments, icon: FiMessageSquare, count: comments.length, badge: pendingComments },
@@ -297,15 +322,29 @@ export default function AdminPanel() {
       {/* ── Sidebar ── */}
       <aside style={SIDEBAR_STYLE}>
         <div>
-          <p className="text-gradient-orange" style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0 }}>
+          <p className="text-gradient-orange" style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0 }}>
             {a.title}
           </p>
-          <p style={{ fontSize: '0.72rem', color: '#737373', margin: '0.25rem 0 0' }}>
+          <p style={{ fontSize: '0.72rem', color: '#94a3b8', margin: '0.3rem 0 0', fontFamily: 'monospace' }}>
             {user?.email || 'admin'}
           </p>
         </div>
 
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+        {/* Primary Action Button: "Yeni Yazı" placed at the top */}
+        <Button
+          variant="primary"
+          onClick={() => {
+            setEditing('new');
+            setTab('editor');
+          }}
+          style={{ width: '100%' }}
+        >
+          <FiPlus size={16} style={{ marginRight: '0.2rem' }} />
+          <span>{a.newPost}</span>
+        </Button>
+
+        {/* Sidebar Nav */}
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
           {navItems.map((item) => {
             const Icon = item.icon;
             const active = tab === item.id;
@@ -313,21 +352,39 @@ export default function AdminPanel() {
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setTab(item.id)}
+                onClick={() => {
+                  if (item.id === 'editor' && !editing) {
+                    setEditing('new');
+                  }
+                  setTab(item.id);
+                }}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.65rem',
-                  padding: '0.6rem 0.75rem',
-                  borderRadius: '0.7rem',
+                  gap: '0.75rem',
+                  padding: '0.65rem 0.85rem',
+                  borderRadius: '0.75rem',
                   border: '1px solid',
-                  borderColor: active ? 'rgba(249,115,22,0.5)' : 'transparent',
+                  borderColor: active ? 'rgba(249,115,22,0.45)' : 'transparent',
                   background: active ? 'rgba(249,115,22,0.12)' : 'transparent',
-                  color: active ? '#fdba74' : '#d4d4d4',
-                  fontSize: '0.875rem',
+                  color: active ? '#fb923c' : '#94a3b8',
+                  fontSize: '0.85rem',
                   fontWeight: active ? 700 : 500,
                   cursor: 'pointer',
-                  transition: 'all 0.15s ease',
+                  transition: 'all 0.18s ease',
+                  boxShadow: active ? '0 0 16px rgba(249,115,22,0.1)' : 'none',
+                }}
+                onMouseEnter={e => {
+                  if (!active) {
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
+                    e.currentTarget.style.color = '#f1f5f9';
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!active) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#94a3b8';
+                  }
                 }}
               >
                 <Icon size={17} />
@@ -346,7 +403,9 @@ export default function AdminPanel() {
                     {item.badge}
                   </span>
                 ) : (
-                  <span style={{ color: '#737373', fontSize: '0.75rem' }}>{item.count}</span>
+                  item.count !== undefined && (
+                    <span style={{ color: '#64748b', fontSize: '0.75rem', fontFamily: 'monospace' }}>{item.count}</span>
+                  )
                 )}
               </button>
             );
@@ -363,131 +422,174 @@ export default function AdminPanel() {
 
       {/* ── Content ── */}
       <main style={CONTENT_STYLE}>
-        {/* Stats */}
+        {/* Stats Bar (visible on all tabs) */}
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', flexShrink: 0 }}>
           <StatCard label={a.statPosts} value={posts.length} />
           <StatCard label={a.statPublished} value={publishedPosts.length} accent="#22c55e" />
           <StatCard label={a.statDrafts} value={draftPosts.length} accent="#eab308" />
-          <StatCard label={a.statPending} value={pendingComments} accent={pendingComments > 0 ? '#f97316' : '#f5f5f5'} />
+          <StatCard label={a.statPending} value={pendingComments} accent={pendingComments > 0 ? '#f97316' : '#f8fafc'} />
         </div>
 
-        {/* Tab content header */}
-        {tab !== 'comments' && (
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', flexShrink: 0 }}>
-            <h2 className="text-xl font-bold text-slate-100">
-              {tab === 'published' ? a.tabPublished : a.tabDrafts}
-            </h2>
-            <Button variant="primary" onClick={() => setEditing('new')}>
-              <FiPlus size={15} style={{ marginRight: '0.35rem' }} />
-              {a.newPost}
-            </Button>
-          </div>
-        )}
-
-        {tab !== 'comments' && editing && (
-          <div className="glass-card rounded-2xl" style={{ padding: '1.25rem', flexShrink: 0 }}>
+        {/* ── TAB 1: DEDICATED EDITOR & LIVE PREVIEW ── */}
+        {tab === 'editor' && (
+          <div
+            className="no-scrollbar"
+            style={{
+              flex: 1,
+              minHeight: 0,
+              overflowY: 'auto',
+              paddingRight: '0.35rem',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
             <PostComposer
-              key={editing === 'new' ? 'new' : editing.id}
+              key={editing === 'new' ? 'new' : (editing?.id || 'new')}
               initial={editing === 'new' ? null : editing}
               onSave={handleSavePost}
-              onCancel={() => setEditing(null)}
+              onCancel={() => {
+                setEditing(null);
+                setTab('published');
+              }}
               saving={saving}
             />
           </div>
         )}
 
-        {/* Yalnızca bu alan scroll olur */}
-        <div
-          className="no-scrollbar"
-          style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem', paddingRight: '0.35rem' }}
-        >
-          {tab === 'published' && renderPostList(publishedPosts)}
-          {tab === 'drafts' && renderPostList(draftPosts)}
-          {tab === 'comments' && (
-            <>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', flexShrink: 0 }}>
-                <h2 className="text-xl font-bold text-slate-100" style={{ margin: 0 }}>
-                  {a.tabComments}
-                  {pendingComments > 0 && (
-                    <span style={{ color: '#f97316', fontSize: '0.9rem', fontWeight: 600, marginLeft: '0.5rem' }}>
-                      · {pendingComments} {a.pendingLower}
-                    </span>
-                  )}
-                </h2>
-              </div>
+        {/* ── TAB 2: PUBLISHED POSTS ── */}
+        {tab === 'published' && (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', flexShrink: 0 }}>
+              <h2 className="text-xl font-bold text-slate-100" style={{ margin: 0 }}>
+                {a.tabPublished} ({publishedPosts.length})
+              </h2>
+            </div>
+            <div
+              className="no-scrollbar"
+              style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem', paddingRight: '0.35rem' }}
+            >
+              {renderPostList(publishedPosts)}
+            </div>
+          </>
+        )}
 
-              {/* Filtre + arama çubuğu (react-admin filters deseniine uygun) */}
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center', flexShrink: 0 }}>
-                {[
-                  { id: 'all', label: a.filterAll },
-                  { id: 'pending', label: a.filterPending },
-                  { id: 'approved', label: a.filterApproved },
-                  { id: 'rejected', label: a.filterRejected },
-                ].map((f) => {
-                  const active = commentFilter === f.id;
-                  return (
-                    <button
-                      key={f.id}
-                      type="button"
-                      onClick={() => setCommentFilter(f.id)}
-                      style={{
-                        padding: '0.35rem 0.75rem',
-                        borderRadius: '9999px',
-                        border: '1px solid',
-                        borderColor: active ? 'rgba(249,115,22,0.5)' : 'rgba(255,255,255,0.12)',
-                        background: active ? 'rgba(249,115,22,0.12)' : 'transparent',
-                        color: active ? '#fdba74' : '#a3a3a3',
-                        fontSize: '0.75rem',
-                        fontWeight: active ? 700 : 500,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {f.label}
-                    </button>
-                  );
-                })}
-                <input
-                  type="text"
-                  value={commentSearch}
-                  onChange={(e) => setCommentSearch(e.target.value)}
-                  placeholder={a.searchComments}
-                  style={{
-                    marginLeft: 'auto',
-                    padding: '0.4rem 0.75rem',
-                    borderRadius: '0.6rem',
-                    border: '1px solid rgba(255,255,255,0.12)',
-                    background: 'rgba(20,20,20,0.6)',
-                    color: '#e5e5e5',
-                    fontSize: '0.8rem',
-                    minWidth: '12rem',
-                    outline: 'none',
-                    boxSizing: 'border-box',
-                  }}
-                />
-              </div>
+        {/* ── TAB 3: DRAFTS ── */}
+        {tab === 'drafts' && (
+          <>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', flexShrink: 0 }}>
+              <h2 className="text-xl font-bold text-slate-100" style={{ margin: 0 }}>
+                {a.tabDrafts} ({draftPosts.length})
+              </h2>
+            </div>
+            <div
+              className="no-scrollbar"
+              style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem', paddingRight: '0.35rem' }}
+            >
+              {renderPostList(draftPosts)}
+            </div>
+          </>
+        )}
 
-              {loading && <p className="text-neutral-500 text-sm">{a.loading}</p>}
-              {!loading && filteredComments.length === 0 && (
-                <p className="text-neutral-500 text-sm">{t('blog.noComments')}</p>
-              )}
-              {filteredComments.map((c) => (
-                <CommentItem
-                  key={c.id}
-                  comment={c}
-                  postId={c.postId}
-                  showEmail
-                  statusBadge
-                  onApprove={(id) => handleApprove(id, true)}
-                  onReject={(id) => handleApprove(id, false)}
-                  onDelete={handleDeleteComment}
-                  onReply={(id) => setReplyOpenId(replyOpenId === id ? null : id)}
-                  replyOpen={replyOpenId === c.id}
-                  onReplyDone={(data) => handleAdminReply(c.id, data)}
-                />
-              ))}
-            </>
-          )}
-        </div>
+        {/* ── TAB 4: COMMENTS ── */}
+        {tab === 'comments' && (
+          <div
+            className="no-scrollbar"
+            style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '0.75rem', paddingRight: '0.35rem' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', flexShrink: 0 }}>
+              <h2 className="text-xl font-bold text-slate-100" style={{ margin: 0 }}>
+                {a.tabComments}
+                {pendingComments > 0 && (
+                  <span style={{ color: '#f97316', fontSize: '0.9rem', fontWeight: 600, marginLeft: '0.5rem' }}>
+                    · {pendingComments} {a.pendingLower}
+                  </span>
+                )}
+              </h2>
+            </div>
+
+            {/* Filtre + arama çubuğu */}
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center', flexShrink: 0 }}>
+              {[
+                { id: 'all', label: a.filterAll },
+                { id: 'pending', label: a.filterPending },
+                { id: 'approved', label: a.filterApproved },
+                { id: 'rejected', label: a.filterRejected },
+              ].map((f) => {
+                const active = commentFilter === f.id;
+                return (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setCommentFilter(f.id)}
+                    style={{
+                      padding: '0.35rem 0.85rem',
+                      borderRadius: '9999px',
+                      border: '1px solid',
+                      borderColor: active ? 'rgba(249,115,22,0.5)' : 'rgba(255,255,255,0.08)',
+                      background: active ? 'rgba(249,115,22,0.14)' : 'rgba(255,255,255,0.035)',
+                      color: active ? '#fb923c' : '#94a3b8',
+                      fontSize: '0.75rem',
+                      fontWeight: active ? 700 : 500,
+                      fontFamily: 'monospace',
+                      cursor: 'pointer',
+                      boxShadow: active ? '0 0 12px rgba(249,115,22,0.15)' : 'none',
+                      transition: 'all 0.16s ease',
+                    }}
+                  >
+                    {f.label}
+                  </button>
+                );
+              })}
+              <input
+                type="text"
+                value={commentSearch}
+                onChange={(e) => setCommentSearch(e.target.value)}
+                placeholder={a.searchComments}
+                style={{
+                  marginLeft: 'auto',
+                  padding: '0.45rem 0.85rem',
+                  borderRadius: '0.75rem',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  background: 'rgba(255,255,255,0.035)',
+                  color: '#f8fafc',
+                  fontSize: '0.8rem',
+                  minWidth: '13rem',
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                  transition: 'all 0.16s ease',
+                }}
+                onFocus={e => {
+                  e.currentTarget.style.borderColor = 'rgba(249,115,22,0.5)';
+                  e.currentTarget.style.boxShadow = '0 0 14px rgba(249,115,22,0.15)';
+                }}
+                onBlur={e => {
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              />
+            </div>
+
+            {loading && <p className="text-neutral-500 text-sm">{a.loading}</p>}
+            {!loading && filteredComments.length === 0 && (
+              <p className="text-neutral-500 text-sm">{t('blog.noComments')}</p>
+            )}
+            {filteredComments.map((c) => (
+              <CommentItem
+                key={c.id}
+                comment={c}
+                postId={c.postId}
+                showEmail
+                statusBadge
+                onApprove={(id) => handleApprove(id, true)}
+                onReject={(id) => handleApprove(id, false)}
+                onDelete={handleDeleteComment}
+                onReply={(id) => setReplyOpenId(replyOpenId === id ? null : id)}
+                replyOpen={replyOpenId === c.id}
+                onReplyDone={(data) => handleAdminReply(c.id, data)}
+              />
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );
