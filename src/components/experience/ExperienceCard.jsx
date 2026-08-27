@@ -1,52 +1,6 @@
-import { FiBriefcase, FiZap, FiAward, FiCalendar, FiMapPin, FiClock } from 'react-icons/fi';
+import { FiCalendar, FiMapPin, FiClock, FiAward } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
-
-const TYPE_CONFIG = {
-  internship: {
-    icon: FiBriefcase,
-    color: '#f97316',
-    badgeBg: 'rgba(249, 115, 22, 0.12)',
-    badgeBorder: 'rgba(249, 115, 22, 0.3)',
-    badgeText: '#fb923c',
-    hoverBorder: 'rgba(249, 115, 22, 0.45)',
-    hoverBg: 'rgba(249, 115, 22, 0.05)',
-    hoverShadow: 'rgba(249, 115, 22, 0.08)',
-    titleHover: '#fdba74',
-  },
-  hackathon: {
-    icon: FiZap,
-    color: '#10b981',
-    badgeBg: 'rgba(16, 185, 129, 0.12)',
-    badgeBorder: 'rgba(16, 185, 129, 0.3)',
-    badgeText: '#34d399',
-    hoverBorder: 'rgba(16, 185, 129, 0.45)',
-    hoverBg: 'rgba(16, 185, 129, 0.05)',
-    hoverShadow: 'rgba(16, 185, 129, 0.08)',
-    titleHover: '#6ee7b7',
-  },
-  competition: {
-    icon: FiAward,
-    color: '#f59e0b',
-    badgeBg: 'rgba(234, 179, 8, 0.12)',
-    badgeBorder: 'rgba(234, 179, 8, 0.3)',
-    badgeText: '#facc15',
-    hoverBorder: 'rgba(234, 179, 8, 0.45)',
-    hoverBg: 'rgba(234, 179, 8, 0.05)',
-    hoverShadow: 'rgba(234, 179, 8, 0.08)',
-    titleHover: '#fde047',
-  },
-  work: {
-    icon: FiBriefcase,
-    color: '#3b82f6',
-    badgeBg: 'rgba(59, 130, 246, 0.12)',
-    badgeBorder: 'rgba(59, 130, 246, 0.3)',
-    badgeText: '#60a5fa',
-    hoverBorder: 'rgba(59, 130, 246, 0.45)',
-    hoverBg: 'rgba(59, 130, 246, 0.05)',
-    hoverShadow: 'rgba(59, 130, 246, 0.08)',
-    titleHover: '#93c5fd',
-  },
-};
+import { getExperienceTypeConfig } from '../../theme';
 
 export default function ExperienceCard({
   company,
@@ -62,7 +16,7 @@ export default function ExperienceCard({
   onClick,
 }) {
   const { t, tData } = useTranslation();
-  const config = TYPE_CONFIG[type] || TYPE_CONFIG.internship;
+  const config = getExperienceTypeConfig(type);
   const Icon = config.icon;
 
   const endText = endDate ? tData(endDate) : null;

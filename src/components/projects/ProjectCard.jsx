@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { FiGithub, FiExternalLink, FiLock, FiChevronLeft, FiChevronRight, FiMaximize2, FiX, FiTerminal, FiZap } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../hooks/translation';
+import { PROJECT_CATEGORY_CONFIG, THEME_COLORS } from '../../theme';
 
 const previewModules = import.meta.glob(
   '../../assets/project_previews/**/*.{jpg,jpeg,png,webp,PNG,JPG,JPEG}',
@@ -406,15 +407,15 @@ export default function ProjectCard({
                   gap: '0.4rem',
                   padding: '0.35rem 0.85rem',
                   borderRadius: '999px',
-                  background: 'rgba(168, 85, 247, 0.14)',
-                  border: '1px solid rgba(168, 85, 247, 0.45)',
-                  color: '#d8b4fe',
+                  background: PROJECT_CATEGORY_CONFIG.hackathon.badgeBg,
+                  border: `1px solid ${PROJECT_CATEGORY_CONFIG.hackathon.badgeBorder}`,
+                  color: PROJECT_CATEGORY_CONFIG.hackathon.textInactive,
                   fontSize: '0.78rem',
                   fontWeight: 700,
-                  boxShadow: '0 0 14px rgba(168, 85, 247, 0.18)',
+                  boxShadow: `0 0 14px ${PROJECT_CATEGORY_CONFIG.hackathon.glow}`,
                 }}
               >
-                <FiZap size={13} style={{ color: '#c084fc' }} />
+                <FiZap size={13} style={{ color: PROJECT_CATEGORY_CONFIG.hackathon.color }} />
                 <span>{t('projects.hackathonBadge')}</span>
               </div>
             )}
@@ -554,16 +555,16 @@ export default function ProjectCard({
               gap: '0.55rem',
               padding: '0.55rem 0.9rem',
               borderRadius: '0.65rem',
-              background: 'rgba(168, 85, 247, 0.07)',
-              border: '1px dashed rgba(168, 85, 247, 0.3)',
-              color: '#d8b4fe',
+              background: PROJECT_CATEGORY_CONFIG.hackathon.noticeBg,
+              border: `1px dashed ${PROJECT_CATEGORY_CONFIG.hackathon.noticeBorder}`,
+              color: PROJECT_CATEGORY_CONFIG.hackathon.textInactive,
               fontSize: '0.8rem',
               lineHeight: 1.5,
               width: '100%',
               boxSizing: 'border-box',
             }}
           >
-            <FiZap size={14} style={{ color: '#c084fc', flexShrink: 0 }} />
+            <FiZap size={14} style={{ color: PROJECT_CATEGORY_CONFIG.hackathon.color, flexShrink: 0 }} />
             <span>{t('projects.hackathonNotice')}</span>
           </div>
         )}
@@ -921,15 +922,15 @@ export default function ProjectCard({
                 gap: '0.4rem',
                 padding: '0.3rem 0.85rem',
                 borderRadius: '999px',
-                background: 'rgba(168, 85, 247, 0.14)',
-                border: '1px solid rgba(168, 85, 247, 0.45)',
-                color: '#d8b4fe',
+                background: PROJECT_CATEGORY_CONFIG.hackathon.badgeBg,
+                border: `1px solid ${PROJECT_CATEGORY_CONFIG.hackathon.badgeBorder}`,
+                color: PROJECT_CATEGORY_CONFIG.hackathon.textInactive,
                 fontSize: '0.78rem',
                 fontWeight: 700,
-                boxShadow: '0 0 14px rgba(168, 85, 247, 0.18)',
+                boxShadow: `0 0 14px ${PROJECT_CATEGORY_CONFIG.hackathon.glow}`,
               }}
             >
-              <FiZap size={13} style={{ color: '#c084fc' }} />
+              <FiZap size={13} style={{ color: PROJECT_CATEGORY_CONFIG.hackathon.color }} />
               <span>{t('projects.hackathonBadge')}</span>
             </div>
           )}
@@ -972,9 +973,9 @@ export default function ProjectCard({
                 gap: '0.55rem',
                 padding: '0.55rem 0.9rem',
                 borderRadius: '0.65rem',
-                background: 'rgba(168, 85, 247, 0.07)',
-                border: '1px dashed rgba(168, 85, 247, 0.3)',
-                color: '#d8b4fe',
+                background: PROJECT_CATEGORY_CONFIG.hackathon.noticeBg,
+                border: `1px dashed ${PROJECT_CATEGORY_CONFIG.hackathon.noticeBorder}`,
+                color: PROJECT_CATEGORY_CONFIG.hackathon.textInactive,
                 fontSize: '0.8rem',
                 lineHeight: 1.5,
                 width: '100%',
@@ -982,7 +983,7 @@ export default function ProjectCard({
                 marginTop: '0.2rem',
               }}
             >
-              <FiZap size={14} style={{ color: '#c084fc', flexShrink: 0 }} />
+              <FiZap size={14} style={{ color: PROJECT_CATEGORY_CONFIG.hackathon.color, flexShrink: 0 }} />
               <span>{t('projects.hackathonNotice')}</span>
             </div>
           )}

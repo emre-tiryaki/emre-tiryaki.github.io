@@ -25,37 +25,7 @@ import {
 } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { useScrollMask } from '../../hooks/useScrollMask';
-
-const TYPE_THEME = {
-  internship: {
-    color: '#f97316',
-    border: 'rgba(249, 115, 22, 0.4)',
-    bg: 'rgba(249, 115, 22, 0.1)',
-    badgeText: '#fb923c',
-    icon: FiBriefcase,
-  },
-  hackathon: {
-    color: '#10b981',
-    border: 'rgba(16, 185, 129, 0.4)',
-    bg: 'rgba(16, 185, 129, 0.1)',
-    badgeText: '#34d399',
-    icon: FiZap,
-  },
-  competition: {
-    color: '#eab308',
-    border: 'rgba(234, 179, 8, 0.4)',
-    bg: 'rgba(234, 179, 8, 0.1)',
-    badgeText: '#facc15',
-    icon: FiAward,
-  },
-  work: {
-    color: '#3b82f6',
-    border: 'rgba(59, 130, 246, 0.4)',
-    bg: 'rgba(59, 130, 246, 0.1)',
-    badgeText: '#60a5fa',
-    icon: FiBriefcase,
-  },
-};
+import { getExperienceTypeConfig } from '../../theme';
 
 const experiencePhotosModules = import.meta.glob(
   '../../assets/experience/**/*.{jpg,jpeg,png,webp,PNG,JPG,JPEG,gif,GIF,avif,AVIF,svg,SVG}',
@@ -1618,5 +1588,5 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
 }
 
 function TYPE_CONFIG_THEME(type) {
-  return TYPE_THEME[type] || TYPE_THEME.internship;
+  return getExperienceTypeConfig(type);
 }

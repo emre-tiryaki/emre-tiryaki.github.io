@@ -12,6 +12,14 @@
   --color-text-secondary: #94a3b8;
   --color-border: #262626;
 
+  --color-type-internship: #f97316;
+  --color-type-hackathon: #10b981;
+  --color-type-competition: #eab308;
+  --color-type-work: #3b82f6;
+
+  --color-cat-hackathon: #c084fc;
+  --color-cat-personal: #60a5fa;
+
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   --font-serif: ui-serif, 'New York', Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-mono: 'JetBrains Mono', monospace;

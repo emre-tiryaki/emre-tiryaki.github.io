@@ -6,6 +6,7 @@ import ProjectCard from '../components/projects/ProjectCard';
 import projectsData from '../data/projects.json';
 import { useTranslation } from '../hooks/translation';
 import { useScrollMask } from '../hooks/useScrollMask';
+import { PROJECT_CATEGORY_CONFIG, FILTER_THEME_CONFIG } from '../theme';
 
 function extractTechs(projects) {
   const set = new Set();
@@ -129,14 +130,14 @@ export default function ProjectsPage() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.45rem',
-                color: '#c4b5fd',
+                color: FILTER_THEME_CONFIG.tags.headerColor,
                 fontSize: '0.78rem',
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.06em',
               }}
             >
-              <FiTag size={13} style={{ color: '#a78bfa' }} />
+              <FiTag size={13} style={{ color: FILTER_THEME_CONFIG.tags.iconColor }} />
               <span>{t('projects.tags')}</span>
             </div>
 
@@ -176,7 +177,7 @@ export default function ProjectsPage() {
               paddingRight: '0.35rem',
               paddingBottom: '2.5rem',
               scrollbarWidth: 'thin',
-              scrollbarColor: 'rgba(139, 92, 246, 0.35) transparent',
+              scrollbarColor: `${FILTER_THEME_CONFIG.tags.scrollbarColor} transparent`,
               minHeight: 0,
               ...tagsMaskStyle,
             }}
@@ -186,6 +187,7 @@ export default function ProjectsPage() {
               {/* Hackathon Projects Button */}
               {(() => {
                 const isHackActive = selectedCategories.includes('hackathon');
+                const cfg = PROJECT_CATEGORY_CONFIG.hackathon;
                 return (
                   <button
                     type="button"
@@ -197,32 +199,32 @@ export default function ProjectsPage() {
                       padding: '0.45rem 0.75rem',
                       borderRadius: '0.65rem',
                       border: '1px solid',
-                      borderColor: isHackActive ? 'rgba(168, 85, 247, 0.7)' : 'rgba(168, 85, 247, 0.25)',
-                      background: isHackActive ? 'rgba(168, 85, 247, 0.22)' : 'rgba(168, 85, 247, 0.05)',
-                      color: isHackActive ? '#f3e8ff' : '#d8b4fe',
+                      borderColor: isHackActive ? cfg.borderActive : cfg.borderInactive,
+                      background: isHackActive ? cfg.bgActive : cfg.bgInactive,
+                      color: isHackActive ? cfg.textActive : cfg.textInactive,
                       fontSize: '0.78rem',
                       fontWeight: 700,
                       textAlign: 'left',
                       cursor: 'pointer',
-                      boxShadow: isHackActive ? '0 0 14px rgba(168, 85, 247, 0.25)' : 'none',
+                      boxShadow: isHackActive ? `0 0 14px ${cfg.glow}` : 'none',
                       transition: 'all 0.15s ease',
                       width: '100%',
                     }}
                     onMouseEnter={(e) => {
                       if (!isHackActive) {
-                        e.currentTarget.style.background = 'rgba(168, 85, 247, 0.12)';
-                        e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.45)';
+                        e.currentTarget.style.background = cfg.bgActive;
+                        e.currentTarget.style.borderColor = cfg.borderActive;
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isHackActive) {
-                        e.currentTarget.style.background = 'rgba(168, 85, 247, 0.05)';
-                        e.currentTarget.style.borderColor = 'rgba(168, 85, 247, 0.25)';
+                        e.currentTarget.style.background = cfg.bgInactive;
+                        e.currentTarget.style.borderColor = cfg.borderInactive;
                       }
                     }}
                   >
                     <span className="flex items-center gap-1.5 truncate">
-                      <span>⚡</span>
+                      <span>{cfg.symbol}</span>
                       <span>{t('projects.filterHackathon')}</span>
                     </span>
                     <span
@@ -230,8 +232,8 @@ export default function ProjectsPage() {
                         fontSize: '0.68rem',
                         padding: '0.1rem 0.35rem',
                         borderRadius: '999px',
-                        background: isHackActive ? 'rgba(168, 85, 247, 0.4)' : 'rgba(255, 255, 255, 0.08)',
-                        color: isHackActive ? '#fff' : '#c084fc',
+                        background: isHackActive ? cfg.borderActive : 'rgba(255, 255, 255, 0.08)',
+                        color: isHackActive ? '#fff' : cfg.color,
                         fontWeight: 700,
                         marginLeft: '0.3rem',
                         flexShrink: 0,
@@ -246,6 +248,7 @@ export default function ProjectsPage() {
               {/* Personal Projects Button */}
               {(() => {
                 const isPersonalActive = selectedCategories.includes('personal');
+                const cfg = PROJECT_CATEGORY_CONFIG.personal;
                 return (
                   <button
                     type="button"
@@ -257,32 +260,32 @@ export default function ProjectsPage() {
                       padding: '0.45rem 0.75rem',
                       borderRadius: '0.65rem',
                       border: '1px solid',
-                      borderColor: isPersonalActive ? 'rgba(59, 130, 246, 0.7)' : 'rgba(59, 130, 246, 0.22)',
-                      background: isPersonalActive ? 'rgba(59, 130, 246, 0.22)' : 'rgba(59, 130, 246, 0.05)',
-                      color: isPersonalActive ? '#eff6ff' : '#93c5fd',
+                      borderColor: isPersonalActive ? cfg.borderActive : cfg.borderInactive,
+                      background: isPersonalActive ? cfg.bgActive : cfg.bgInactive,
+                      color: isPersonalActive ? cfg.textActive : cfg.textInactive,
                       fontSize: '0.78rem',
                       fontWeight: 700,
                       textAlign: 'left',
                       cursor: 'pointer',
-                      boxShadow: isPersonalActive ? '0 0 14px rgba(59, 130, 246, 0.25)' : 'none',
+                      boxShadow: isPersonalActive ? `0 0 14px ${cfg.glow}` : 'none',
                       transition: 'all 0.15s ease',
                       width: '100%',
                     }}
                     onMouseEnter={(e) => {
                       if (!isPersonalActive) {
-                        e.currentTarget.style.background = 'rgba(59, 130, 246, 0.12)';
-                        e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.45)';
+                        e.currentTarget.style.background = cfg.bgActive;
+                        e.currentTarget.style.borderColor = cfg.borderActive;
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isPersonalActive) {
-                        e.currentTarget.style.background = 'rgba(59, 130, 246, 0.05)';
-                        e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.22)';
+                        e.currentTarget.style.background = cfg.bgInactive;
+                        e.currentTarget.style.borderColor = cfg.borderInactive;
                       }
                     }}
                   >
                     <span className="flex items-center gap-1.5 truncate">
-                      <span>💻</span>
+                      <span>{cfg.symbol}</span>
                       <span>{t('projects.filterPersonal')}</span>
                     </span>
                     <span
@@ -290,8 +293,8 @@ export default function ProjectsPage() {
                         fontSize: '0.68rem',
                         padding: '0.1rem 0.35rem',
                         borderRadius: '999px',
-                        background: isPersonalActive ? 'rgba(59, 130, 246, 0.4)' : 'rgba(255, 255, 255, 0.08)',
-                        color: isPersonalActive ? '#fff' : '#60a5fa',
+                        background: isPersonalActive ? cfg.borderActive : 'rgba(255, 255, 255, 0.08)',
+                        color: isPersonalActive ? '#fff' : cfg.color,
                         fontWeight: 700,
                         marginLeft: '0.3rem',
                         flexShrink: 0,
@@ -316,6 +319,7 @@ export default function ProjectsPage() {
             {/* 2. Technical Tags */}
             {allTags.map((tag) => {
               const isActive = selectedTags.includes(tag);
+              const cfg = FILTER_THEME_CONFIG.tags;
               return (
                 <button
                   key={tag}
@@ -328,14 +332,14 @@ export default function ProjectsPage() {
                     padding: '0.42rem 0.75rem',
                     borderRadius: '0.6rem',
                     border: '1px solid',
-                    borderColor: isActive ? 'rgba(167, 139, 250, 0.55)' : 'rgba(255, 255, 255, 0.07)',
-                    background: isActive ? 'rgba(139, 92, 246, 0.16)' : 'rgba(255, 255, 255, 0.025)',
-                    color: isActive ? '#e9d5ff' : '#a1a1aa',
+                    borderColor: isActive ? cfg.borderActive : cfg.borderInactive,
+                    background: isActive ? cfg.bgActive : cfg.bgInactive,
+                    color: isActive ? cfg.textActive : cfg.textInactive,
                     fontSize: '0.78rem',
                     fontWeight: isActive ? 700 : 500,
                     textAlign: 'left',
                     cursor: 'pointer',
-                    boxShadow: isActive ? '0 0 12px rgba(139, 92, 246, 0.2)' : 'none',
+                    boxShadow: isActive ? `0 0 12px ${cfg.glow}` : 'none',
                     transition: 'all 0.15s ease',
                     width: '100%',
                   }}
@@ -348,14 +352,14 @@ export default function ProjectsPage() {
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.025)';
-                      e.currentTarget.style.color = '#a1a1aa';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.07)';
+                      e.currentTarget.style.background = cfg.bgInactive;
+                      e.currentTarget.style.color = cfg.textInactive;
+                      e.currentTarget.style.borderColor = cfg.borderInactive;
                     }
                   }}
                 >
                   <span className="truncate">#{tag}</span>
-                  {isActive && <FiX size={12} style={{ color: '#c4b5fd', flexShrink: 0, marginLeft: '0.3rem' }} />}
+                  {isActive && <FiX size={12} style={{ color: cfg.textActive, flexShrink: 0, marginLeft: '0.3rem' }} />}
                 </button>
               );
             })}
@@ -564,14 +568,14 @@ export default function ProjectsPage() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.45rem',
-                color: '#fed7aa',
+                color: FILTER_THEME_CONFIG.tech.headerColor,
                 fontSize: '0.78rem',
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.06em',
               }}
             >
-              <FiCode size={13} style={{ color: '#fb923c' }} />
+              <FiCode size={13} style={{ color: FILTER_THEME_CONFIG.tech.iconColor }} />
               <span>{t('projects.techStack')}</span>
             </div>
 
@@ -608,13 +612,14 @@ export default function ProjectsPage() {
               paddingRight: '0.35rem',
               paddingBottom: '2.5rem',
               scrollbarWidth: 'thin',
-              scrollbarColor: 'rgba(249, 115, 22, 0.35) transparent',
+              scrollbarColor: `${FILTER_THEME_CONFIG.tech.scrollbarColor} transparent`,
               minHeight: 0,
               ...techsMaskStyle,
             }}
           >
             {allTechs.map((tech) => {
               const isActive = selectedTechs.includes(tech);
+              const cfg = FILTER_THEME_CONFIG.tech;
               return (
                 <button
                   key={tech}
@@ -627,14 +632,14 @@ export default function ProjectsPage() {
                     padding: '0.42rem 0.75rem',
                     borderRadius: '0.6rem',
                     border: '1px solid',
-                    borderColor: isActive ? 'rgba(249, 115, 22, 0.55)' : 'rgba(255, 255, 255, 0.07)',
-                    background: isActive ? 'rgba(249, 115, 22, 0.16)' : 'rgba(255, 255, 255, 0.025)',
-                    color: isActive ? '#fdba74' : '#a1a1aa',
+                    borderColor: isActive ? cfg.borderActive : cfg.borderInactive,
+                    background: isActive ? cfg.bgActive : cfg.bgInactive,
+                    color: isActive ? cfg.textActive : cfg.textInactive,
                     fontSize: '0.78rem',
                     fontWeight: isActive ? 700 : 500,
                     textAlign: 'left',
                     cursor: 'pointer',
-                    boxShadow: isActive ? '0 0 12px rgba(249, 115, 22, 0.2)' : 'none',
+                    boxShadow: isActive ? `0 0 12px ${cfg.glow}` : 'none',
                     transition: 'all 0.15s ease',
                     width: '100%',
                   }}
@@ -647,14 +652,14 @@ export default function ProjectsPage() {
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.025)';
-                      e.currentTarget.style.color = '#a1a1aa';
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.07)';
+                      e.currentTarget.style.background = cfg.bgInactive;
+                      e.currentTarget.style.color = cfg.textInactive;
+                      e.currentTarget.style.borderColor = cfg.borderInactive;
                     }
                   }}
                 >
                   <span className="truncate">{tech}</span>
-                  {isActive && <FiX size={12} style={{ color: '#fb923c', flexShrink: 0, marginLeft: '0.3rem' }} />}
+                  {isActive && <FiX size={12} style={{ color: cfg.iconColor, flexShrink: 0, marginLeft: '0.3rem' }} />}
                 </button>
               );
             })}

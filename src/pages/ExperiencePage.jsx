@@ -6,6 +6,7 @@ import experienceData from '../data/experience.json';
 import projectsData from '../data/projects.json';
 import { useTranslation } from '../hooks/translation';
 import { useScrollMask } from '../hooks/useScrollMask';
+import { EXPERIENCE_TYPE_CONFIG } from '../theme';
 import Button from '../components/ui/Button';
 
 const MONTHS = {
@@ -44,10 +45,10 @@ export default function ExperiencePage() {
 
   const TYPE_DOT_COLOR = useMemo(
     () => ({
-      internship: '#3b82f6',
-      hackathon: '#8b5cf6',
-      competition: '#eab308',
-      work: '#22c55e',
+      internship: EXPERIENCE_TYPE_CONFIG.internship.dotColor,
+      hackathon: EXPERIENCE_TYPE_CONFIG.hackathon.dotColor,
+      competition: EXPERIENCE_TYPE_CONFIG.competition.dotColor,
+      work: EXPERIENCE_TYPE_CONFIG.work.dotColor,
     }),
     []
   );
