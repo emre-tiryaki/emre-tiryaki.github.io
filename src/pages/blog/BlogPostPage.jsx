@@ -105,7 +105,7 @@ export default function BlogPostPage() {
                 style={{ paddingTop: '1rem' }}
               >
                 <span className="text-xs font-mono text-neutral-500">
-                  {mins} {lang === 'tr' ? 'dk okuma' : 'min read'}
+                  {t('blog.readTime', { n: mins })}
                 </span>
                 {dateStr && (
                   <span className="text-xs text-neutral-500">{dateStr}</span>

@@ -9,7 +9,7 @@ import { useTranslation } from '../hooks/translation';
 
 const PAGE_STYLE = {
   width: '100%',
-  maxWidth: '72rem',   /* max-w-5xl = 64rem, using 72rem */
+  maxWidth: '72rem',
   margin: '0 auto',
   paddingLeft: '1.5rem',
   paddingRight: '1.5rem',
@@ -39,7 +39,7 @@ export default function AboutPage() {
               </div>
               <p className="text-lg font-bold select-none"
                 style={{ background: 'linear-gradient(90deg,#fb923c,#f97316,#ea580c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                Backend Developer · Software Engineer
+                {t('about.roleTitle')}
               </p>
             </div>
             <AboutSummary />

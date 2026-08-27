@@ -84,7 +84,7 @@ export default function PostCard({ post }) {
           style={{ paddingTop: '0.75rem' }}
         >
           <span className="text-xs font-mono text-neutral-500">
-            {mins} {lang === 'tr' ? 'dk okuma' : 'min read'}
+            {t('blog.readTime', { n: mins })}
           </span>
           <span className="text-xs font-semibold text-orange-400">
             {t('blog.readMore')} →

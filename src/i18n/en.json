@@ -1,4 +1,10 @@
 {
+  "common": {
+    "verifiedAccount": "Verified Account",
+    "close": "Close",
+    "maximize": "Maximize",
+    "minimize": "Minimize"
+  },
   "nav": {
     "home": "Home",
     "about": "About",
@@ -7,7 +13,9 @@
     "experience": "Experience",
     "blog": "Blog",
     "projects": "Projects",
-    "certifications": "Certifications"
+    "certifications": "Certifications",
+    "changeLanguage": "Change language",
+    "menu": "Menu"
   },
   "home": {
     "greeting": "Hi, I'm",
@@ -16,17 +24,30 @@
   "about": {
     "summaryTitle": "About Me",
     "summary": "I'm a software developer with deep technical expertise in system architecture and data management (Backend), experienced in modern web technologies and user interface development. I'm passionate about transforming complex business logic into high-performance interfaces.",
+    "roleTitle": "Backend Developer · Software Engineer",
     "location": "Turkey/Samsun",
     "cvTitle": "CV",
     "viewCv": "View CV",
     "downloadCv": "Download",
+    "cvViewerTitle": "CV Document Viewer",
     "contactTitle": "Contact",
     "email": "tiryakiemre18@gmail.com",
     "languages": "Languages",
+    "noPhotos": "No photos found",
+    "photoAlt": "Emre Tiryaki — Photo {n}",
+    "carouselPrev": "Previous photo",
+    "carouselNext": "Next photo",
+    "carouselPhotoN": "Photo {n}",
     "githubActivity": "GitHub Activity",
     "githubError": "My GitHub commit history was here, but an error occurred.",
     "githubEmpty": "No commits found in the last 30 days.",
     "githubLoading": "Loading commits...",
+    "githubNoContributions": "No contributions",
+    "githubContributionSingle": "{n} contribution",
+    "githubContributionMultiple": "{n} contributions",
+    "githubContributionsYear": "contributions in the last year",
+    "githubLess": "Less",
+    "githubMore": "More",
     "languageNames": {
       "Türkçe": "Turkish",
       "İngilizce": "English"
@@ -54,6 +75,11 @@
     "hireMeSub3": "Get in touch",
     "hireMeSub4": "Let's talk",
     "ongoing": "Ongoing",
+    "portfolioLink": "Portfolio / Website",
+    "linkedinProfile": "LinkedIn Profile",
+    "githubProfile": "GitHub Profile",
+    "scrollLeft": "Scroll left",
+    "scrollRight": "Scroll right",
     "types": {
       "all": "All",
       "internship": "Internship",
@@ -93,12 +119,16 @@
     "filterTechLabel": "Filter by Tech",
     "filterTechSelected": "{n} techs selected",
     "filterTechTitle": "Filter by Technology",
-    "filterClear": "Clear"
+    "filterClear": "Clear",
+    "enlargeImage": "Enlarge image",
+    "projectN": "Project {n}"
   },
   "certifications": {
     "title": "Certifications",
     "subtitle": "Professional development and verified competencies",
     "verify": "Verify",
+    "verified": "Verified",
+    "official": "Official Certificate",
     "countLabel": "{n} Certificates"
   },
   "blog": {
@@ -106,6 +136,9 @@
     "title": "Blog",
     "subtitle": "My thoughts, notes and updates",
     "readMore": "Read more",
+    "readTime": "{n} min read",
+    "today": "Today",
+    "photoN": "Photo {n}",
     "publishedAt": "Published",
     "by": "By",
     "noPosts": "No published posts yet.",
@@ -114,6 +147,7 @@
     "commentsTitle": "Comments",
     "noComments": "No comments yet. Be the first!",
     "writeComment": "Write a comment",
+    "firebaseNotConfigured": "⚠ Firebase not configured — fill in src/firebase/config.js.",
     "commentForm": {
       "name": "Your name",
       "namePlaceholder": "Name (required)",
@@ -179,6 +213,9 @@
       "previewCard": "List Card View",
       "previewPlaceholderTitle": "Post Title Here...",
       "previewPlaceholderBody": "As you write your post content on the left, you can watch in real time how it will look on the blog page...",
+      "untitled": "(untitled)",
+      "storageNotConfigured": "Firebase Storage is not configured",
+      "removeImage": "Remove",
       "composer": {
         "titleTr": "Title (TR)",
         "titleEn": "Title (EN)",
@@ -194,7 +231,14 @@
         "cancel": "Cancel",
         "publishing": "Publishing...",
         "uploading": "Uploading...",
-        "maxImages": "You can upload at most 4 images."
+        "maxImages": "You can upload at most 4 images.",
+        "wordsCount": "{n} words",
+        "translating": "Translating...",
+        "translatedToTr": "✓ Translated to Turkish!",
+        "translatedToEn": "✓ Translated to English!",
+        "autoTranslate": "✨ Auto Translate",
+        "autoTranslateTooltipTr": "Instantly translates Turkish title and body to English",
+        "autoTranslateTooltipEn": "Instantly translates English title and body to Turkish"
       },
       "commentAuthor": "Commenter",
       "commentEmail": "Email",

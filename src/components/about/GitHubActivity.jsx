@@ -83,10 +83,10 @@ const DAY_LABELS = [
 ];
 
 /* Portal tooltip — escapes all overflow containers */
-function TooltipPortal({ x, y, date, count, lang }) {
+function TooltipPortal({ x, y, date, count, lang, t }) {
   const text = count === 0
-    ? (lang === 'tr' ? 'Katkı yok' : 'No contributions')
-    : `${count} contribution${count > 1 ? 's' : ''}`;
+    ? t('about.githubNoContributions')
+    : (count === 1 ? t('about.githubContributionSingle', { n: count }) : t('about.githubContributionMultiple', { n: count }));
 
   const dateStr = new Date(date + 'T12:00:00').toLocaleDateString(
     lang === 'tr' ? 'tr-TR' : 'en-US',
@@ -123,7 +123,7 @@ function TooltipPortal({ x, y, date, count, lang }) {
 }
 
 export default function GitHubActivity() {
-  const { lang } = useTranslation();
+  const { t, lang } = useTranslation();
   const [weeks, setWeeks]       = useState([]);
   const [total, setTotal]       = useState(0);
   const [status, setStatus]     = useState('loading');
@@ -222,11 +222,11 @@ export default function GitHubActivity() {
           {status === 'ok' && (
             <>
               <span style={{ color: '#fb923c', fontWeight: 700 }}>{total.toLocaleString()}</span>
-              {' '}{lang === 'tr' ? 'katkı – son 1 yıl' : 'contributions in the last year'}
+              {' '}{t('about.githubContributionsYear')}
             </>
           )}
           {status !== 'ok' && (
-            <span style={{ color: '#475569', fontFamily: 'monospace', fontSize: '0.75rem' }}>GitHub Activity</span>
+            <span style={{ color: '#475569', fontFamily: 'monospace', fontSize: '0.75rem' }}>{t('about.githubActivity')}</span>
           )}
         </p>
         <a
@@ -262,7 +262,7 @@ export default function GitHubActivity() {
 
         {(status === 'no-token' || status === 'error') && (
           <p style={{ color: '#475569', fontSize: '0.75rem', fontFamily: 'monospace', textAlign: 'center', padding: '2rem 0' }}>
-            {status === 'no-token' ? 'VITE_GITHUB_TOKEN not set' : 'Failed to load contribution data'}
+            {t('about.githubError')}
           </p>
         )}
 
@@ -328,7 +328,7 @@ export default function GitHubActivity() {
               const legendX = DAY_LABEL_W;
               return (
                 <>
-                  <text x={legendX} y={legendY + cellH - 1} fontSize={9} fill="#374151" fontFamily="monospace">Less</text>
+                  <text x={legendX} y={legendY + cellH - 1} fontSize={9} fill="#374151" fontFamily="monospace">{t('about.githubLess')}</text>
                   {samples.map((n, i) => (
                     <rect
                       key={n}
@@ -339,7 +339,7 @@ export default function GitHubActivity() {
                       stroke="rgba(255,255,255,0.04)" strokeWidth={0.5}
                     />
                   ))}
-                  <text x={legendX + 28 + samples.length * (cellW + 3) + 3} y={legendY + cellH - 1} fontSize={9} fill="#374151" fontFamily="monospace">More</text>
+                  <text x={legendX + 28 + samples.length * (cellW + 3) + 3} y={legendY + cellH - 1} fontSize={9} fill="#374151" fontFamily="monospace">{t('about.githubMore')}</text>
                 </>
               );
             })()}
@@ -348,7 +348,7 @@ export default function GitHubActivity() {
       </div>
 
       {/* Portal tooltip — renders into body, escapes all overflow */}
-      {tooltip && <TooltipPortal {...tooltip} lang={lang} />}
+      {tooltip && <TooltipPortal {...tooltip} lang={lang} t={t} />}
     </div>
   );
 }

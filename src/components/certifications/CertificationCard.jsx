@@ -97,11 +97,11 @@ export default function CertificationCard({ name, authority, authorityKey, date,
             {url ? (
               <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-400">
                 <FiCheckCircle size={11} />
-                <span>Doğrulanmış</span>
+                <span>{t('certifications.verified')}</span>
               </span>
             ) : (
               <span className="text-[11px] font-medium text-neutral-500">
-                Resmi Sertifika
+                {t('certifications.official')}
               </span>
             )}
           </div>

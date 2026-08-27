@@ -16,7 +16,7 @@ export default function BlogListPage() {
     >
       {!isFirebaseConfigured() && (
         <p className="text-sm text-amber-400 text-center mb-4">
-          ⚠ Firebase yapılandırılmamış — src/firebase/config.js dosyasını doldurun.
+          {t('blog.firebaseNotConfigured')}
         </p>
       )}
       {loading && <p className="text-neutral-500 text-sm text-center">{t('blog.loading')}</p>}

@@ -6,22 +6,35 @@ const W = 70;
 const H = 24;
 const CHARS = '.,-~:;=!*#$@';
 
-const COLOR_MAP = [
-  '#4338ca', // deep indigo (shadow)
-  '#6366f1', // indigo
-  '#8b5cf6', // purple
-  '#a855f7', // violet
-  '#ec4899', // pink
-  '#f43f5e', // rose
-  '#fb7185', // light rose
-  '#f97316', // orange
-  '#fb923c', // amber
-  '#facc15', // yellow
-  '#fde047', // light yellow
-  '#ffffff', // peak white highlight
-];
+const THEMES = {
+  cyberpunk: [
+    '#4338ca', '#6366f1', '#8b5cf6', '#a855f7', '#ec4899', '#f43f5e',
+    '#fb7185', '#f97316', '#fb923c', '#facc15', '#fde047', '#ffffff'
+  ],
+  matrix: [
+    '#052e16', '#14532d', '#166534', '#15803d', '#16a34a', '#22c55e',
+    '#4ade80', '#86efac', '#bbf7d0', '#dcfce7', '#f0fdf4', '#ffffff'
+  ],
+  solar: [
+    '#450a0a', '#7f1d1d', '#991b1b', '#b91c1c', '#dc2626', '#ea580c',
+    '#f97316', '#fb923c', '#facc15', '#fde047', '#fef08a', '#ffffff'
+  ],
+  ocean: [
+    '#082f49', '#0c4a6e', '#075985', '#0284c7', '#0369a1', '#0ea5e9',
+    '#38bdf8', '#7dd3fc', '#a5f3fc', '#cffafe', '#e0f2fe', '#ffffff'
+  ],
+  synthwave: [
+    '#3b0764', '#581c87', '#6b21a8', '#7e22ce', '#9333ea', '#a855f7',
+    '#c084fc', '#e879f9', '#f472b6', '#38bdf8', '#67e8f9', '#ffffff'
+  ],
+  monochrome: [
+    '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8', '#cbd5e1',
+    '#e2e8f0', '#f1f5f9', '#f8fafc', '#ffffff', '#ffffff', '#ffffff'
+  ],
+};
 
-export function createSpinningDonut(preElement) {
+export function createSpinningDonut(preElement, themeId = 'cyberpunk') {
+  const COLOR_MAP = THEMES[themeId] || THEMES.cyberpunk;
   let A = 0;
   let B = 0;
   let animFrameId = null;

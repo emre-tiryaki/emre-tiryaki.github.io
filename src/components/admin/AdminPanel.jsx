@@ -258,7 +258,7 @@ export default function AdminPanel() {
 
           <div style={{ flex: 1, minWidth: 0 }}>
             <p className="font-semibold text-slate-100 text-sm truncate" style={{ margin: 0 }}>
-              {p.title?.tr || p.title?.en || '(başlıksız)'}
+              {p.title?.tr || p.title?.en || a.untitled}
             </p>
             <p className="text-xs text-neutral-400" style={{ marginTop: '0.25rem', fontFamily: 'monospace' }}>
               {p.published ? '✅ ' + a.published : '📝 ' + a.draft}
@@ -311,7 +311,7 @@ export default function AdminPanel() {
   }
 
   const navItems = [
-    { id: 'editor', label: a.tabEditor || 'Yazı Editörü', icon: FiFeather },
+    { id: 'editor', label: a.tabEditor, icon: FiFeather },
     { id: 'published', label: a.tabPublished, icon: FiFileText, count: publishedPosts.length },
     { id: 'drafts', label: a.tabDrafts, icon: FiEdit3, count: draftPosts.length },
     { id: 'comments', label: a.tabComments, icon: FiMessageSquare, count: comments.length, badge: pendingComments },

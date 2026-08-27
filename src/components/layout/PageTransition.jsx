@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const TRANSITIONS = [
@@ -46,18 +46,31 @@ const TRANSITIONS = [
   },
 ];
 
-let lastIndex = -1;
+function getNextTransition() {
+  let lastIndex = -1;
+  try {
+    const stored = sessionStorage.getItem('last_page_transition');
+    if (stored !== null) lastIndex = parseInt(stored, 10);
+  } catch {
+    // Ignored
+  }
+
+  let nextIndex = Math.floor(Math.random() * TRANSITIONS.length);
+  if (nextIndex === lastIndex && TRANSITIONS.length > 1) {
+    nextIndex = (nextIndex + 1 + Math.floor(Math.random() * (TRANSITIONS.length - 1))) % TRANSITIONS.length;
+  }
+
+  try {
+    sessionStorage.setItem('last_page_transition', String(nextIndex));
+  } catch {
+    // Ignored
+  }
+
+  return TRANSITIONS[nextIndex];
+}
 
 export default function PageTransition({ children }) {
-  // Pick a random transition, avoiding immediate duplicate
-  const selected = useMemo(() => {
-    let nextIndex;
-    do {
-      nextIndex = Math.floor(Math.random() * TRANSITIONS.length);
-    } while (nextIndex === lastIndex && TRANSITIONS.length > 1);
-    lastIndex = nextIndex;
-    return TRANSITIONS[nextIndex];
-  }, []);
+  const [selected] = useState(() => getNextTransition());
 
   return (
     <motion.div

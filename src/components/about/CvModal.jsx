@@ -98,7 +98,7 @@ export default function CvModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={() => setIsMaximized((prev) => !prev)}
-              aria-label="Toggle Fullscreen"
+              aria-label={isMaximized ? t('common.minimize') : t('common.maximize')}
               className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.08] text-neutral-400 hover:text-neutral-100 hover:border-white/20 hover:bg-white/[0.08] transition-all duration-150 active:scale-95"
             >
               {isMaximized ? <FiMinimize2 size={14} /> : <FiMaximize2 size={14} />}
@@ -108,7 +108,7 @@ export default function CvModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close modal"
+              aria-label={t('common.close')}
               className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.08] text-neutral-400 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all duration-150 active:scale-95"
             >
               <FiX size={16} />
@@ -120,7 +120,7 @@ export default function CvModal({ isOpen, onClose }) {
         <div className="relative flex-1 w-full h-full bg-[#111111] overflow-auto">
           <iframe
             src={`${currentCvUrl}#toolbar=1&navpanes=0`}
-            title="CV Document Viewer"
+            title={t('about.cvViewerTitle')}
             className="w-full h-full border-none"
           />
         </div>

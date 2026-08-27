@@ -19,11 +19,10 @@ export default function EducationCard({
   startDate,
   endDate,
   gpa,
-  description,
   specializations,
   courseCategories,
 }) {
-  const { tData } = useTranslation();
+  const { t, tData } = useTranslation();
 
   return (
     <div
@@ -172,7 +171,7 @@ export default function EducationCard({
                 }}
               >
                 <FiAward className="text-orange-400" size={15} />
-                GPA: {gpa}
+                {t('education.gpa')}: {gpa}
               </span>
             </div>
           </div>

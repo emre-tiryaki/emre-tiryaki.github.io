@@ -24,16 +24,16 @@ const links = [
 export default function SocialLinks() {
   return (
     <div className="grid grid-cols-2 gap-2 place-items-center">
-      {links.map(({ id, href, Icon, color }) => (
+      {links.map((item) => (
         <a
-          key={id}
-          id={`link-${id}`}
-          href={href}
-          target={href.startsWith('mailto') ? undefined : '_blank'}
+          key={item.id}
+          id={`link-${item.id}`}
+          href={item.href}
+          target={item.href.startsWith('mailto') ? undefined : '_blank'}
           rel="noreferrer"
-          className={`flex items-center justify-center w-10 h-10 rounded-xl glass-pill text-neutral-300 transition-all duration-200 ${color} hover:scale-110 shadow-md`}
+          className={`flex items-center justify-center w-10 h-10 rounded-xl glass-pill text-neutral-300 transition-all duration-200 ${item.color} hover:scale-110 shadow-md`}
         >
-          <Icon size={18} />
+          <item.Icon size={18} />
         </a>
       ))}
     </div>

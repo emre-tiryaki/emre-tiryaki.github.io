@@ -99,7 +99,7 @@ export default function Navbar() {
             variant="secondary"
             size="sm"
             onClick={() => setLanguage(lang === 'tr' ? 'en' : 'tr')}
-            aria-label="Dil değiştir"
+            aria-label={t('nav.changeLanguage')}
             className="!w-24 justify-center"
           >
             <span>{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
@@ -115,7 +115,7 @@ export default function Navbar() {
               variant="secondary"
               size="sm"
               onClick={() => setLanguage(lang === 'tr' ? 'en' : 'tr')}
-              aria-label="Dil değiştir"
+              aria-label={t('nav.changeLanguage')}
             >
               <span>{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
               <span style={{ fontFamily: 'monospace' }}>{lang.toUpperCase()}</span>
@@ -124,7 +124,7 @@ export default function Navbar() {
               variant="ghost"
               size="sm"
               onClick={() => setMenuOpen(v => !v)}
-              aria-label="Menü"
+              aria-label={t('nav.menu')}
               className="!p-2"
             >
               <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">

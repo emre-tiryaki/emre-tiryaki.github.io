@@ -740,7 +740,7 @@ export default function ProjectCard({
             }}
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(249, 115, 22, 0.85)'; e.currentTarget.style.opacity = '1'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0, 0, 0, 0.65)'; e.currentTarget.style.opacity = isHovered ? '1' : '0.7'; }}
-            aria-label="Enlarge image"
+            aria-label={t('projects.enlargeImage')}
           >
             <FiMaximize2 size={12} />
           </button>

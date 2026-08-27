@@ -1,4 +1,5 @@
 import { useAuth } from '../../hooks/auth';
+import { useTranslation } from '../../hooks/translation';
 import AdminLogin from '../../components/admin/AdminLogin';
 import AdminPanel from '../../components/admin/AdminPanel';
 import { isFirebaseConfigured } from '../../firebase/config';
@@ -12,15 +13,13 @@ const PAGE_STYLE = {
 
 export default function AdminPage() {
   const { user, loading } = useAuth();
+  const { t } = useTranslation();
 
   if (!isFirebaseConfigured()) {
     return (
       <div style={PAGE_STYLE} className="flex items-center justify-center">
         <p className="text-amber-400 text-sm text-center max-w-md">
-          ⚠ Firebase yapılandırılmamış.<br />
-          <code>src/firebase/config.js</code> dosyasını doldur ve{' '}
-          <code>firestore.rules</code> / <code>storage.rules</code> dosyalarını
-          Firebase konsoluna yükle. Detay: .hermes/setup/FIREBASE_SETUP.md
+          {t('blog.firebaseNotConfigured')}
         </p>
       </div>
     );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from '../../hooks/translation';
 
 const CAROUSEL_KEY = 'portfolio-carousel-index';
 
@@ -12,6 +13,7 @@ const photos = Object.entries(photoModules)
   .map(([, src]) => src);
 
 export default function PhotoCarousel() {
+  const { t } = useTranslation();
   const [index, setIndex] = useState(() => {
     const saved = parseInt(localStorage.getItem(CAROUSEL_KEY), 10);
     return saved >= 0 && saved < photos.length ? saved : 0;
@@ -26,7 +28,7 @@ export default function PhotoCarousel() {
   if (total === 0) {
     return (
       <div className="carousel-container flex items-center justify-center">
-        <span className="text-neutral-500 text-sm font-mono">No photos found</span>
+        <span className="text-neutral-500 text-sm font-mono">{t('about.noPhotos')}</span>
       </div>
     );
   }
@@ -56,7 +58,7 @@ export default function PhotoCarousel() {
             >
               <img
                 src={photo}
-                alt={`Emre Tiryaki — foto ${i + 1}`}
+                alt={t('about.photoAlt', { n: i + 1 })}
                 draggable="false"
               />
             </div>
@@ -69,14 +71,14 @@ export default function PhotoCarousel() {
           <button
             className="carousel-arrow carousel-arrow--prev"
             onClick={handlePrev}
-            aria-label="Önceki fotoğraf"
+            aria-label={t('about.carouselPrev')}
           >
             ‹
           </button>
           <button
             className="carousel-arrow carousel-arrow--next"
             onClick={handleNext}
-            aria-label="Sonraki fotoğraf"
+            aria-label={t('about.carouselNext')}
           >
             ›
           </button>
@@ -86,7 +88,7 @@ export default function PhotoCarousel() {
                 key={i}
                 className={`carousel-indicator${i === index ? ' active' : ''}`}
                 onClick={() => setIndex(i)}
-                aria-label={`Fotoğraf ${i + 1}`}
+                aria-label={t('about.carouselPhotoN', { n: i + 1 })}
               />
             ))}
           </div>

@@ -1,4 +1,10 @@
 {
+  "common": {
+    "verifiedAccount": "Doğrulanmış Hesap",
+    "close": "Kapat",
+    "maximize": "Tam Ekran",
+    "minimize": "Küçült"
+  },
   "nav": {
     "home": "Ana Sayfa",
     "about": "Hakkımda",
@@ -7,7 +13,9 @@
     "experience": "Deneyim",
     "blog": "Blog",
     "projects": "Projeler",
-    "certifications": "Sertifikalar"
+    "certifications": "Sertifikalar",
+    "changeLanguage": "Dil değiştir",
+    "menu": "Menü"
   },
   "home": {
     "greeting": "Merhaba, ben",
@@ -16,17 +24,30 @@
   "about": {
     "summaryTitle": "Hakkımda",
     "summary": "Sistem mimarisi ve veri yönetimi (Backend) konularında derin teknik yetkinliğe sahip, modern web teknolojileri ve kullanıcı arayüzü geliştirme süreçlerinde deneyimli bir yazılım geliştiriciyim. Karmaşık iş mantıklarını (Business Logic) performanslı arayüzlere dönüştürme konusunda tutkuluyum.",
+    "roleTitle": "Backend Geliştirici · Yazılım Mühendisi",
     "location": "Samsun",
     "cvTitle": "CV",
     "viewCv": "CV Görüntüle",
     "downloadCv": "İndir",
+    "cvViewerTitle": "CV Belge Görüntüleyici",
     "contactTitle": "İletişim",
     "email": "tiryakiemre18@gmail.com",
     "languages": "Diller",
+    "noPhotos": "Fotoğraf bulunamadı",
+    "photoAlt": "Emre Tiryaki — Fotoğraf {n}",
+    "carouselPrev": "Önceki fotoğraf",
+    "carouselNext": "Sonraki fotoğraf",
+    "carouselPhotoN": "Fotoğraf {n}",
     "githubActivity": "GitHub Aktivitesi",
     "githubError": "Burada GitHub commit geçmişim vardı ama şu an bir hata oluştu.",
     "githubEmpty": "Son 30 günde commit bulunamadı.",
     "githubLoading": "Commitler yükleniyor...",
+    "githubNoContributions": "Katkı yok",
+    "githubContributionSingle": "{n} katkı",
+    "githubContributionMultiple": "{n} katkı",
+    "githubContributionsYear": "katkı – son 1 yıl",
+    "githubLess": "Az",
+    "githubMore": "Çok",
     "languageNames": {
       "Türkçe": "Türkçe",
       "İngilizce": "İngilizce"
@@ -54,6 +75,11 @@
     "hireMeSub3": "İletişime geçin",
     "hireMeSub4": "Konuşalım",
     "ongoing": "Devam ediyor",
+    "portfolioLink": "Portfolyo / Web Sitesi",
+    "linkedinProfile": "LinkedIn Profili",
+    "githubProfile": "GitHub Profili",
+    "scrollLeft": "Sola kaydır",
+    "scrollRight": "Sağa kaydır",
     "types": {
       "all": "Tümü",
       "internship": "Staj",
@@ -93,12 +119,16 @@
     "filterTechLabel": "Teknoloji Filtrele",
     "filterTechSelected": "{n} teknoloji seçili",
     "filterTechTitle": "Teknoloji Filtrele",
-    "filterClear": "Temizle"
+    "filterClear": "Temizle",
+    "enlargeImage": "Resmi büyüt",
+    "projectN": "Proje {n}"
   },
   "certifications": {
     "title": "Sertifikalar",
     "subtitle": "Profesyonel gelişim ve doğrulanmış yetkinlikler",
     "verify": "Doğrula",
+    "verified": "Doğrulanmış",
+    "official": "Resmi Sertifika",
     "countLabel": "{n} Sertifika"
   },
   "blog": {
@@ -106,6 +136,9 @@
     "title": "Blog",
     "subtitle": "Düşüncelerim, notlarım ve güncellemelerim",
     "readMore": "Devamını oku",
+    "readTime": "{n} dk okuma",
+    "today": "Bugün",
+    "photoN": "Fotoğraf {n}",
     "publishedAt": "Yayınlandı",
     "by": "Yazan",
     "noPosts": "Henüz yayınlanmış bir yazı yok.",
@@ -114,6 +147,7 @@
     "commentsTitle": "Yorumlar",
     "noComments": "Henüz yorum yok. İlk yorumu sen bırak!",
     "writeComment": "Yorum yaz",
+    "firebaseNotConfigured": "⚠ Firebase yapılandırılmamış — src/firebase/config.js dosyasını doldurun.",
     "commentForm": {
       "name": "Adın",
       "namePlaceholder": "Adın (zorunlu)",
@@ -179,6 +213,9 @@
       "previewCard": "Liste Kartı",
       "previewPlaceholderTitle": "Yazı Başlığı...",
       "previewPlaceholderBody": "Yazı içeriğinizi sol tarafa yazdıkça, burada blog sayfasında nasıl görüneceğini gerçek zamanlı olarak izleyebilirsiniz...",
+      "untitled": "(başlıksız)",
+      "storageNotConfigured": "Firebase Storage yapılandırılmamış",
+      "removeImage": "Kaldır",
       "composer": {
         "titleTr": "Başlık (TR)",
         "titleEn": "Başlık (EN)",
@@ -194,7 +231,14 @@
         "cancel": "İptal",
         "publishing": "Yayınlanıyor...",
         "uploading": "Yükleniyor...",
-        "maxImages": "En fazla 4 resim yükleyebilirsin."
+        "maxImages": "En fazla 4 resim yükleyebilirsin.",
+        "wordsCount": "{n} kelime",
+        "translating": "Çevriliyor...",
+        "translatedToTr": "✓ Türkçeye Çevrildi!",
+        "translatedToEn": "✓ İngilizceye Çevrildi!",
+        "autoTranslate": "✨ Otomatik Çevir",
+        "autoTranslateTooltipTr": "Türkçe başlık ve içeriği anında İngilizceye çevirir",
+        "autoTranslateTooltipEn": "İngilizce başlık ve içeriği anında Türkçeye çevirir"
       },
       "commentAuthor": "Yorumcu",
       "commentEmail": "Mail",

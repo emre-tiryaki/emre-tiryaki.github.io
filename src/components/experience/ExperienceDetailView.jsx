@@ -164,7 +164,7 @@ function resolveProjectImages(project) {
 /** Fullscreen Gallery Lightbox with Keyboard + Bottom Thumbnail Strip */
 function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title }) {
   const total = images.length;
-  const [[page, direction], setPage] = useState([activeIndex, 0]);
+  const [[page, _direction], setPage] = useState([activeIndex, 0]);
 
   const paginate = useCallback(
     (newDir) => {
@@ -414,7 +414,6 @@ function EmbeddedProjectCard({ project }) {
 
   const title = tData(project.title);
   const description = tData(project.description);
-  const achievement = project.achievements ? tData(project.achievements) : null;
 
   const nextPhoto = (e) => {
     e.stopPropagation();
@@ -791,9 +790,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
   const { t, tData } = useTranslation();
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const galleryScrollRef = useRef(null);
-  const [canScroll, setCanScroll] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
 
   const scrollGallery = (direction) => {
     if (galleryScrollRef.current) {
@@ -822,46 +818,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
     if (!experience || !Array.isArray(experience.team)) return [];
     return pseudoRandomShuffle(experience.team, (experience.id || 'exp') + '_team_shuffle_v1');
   }, [experience]);
-
-  const checkScroll = useCallback(() => {
-    const el = galleryScrollRef.current;
-    if (!el) return;
-    const hasOverflow = el.scrollWidth > el.clientWidth + 4;
-    setCanScroll(hasOverflow);
-    setCanScrollLeft(el.scrollLeft > 6);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 6);
-  }, []);
-
-  useEffect(() => {
-    const el = galleryScrollRef.current;
-    if (!el) {
-      setCanScroll(false);
-      return;
-    }
-
-    checkScroll();
-    const timers = [
-      setTimeout(checkScroll, 50),
-      setTimeout(checkScroll, 150),
-      setTimeout(checkScroll, 350),
-      setTimeout(checkScroll, 700),
-    ];
-
-    const resizeObserver = new ResizeObserver(() => {
-      checkScroll();
-    });
-    resizeObserver.observe(el);
-
-    el.addEventListener('scroll', checkScroll, { passive: true });
-    window.addEventListener('resize', checkScroll);
-
-    return () => {
-      timers.forEach(clearTimeout);
-      resizeObserver.disconnect();
-      el.removeEventListener('scroll', checkScroll);
-      window.removeEventListener('resize', checkScroll);
-    };
-  }, [photos, experience?.id, checkScroll]);
 
   if (!experience) {
     return null;
@@ -1298,8 +1254,8 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                             href={portfolioUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            title="Portfolyo / Web Sitesi"
-                            aria-label={`${member.name} Portfolyo`}
+                            title={t('experience.portfolioLink')}
+                            aria-label={`${member.name} ${t('experience.portfolioLink')}`}
                             style={{
                               width: '1.6rem',
                               height: '1.6rem',
@@ -1337,8 +1293,8 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                             href={linkedinUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            title="LinkedIn Profili"
-                            aria-label={`${member.name} LinkedIn`}
+                            title={t('experience.linkedinProfile')}
+                            aria-label={`${member.name} ${t('experience.linkedinProfile')}`}
                             style={{
                               width: '1.6rem',
                               height: '1.6rem',
@@ -1376,8 +1332,8 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                             href={githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            title="GitHub Profili"
-                            aria-label={`${member.name} GitHub`}
+                            title={t('experience.githubProfile')}
+                            aria-label={`${member.name} ${t('experience.githubProfile')}`}
                             style={{
                               width: '1.6rem',
                               height: '1.6rem',
@@ -1456,7 +1412,7 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <button
                     onClick={() => scrollGallery(-1)}
-                    aria-label="Scroll left"
+                    aria-label={t('experience.scrollLeft')}
                     style={{
                       width: '1.85rem',
                       height: '1.85rem',
@@ -1485,7 +1441,7 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                   </button>
                   <button
                     onClick={() => scrollGallery(1)}
-                    aria-label="Scroll right"
+                    aria-label={t('experience.scrollRight')}
                     style={{
                       width: '1.85rem',
                       height: '1.85rem',
@@ -1567,7 +1523,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                     src={src}
                     alt=""
                     loading="lazy"
-                    onLoad={checkScroll}
                     style={{
                       height: '100%',
                       width: 'auto',

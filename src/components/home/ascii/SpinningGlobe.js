@@ -9,6 +9,7 @@ const DENSITY = '.:-=+*#%@';
 
 const PLANETS = [
   {
+    id: 'earth',
     name: 'Earth 3D',
     getColor: (phi, theta, lum) => {
       const isPole = phi < 0.35 || phi > Math.PI - 0.35;
@@ -21,6 +22,7 @@ const PLANETS = [
     },
   },
   {
+    id: 'mars',
     name: 'Mars 3D',
     getColor: (phi, theta, lum) => {
       const isPole = phi < 0.3 || phi > Math.PI - 0.3;
@@ -33,6 +35,7 @@ const PLANETS = [
     },
   },
   {
+    id: 'jupiter',
     name: 'Jupiter 3D',
     getColor: (phi, theta, lum) => {
       const band = Math.sin(phi * 12);
@@ -44,6 +47,7 @@ const PLANETS = [
     },
   },
   {
+    id: 'neptune',
     name: 'Neptune 3D',
     getColor: (phi, theta, lum) => {
       const isStorm = Math.abs(theta - 1.8) < 0.3 && Math.abs(phi - Math.PI / 2) < 0.2;
@@ -55,6 +59,7 @@ const PLANETS = [
     },
   },
   {
+    id: 'venus',
     name: 'Venus 3D',
     getColor: (phi, theta, lum) => {
       const isLava = Math.sin(theta * 5 + Math.cos(phi * 6)) > 0.55;
@@ -65,6 +70,7 @@ const PLANETS = [
     },
   },
   {
+    id: 'kepler',
     name: 'Kepler-186f 3D',
     getColor: (phi, theta, lum) => {
       const isPole = phi < 0.35 || phi > Math.PI - 0.35;
@@ -75,6 +81,7 @@ const PLANETS = [
     },
   },
   {
+    id: 'cybertron',
     name: 'Cybertron 3D',
     getColor: (phi, theta, lum) => {
       const isConduit = Math.abs(Math.sin(theta * 8)) < 0.15 || Math.abs(Math.sin(phi * 8)) < 0.15;
@@ -86,9 +93,8 @@ const PLANETS = [
   },
 ];
 
-export function createSpinningGlobe(preElement) {
-  // Randomly select planet on each creation
-  const planet = PLANETS[Math.floor(Math.random() * PLANETS.length)];
+export function createSpinningGlobe(preElement, planetId = 'earth') {
+  const planet = PLANETS.find((p) => p.id === planetId) || PLANETS[0];
 
   let angle = 0;
   let animFrameId = null;

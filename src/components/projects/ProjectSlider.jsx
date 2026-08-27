@@ -82,7 +82,7 @@ export default function ProjectSlider({ projects }) {
             <button
               key={i}
               onClick={() => setPage(([p]) => [i, i > p ? 1 : -1])}
-              aria-label={`Proje ${i + 1}`}
+              aria-label={t('projects.projectN', { n: i + 1 })}
               style={{
                 width: i === page ? '1.75rem' : '0.625rem',
                 height: '0.625rem',

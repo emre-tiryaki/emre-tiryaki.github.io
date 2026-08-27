@@ -72,21 +72,21 @@ export default function ContactAndLanguages() {
 
           {/* 2x2 Grid */}
           <div className="grid grid-cols-2 gap-2 place-items-center">
-            {SOCIAL_LINKS.map(({ id, href, label, Icon, hoverClass }) => (
+            {SOCIAL_LINKS.map((item) => (
               <div
-                key={id}
+                key={item.id}
                 className="relative flex items-center justify-center"
-                onMouseEnter={() => setHoveredSocial(id)}
+                onMouseEnter={() => setHoveredSocial(item.id)}
                 onMouseLeave={() => setHoveredSocial(null)}
               >
                 <a
-                  href={href}
-                  target={href.startsWith('mailto') ? undefined : '_blank'}
+                  href={item.href}
+                  target={item.href.startsWith('mailto') ? undefined : '_blank'}
                   rel="noreferrer"
-                  aria-label={label}
-                  className={`flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] text-neutral-300 transition-all duration-200 hover:scale-110 active:scale-95 ${hoverClass}`}
+                  aria-label={item.label}
+                  className={`flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] text-neutral-300 transition-all duration-200 hover:scale-110 active:scale-95 ${item.hoverClass}`}
                 >
-                  <Icon size={18} />
+                  <item.Icon size={18} />
                 </a>
 
                 {/* Tooltip */}
@@ -95,11 +95,11 @@ export default function ContactAndLanguages() {
                   style={{
                     background: 'rgba(10, 10, 10, 0.95)',
                     border: '1px solid rgba(255, 255, 255, 0.15)',
-                    opacity: hoveredSocial === id ? 1 : 0,
-                    transform: `translateX(-50%) translateY(${hoveredSocial === id ? '0px' : '2px'})`,
+                    opacity: hoveredSocial === item.id ? 1 : 0,
+                    transform: `translateX(-50%) translateY(${hoveredSocial === item.id ? '0px' : '2px'})`,
                   }}
                 >
-                  {label}
+                  {item.label}
                 </span>
               </div>
             ))}

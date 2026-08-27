@@ -6,21 +6,81 @@ import { createSpinningGlobe } from './ascii/SpinningGlobe';
 import { createFireworks } from './ascii/Fireworks';
 import { createStarfield } from './ascii/Starfield';
 
-const ANIMATIONS = [
-  { id: 'donut', create: createSpinningDonut, label: 'Torus Donut 3D' },
-  { id: 'cube', create: createRotatingCube, label: 'Rotating Cube 3D' },
-  { id: 'matrix', create: createMatrixRain, label: 'Matrix Digital Rain' },
-  { id: 'globe', create: createSpinningGlobe, label: 'Rotating Sphere 3D' },
-  { id: 'fireworks', create: createFireworks, label: 'ASCII Fireworks' },
-  { id: 'starfield', create: createStarfield, label: 'ASCII Starfield' },
+const ANIMATION_COMBINATIONS = [
+  // ── Donut Themes ──
+  { id: 'donut', theme: 'cyberpunk', label: 'Torus Donut 3D', create: (el) => createSpinningDonut(el, 'cyberpunk') },
+  { id: 'donut', theme: 'matrix', label: 'Torus Donut 3D', create: (el) => createSpinningDonut(el, 'matrix') },
+  { id: 'donut', theme: 'solar', label: 'Torus Donut 3D', create: (el) => createSpinningDonut(el, 'solar') },
+  { id: 'donut', theme: 'ocean', label: 'Torus Donut 3D', create: (el) => createSpinningDonut(el, 'ocean') },
+  { id: 'donut', theme: 'synthwave', label: 'Torus Donut 3D', create: (el) => createSpinningDonut(el, 'synthwave') },
+  { id: 'donut', theme: 'monochrome', label: 'Torus Donut 3D', create: (el) => createSpinningDonut(el, 'monochrome') },
+
+  // ── Cube Themes ──
+  { id: 'cube', theme: 'cyber', label: 'Rotating Cube 3D', create: (el) => createRotatingCube(el, 'cyber') },
+  { id: 'cube', theme: 'matrix', label: 'Rotating Cube 3D', create: (el) => createRotatingCube(el, 'matrix') },
+  { id: 'cube', theme: 'solar', label: 'Rotating Cube 3D', create: (el) => createRotatingCube(el, 'solar') },
+  { id: 'cube', theme: 'aurora', label: 'Rotating Cube 3D', create: (el) => createRotatingCube(el, 'aurora') },
+  { id: 'cube', theme: 'synthwave', label: 'Rotating Cube 3D', create: (el) => createRotatingCube(el, 'synthwave') },
+  { id: 'cube', theme: 'monochrome', label: 'Rotating Cube 3D', create: (el) => createRotatingCube(el, 'monochrome') },
+
+  // ── Matrix Rain (Classic Pure Green) ──
+  { id: 'matrix', theme: 'green', label: 'Matrix Digital Rain', create: (el) => createMatrixRain(el) },
+
+  // ── Spinning Globe (Planets) ──
+  { id: 'globe', theme: 'earth', label: 'Rotating Sphere 3D', create: (el) => createSpinningGlobe(el, 'earth') },
+  { id: 'globe', theme: 'mars', label: 'Rotating Sphere 3D', create: (el) => createSpinningGlobe(el, 'mars') },
+  { id: 'globe', theme: 'jupiter', label: 'Rotating Sphere 3D', create: (el) => createSpinningGlobe(el, 'jupiter') },
+  { id: 'globe', theme: 'neptune', label: 'Rotating Sphere 3D', create: (el) => createSpinningGlobe(el, 'neptune') },
+  { id: 'globe', theme: 'cybertron', label: 'Rotating Sphere 3D', create: (el) => createSpinningGlobe(el, 'cybertron') },
+  { id: 'globe', theme: 'venus', label: 'Rotating Sphere 3D', create: (el) => createSpinningGlobe(el, 'venus') },
+  { id: 'globe', theme: 'kepler', label: 'Rotating Sphere 3D', create: (el) => createSpinningGlobe(el, 'kepler') },
+
+  // ── Fireworks Palettes ──
+  { id: 'fireworks', theme: 'fire', label: 'ASCII Fireworks', create: (el) => createFireworks(el, 'fire') },
+  { id: 'fireworks', theme: 'cyber', label: 'ASCII Fireworks', create: (el) => createFireworks(el, 'cyber') },
+  { id: 'fireworks', theme: 'aurora', label: 'ASCII Fireworks', create: (el) => createFireworks(el, 'aurora') },
+  { id: 'fireworks', theme: 'rainbow', label: 'ASCII Fireworks', create: (el) => createFireworks(el, 'rainbow') },
+  { id: 'fireworks', theme: 'pastel', label: 'ASCII Fireworks', create: (el) => createFireworks(el, 'pastel') },
+
+  // ── Starfield Themes ──
+  { id: 'starfield', theme: 'multi-spectral', label: 'ASCII Starfield', create: (el) => createStarfield(el, 'multi-spectral') },
+  { id: 'starfield', theme: 'blue-shift', label: 'ASCII Starfield', create: (el) => createStarfield(el, 'blue-shift') },
+  { id: 'starfield', theme: 'solar-gold', label: 'ASCII Starfield', create: (el) => createStarfield(el, 'solar-gold') },
+  { id: 'starfield', theme: 'emerald-nebula', label: 'ASCII Starfield', create: (el) => createStarfield(el, 'emerald-nebula') },
+  { id: 'starfield', theme: 'cosmic-violet', label: 'ASCII Starfield', create: (el) => createStarfield(el, 'cosmic-violet') },
 ];
+
+function selectNonRepeatingAnimation() {
+  let lastKey = null;
+  try {
+    lastKey = sessionStorage.getItem('last_ascii_combination') || localStorage.getItem('last_ascii_combination');
+  } catch {
+    // Ignored in restricted environments
+  }
+
+  // Filter out the exact previous shape + color theme combination
+  const validPool = ANIMATION_COMBINATIONS.filter(
+    (item) => `${item.id}:${item.theme}` !== lastKey
+  );
+
+  const pool = validPool.length > 0 ? validPool : ANIMATION_COMBINATIONS;
+  const selected = pool[Math.floor(Math.random() * pool.length)];
+
+  try {
+    const newKey = `${selected.id}:${selected.theme}`;
+    sessionStorage.setItem('last_ascii_combination', newKey);
+    localStorage.setItem('last_ascii_combination', newKey);
+  } catch {
+    // Ignored
+  }
+
+  return selected;
+}
 
 export default function AsciiAnimation() {
   const preRef = useRef(null);
-  // Tek seferlik rastgele seçim → lazy initializer (render dışında, saf)
-  const [chosen] = useState(
-    () => ANIMATIONS[Math.floor(Math.random() * ANIMATIONS.length)]
-  );
+  // Ardışık aynı (şekil + renk) kombinasyonunun gelmesini engelleyen lazy initializer
+  const [chosen] = useState(() => selectNonRepeatingAnimation());
 
   useEffect(() => {
     if (!preRef.current) return;

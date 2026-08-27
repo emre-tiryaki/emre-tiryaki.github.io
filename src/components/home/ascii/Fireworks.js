@@ -4,15 +4,16 @@
 
 const SPARK = '.*#+';
 
-const PALETTES = [
-  ['#f43f5e', '#fb923c', '#facc15', '#ffffff'], // Fire (Red, Orange, Yellow, White)
-  ['#00f5d4', '#7b2cbf', '#ff007f', '#ffffff'], // Cyber (Cyan, Purple, Pink, White)
-  ['#4ade80', '#22d3ee', '#818cf8', '#ffffff'], // Aurora (Green, Cyan, Indigo, White)
-  ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff'], // Rainbow (Coral, Yellow, Emerald, Blue)
-  ['#c084fc', '#f472b6', '#38bdf8', '#ffffff'], // Pastel Glow (Lavender, Pink, Sky, White)
-];
+const FIREWORKS_PALETTES = {
+  fire: ['#f43f5e', '#fb923c', '#facc15', '#ffffff'],
+  cyber: ['#00f5d4', '#7b2cbf', '#ff007f', '#ffffff'],
+  aurora: ['#4ade80', '#22d3ee', '#818cf8', '#ffffff'],
+  rainbow: ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff'],
+  pastel: ['#c084fc', '#f472b6', '#38bdf8', '#ffffff'],
+};
 
-export function createFireworks(preElement) {
+export function createFireworks(preElement, themeId = 'fire') {
+  const selectedPalette = FIREWORKS_PALETTES[themeId] || FIREWORKS_PALETTES.fire;
   const COLS = 64;
   const ROWS = 24;
 
@@ -28,8 +29,7 @@ export function createFireworks(preElement) {
 
   function spawnRocket() {
     const c = 6 + Math.floor(Math.random() * (COLS - 12));
-    const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
-    rockets.push({ c, r: ROWS - 1, target: 3 + Math.floor(Math.random() * 8), palette });
+    rockets.push({ c, r: ROWS - 1, target: 3 + Math.floor(Math.random() * 8), palette: selectedPalette });
   }
 
   function explode(c, r, palette) {

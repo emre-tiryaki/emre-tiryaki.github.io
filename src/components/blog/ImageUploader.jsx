@@ -17,7 +17,7 @@ export default function ImageUploader({ images, onChange }) {
       return;
     }
     if (!storage) {
-      alert('Firebase Storage yapılandırılmamış');
+      alert(t('blog.admin.storageNotConfigured'));
       return;
     }
     setUploading(true);
@@ -50,7 +50,7 @@ export default function ImageUploader({ images, onChange }) {
               size="sm"
               onClick={() => onChange(images.filter((_, idx) => idx !== i))}
               style={{ position: 'absolute', top: -8, right: -8, width: 20, height: 20, padding: 0, borderRadius: '9999px', fontSize: '0.7rem' }}
-              aria-label="Kaldır"
+              aria-label={t('blog.admin.removeImage')}
             >
               ×
             </Button>

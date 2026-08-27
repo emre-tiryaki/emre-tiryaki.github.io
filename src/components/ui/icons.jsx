@@ -16,7 +16,7 @@ export const TwitterIcon = ({ className = '', ...props }) => (
 
 export const VerifiedIcon = ({ className = '', ...props }) => (
   <svg
-    aria-label="Verified Account" viewBox="0 0 24 24"
+    aria-hidden="true" viewBox="0 0 24 24"
     height="1em" width="1em"
     className={className} {...props}
   >

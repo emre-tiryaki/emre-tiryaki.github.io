@@ -2,16 +2,51 @@
  * ASCII Starfield Animation with Multi-Spectral Celestial Colors
  */
 
-const STAR_TYPES = [
-  { ch: '.', color: '#94a3b8' }, // Distant dim dwarf
-  { ch: '+', color: '#fde047' }, // Warm yellow star
-  { ch: '*', color: '#ffffff' }, // Bright white star
-  { ch: 'o', color: '#38bdf8' }, // Electric blue star
-  { ch: 'O', color: '#ec4899' }, // Magenta giant
-  { ch: '✦', color: '#c084fc' }, // Violet pulsar / nova
-];
+const STAR_THEMES = {
+  'multi-spectral': [
+    { ch: '.', color: '#94a3b8' },
+    { ch: '+', color: '#fde047' },
+    { ch: '*', color: '#ffffff' },
+    { ch: 'o', color: '#38bdf8' },
+    { ch: 'O', color: '#ec4899' },
+    { ch: '✦', color: '#c084fc' },
+  ],
+  'blue-shift': [
+    { ch: '.', color: '#0369a1' },
+    { ch: '+', color: '#0284c7' },
+    { ch: '*', color: '#38bdf8' },
+    { ch: 'o', color: '#7dd3fc' },
+    { ch: 'O', color: '#00f0ff' },
+    { ch: '✦', color: '#ffffff' },
+  ],
+  'solar-gold': [
+    { ch: '.', color: '#78350f' },
+    { ch: '+', color: '#b45309' },
+    { ch: '*', color: '#f59e0b' },
+    { ch: 'o', color: '#fbbf24' },
+    { ch: 'O', color: '#fde047' },
+    { ch: '✦', color: '#ffffff' },
+  ],
+  'emerald-nebula': [
+    { ch: '.', color: '#064e3b' },
+    { ch: '+', color: '#047857' },
+    { ch: '*', color: '#10b981' },
+    { ch: 'o', color: '#34d399' },
+    { ch: 'O', color: '#6ee7b7' },
+    { ch: '✦', color: '#ffffff' },
+  ],
+  'cosmic-violet': [
+    { ch: '.', color: '#4c1d95' },
+    { ch: '+', color: '#6d28d9' },
+    { ch: '*', color: '#8b5cf6' },
+    { ch: 'o', color: '#a78bfa' },
+    { ch: 'O', color: '#f472b6' },
+    { ch: '✦', color: '#ffffff' },
+  ],
+};
 
-export function createStarfield(preElement) {
+export function createStarfield(preElement, themeId = 'multi-spectral') {
+  const starTypes = STAR_THEMES[themeId] || STAR_THEMES['multi-spectral'];
   const COLS = 64;
   const ROWS = 22;
 
@@ -22,7 +57,7 @@ export function createStarfield(preElement) {
       c: Math.random() * COLS,
       r: Math.random() * ROWS,
       depth: Math.random(), // 0 = far, 1 = near
-      typeIdx: Math.floor(Math.random() * STAR_TYPES.length),
+      typeIdx: Math.floor(Math.random() * starTypes.length),
     });
   }
 
@@ -46,13 +81,15 @@ export function createStarfield(preElement) {
         s.c = COLS - 1 + Math.random() * 3;
         s.r = Math.random() * ROWS;
         s.depth = Math.random();
-        s.typeIdx = Math.floor(Math.random() * STAR_TYPES.length);
+        s.typeIdx = Math.floor(Math.random() * starTypes.length);
       }
       const cc = Math.round(s.c);
       const rr = Math.round(s.r);
       if (rr >= 0 && rr < ROWS && cc >= 0 && cc < COLS) {
-        const star = STAR_TYPES[s.typeIdx];
-        grid[rr][cc] = { ch: star.ch, color: star.color };
+        const star = starTypes[s.typeIdx];
+        if (star) {
+          grid[rr][cc] = { ch: star.ch, color: star.color };
+        }
       }
     }
 

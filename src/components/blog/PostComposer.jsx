@@ -159,7 +159,7 @@ export default function PostComposer({ initial, onSave, onCancel, saving }) {
               type="button"
               onClick={handleAutoTranslate}
               disabled={translating || (!sourceTitle && !sourceBody)}
-              title={isTr ? 'Türkçe başlık ve içeriği anında İngilizceye çevirir' : 'İngilizce başlık ve içeriği anında Türkçeye çevirir'}
+              title={isTr ? c.autoTranslateTooltipTr : c.autoTranslateTooltipEn}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -191,17 +191,17 @@ export default function PostComposer({ initial, onSave, onCancel, saving }) {
               {translating ? (
                 <>
                   <span className="inline-block animate-spin" style={{ display: 'inline-block' }}>⚙️</span>
-                  <span>Çevriliyor...</span>
+                  <span>{c.translating}</span>
                 </>
               ) : translateSuccess ? (
                 <>
                   <FiCheck size={14} />
-                  <span>✓ {isTr ? 'İngilizceye' : 'Türkçeye'} Çevrildi!</span>
+                  <span>{isTr ? c.translatedToEn : c.translatedToTr}</span>
                 </>
               ) : (
                 <>
                   <FiZap size={14} />
-                  <span>✨ Otomatik Çevir ({isTr ? 'TR → EN' : 'EN → TR'})</span>
+                  <span>{c.autoTranslate} ({isTr ? 'TR → EN' : 'EN → TR'})</span>
                 </>
               )}
             </button>
@@ -306,7 +306,7 @@ export default function PostComposer({ initial, onSave, onCancel, saving }) {
           )}
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.35rem' }}>
             <span style={{ fontSize: '0.7rem', color: '#64748b', fontFamily: 'monospace' }}>
-              {wordCount} {activeLang === 'tr' ? 'kelime' : 'words'}
+              {c.wordsCount ? c.wordsCount.replace('{n}', wordCount) : `${wordCount} words`}
             </span>
           </div>
         </div>
@@ -492,7 +492,7 @@ export default function PostComposer({ initial, onSave, onCancel, saving }) {
                 <VerifiedIcon style={{ width: '1rem', height: '1rem', color: '#0ea5e9' }} />
               </div>
               <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontFamily: 'monospace' }}>
-                {previewLang === 'tr' ? 'Bugün' : 'Today'} · {mins} {previewLang === 'tr' ? 'dk okuma' : 'min read'}
+                {t('blog.today')} · {t('blog.readTime', { n: mins })}
               </span>
             </div>
           </div>
@@ -580,7 +580,7 @@ export default function PostComposer({ initial, onSave, onCancel, saving }) {
                 }}
               >
                 <span style={{ fontSize: '0.72rem', color: '#64748b', fontFamily: 'monospace' }}>
-                  {mins} {previewLang === 'tr' ? 'dk okuma' : 'min read'}
+                  {t('blog.readTime', { n: mins })}
                 </span>
                 <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#fb923c' }}>
                   {t('blog.readMore')} →

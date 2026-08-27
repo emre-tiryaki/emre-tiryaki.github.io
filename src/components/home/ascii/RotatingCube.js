@@ -43,27 +43,64 @@ function drawLine(grid, x0, y0, x1, y1, ch, color) {
 }
 
 const EDGES = [
-  [0, 1], [1, 2], [2, 3], [3, 0], // front face -> Cyan
-  [4, 5], [5, 6], [6, 7], [7, 4], // back face -> Magenta
-  [0, 4], [1, 5], [2, 6], [3, 7], // connecting edges -> Yellow
+  [0, 1], [1, 2], [2, 3], [3, 0], // front face
+  [4, 5], [5, 6], [6, 7], [7, 4], // back face
+  [0, 4], [1, 5], [2, 6], [3, 7], // connecting edges
 ];
 
-const EDGE_CONFIG = [
-  { ch: '#', color: '#00f0ff' },
-  { ch: '#', color: '#00f0ff' },
-  { ch: '#', color: '#00f0ff' },
-  { ch: '#', color: '#00f0ff' },
-  { ch: '+', color: '#ff2a85' },
-  { ch: '+', color: '#ff2a85' },
-  { ch: '+', color: '#ff2a85' },
-  { ch: '+', color: '#ff2a85' },
-  { ch: '|', color: '#ffd000' },
-  { ch: '|', color: '#ffd000' },
-  { ch: '|', color: '#ffd000' },
-  { ch: '|', color: '#ffd000' },
-];
+const CUBE_THEMES = {
+  cyber: {
+    front: { ch: '#', color: '#00f0ff' },
+    back: { ch: '+', color: '#ff2a85' },
+    connect: { ch: '|', color: '#ffd000' },
+    vFront: '#38bdf8',
+    vBack: '#f472b6',
+  },
+  matrix: {
+    front: { ch: '#', color: '#22c55e' },
+    back: { ch: '+', color: '#15803d' },
+    connect: { ch: '|', color: '#86efac' },
+    vFront: '#4ade80',
+    vBack: '#16a34a',
+  },
+  solar: {
+    front: { ch: '#', color: '#f97316' },
+    back: { ch: '+', color: '#dc2626' },
+    connect: { ch: '|', color: '#facc15' },
+    vFront: '#fb923c',
+    vBack: '#fde047',
+  },
+  aurora: {
+    front: { ch: '#', color: '#2dd4bf' },
+    back: { ch: '+', color: '#a855f7' },
+    connect: { ch: '|', color: '#38bdf8' },
+    vFront: '#5eead4',
+    vBack: '#c084fc',
+  },
+  synthwave: {
+    front: { ch: '#', color: '#f43f5e' },
+    back: { ch: '+', color: '#8b5cf6' },
+    connect: { ch: '|', color: '#06b6d4' },
+    vFront: '#fb7185',
+    vBack: '#a78bfa',
+  },
+  monochrome: {
+    front: { ch: '#', color: '#f8fafc' },
+    back: { ch: '+', color: '#64748b' },
+    connect: { ch: '|', color: '#94a3b8' },
+    vFront: '#ffffff',
+    vBack: '#cbd5e1',
+  },
+};
 
-export function createRotatingCube(preElement) {
+export function createRotatingCube(preElement, themeId = 'cyber') {
+  const theme = CUBE_THEMES[themeId] || CUBE_THEMES.cyber;
+  const edgeConfigs = [
+    theme.front, theme.front, theme.front, theme.front,
+    theme.back, theme.back, theme.back, theme.back,
+    theme.connect, theme.connect, theme.connect, theme.connect,
+  ];
+
   let rx = 0.5;
   let ry = 0;
   let rz = 0.3;
@@ -94,14 +131,14 @@ export function createRotatingCube(preElement) {
     EDGES.forEach(([a, b], i) => {
       const [x0, y0] = proj[a];
       const [x1, y1] = proj[b];
-      const cfg = EDGE_CONFIG[i];
+      const cfg = edgeConfigs[i];
       drawLine(grid, x0, y0, x1, y1, cfg.ch, cfg.color);
     });
 
-    // Draw vertex markers with glowing white/green
+    // Draw vertex markers with theme colors
     proj.forEach(([px, py], i) => {
       if (px >= 0 && px < W && py >= 0 && py < H) {
-        grid[py][px] = { ch: '@', color: i < 4 ? '#38bdf8' : '#34d399' };
+        grid[py][px] = { ch: '@', color: i < 4 ? theme.vFront : theme.vBack };
       }
     });
 

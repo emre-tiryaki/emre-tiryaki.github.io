@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { useTranslation } from '../../hooks/translation';
 
 /**
  * ImageCarousel — fixed-height, horizontal snap-scroll carousel.
@@ -16,6 +17,7 @@ import { useRef, useState, useEffect } from 'react';
  *   rounded?: string   — tailwind rounded sınıfı, varsayılan "rounded-2xl"
  */
 export default function ImageCarousel({ images, height = 280, rounded = 'rounded-2xl' }) {
+  const { t } = useTranslation();
   const trackRef = useRef(null);
   const [activeIdx, setActiveIdx] = useState(0);
   // Sürükleme (drag) tespiti: gerçek tıklama navigate etsin, sadece
@@ -98,7 +100,7 @@ export default function ImageCarousel({ images, height = 280, rounded = 'rounded
           >
             <img
               src={src}
-              alt={`Fotoğraf ${i + 1}`}
+              alt={t('blog.photoN', { n: i + 1 })}
               loading="lazy"
               draggable={false}
               className="h-full w-auto max-w-none rounded-xl object-contain"
@@ -121,7 +123,7 @@ export default function ImageCarousel({ images, height = 280, rounded = 'rounded
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 i === activeIdx ? 'w-5 bg-white shadow-md' : 'w-1.5 bg-white/50'
               }`}
-              aria-label={`Fotoğraf ${i + 1}`}
+              aria-label={t('blog.photoN', { n: i + 1 })}
             />
           ))}
         </div>
