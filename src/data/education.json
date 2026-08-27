@@ -23,6 +23,7 @@
     "courseCategories": [
       {
         "id": "core-cs",
+        "icon": "FiCode",
         "title": { "tr": "Algoritma & Programlama", "en": "Algorithms & Programming" },
         "accent": "#f97316",
         "courses": [
@@ -33,6 +34,7 @@
       },
       {
         "id": "systems-network",
+        "icon": "FiLayers",
         "title": { "tr": "Sistemler & Ağlar", "en": "Systems & Networks" },
         "accent": "#38bdf8",
         "courses": [
@@ -44,6 +46,7 @@
       },
       {
         "id": "ai-data",
+        "icon": "FiCpu",
         "title": { "tr": "Yapay Zeka & Veri", "en": "AI & Data Science" },
         "accent": "#a855f7",
         "courses": [
@@ -54,6 +57,7 @@
       },
       {
         "id": "web-engineering",
+        "icon": "FiGlobe",
         "title": { "tr": "Web & Mühendislik", "en": "Web & Engineering" },
         "accent": "#10b981",
         "courses": [

@@ -1,7 +1,7 @@
-import { FiCalendar, FiAward, FiCode, FiLayers, FiCpu, FiGlobe, FiCheck } from 'react-icons/fi';
+import { FiCalendar, FiAward, FiCheck } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
-import { getEducationLogo, CATEGORY_ICONS } from '../../lib/media';
+import { getEducationLogo, getEducationCategoryIcon } from '../../lib/media';
 
 const { accent, surface, text, status: themeStatus, card } = THEME_COLORS;
 
@@ -203,7 +203,7 @@ export default function EducationCard({
           }}
         >
           {courseCategories.map((cat) => {
-            const IconComp = CATEGORY_ICONS[cat.id] || FiCode;
+            const IconComp = getEducationCategoryIcon(cat.icon);
             return (
               <div
                 key={cat.id}

@@ -16,6 +16,8 @@
  * ─────────────────────────────────────────────────────────────
  */
 
+import { FiCode, FiLayers, FiCpu, FiGlobe, FiBookOpen, FiTerminal, FiDatabase } from 'react-icons/fi';
+
 // Devicon CDN base — shared by SkillGroup and SkillCard.
 export const DEVICON_BASE = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/';
 
@@ -30,7 +32,21 @@ export const AUTHORITY_LOGOS = {
   tua: tuaLogo,
 };
 
-// ── Education school logos (keyed by education.logo filename) ──
+// ── Education course-category icons (keyed by education courseCategories `icon` string) ──
+const educationCategoryIconModules = {
+  FiCode,
+  FiLayers,
+  FiCpu,
+  FiGlobe,
+  FiBookOpen,
+  FiTerminal,
+  FiDatabase,
+};
+
+/** Resolve an education course-category icon by the string name stored in education.json. */
+export function getEducationCategoryIcon(iconName) {
+  return educationCategoryIconModules[iconName] || FiCode;
+}
 export const EDUCATION_LOGOS = {
   inonu_university_logo: inonuLogo,
 };
