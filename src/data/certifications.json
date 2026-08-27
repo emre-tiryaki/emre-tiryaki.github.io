@@ -4,7 +4,7 @@
     "name": { "tr": "İnüfest 2026 Yazılım kategorisi 3.lük sertifikası", "en": "İnüfest 2026 Software Category 3rd Place Certificate" },
     "authority": { "tr": "İnönü Üniversitesi", "en": "İnönü University" },
     "authorityKey": "inonu",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": null
   },
   {
@@ -12,7 +12,7 @@
     "name": { "tr": "Claude 101", "en": "Claude 101" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Nisan 2026", "en": "April 2026" },
+    "date": "2026-04",
     "url": "https://verify.skilljar.com/c/dswoyv8ey3qe"
   },
   {
@@ -20,7 +20,7 @@
     "name": { "tr": "Claude Code 101", "en": "Claude Code 101" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Nisan 2026", "en": "April 2026" },
+    "date": "2026-04",
     "url": "https://verify.skilljar.com/c/giejytpt8ofh"
   },
   {
@@ -28,7 +28,7 @@
     "name": { "tr": "Introduction to Claude Cowork", "en": "Introduction to Claude Cowork" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/4en3v689hk6n"
   },
   {
@@ -36,7 +36,7 @@
     "name": { "tr": "Claude Code in Action", "en": "Claude Code in Action" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/djfvn3t4cnsi"
   },
   {
@@ -44,7 +44,7 @@
     "name": { "tr": "AI Fluency Framework & Foundations", "en": "AI Fluency Framework & Foundations" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/44dcaz83qubg"
   },
   {
@@ -52,7 +52,7 @@
     "name": { "tr": "AI Fluency for Small Businesses", "en": "AI Fluency for Small Businesses" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/gdktbnpasncj"
   },
   {
@@ -60,7 +60,7 @@
     "name": { "tr": "AI Capabilities and Limitations", "en": "AI Capabilities and Limitations" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/org5dzmnztki"
   },
   {
@@ -68,7 +68,7 @@
     "name": { "tr": "Introduction to subagents", "en": "Introduction to Subagents" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/9j4fxsi29byf"
   },
   {
@@ -76,7 +76,7 @@
     "name": { "tr": "Introduction to agent skills", "en": "Introduction to Agent Skills" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/fck3tc5vndtg"
   },
   {
@@ -84,7 +84,7 @@
     "name": { "tr": "AI Fluency for nonprofits", "en": "AI Fluency for Nonprofits" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/pkekmg6ij95w"
   },
   {
@@ -92,7 +92,7 @@
     "name": { "tr": "Building with the Claude API", "en": "Building with the Claude API" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/7tfu6boxu3t2"
   },
   {
@@ -100,7 +100,7 @@
     "name": { "tr": "Teaching the AI Fluency Framework", "en": "Teaching the AI Fluency Framework" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/7to6p7s4kdcs"
   },
   {
@@ -108,7 +108,7 @@
     "name": { "tr": "Claude with Google Cloud's Vertex AI", "en": "Claude with Google Cloud's Vertex AI" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/viwkvbt7wt8y"
   },
   {
@@ -116,7 +116,7 @@
     "name": { "tr": "Claude in Amazon Bedrock", "en": "Claude in Amazon Bedrock" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/y285cpt9sdgt"
   },
   {
@@ -124,7 +124,7 @@
     "name": { "tr": "Model Context Protocol: Advanced Topics", "en": "Model Context Protocol: Advanced Topics" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/ize9y4zzbhfx"
   },
   {
@@ -132,7 +132,7 @@
     "name": { "tr": "AI Fluency for students", "en": "AI Fluency for Students" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/e8r7nrsmnmm4"
   },
   {
@@ -140,7 +140,7 @@
     "name": { "tr": "AI Fluency for educators", "en": "AI Fluency for Educators" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/2gpgmagsi3g8"
   },
   {
@@ -148,7 +148,7 @@
     "name": { "tr": "Introduction to Model Context Protocol", "en": "Introduction to Model Context Protocol" },
     "authority": { "tr": "Anthropic", "en": "Anthropic" },
     "authorityKey": "anthropic",
-    "date": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "date": "2026-05",
     "url": "https://verify.skilljar.com/c/aiuuosjmxfhc"
   },
   {
@@ -156,7 +156,7 @@
     "name": { "tr": "TUA Astro Hackathon Malatya Katılım Sertifikası", "en": "TUA Astro Hackathon Malatya Participation Certificate" },
     "authority": { "tr": "Türkiye Uzay Ajansı", "en": "Turkish Space Agency" },
     "authorityKey": "tua",
-    "date": { "tr": "Nisan 2026", "en": "April 2026" },
+    "date": "2026-04",
     "url": null
   }
 ]

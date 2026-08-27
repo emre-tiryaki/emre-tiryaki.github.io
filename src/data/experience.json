@@ -5,8 +5,8 @@
     "url": "https://www.avikon.com.tr/tr",
     "title": { "tr": "Full Stack Stajyerliği", "en": "Full Stack Internship" },
     "location": { "tr": "Pendik, İstanbul, Türkiye · Hibrit", "en": "Pendik, Istanbul, Turkey · Hybrid" },
-    "startDate": { "tr": "Temmuz 2026", "en": "July 2026" },
-    "endDate": { "tr": "Ağustos 2026", "en": "August 2026" },
+    "startDate": "2026-07",
+    "endDate": "2026-08",
     "type": "internship",
     "story": {
       "tr": "Avikon bünyesinde hibrit olarak gerçekleştirdiğim staj sürecinde, gerçek zamanlı telemetri verilerinin işlenmesi, dağıtık mikroservis mimarileri ve modern arayüz geliştirme süreçlerinde aktif rol aldım. OpenSky Network API entegrasyonu, RabbitMQ tabanlı mesajlaşma ve GraphQL abonelikleri ile uçtan uca canlı uçuş takip platformu (ClearSky) mimarisini kurguladım.",
@@ -31,8 +31,8 @@
     "company": "Software Persona",
     "title": { "tr": "Yazılım Stajyeri", "en": "Software Intern" },
     "location": { "tr": "Online", "en": "Remote" },
-    "startDate": { "tr": "Mayıs 2026", "en": "May 2026" },
-    "endDate": { "tr": "Haziran 2026", "en": "June 2026" },
+    "startDate": "2026-05",
+    "endDate": "2026-06",
     "type": "internship",
     "story": {
       "tr": "Software Persona bünyesinde uzaktan yazılım stajyeri olarak modern backend sistemleri, REST API tasarımı ve veri tabanı yönetimi konularında çalışmalar gerçekleştirdim.",
@@ -46,8 +46,8 @@
     "company": "Arch of Sigma",
     "title": { "tr": "Bilgi Teknolojileri Stajyeri", "en": "IT Intern" },
     "location": { "tr": "Online", "en": "Remote" },
-    "startDate": { "tr": "Nisan 2026", "en": "April 2026" },
-    "endDate": { "tr": "Mayıs 2026", "en": "May 2026" },
+    "startDate": "2026-04",
+    "endDate": "2026-05",
     "type": "internship",
     "story": {
       "tr": "Arch of Sigma bünyesinde bilgi teknolojileri altyapısı, sistem optimizasyonları ve yazılım geliştirme süreçlerine katkıda bulundum.",
@@ -62,7 +62,7 @@
     "url": "https://www.inonu.edu.tr/inufest/menu/34438/inufest-2026ya-davetlisiniz",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
     "location": { "tr": "Malatya", "en": "Malatya" },
-    "date": { "tr": "Nisan 2026", "en": "April 2026" },
+    "date": "2026-04",
     "duration": { "tr": "3 gün", "en": "3 days" },
     "type": "competition",
     "achievement": { "tr": "3.lük Ödülü", "en": "3rd Place Award" },
@@ -106,7 +106,7 @@
     "url": "https://tuaastrohackathon.com/tr/astro-hackathon-2026/2026-local-events/malatya?tab=details",
     "title": { "tr": "Katılımcı", "en": "Participant" },
     "location": { "tr": "Malatya", "en": "Malatya" },
-    "date": { "tr": "Nisan 2026", "en": "April 2026" },
+    "date": "2026-04",
     "duration": { "tr": "2 gün", "en": "2 days" },
     "type": "hackathon",
     "story": {
@@ -156,7 +156,7 @@
     "url": "https://coderspace.io/etkinlikler/fintech-hackathon-hack-the-idea/",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
     "location": { "tr": "Online & İstanbul Gayrettepe", "en": "Online & Istanbul Gayrettepe" },
-    "date": { "tr": "Temmuz 2026", "en": "July 2026" },
+    "date": "2026-07",
     "duration": { "tr": "7 gün", "en": "7 days" },
     "type": "hackathon",
     "story": {
@@ -188,7 +188,7 @@
     "url": "https://www.aa.com.tr/tr/info/infografik/47594",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
     "location": { "tr": "İstanbul Ümraniye", "en": "Istanbul Ümraniye" },
-    "date": { "tr": "2025", "en": "2025" },
+    "date": "2025",
     "duration": { "tr": "2 gün", "en": "2 days" },
     "type": "hackathon",
     "story": {

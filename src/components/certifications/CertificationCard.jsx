@@ -2,14 +2,15 @@ import { FiAward, FiExternalLink, FiCalendar, FiCheckCircle } from 'react-icons/
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
 import { getAuthorityLogo } from '../../lib/media';
+import { resolveDate } from '../../lib/date';
 
 const { surface, certCard } = THEME_COLORS;
 
 export default function CertificationCard({ name, authority, authorityKey, date, url }) {
-  const { t, tData } = useTranslation();
+  const { t, lang, tData } = useTranslation();
   const certName = tData(name);
   const authName = tData(authority);
-  const certDate = tData(date);
+  const certDate = resolveDate(date, lang);
   const logo = getAuthorityLogo(authorityKey);
 
   const Tag = url ? 'a' : 'div';

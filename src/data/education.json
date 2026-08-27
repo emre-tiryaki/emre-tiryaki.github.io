@@ -6,8 +6,8 @@
     "degree": { "tr": "Lisans", "en": "Bachelor of Science (B.S.)" },
     "field": { "tr": "Yazılım Mühendisliği", "en": "Software Engineering" },
     "status": { "tr": "4. Sınıf (Son Sınıf)", "en": "4th Year (Senior)" },
-    "startDate": { "tr": "Ekim 2023", "en": "Oct 2023" },
-    "endDate": { "tr": "Haziran 2027 (Beklenen)", "en": "June 2027" },
+    "startDate": "2023-10",
+    "endDate": "2027-06",
     "gpa": "3.09 / 4.00",
     "description": {
       "tr": "Yazılım Mühendisliği lisans eğitimim boyunca algoritmik problem çözme, veri yapıları, nesneye yönelik mimari, ağ ve işletim sistemleri, veritabanı yönetimi ve görüntü işleme alanlarında güçlü teorik ve pratik mühendislik temeli kazandım.",

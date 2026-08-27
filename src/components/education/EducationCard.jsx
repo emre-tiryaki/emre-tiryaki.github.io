@@ -2,6 +2,7 @@ import { FiCalendar, FiAward, FiCheck } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
 import { getEducationLogo, getEducationCategoryIcon } from '../../lib/media';
+import { formatDateRange } from '../../lib/date';
 
 const { accent, surface, text, status: themeStatus, card } = THEME_COLORS;
 
@@ -17,7 +18,7 @@ export default function EducationCard({
   specializations,
   courseCategories,
 }) {
-  const { t, tData } = useTranslation();
+  const { t, lang, tData } = useTranslation();
 
   return (
     <div
@@ -146,7 +147,7 @@ export default function EducationCard({
                 }}
               >
                 <FiCalendar className="text-neutral-400" size={14} />
-                {tData(startDate)} – {tData(endDate)}
+                {formatDateRange(startDate, endDate, lang)}
               </span>
               <span
                 style={{

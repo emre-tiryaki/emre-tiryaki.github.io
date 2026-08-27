@@ -26,6 +26,7 @@ import {
 import { useTranslation } from '../../hooks/translation';
 import { useScrollMask } from '../../hooks/useScrollMask';
 import { getExperienceTypeConfig } from '../../theme';
+import { resolveDate, formatDateRange } from '../../lib/date';
 
 const experiencePhotosModules = import.meta.glob(
   '../../assets/experience/**/*.{jpg,jpeg,png,webp,PNG,JPG,JPEG,gif,GIF,avif,AVIF,svg,SVG}',
@@ -754,7 +755,7 @@ function EmbeddedProjectCard({ project }) {
 }
 
 export default function ExperienceDetailView({ experience, projectsData = [] }) {
-  const { t, tData } = useTranslation();
+  const { t, lang, tData } = useTranslation();
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [galleryScrollRef, galleryMaskStyle] = useScrollMask('horizontal', 24);
 
@@ -798,17 +799,14 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
   const achievementText = experience.achievement ? tData(experience.achievement) : null;
   const storyText = experience.story ? tData(experience.story) : null;
   const durationText = experience.duration ? tData(experience.duration) : null;
-  const endText = experience.endDate ? tData(experience.endDate) : null;
-  const isOngoing =
-    endText &&
-    (endText.toLowerCase().includes('devam') || endText.toLowerCase().includes('present'));
+  const isOngoing = !experience.endDate; // ISO model: missing endDate => ongoing
 
   const dateDisplay =
-    experience.startDate && endText
-      ? `${tData(experience.startDate)} – ${endText}`
+    experience.startDate && experience.endDate
+      ? formatDateRange(experience.startDate, experience.endDate, lang)
       : experience.date
-      ? tData(experience.date)
-      : null;
+        ? resolveDate(experience.date, lang)
+        : null;
 
   return (
     <AnimatePresence mode="wait">

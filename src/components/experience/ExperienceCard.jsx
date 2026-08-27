@@ -1,6 +1,7 @@
 import { FiCalendar, FiMapPin, FiClock, FiAward } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { getExperienceTypeConfig } from '../../theme';
+import { resolveDate, formatDateRange } from '../../lib/date';
 
 export default function ExperienceCard({
   company,
@@ -15,21 +16,20 @@ export default function ExperienceCard({
   isSelected = false,
   onClick,
 }) {
-  const { t, tData } = useTranslation();
+  const { t, lang, tData } = useTranslation();
   const config = getExperienceTypeConfig(type);
   const Icon = config.icon;
 
-  const endText = endDate ? tData(endDate) : null;
-  const isOngoing = endText && (endText.toLowerCase().includes('devam') || endText.toLowerCase().includes('present'));
   const achievementText = achievement ? tData(achievement) : null;
   const durationText = duration ? tData(duration) : null;
 
-  // Format date display
-  const dateDisplay = startDate && endText
-    ? `${tData(startDate)} – ${endText}`
+  // Format date display from ISO strings in data layer
+  const dateDisplay = startDate && endDate
+    ? formatDateRange(startDate, endDate, lang)
     : date
-      ? tData(date)
+      ? resolveDate(date, lang)
       : null;
+  const isOngoing = !endDate; // ISO model: missing endDate => ongoing
 
   return (
     <div
