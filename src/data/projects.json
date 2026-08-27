@@ -10,8 +10,8 @@
       "en": "A polyglot microservices architecture (Go + TypeScript) that ingests live aircraft telemetry from OpenSky Network API, distributes streams over RabbitMQ, and renders real-time tracking via GraphQL Subscriptions."
     },
     "achievements": null,
-    "techStack": ["Go", "Node.js", "TypeScript", "RabbitMQ", "GraphQL", "Fastify", "MongoDB", "Docker"],
-    "tags": ["Backend", "Microservices", "Real-Time", "Go"],
+    "techStack": ["Go", "TypeScript", "Node.js", "React", "RabbitMQ", "GraphQL", "Fastify", "MongoDB", "Docker"],
+    "tags": ["Go", "Microservices", "Real-Time", "Backend"],
     "sourceCode": "https://github.com/emre-tiryaki/ClearSky",
     "liveDemo": null,
     "isPrivate": false,
@@ -50,7 +50,7 @@
       "en": "3rd place in its category at İnüfest competition"
     },
     "techStack": ["Python", "YOLO11", "TrOCR", "Qwen2-VL", "Redis"],
-    "tags": ["AI", "Backend", "Computer Vision"],
+    "tags": ["AI", "Computer Vision", "Backend"],
     "sourceCode": null,
     "liveDemo": null,
     "isPrivate": true,
@@ -67,8 +67,8 @@
       "en": "Backend developed with Express and database with MongoDB. Secure authentication processes configured using JWT."
     },
     "achievements": null,
-    "techStack": ["Node.js", "Express", "MongoDB", "JWT"],
-    "tags": ["Backend", "Fullstack"],
+    "techStack": ["Node.js", "Express", "MongoDB", "JWT", "HTML5"],
+    "tags": ["Fullstack", "Backend", "Web"],
     "sourceCode": "https://github.com/emre-tiryaki/typing-game",
     "liveDemo": null,
     "isPrivate": false,
@@ -77,16 +77,16 @@
   {
     "id": "project-toolkit",
     "title": {
-      "tr": "Project-Toolkit — CLI Otomasyon Aracı",
-      "en": "Project-Toolkit — CLI Automation Tool"
+      "tr": "Project-Toolkit — CLI Çalışma Alanı & Otomasyon Aracı",
+      "en": "Project-Toolkit — CLI Workspace & Automation Tool"
     },
     "description": {
-      "tr": "Bash ve Zsh kullanarak proje oluşturma, yapılandırma ve yönetim süreçlerini otomatize eden bir komut satırı aracı.",
-      "en": "A command-line tool that automates project creation, configuration and management processes using Bash and Zsh."
+      "tr": "Projeleri oluşturma, şablonlardan yapılandırma, klonlama ve yönetme süreçlerini otomatize eden, Go ile geliştirilmiş ve kabuk entegrasyonu sunan hafif CLI aracı.",
+      "en": "A lightweight, cross-platform CLI utility written in Go (with shell integration) to scaffold, clone, navigate, and manage coding workspaces from the terminal."
     },
     "achievements": null,
-    "techStack": ["Bash", "Zsh", "Linux"],
-    "tags": ["DevOps", "CLI"],
+    "techStack": ["Go", "Bash", "Zsh", "Linux"],
+    "tags": ["Go", "CLI", "DevOps"],
     "sourceCode": "https://github.com/emre-tiryaki/project-toolkit",
     "liveDemo": null,
     "isPrivate": false,

@@ -303,7 +303,14 @@ function ImageLightbox({ images, activeIndex, onClose, onSelectIndex, title }) {
   );
 }
 
-export default function ProjectCard({ project, index = 0 }) {
+export default function ProjectCard({
+  project,
+  index = 0,
+  selectedTechs = [],
+  selectedTags = [],
+  onToggleTech,
+  onToggleTag,
+}) {
   const { t, tData } = useTranslation();
   const title        = tData(project.title);
   const description  = tData(project.description);
@@ -617,33 +624,120 @@ export default function ProjectCard({ project, index = 0 }) {
             borderTop: '1px solid rgba(255, 255, 255, 0.07)',
           }}
         >
-          {/* Tech Stack Pills */}
+          {/* Tech Stack & Tags Row (Opposite sides based on row direction) */}
           <div
             style={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: '0.45rem',
-              justifyContent: isEvenRow ? 'flex-end' : 'flex-start',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '0.85rem',
+              flexDirection: isEvenRow ? 'row-reverse' : 'row',
             }}
           >
-            {project.techStack.map((tech) => (
-              <span
-                key={tech}
+            {/* Tech Stack Pills (Amber / Monospace Code Style) */}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '0.45rem',
+                alignItems: 'center',
+                justifyContent: isEvenRow ? 'flex-end' : 'flex-start',
+              }}
+            >
+              {(project.techStack || []).map((tech) => {
+                const isSelected = selectedTechs.includes(tech);
+                return (
+                  <span
+                    key={tech}
+                    onClick={onToggleTech ? () => onToggleTech(tech) : undefined}
+                    style={{
+                      padding: '0.25rem 0.65rem',
+                      borderRadius: '0.5rem',
+                      background: isSelected ? 'rgba(249, 115, 22, 0.22)' : 'rgba(255, 255, 255, 0.045)',
+                      border: isSelected ? '1px solid rgba(249, 115, 22, 0.6)' : '1px solid rgba(255, 255, 255, 0.09)',
+                      fontSize: '0.76rem',
+                      fontFamily: 'monospace',
+                      fontWeight: 600,
+                      color: isSelected ? '#fb923c' : '#fdba74',
+                      letterSpacing: '0.02em',
+                      cursor: onToggleTech ? 'pointer' : 'default',
+                      boxShadow: isSelected ? '0 0 10px rgba(249, 115, 22, 0.25)' : 'none',
+                      transition: 'all 0.18s ease',
+                      userSelect: 'none',
+                    }}
+                    onMouseEnter={e => {
+                      if (onToggleTech && !isSelected) {
+                        e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.45)';
+                        e.currentTarget.style.background = 'rgba(249, 115, 22, 0.12)';
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (onToggleTech && !isSelected) {
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.09)';
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.045)';
+                      }
+                    }}
+                  >
+                    {tech}
+                  </span>
+                );
+              })}
+            </div>
+
+            {/* Tags (Violet / Indigo Rounded Rectangle Style with inline #) */}
+            {project.tags && project.tags.length > 0 && (
+              <div
                 style={{
-                  padding: '0.25rem 0.65rem',
-                  borderRadius: '0.5rem',
-                  background: 'rgba(255, 255, 255, 0.045)',
-                  border: '1px solid rgba(255, 255, 255, 0.09)',
-                  fontSize: '0.76rem',
-                  fontFamily: 'monospace',
-                  fontWeight: 600,
-                  color: '#fdba74',
-                  letterSpacing: '0.02em',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '0.45rem',
+                  alignItems: 'center',
+                  justifyContent: isEvenRow ? 'flex-start' : 'flex-end',
                 }}
               >
-                {tech}
-              </span>
-            ))}
+                {project.tags.map((tag) => {
+                  const isSelected = selectedTags.includes(tag);
+                  return (
+                    <span
+                      key={tag}
+                      onClick={onToggleTag ? () => onToggleTag(tag) : undefined}
+                      style={{
+                        padding: '0.25rem 0.65rem',
+                        borderRadius: '0.45rem',
+                        background: isSelected ? 'rgba(139, 92, 246, 0.22)' : 'rgba(139, 92, 246, 0.08)',
+                        border: isSelected ? '1px solid rgba(167, 139, 250, 0.65)' : '1px solid rgba(139, 92, 246, 0.24)',
+                        fontSize: '0.76rem',
+                        fontFamily: 'monospace',
+                        fontWeight: 600,
+                        color: isSelected ? '#ddd6fe' : '#c4b5fd',
+                        letterSpacing: '0.02em',
+                        cursor: onToggleTag ? 'pointer' : 'default',
+                        boxShadow: isSelected ? '0 0 12px rgba(139, 92, 246, 0.28)' : 'none',
+                        transition: 'all 0.18s ease',
+                        userSelect: 'none',
+                      }}
+                      onMouseEnter={e => {
+                        if (onToggleTag && !isSelected) {
+                          e.currentTarget.style.borderColor = 'rgba(167, 139, 250, 0.5)';
+                          e.currentTarget.style.background = 'rgba(139, 92, 246, 0.15)';
+                          e.currentTarget.style.color = '#e9d5ff';
+                        }
+                      }}
+                      onMouseLeave={e => {
+                        if (onToggleTag && !isSelected) {
+                          e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.24)';
+                          e.currentTarget.style.background = 'rgba(139, 92, 246, 0.08)';
+                          e.currentTarget.style.color = '#c4b5fd';
+                        }
+                      }}
+                    >
+                      #{tag}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Action Row: Action Buttons + Achievement Badge on the opposite side */}
