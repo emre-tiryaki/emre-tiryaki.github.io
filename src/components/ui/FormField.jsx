@@ -3,12 +3,15 @@
 // Tailwind --spacing bug'ından etkilenmemesi için temel stiller inline/CSS'tir.
 
 import { forwardRef } from 'react';
+import { THEME_COLORS } from '../../theme';
+
+const { accent, surface, status, text } = THEME_COLORS;
 
 const BASE_INPUT = {
   width: '100%',
-  background: 'rgba(255, 255, 255, 0.035)',
-  border: '1px solid rgba(255, 255, 255, 0.08)',
-  color: '#f8fafc',
+  background: surface.input,
+  border: `1px solid ${surface.white08}`,
+  color: text.primary,
   fontSize: '0.875rem',
   borderRadius: '0.75rem',
   padding: '0.65rem 0.9rem',
@@ -22,16 +25,16 @@ const TEXTAREA_EXTRA = { resize: 'vertical', lineHeight: '1.6' };
 
 function focusStyle(el, hasError) {
   if (!el) return;
-  el.style.borderColor = hasError ? 'rgba(239, 68, 68, 0.7)' : 'rgba(249, 115, 22, 0.6)';
-  el.style.background = 'rgba(255, 255, 255, 0.055)';
+  el.style.borderColor = hasError ? status.dangerBorderStrong : accent.a60;
+  el.style.background = surface.inputFocus;
   el.style.boxShadow = hasError
-    ? '0 0 0 3px rgba(239, 68, 68, 0.15)'
-    : '0 0 16px rgba(249, 115, 22, 0.15), 0 0 0 1px rgba(249, 115, 22, 0.3)';
+    ? `0 0 0 3px ${status.dangerGlow}`
+    : `0 0 16px ${accent.a15}, 0 0 0 1px ${accent.a30}`;
 }
 function blurStyle(el) {
   if (!el) return;
-  el.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-  el.style.background = 'rgba(255, 255, 255, 0.035)';
+  el.style.borderColor = surface.white08;
+  el.style.background = surface.input;
   el.style.boxShadow = 'none';
 }
 
@@ -118,7 +121,7 @@ const FormField = forwardRef(function FormField(
       )}
 
       {error && (
-        <span style={{ fontSize: '0.72rem', color: '#fca5a5' }}>{error}</span>
+        <span style={{ fontSize: '0.72rem', color: status.dangerSoft }}>{error}</span>
       )}
     </div>
   );

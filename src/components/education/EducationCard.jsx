@@ -1,5 +1,8 @@
 import { FiCalendar, FiAward, FiCode, FiLayers, FiCpu, FiGlobe, FiCheck } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
+import { THEME_COLORS } from '../../theme';
+
+const { accent, surface, text, status: themeStatus, card } = THEME_COLORS;
 
 const inonuLogo = new URL('../../assets/education/inonu_university_logo.png', import.meta.url).href;
 
@@ -28,11 +31,11 @@ export default function EducationCard({
     <div
       style={{
         width: '100%',
-        borderRadius: '1.5rem',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
-        background: 'rgba(255, 255, 255, 0.035)',
+        borderRadius: card.radius,
+        border: `1px solid ${card.border}`,
+        background: card.bg,
         padding: '1.75rem 2rem',
-        boxShadow: '0 16px 40px rgba(0, 0, 0, 0.4)',
+        boxShadow: card.shadow,
         display: 'flex',
         flexDirection: 'column',
         gap: '1.35rem',
@@ -41,14 +44,14 @@ export default function EducationCard({
         transition: 'all 0.25s ease',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.4)';
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.045)';
-        e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 25px rgba(249, 115, 22, 0.06)';
+        e.currentTarget.style.borderColor = card.borderHover;
+        e.currentTarget.style.background = card.bgHover;
+        e.currentTarget.style.boxShadow = card.shadowHover;
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.035)';
-        e.currentTarget.style.boxShadow = '0 16px 40px rgba(0, 0, 0, 0.4)';
+        e.currentTarget.style.borderColor = card.border;
+        e.currentTarget.style.background = card.bg;
+        e.currentTarget.style.boxShadow = card.shadow;
       }}
     >
       {/* ── TOP: School Header ── */}
@@ -126,9 +129,9 @@ export default function EducationCard({
                     borderRadius: '0.65rem',
                     fontSize: '0.8rem',
                     fontWeight: 700,
-                    background: 'rgba(16, 185, 129, 0.16)',
-                    border: '1px solid rgba(16, 185, 129, 0.4)',
-                    color: '#34d399',
+                    background: themeStatus.successBg,
+                    border: `1px solid ${themeStatus.successBorder}`,
+                    color: themeStatus.successSoft,
                     whiteSpace: 'nowrap',
                   }}
                 >
@@ -143,8 +146,8 @@ export default function EducationCard({
                   gap: '0.4rem',
                   padding: '0.35rem 0.85rem',
                   borderRadius: '0.65rem',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background: surface.white05,
+                  border: `1px solid ${surface.white10}`,
                   fontSize: '0.85rem',
                   color: '#e2e8f0',
                   whiteSpace: 'nowrap',
@@ -160,9 +163,9 @@ export default function EducationCard({
                   gap: '0.4rem',
                   padding: '0.35rem 0.95rem',
                   borderRadius: '0.65rem',
-                  background: 'rgba(249, 115, 22, 0.15)',
-                  border: '1px solid rgba(249, 115, 22, 0.4)',
-                  color: '#fb923c',
+                  background: accent.a15,
+                  border: `1px solid ${accent.a40}`,
+                  color: accent.light,
                   fontWeight: 800,
                   fontSize: '0.875rem',
                   whiteSpace: 'nowrap',
@@ -183,8 +186,8 @@ export default function EducationCard({
                   style={{
                     padding: '0.25rem 0.75rem',
                     borderRadius: '0.5rem',
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    background: surface.white03,
+                    border: `1px solid ${surface.white08}`,
                     fontSize: '0.775rem',
                     fontWeight: 600,
                     color: '#cbd5e1',
@@ -219,8 +222,8 @@ export default function EducationCard({
                   width: '100%',
                   padding: '1rem 1.15rem',
                   borderRadius: '1rem',
-                  background: 'rgba(255, 255, 255, 0.025)',
-                  border: `1px solid ${cat.accent ? `${cat.accent}25` : 'rgba(255, 255, 255, 0.07)'}`,
+                  background: surface.white025,
+                  border: `1px solid ${cat.accent ? `${cat.accent}25` : surface.white07}`,
                   transition: 'border-color 0.2s ease',
                 }}
               >
@@ -239,11 +242,11 @@ export default function EducationCard({
                       width: '24px',
                       height: '24px',
                       borderRadius: '0.45rem',
-                      background: cat.accent ? `${cat.accent}18` : 'rgba(249,115,22,0.15)',
+                      background: cat.accent ? `${cat.accent}18` : accent.a15,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: cat.accent || '#f97316',
+                      color: cat.accent || accent.primary,
                     }}
                   >
                     <IconComp size={14} />
@@ -276,10 +279,10 @@ export default function EducationCard({
                         gap: '0.55rem',
                         padding: '0.4rem 0.65rem',
                         borderRadius: '0.5rem',
-                        background: 'rgba(255, 255, 255, 0.03)',
-                        border: '1px solid rgba(255, 255, 255, 0.04)',
+                        background: surface.white03,
+                        border: `1px solid ${surface.white04}`,
                         fontSize: '0.85rem',
-                        color: '#f8fafc',
+                        color: text.primary,
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', minWidth: 0 }}>
@@ -299,8 +302,8 @@ export default function EducationCard({
                         <span
                           style={{
                             fontSize: '0.675rem',
-                            color: '#94a3b8',
-                            background: 'rgba(255, 255, 255, 0.04)',
+                            color: text.secondary,
+                            background: surface.white04,
                             padding: '0.1rem 0.45rem',
                             borderRadius: '0.3rem',
                             whiteSpace: 'nowrap',

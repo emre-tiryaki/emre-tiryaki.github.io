@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../hooks/translation';
+import { THEME_COLORS } from '../../theme';
 import Button from '../ui/Button';
+
+const { accent, surface, text } = THEME_COLORS;
 const NAV_ITEMS = [
   { path: '/',               key: 'home'           },
   { path: '/about',          key: 'about'          },
@@ -30,11 +33,11 @@ export default function Navbar() {
           paddingLeft: '1.25rem',
           paddingRight: '1.25rem',
           borderRadius: '1rem',
-          background: 'rgba(12, 12, 12, 0.90)',
+          background: surface.nav,
           backdropFilter: 'blur(22px)',
           WebkitBackdropFilter: 'blur(22px)',
-          border: '1px solid rgba(255,255,255,0.09)',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
+          border: `1px solid ${surface.white09}`,
+          boxShadow: `0 8px 32px ${surface.black60}, inset 0 1px 0 ${surface.white06}`,
           userSelect: 'none',
           WebkitUserSelect: 'none',
         }}
@@ -64,9 +67,9 @@ export default function Navbar() {
                     borderRadius: '0.65rem',
                     fontSize: '0.875rem',
                     fontWeight: 600,
-                    color: isActive ? '#fb923c' : '#94a3b8',
-                    background: isActive ? 'rgba(249,115,22,0.12)' : 'transparent',
-                    border: isActive ? '1px solid rgba(249,115,22,0.35)' : '1px solid transparent',
+                    color: isActive ? accent.light : text.secondary,
+                    background: isActive ? accent.a12 : 'transparent',
+                    border: isActive ? `1px solid ${accent.a35}` : '1px solid transparent',
                     transition: 'all 0.18s ease',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
@@ -76,12 +79,12 @@ export default function Navbar() {
                   onMouseEnter={e => {
                     if (!isActive) {
                       e.currentTarget.style.color = '#f1f5f9';
-                      e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
+                      e.currentTarget.style.background = surface.white07;
                     }
                   }}
                   onMouseLeave={e => {
                     if (!isActive) {
-                      e.currentTarget.style.color = '#94a3b8';
+                      e.currentTarget.style.color = text.secondary;
                       e.currentTarget.style.background = 'transparent';
                     }
                   }}
@@ -109,7 +112,7 @@ export default function Navbar() {
 
         {/* ── Mobile layout: logo left, controls right ── */}
         <div className="lg:hidden flex items-center justify-between w-full">
-          <span style={{ fontSize: '0.95rem', fontWeight: 800, color: '#fb923c', letterSpacing: '-0.01em', userSelect: 'none', WebkitUserSelect: 'none' }}>ET.</span>
+          <span style={{ fontSize: '0.95rem', fontWeight: 800, color: accent.light, letterSpacing: '-0.01em', userSelect: 'none', WebkitUserSelect: 'none' }}>ET.</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Button
               variant="secondary"
@@ -151,10 +154,10 @@ export default function Navbar() {
               className="fixed left-4 right-4 z-50 p-3 flex flex-col gap-1"
               style={{
                 top: '5.25rem',
-                background: 'rgba(14,14,14,0.97)',
+                background: surface.navMobile,
                 backdropFilter: 'blur(24px)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.6)',
+                border: `1px solid ${surface.white10}`,
+                boxShadow: `0 20px 60px ${surface.black70}`,
                 borderRadius: '1rem',
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
@@ -179,9 +182,9 @@ export default function Navbar() {
                       fontSize: '0.9rem', fontWeight: 600,
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                       minHeight: '3rem',
-                      color: isActive ? '#fb923c' : '#cbd5e1',
-                      background: isActive ? 'rgba(249,115,22,0.12)' : 'transparent',
-                      border: isActive ? '1px solid rgba(249,115,22,0.3)' : '1px solid transparent',
+                      color: isActive ? accent.light : '#cbd5e1',
+                      background: isActive ? accent.a12 : 'transparent',
+                      border: isActive ? `1px solid ${accent.a30}` : '1px solid transparent',
                       userSelect: 'none',
                       WebkitUserSelect: 'none',
                     }}>

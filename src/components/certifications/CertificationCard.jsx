@@ -1,5 +1,8 @@
 import { FiAward, FiExternalLink, FiCalendar, FiCheckCircle } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
+import { THEME_COLORS } from '../../theme';
+
+const { surface, certCard } = THEME_COLORS;
 
 const anthropicLogo = new URL('../../assets/certification_icons/antrophic_certification_logo.jpeg', import.meta.url).href;
 const inonuLogo = new URL('../../assets/education/inonu_university_logo.png', import.meta.url).href;
@@ -32,20 +35,20 @@ export default function CertificationCard({ name, authority, authorityKey, date,
       className="group relative flex flex-col justify-between gap-3 rounded-2xl transition-all duration-250 overflow-hidden"
       style={{
         padding: '1.25rem 1.35rem',
-        borderRadius: '1.15rem',
-        background: 'rgba(255, 255, 255, 0.03)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        borderRadius: certCard.radius,
+        background: certCard.bg,
+        border: `1px solid ${certCard.border}`,
         textDecoration: 'none',
         cursor: url ? 'pointer' : 'default',
       }}
       onMouseEnter={e => {
-        e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.45)';
-        e.currentTarget.style.background = 'rgba(249, 115, 22, 0.07)';
-        e.currentTarget.style.boxShadow = '0 8px 25px rgba(249, 115, 22, 0.12)';
+        e.currentTarget.style.borderColor = certCard.borderHover;
+        e.currentTarget.style.background = certCard.bgHover;
+        e.currentTarget.style.boxShadow = certCard.shadowHover;
       }}
       onMouseLeave={e => {
-        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+        e.currentTarget.style.borderColor = certCard.border;
+        e.currentTarget.style.background = certCard.bg;
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
@@ -57,8 +60,8 @@ export default function CertificationCard({ name, authority, authorityKey, date,
             width: '2.85rem',
             height: '2.85rem',
             borderRadius: '0.75rem',
-            background: 'rgba(255, 255, 255, 0.04)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            background: surface.white04,
+            border: `1px solid ${surface.white08}`,
             padding: '0.35rem',
             display: 'flex',
             alignItems: 'center',
@@ -120,8 +123,8 @@ export default function CertificationCard({ name, authority, authorityKey, date,
             className="inline-flex items-center gap-2 rounded-lg text-xs font-semibold text-neutral-300 group-hover:text-orange-400 group-hover:border-orange-500/40 group-hover:bg-orange-500/10 transition-all duration-200 shrink-0 whitespace-nowrap select-none"
             style={{
               padding: '0.45rem 0.9rem',
-              background: 'rgba(255, 255, 255, 0.035)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: surface.white035,
+              border: `1px solid ${surface.white10}`,
             }}
           >
             <span>{t('certifications.verify')}</span>
