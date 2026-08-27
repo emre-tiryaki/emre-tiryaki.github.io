@@ -15,7 +15,15 @@
     "sourceCode": "https://github.com/emre-tiryaki/ClearSky",
     "liveDemo": null,
     "isPrivate": false,
-    "preview": "ClearSky"
+    "preview": "ClearSky",
+    "previews": [
+      "ClearSky/Screenshot 2026-07-30 at 14-16-26 Clear Sky.png",
+      "ClearSky/Screenshot 2026-07-30 at 14-20-13 Clear Sky.png",
+      "ClearSky/Screenshot 2026-08-26 at 13-57-13 Clear Sky.png",
+      "ClearSky/Screenshot 2026-08-26 at 13-57-39 Clear Sky.png",
+      "ClearSky/Screenshot 2026-08-26 at 13-58-23 Clear Sky.png",
+      "ClearSky/Screenshot 2026-08-26 at 13-59-50 Clear Sky.png"
+    ]
   },
   {
     "id": "repograb",
@@ -33,7 +41,12 @@
     "sourceCode": "https://github.com/emre-tiryaki/RepoGrab",
     "liveDemo": null,
     "isPrivate": false,
-    "preview": "repograb"
+    "preview": "repograb",
+    "previews": [
+      "repograb/1.png",
+      "repograb/2.png",
+      "repograb/3.png"
+    ]
   },
   {
     "id": "okur",
@@ -54,7 +67,10 @@
     "sourceCode": null,
     "liveDemo": null,
     "isPrivate": true,
-    "preview": "OKUR/OKUR.jpeg"
+    "preview": "OKUR/OKUR.jpeg",
+    "previews": [
+      "OKUR/OKUR.jpeg"
+    ]
   },
   {
     "id": "hegs-haber",
@@ -73,7 +89,8 @@
     "liveDemo": null,
     "isPrivate": false,
     "isHackathon": true,
-    "preview": null
+    "preview": null,
+    "previews": []
   },
   {
     "id": "avicenna",
@@ -92,7 +109,8 @@
     "liveDemo": null,
     "isPrivate": false,
     "isHackathon": true,
-    "preview": null
+    "preview": null,
+    "previews": []
   },
   {
     "id": "typing-game",
@@ -110,7 +128,10 @@
     "sourceCode": "https://github.com/emre-tiryaki/typing-game",
     "liveDemo": null,
     "isPrivate": false,
-    "preview": "typing_game/typing_game.png"
+    "preview": "typing_game/typing_game.png",
+    "previews": [
+      "typing_game/typing_game.png"
+    ]
   },
   {
     "id": "project-toolkit",
@@ -128,7 +149,10 @@
     "sourceCode": "https://github.com/emre-tiryaki/project-toolkit",
     "liveDemo": null,
     "isPrivate": false,
-    "preview": "project_toolkit/project_toolkit.png"
+    "preview": "project_toolkit/project_toolkit.png",
+    "previews": [
+      "project_toolkit/project_toolkit.png"
+    ]
   },
   {
     "id": "ofa-smartpay",
@@ -147,6 +171,7 @@
     "liveDemo": null,
     "isPrivate": false,
     "isHackathon": true,
-    "preview": null
+    "preview": null,
+    "previews": []
   }
 ]

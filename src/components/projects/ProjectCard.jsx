@@ -10,44 +10,38 @@ const previewModules = import.meta.glob(
   { eager: true, import: 'default' }
 );
 
+// Build a quick lookup: keyed by the part of the path AFTER "project_previews/"
+// e.g. "ClearSky/Screenshot ....png" -> module url
+const previewLookup = Object.fromEntries(
+  Object.entries(previewModules).map(([path, url]) => {
+    const idx = path.indexOf('project_previews/');
+    const key = idx >= 0 ? path.slice(idx + 'project_previews/'.length) : path;
+    return [key, url];
+  })
+);
+
+/**
+ * Resolve a project's preview image URLs.
+ * Primary source: explicit `project.previews` array (paths relative to
+ * src/assets/project_previews/, e.g. "ClearSky/1.png").
+ * Fallback: legacy single `project.preview` string (folder or file path).
+ * The fragile folder-name fuzzy-matching heuristic was removed — every
+ * project now declares its previews explicitly in projects.json.
+ */
 function resolveProjectImages(project) {
   const rawList = Array.isArray(project.previews)
     ? project.previews
-    : (Array.isArray(project.images) ? project.images : (project.preview ? [project.preview] : []));
+    : (project.preview ? [project.preview] : []);
+
+  if (rawList.length === 0) return [];
 
   const resolved = [];
-
-  if (rawList.length === 0 || (rawList.length === 1 && !rawList[0].includes('.'))) {
-    const targetFolder = (rawList[0] || project.id || '').toLowerCase();
-    Object.entries(previewModules).forEach(([path, module]) => {
-      const lower = path.toLowerCase();
-      if (lower.includes(`/${targetFolder}/`) || lower.includes(`/${project.id.toLowerCase()}/`)) {
-        resolved.push({ path, url: module });
-      }
-    });
-  } else {
-    rawList.forEach(item => {
-      if (!item) return;
-      const match = Object.entries(previewModules).find(([key]) => key.toLowerCase().includes(item.toLowerCase()));
-      if (match) {
-        resolved.push({ path: match[0], url: match[1] });
-      }
-    });
+  for (const item of rawList) {
+    if (!item) continue;
+    const url = previewLookup[item] || previewLookup[item.replace(/^\/+/, '')];
+    if (url) resolved.push(url);
   }
-
-  if (resolved.length === 0 && project.id) {
-    const idClean = project.id.replace(/[-_]/g, '').toLowerCase();
-    Object.entries(previewModules).forEach(([path, module]) => {
-      const pathClean = path.replace(/[-_]/g, '').toLowerCase();
-      if (pathClean.includes(`/${idClean}/`)) {
-        resolved.push({ path, url: module });
-      }
-    });
-  }
-
-  return resolved
-    .sort((a, b) => (a.path || '').localeCompare(b.path || ''))
-    .map(r => r.url);
+  return resolved;
 }
 
 const slideVariants = {
