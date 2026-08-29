@@ -14,6 +14,7 @@ import CertificationsPage from './pages/CertificationsPage';
 import BlogListPage from './pages/blog/BlogListPage';
 import BlogPostPage from './pages/blog/BlogPostPage';
 import AdminPage from './pages/blog/AdminPage';
+import JsonEndpointPage from './pages/JsonEndpointPage';
 
 // These pages get full-width stretch (no horizontal centering constraint)
 const FULL_WIDTH_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications', '/blog', '/admin'];
@@ -40,6 +41,8 @@ function AnimatedRoutes() {
         <Route path="/blog" element={<PageTransition><BlogListPage /></PageTransition>} />
         <Route path="/blog/:postId" element={<PageTransition><BlogPostPage /></PageTransition>} />
         <Route path="/admin" element={<PageTransition><AdminPage /></PageTransition>} />
+        {/* JSON endpoint: token ile korunur, ham JSON yanıtı döner (sayfa değil) */}
+        <Route path="/json" element={<JsonEndpointPage />} />
       </Routes>
     </AnimatePresence>
   );

@@ -1,3 +1,4 @@
 {
-  "showHireMeCard": true
+  "showHireMeCard": true,
+  "jsonEndpointToken": "vault-readonly-2026"
 }

@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { copyFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { jsonDump } from './vite-plugin-json-dump.js';
 
 // GitHub Pages statik host olduğu için SPA route'ları (/about, /blog/123 vb.)
 // sunucu tarafında bulunamaz → 404 verir. Çözüm: build sonrası dist/404.html'i
@@ -26,6 +27,7 @@ export default defineConfig({
     tailwindcss(),
     react(),
     spaFallback(),
+    jsonDump(),
   ],
   base: '/',
 });
