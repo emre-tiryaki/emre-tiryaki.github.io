@@ -101,6 +101,38 @@
     ]
   },
   {
+    "id": "moka-united-fintech-hackathon",
+    "company": "Moka United AI Ideathon & Hackathon",
+    "url": "https://coderspace.io/etkinlikler/fintech-hackathon-hack-the-idea/",
+    "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
+    "location": { "tr": "Online & İstanbul Gayrettepe", "en": "Online & Istanbul Gayrettepe" },
+    "date": "2026-07",
+    "duration": { "tr": "7 gün", "en": "7 days" },
+    "type": "hackathon",
+    "story": {
+      "tr": "Moka United AI Ideathon & Hackathon kapsamında finansal teknolojiler (FinTech) ve yapay zeka entegrasyonu alanında SmartPay Agent projesini geliştirdik. Sanal POS altyapılarında anomali ve kesintileri gerçek zamanlı tespit eden, ML tabanlı akıllı işlem yönlendirmesi (routing) yapan ve Gemini 2.0 Flash Tool Calling ile otonom müdahale gerçekleştiren uçtan uca bir sistem tasarladık.",
+      "en": "During the Moka United AI Ideathon & Hackathon, we developed the SmartPay Agent FinTech project. We designed an end-to-end system detecting virtual POS outages in real-time, executing ML-driven payment routing, and performing autonomous remediation via Gemini 2.0 Flash Tool Calling."
+    },
+    "projectIds": ["ofa-smartpay"],
+    "photos": [],
+    "team": [
+      {
+        "name": "Mehmet Sinan Sönmez",
+        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
+        "github": "https://github.com/10sinan"
+      }
+    ],
+    "customSections": [
+      {
+        "id": "modules",
+        "title": { "tr": "Geliştirilen Sistem Bileşenleri & Depo", "en": "Developed System Components & Repository" },
+        "items": [
+          { "tr": "inufest26/OFA: SmartPay Agent — ML Routing, Gerçek Zamanlı Anomali Tespiti ve Gemini 2.0 Flash Tool Calling ile Otonom AI Müdahale Motoru", "en": "inufest26/OFA: SmartPay Agent — ML Routing, Real-Time Anomaly Detection, and Autonomous AI Remediation via Gemini 2.0 Flash Tool Calling" }
+        ]
+      }
+    ]
+  },
+  {
     "id": "tua-hackathon",
     "company": "TUA Astro Hackathon Malatya 2026",
     "url": "https://tuaastrohackathon.com/tr/astro-hackathon-2026/2026-local-events/malatya?tab=details",
@@ -146,38 +178,6 @@
           { "tr": "avicenna-frontend: React tabanlı uydu telemetrisi ve anomali takip gösterge paneli (Dashboard)", "en": "avicenna-frontend: Space telemetry and anomaly tracking dashboard built with React" },
           { "tr": "new-backend: Python tabanlı anomali tespit motoru (anomaly_detector) ve REST API veri servisi", "en": "new-backend: Python-powered anomaly detection engine and telemetry REST API data service" },
           { "tr": "data-simulation: ESA Mission verileri üzerinde dinamik uzay radyasyonu ve bit-flip simülasyon motoru", "en": "data-simulation: Dynamic space radiation and bit-flip simulation engine over ESA Mission datasets" }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "moka-united-fintech-hackathon",
-    "company": "Moka United AI Ideathon & Hackathon",
-    "url": "https://coderspace.io/etkinlikler/fintech-hackathon-hack-the-idea/",
-    "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
-    "location": { "tr": "Online & İstanbul Gayrettepe", "en": "Online & Istanbul Gayrettepe" },
-    "date": "2026-07",
-    "duration": { "tr": "7 gün", "en": "7 days" },
-    "type": "hackathon",
-    "story": {
-      "tr": "Moka United AI Ideathon & Hackathon kapsamında finansal teknolojiler (FinTech) ve yapay zeka entegrasyonu alanında SmartPay Agent projesini geliştirdik. Sanal POS altyapılarında anomali ve kesintileri gerçek zamanlı tespit eden, ML tabanlı akıllı işlem yönlendirmesi (routing) yapan ve Gemini 2.0 Flash Tool Calling ile otonom müdahale gerçekleştiren uçtan uca bir sistem tasarladık.",
-      "en": "During the Moka United AI Ideathon & Hackathon, we developed the SmartPay Agent FinTech project. We designed an end-to-end system detecting virtual POS outages in real-time, executing ML-driven payment routing, and performing autonomous remediation via Gemini 2.0 Flash Tool Calling."
-    },
-    "projectIds": ["ofa-smartpay"],
-    "photos": [],
-    "team": [
-      {
-        "name": "Mehmet Sinan Sönmez",
-        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
-        "github": "https://github.com/10sinan"
-      }
-    ],
-    "customSections": [
-      {
-        "id": "modules",
-        "title": { "tr": "Geliştirilen Sistem Bileşenleri & Depo", "en": "Developed System Components & Repository" },
-        "items": [
-          { "tr": "inufest26/OFA: SmartPay Agent — ML Routing, Gerçek Zamanlı Anomali Tespiti ve Gemini 2.0 Flash Tool Calling ile Otonom AI Müdahale Motoru", "en": "inufest26/OFA: SmartPay Agent — ML Routing, Real-Time Anomaly Detection, and Autonomous AI Remediation via Gemini 2.0 Flash Tool Calling" }
         ]
       }
     ]
