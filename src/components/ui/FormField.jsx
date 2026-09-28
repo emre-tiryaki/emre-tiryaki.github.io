@@ -1,5 +1,5 @@
 // Yeniden kullanılabilir form alanı (input / textarea).
-// Mesaj formu, yorum formu ve admin post oluşturma formu bunu kullanır.
+// Mesaj/iletişim formları bunu kullanır.
 // Tailwind --spacing bug'ından etkilenmemesi için temel stiller inline/CSS'tir.
 
 import { forwardRef } from 'react';

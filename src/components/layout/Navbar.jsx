@@ -11,9 +11,8 @@ const NAV_ITEMS = [
   { path: '/about',          key: 'about'          },
   { path: '/skills',         key: 'skills'         },
   { path: '/education',      key: 'education'      },
-  { path: '/experience',     key: 'experience'     },
-  { path: '/blog',           key: 'blog'           },
-  { path: '/projects',       key: 'projects'       },
+  { path: '/experience',    key: 'experience'    },
+  { path: '/projects',      key: 'projects'      },
   { path: '/certifications', key: 'certifications' },
 ];
 

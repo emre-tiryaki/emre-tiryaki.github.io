@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { AuthProvider } from './hooks/useAuth';
 import Navbar from './components/layout/Navbar';
+
 import StarfieldBackground from './components/layout/StarfieldBackground';
 import PageTransition from './components/layout/PageTransition';
 import HomePage from './pages/HomePage';
@@ -11,19 +11,16 @@ import EducationPage from './pages/EducationPage';
 import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import CertificationsPage from './pages/CertificationsPage';
-import BlogListPage from './pages/blog/BlogListPage';
-import BlogPostPage from './pages/blog/BlogPostPage';
-import AdminPage from './pages/blog/AdminPage';
 import JsonEndpointPage from './pages/JsonEndpointPage';
 
 // These pages get full-width stretch (no horizontal centering constraint)
-const FULL_WIDTH_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications', '/blog', '/admin'];
+const FULL_WIDTH_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications'];
 
 // Pages with a visible header title — content starts from top, not vertically centered
-const TOP_ALIGNED_PAGES = ['/about', '/blog', '/skills', '/education', '/experience', '/projects', '/certifications', '/admin'];
+const TOP_ALIGNED_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications'];
 
 // Pages that need vertical scrolling
-const SCROLLABLE_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications', '/blog', '/admin'];
+const SCROLLABLE_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications'];
 
 
 function AnimatedRoutes() {
@@ -38,9 +35,6 @@ function AnimatedRoutes() {
         <Route path="/experience" element={<PageTransition><ExperiencePage /></PageTransition>} />
         <Route path="/projects" element={<PageTransition><ProjectsPage /></PageTransition>} />
         <Route path="/certifications" element={<PageTransition><CertificationsPage /></PageTransition>} />
-        <Route path="/blog" element={<PageTransition><BlogListPage /></PageTransition>} />
-        <Route path="/blog/:postId" element={<PageTransition><BlogPostPage /></PageTransition>} />
-        <Route path="/admin" element={<PageTransition><AdminPage /></PageTransition>} />
         {/* JSON endpoint: token ile korunur, ham JSON yanıtı döner (sayfa değil) */}
         <Route path="/json" element={<JsonEndpointPage />} />
       </Routes>
@@ -74,13 +68,11 @@ function MainLayout() {
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-          <StarfieldBackground />
-          <Navbar />
-          <MainLayout />
-        </div>
-      </AuthProvider>
+      <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+        <StarfieldBackground />
+        <Navbar />
+        <MainLayout />
+      </div>
     </BrowserRouter>
   );
 }

@@ -5,7 +5,7 @@
 // Kullanım:
 //   <Button variant="primary" size="md" onClick={...}>Yayınla</Button>
 //   <Button variant="danger" size="sm" disabled={busy}>Sil</Button>
-//   <Button as="a" href="/blog/x" variant="secondary">Gör</Button>
+//   <Button as="a" href="/projects" variant="secondary">Gör</Button>
 //
 // Stiller index.css'te `.btn` / `.btn--*` sınıflarıyla tanımlıdır (Tailwind
 // --spacing bug'ından etkilenmemesi için saf CSS ile yazıldı).
