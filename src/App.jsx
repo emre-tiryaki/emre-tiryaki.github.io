@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { AuthProvider } from './hooks/useAuth';
 import Navbar from './components/layout/Navbar';
 
 import StarfieldBackground from './components/layout/StarfieldBackground';
@@ -68,11 +69,13 @@ function MainLayout() {
 function App() {
   return (
     <BrowserRouter>
-      <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-        <StarfieldBackground />
-        <Navbar />
-        <MainLayout />
-      </div>
+      <AuthProvider>
+        <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+          <StarfieldBackground />
+          <Navbar />
+          <MainLayout />
+        </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

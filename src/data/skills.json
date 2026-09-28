@@ -227,8 +227,8 @@
         "name": "Firebase",
         "icon": "firebase/firebase-plain",
         "comment": {
-          "tr": "Hızlı prototipleme ve BaaS çözümleri için kullanıyorum.",
-          "en": "I use it for rapid prototyping and BaaS solutions."
+          "tr": "Hızlı prototipleme ve BaaS çözümleri için kullanıyorum. Hatta bu sitenin blog kısmının backend'ini de Firebase ile yönetiyorum.",
+          "en": "I use it for rapid prototyping and BaaS solutions. In fact, I manage the backend of this site's blog section using Firebase."
         }
       }
     ]
