@@ -10,7 +10,17 @@
       "en": "A polyglot microservices architecture (Go + TypeScript) that ingests live aircraft telemetry from OpenSky Network API, distributes streams over RabbitMQ, and renders real-time tracking via GraphQL Subscriptions."
     },
     "achievements": null,
-    "techStack": ["Go", "TypeScript", "Node.js", "React", "RabbitMQ", "GraphQL", "Fastify", "MongoDB", "Docker"],
+    "techStack": [
+      "Go",
+      "TypeScript",
+      "Node.js",
+      "React",
+      "RabbitMQ",
+      "GraphQL",
+      "Fastify",
+      "MongoDB",
+      "Docker"
+    ],
     "tags": ["Go", "Microservices", "Real-Time", "Backend"],
     "sourceCode": "https://github.com/emre-tiryaki/ClearSky",
     "liveDemo": null,
@@ -42,11 +52,7 @@
     "liveDemo": null,
     "isPrivate": false,
     "preview": "repograb",
-    "previews": [
-      "repograb/1.png",
-      "repograb/2.png",
-      "repograb/3.png"
-    ]
+    "previews": ["repograb/1.png", "repograb/2.png", "repograb/3.png"]
   },
   {
     "id": "okur",
@@ -68,9 +74,7 @@
     "liveDemo": null,
     "isPrivate": true,
     "preview": "OKUR/OKUR.jpeg",
-    "previews": [
-      "OKUR/OKUR.jpeg"
-    ]
+    "previews": ["OKUR/OKUR.jpeg"]
   },
   {
     "id": "hegs-haber",
@@ -83,7 +87,16 @@
       "en": "A polyglot microservices platform (Spring Boot + FastAPI) developed for the Anadolu Agency Hackathon that scrapes live news streams, generates AI summaries, and produces automated crosswords alongside a real-time multiplayer news quiz engine via WebSockets."
     },
     "achievements": null,
-    "techStack": ["Spring Boot", "FastAPI", "React", "PostgreSQL", "Docker", "OpenAI API", "WebSockets", "Firebase"],
+    "techStack": [
+      "Spring Boot",
+      "FastAPI",
+      "React",
+      "PostgreSQL",
+      "Docker",
+      "OpenAI API",
+      "WebSockets",
+      "Firebase"
+    ],
     "tags": ["Microservices", "AI", "Spring Boot", "FastAPI", "Fullstack"],
     "sourceCode": "https://github.com/HEGS-HABER/HEGS-SETUP",
     "liveDemo": null,
@@ -103,7 +116,14 @@
       "en": "Developed for the TUA Astro Hackathon; a space telemetry platform that processes ESA Mission satellite datasets, simulates dynamic radiation anomalies (bit-flips and spikes), and monitors telemetry streams via real-time anomaly detection algorithms."
     },
     "achievements": null,
-    "techStack": ["Python", "FastAPI", "React", "Data Simulation", "Telemetry", "SQLite"],
+    "techStack": [
+      "Python",
+      "FastAPI",
+      "React",
+      "Data Simulation",
+      "Telemetry",
+      "SQLite"
+    ],
     "tags": ["Space Tech", "Telemetry", "Simulation", "AI", "Fullstack"],
     "sourceCode": "https://github.com/inufest26/avicenna-frontend",
     "liveDemo": null,
@@ -129,9 +149,7 @@
     "liveDemo": null,
     "isPrivate": false,
     "preview": "typing_game/typing_game.png",
-    "previews": [
-      "typing_game/typing_game.png"
-    ]
+    "previews": ["typing_game/typing_game.png"]
   },
   {
     "id": "project-toolkit",
@@ -150,9 +168,7 @@
     "liveDemo": null,
     "isPrivate": false,
     "preview": "project_toolkit/project_toolkit.png",
-    "previews": [
-      "project_toolkit/project_toolkit.png"
-    ]
+    "previews": ["project_toolkit/project_toolkit.png"]
   },
   {
     "id": "ofa-smartpay",
@@ -165,12 +181,44 @@
       "en": "Developed for the Moka United AI Ideathon & Hackathon; a FinTech platform detecting virtual POS outages in real-time, performing ML-based payment routing, and executing autonomous remediation via Google Gemini 2.0 Flash Tool Calling."
     },
     "achievements": null,
-    "techStack": ["Node.js", "Express", "React", "Socket.IO", "Gemini 2.0 Flash", "SQLite", "Docker", "Docker Compose"],
+    "techStack": [
+      "Node.js",
+      "Express",
+      "React",
+      "Socket.IO",
+      "Gemini 2.0 Flash",
+      "SQLite",
+      "Docker",
+      "Docker Compose"
+    ],
     "tags": ["FinTech", "AI Agent", "Gemini", "Fullstack", "Real-Time"],
     "sourceCode": "https://github.com/inufest26/OFA",
     "liveDemo": null,
     "isPrivate": false,
     "isHackathon": true,
+    "preview": null,
+    "previews": []
+  },
+  {
+    "id": "ani-cli-exact-match",
+    "title": {
+      "tr": "ani-cli — Tam Eşleşme Modu (Açık Kaynak Katkısı)",
+      "en": "ani-cli — Exact Match Mode (Open Source Contribution)"
+    },
+    "description": {
+      "tr": "ani-cli projesinde, wrapper scriptlerin yanlış diziyi otomatik seçmesine yol açan sorunu çözmek için arama sonuçlarını sorgu ile büyük/küçük harf duyarsız tam eşleşmeye göre filtreleyen özelliği geliştirdim. Eşleşme yoksa kullanıcıya açık bir hata mesajı verilir. Maintainer'ın code review geri bildirimiyle CLI flag'i yerine ANI_CLI_EXACT ortam değişkeni olarak yeniden tasarlandı; boşluk ve özel karakter içeren başlıklar için sorgu normalizasyonu düzeltildi. Yardım metni, man sayfası ve sürüm numarası güncellendi.",
+      "en": "Implemented a case-insensitive exact-match filter for search results in ani-cli, fixing wrapper scripts silently auto-selecting the wrong show when only one result is returned. Reports a clear error when nothing matches. Redesigned from a CLI flag into the ANI_CLI_EXACT environment variable after maintainer review, and fixed query normalization for titles containing spaces and special characters. Updated help text, man page and version."
+    },
+    "achievements": {
+      "tr": "Pull Request upstream'e merge edildi (#1938, issue #1851)",
+      "en": "Pull Request merged upstream (#1938, issue #1851)"
+    },
+    "techStack": ["Shell", "POSIX", "Git", "GitHub"],
+    "tags": ["Open Source", "CLI", "Shell"],
+    "sourceCode": "https://github.com/pystardust/ani-cli/pull/1938",
+    "liveDemo": null,
+    "isPrivate": false,
+    "isOpenSource": true,
     "preview": null,
     "previews": []
   }
