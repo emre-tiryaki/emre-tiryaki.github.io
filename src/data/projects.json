@@ -1,5 +1,39 @@
 [
   {
+    "id": "ani-cli-exact-match",
+    "title": {
+      "tr": "ani-cli — Tam Eşleşme Modu",
+      "en": "ani-cli — Exact Match Mode"
+    },
+    "description": {
+      "tr": "ani-cli projesinde, wrapper scriptlerin yanlış diziyi otomatik seçmesine yol açan sorunu çözmek için arama sonuçlarını sorgu ile büyük/küçük harf duyarsız tam eşleşmeye göre filtreleyen özelliği geliştirdim. Eşleşme yoksa kullanıcıya açık bir hata mesajı verilir. Maintainer'ın code review geri bildirimiyle CLI flag'i yerine ANI_CLI_EXACT ortam değişkeni olarak yeniden tasarlandı; boşluk ve özel karakter içeren başlıklar için sorgu normalizasyonu düzeltildi. Yardım metni, man sayfası ve sürüm numarası güncellendi.",
+      "en": "Implemented a case-insensitive exact-match filter for search results in ani-cli, fixing wrapper scripts silently auto-selecting the wrong show when only one result is returned. Reports a clear error when nothing matches. Redesigned from a CLI flag into the ANI_CLI_EXACT environment variable after maintainer review, and fixed query normalization for titles containing spaces and special characters. Updated help text, man page and version."
+    },
+    "achievements": {
+      "tr": "Pull Request upstream'e merge edildi (#1938, issue #1851)",
+      "en": "Pull Request merged upstream (#1938, issue #1851)"
+    },
+    "techStack": ["Shell", "POSIX", "GitHub"],
+    "tags": ["Open Source", "CLI", "Shell"],
+    "sourceCode": "https://github.com/pystardust/ani-cli/pull/1938",
+    "liveDemo": null,
+    "isPrivate": false,
+    "isOpenSource": true,
+    "preview": null,
+    "previews": [],
+    "usage": {
+      "language": "bash",
+      "code": {
+        "tr": "# Normal arama: Benzer tüm sonuçlar listelenir\nani-cli \"Jujutsu Kaisen\"\n\n# Tam eşleşme modu: Yalnızca başlığı birebir eşleşen seriyi filtreler\nANI_CLI_EXACT=1 ani-cli \"Jujutsu Kaisen\"",
+        "en": "# Standard search: Lists all partial and fuzzy matches\nani-cli \"Jujutsu Kaisen\"\n\n# Exact match mode: Only matches anime with identical title\nANI_CLI_EXACT=1 ani-cli \"Jujutsu Kaisen\""
+      },
+      "note": {
+        "tr": "Wrapper veya otomasyon scriptlerinde 'ANI_CLI_EXACT=1' tanımlandığında, arama sorgusu ile birebir (büyük/küçük harf duyarsız) eşleşen başlık hedeflenir. Tam eşleşen dizi bulunamazsa 'No exact match found.' uyarısıyla sonlanarak scriptlerin yanlış diziyi otomatik oynatması önlenir.",
+        "en": "Setting 'ANI_CLI_EXACT=1' in wrapper or automation scripts ensures case-insensitive exact title matching. If no exact match is found, it exits with 'No exact match found.', preventing scripts from auto-selecting the wrong series."
+      }
+    }
+  },
+  {
     "id": "clearsky",
     "title": {
       "tr": "ClearSky — Gerçek Zamanlı Uçuş Takip & Analiz Platformu",
@@ -46,7 +80,7 @@
       "en": "A high-performance CLI utility built in Go with an interactive terminal interface, enabling selective and parallel downloading of files and directories from GitHub and GitLab repositories."
     },
     "achievements": null,
-    "techStack": ["Go", "GitHub API", "GitLab API"],
+    "techStack": ["Go", "GitHub", "GitLab"],
     "tags": ["Go", "CLI", "TUI"],
     "sourceCode": "https://github.com/emre-tiryaki/RepoGrab",
     "liveDemo": null,
@@ -73,6 +107,7 @@
     "sourceCode": null,
     "liveDemo": null,
     "isPrivate": true,
+    "isCompetition": true,
     "preview": "OKUR/OKUR.jpeg",
     "previews": ["OKUR/OKUR.jpeg"]
   },
@@ -162,7 +197,7 @@
       "en": "A lightweight, cross-platform CLI utility written in Go (with shell integration) to scaffold, clone, navigate, and manage coding workspaces from the terminal."
     },
     "achievements": null,
-    "techStack": ["Go", "Bash", "Zsh", "Linux"],
+    "techStack": ["Go", "Bash", "Linux"],
     "tags": ["Go", "CLI", "DevOps"],
     "sourceCode": "https://github.com/emre-tiryaki/project-toolkit",
     "liveDemo": null,
@@ -191,34 +226,11 @@
       "Docker",
       "Docker Compose"
     ],
-    "tags": ["FinTech", "AI Agent", "Gemini", "Fullstack", "Real-Time"],
+    "tags": ["FinTech", "AI Agent", "Fullstack", "Real-Time"],
     "sourceCode": "https://github.com/inufest26/OFA",
     "liveDemo": null,
     "isPrivate": false,
     "isHackathon": true,
-    "preview": null,
-    "previews": []
-  },
-  {
-    "id": "ani-cli-exact-match",
-    "title": {
-      "tr": "ani-cli — Tam Eşleşme Modu (Açık Kaynak Katkısı)",
-      "en": "ani-cli — Exact Match Mode (Open Source Contribution)"
-    },
-    "description": {
-      "tr": "ani-cli projesinde, wrapper scriptlerin yanlış diziyi otomatik seçmesine yol açan sorunu çözmek için arama sonuçlarını sorgu ile büyük/küçük harf duyarsız tam eşleşmeye göre filtreleyen özelliği geliştirdim. Eşleşme yoksa kullanıcıya açık bir hata mesajı verilir. Maintainer'ın code review geri bildirimiyle CLI flag'i yerine ANI_CLI_EXACT ortam değişkeni olarak yeniden tasarlandı; boşluk ve özel karakter içeren başlıklar için sorgu normalizasyonu düzeltildi. Yardım metni, man sayfası ve sürüm numarası güncellendi.",
-      "en": "Implemented a case-insensitive exact-match filter for search results in ani-cli, fixing wrapper scripts silently auto-selecting the wrong show when only one result is returned. Reports a clear error when nothing matches. Redesigned from a CLI flag into the ANI_CLI_EXACT environment variable after maintainer review, and fixed query normalization for titles containing spaces and special characters. Updated help text, man page and version."
-    },
-    "achievements": {
-      "tr": "Pull Request upstream'e merge edildi (#1938, issue #1851)",
-      "en": "Pull Request merged upstream (#1938, issue #1851)"
-    },
-    "techStack": ["Shell", "POSIX", "Git", "GitHub"],
-    "tags": ["Open Source", "CLI", "Shell"],
-    "sourceCode": "https://github.com/pystardust/ani-cli/pull/1938",
-    "liveDemo": null,
-    "isPrivate": false,
-    "isOpenSource": true,
     "preview": null,
     "previews": []
   }

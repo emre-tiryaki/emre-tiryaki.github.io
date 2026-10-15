@@ -263,8 +263,9 @@ export default function ExperiencePage() {
           flexShrink: 0,
           display: 'flex',
           flexDirection: 'column',
+          justifyContent: 'center',
           gap: '0.5rem',
-          paddingTop: '0.25rem',
+          minHeight: 0,
         }}>
           <p style={{ fontSize: '0.7rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem' }}>
             {t('experience.filter')}

@@ -99,7 +99,7 @@
   },
   "projects": {
     "title": "Projects",
-    "subtitle": "Selected projects showcasing architecture and business logic",
+    "subtitle": "Projects that I made and contributed to",
     "sourceCode": "Source Code",
     "liveDemo": "Live Demo",
     "private": "Source code is private",
@@ -126,7 +126,24 @@
     "hackathonNotice": "This project is a rapid concept/prototype built under time constraints during a hackathon event.",
     "filterHackathon": "Hackathon Projects",
     "filterPersonal": "Personal Projects",
-    "categoryTitle": "Category"
+    "categoryTitle": "Category",
+    "selectPrompt": "Select a project from the left to view details.",
+    "filter": "Filter",
+    "categories": {
+      "all": "All",
+      "competition": "Competition",
+      "hackathon": "Hackathon",
+      "openSource": "Open Source Contribution"
+    },
+    "details": {
+      "galleryTitle": "Screenshots",
+      "descriptionTitle": "Project Description",
+      "techTitle": "Tech Stack",
+      "tagsTitle": "Tags",
+      "usageTitle": "Usage",
+      "copy": "Copy",
+      "copied": "Copied!"
+    }
   },
   "certifications": {
     "title": "Certifications",

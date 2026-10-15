@@ -227,6 +227,20 @@ export function getExperienceTypeConfig(type) {
  * Project Category Filter Themes (Hackathon vs Personal Projects)
  */
 export const PROJECT_CATEGORY_CONFIG = {
+  competition: {
+    id: 'competition',
+    symbol: '🏅',
+    color: '#eab308',
+    textActive: '#fef9c3',
+    textInactive: '#fde047',
+    bgActive: 'rgba(234, 179, 8, 0.22)',
+    bgInactive: 'rgba(234, 179, 8, 0.05)',
+    borderActive: 'rgba(234, 179, 8, 0.7)',
+    borderInactive: 'rgba(234, 179, 8, 0.25)',
+    glow: 'rgba(234, 179, 8, 0.25)',
+    badgeBg: 'rgba(234, 179, 8, 0.14)',
+    badgeBorder: 'rgba(234, 179, 8, 0.45)',
+  },
   hackathon: {
     id: 'hackathon',
     symbol: '⚡',
@@ -254,6 +268,18 @@ export const PROJECT_CATEGORY_CONFIG = {
     borderActive: 'rgba(59, 130, 246, 0.7)',
     borderInactive: 'rgba(59, 130, 246, 0.22)',
     glow: 'rgba(59, 130, 246, 0.25)',
+  },
+  openSource: {
+    id: 'openSource',
+    symbol: '🌐',
+    color: '#34d399',
+    textActive: '#ecfdf5',
+    textInactive: '#6ee7b7',
+    bgActive: 'rgba(16, 185, 129, 0.22)',
+    bgInactive: 'rgba(16, 185, 129, 0.05)',
+    borderActive: 'rgba(16, 185, 129, 0.7)',
+    borderInactive: 'rgba(16, 185, 129, 0.22)',
+    glow: 'rgba(16, 185, 129, 0.25)',
   },
 };
 

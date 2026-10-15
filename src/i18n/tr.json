@@ -99,7 +99,7 @@
   },
   "projects": {
     "title": "Projeler",
-    "subtitle": "Mimari ve iş mantığını gösteren seçili projeler",
+    "subtitle": "Yaptığım ve Katkı sağladıığım projeler",
     "sourceCode": "Kaynak Kod",
     "liveDemo": "Canlı Demo",
     "private": "Kaynak kodlar gizlidir",
@@ -126,7 +126,24 @@
     "hackathonNotice": "Bu proje, kısıtlı süre ve şartlar altında bir hackathon etkinliği kapsamında geliştirilmiş konsept/prototip bir çalışmadır.",
     "filterHackathon": "Hackathon Projeleri",
     "filterPersonal": "Kişisel Projeler",
-    "categoryTitle": "Kategori"
+    "categoryTitle": "Kategori",
+    "selectPrompt": "Detayları görüntülemek için sol taraftan bir proje seçin.",
+    "filter": "Filtrele",
+    "categories": {
+      "all": "Tümü",
+      "competition": "Yarışma",
+      "hackathon": "Hackathon",
+      "openSource": "Açık Kaynak Katkısı"
+    },
+    "details": {
+      "galleryTitle": "Ekran Görüntüleri",
+      "descriptionTitle": "Proje Açıklaması",
+      "techTitle": "Teknoloji Yığını",
+      "tagsTitle": "Etiketler",
+      "usageTitle": "Kullanım",
+      "copy": "Kopyala",
+      "copied": "Kopyalandı!"
+    }
   },
   "certifications": {
     "title": "Sertifikalar",
