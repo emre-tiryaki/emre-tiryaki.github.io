@@ -138,6 +138,11 @@
     "details": {
       "galleryTitle": "Ekran Görüntüleri",
       "descriptionTitle": "Proje Açıklaması",
+      "eventContextTitle": "Geliştirildiği etkinlik",
+      "hackathonContext": "Bu projeyi bu hackathon kapsamında geliştirdik.",
+      "competitionContext": "Bu projeyi bu yarışma kapsamında geliştirdik.",
+      "internshipContext": "Bu projeyi staj dönemimde geliştirdim.",
+      "workContext": "İş bağlamı",
       "techTitle": "Teknoloji Yığını",
       "tagsTitle": "Etiketler",
       "usageTitle": "Kullanım",

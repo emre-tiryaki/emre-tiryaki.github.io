@@ -197,8 +197,8 @@
       "en": "A lightweight, cross-platform CLI utility written in Go (with shell integration) to scaffold, clone, navigate, and manage coding workspaces from the terminal."
     },
     "achievements": null,
-    "techStack": ["Go", "Bash", "Linux"],
-    "tags": ["Go", "CLI", "DevOps"],
+    "techStack": ["Bash", "Linux"],
+    "tags": ["CLI", "DevOps"],
     "sourceCode": "https://github.com/emre-tiryaki/project-toolkit",
     "liveDemo": null,
     "isPrivate": false,

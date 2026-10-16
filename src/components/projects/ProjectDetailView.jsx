@@ -22,6 +22,7 @@ import { useTranslation } from '../../hooks/translation';
 import { useScrollMask } from '../../hooks/useScrollMask';
 import { PROJECT_CATEGORY_CONFIG } from '../../theme';
 import { getProjectCategoryKey } from './ProjectListCard';
+import ProjectEventContext from './ProjectEventContext';
 
 /* ── Asset resolution (copied from ProjectCard / ExperienceDetailView) ── */
 const previewModules = import.meta.glob(
@@ -865,6 +866,8 @@ export default function ProjectDetailView({ project }) {
             )}
           </div>
         </div>
+
+        <ProjectEventContext projectId={project.id} />
 
         {/* ── 2. DESCRIPTION (Above photos/gallery) ── */}
         {description && (

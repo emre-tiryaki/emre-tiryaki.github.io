@@ -138,6 +138,11 @@
     "details": {
       "galleryTitle": "Screenshots",
       "descriptionTitle": "Project Description",
+      "eventContextTitle": "Developed at",
+      "hackathonContext": "We developed this project as part of this hackathon.",
+      "competitionContext": "We developed this project as part of this competition.",
+      "internshipContext": "This project was developed during my internship.",
+      "workContext": "Work context",
       "techTitle": "Tech Stack",
       "tagsTitle": "Tags",
       "usageTitle": "Usage",
