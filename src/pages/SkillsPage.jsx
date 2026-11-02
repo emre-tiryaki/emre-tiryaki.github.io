@@ -27,11 +27,7 @@ export default function SkillsPage() {
           ...maskStyle,
         }}
       >
-        <div style={{
-          columns: 'auto',
-          columnWidth: '280px',
-          columnGap: '1.25rem',
-        }}>
+        <div className="skills-masonry">
           {skillsData.map((group) => (
             <div
               key={group.id}

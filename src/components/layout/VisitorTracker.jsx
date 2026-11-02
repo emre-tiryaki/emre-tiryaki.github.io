@@ -15,9 +15,12 @@ export default function VisitorTracker() {
     }
 
     try {
+      if (localStorage.getItem("portfolio-notifications-disabled") === "1") {
+        return;
+      }
+
       if (sessionStorage.getItem(SESSION_KEY)) return;
 
-      // Aynı sekmede yalnızca bir bildirim gönder.
       sessionStorage.setItem(SESSION_KEY, "1");
     } catch {
       return;
@@ -32,9 +35,7 @@ export default function VisitorTracker() {
         path: location.pathname,
       }),
       keepalive: true,
-    }).catch(() => {
-      // Bildirim hatası siteyi etkilemesin.
-    });
+    }).catch(() => {});
   }, [location.pathname]);
 
   return null;

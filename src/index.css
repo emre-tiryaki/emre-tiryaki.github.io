@@ -470,3 +470,19 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ── Skills masonry responsive columns ── */
+.skills-masonry {
+  column-count: 3;
+  column-gap: 1.25rem;
+}
+@media (max-width: 900px) {
+  .skills-masonry {
+    column-count: 2;
+  }
+}
+@media (max-width: 550px) {
+  .skills-masonry {
+    column-count: 1;
+  }
+}
