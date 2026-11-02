@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
-
+import VisitorTracker from "./components/layout/VisitorTracker";
 import StarfieldBackground from './components/layout/StarfieldBackground';
 import PageTransition from './components/layout/PageTransition';
 import HomePage from './pages/HomePage';
@@ -46,20 +46,21 @@ function MainLayout() {
   return (
     <main
       style={{
-        position: 'relative',
+        position: "relative",
         zIndex: 10,
-        width: '100%',
-        height: '100vh',
-        paddingTop: '5rem',    /* clears floating navbar */
-        paddingBottom: '1.5rem',
-        overflowY: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        justifyContent: 'flex-start',
-        boxSizing: 'border-box',
+        width: "100%",
+        height: "100vh",
+        paddingTop: "5rem" /* clears floating navbar */,
+        paddingBottom: "1.5rem",
+        overflowY: "auto",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "stretch",
+        justifyContent: "flex-start",
+        boxSizing: "border-box",
       }}
     >
+      <VisitorTracker />
       <AnimatedRoutes />
     </main>
   );
