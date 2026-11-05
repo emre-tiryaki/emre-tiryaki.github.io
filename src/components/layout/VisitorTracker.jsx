@@ -27,14 +27,15 @@ export default function VisitorTracker() {
     }
 
     fetch(WORKER_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        path: location.pathname,
-      }),
-      keepalive: true,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            path: location.pathname,
+            referrer: document.referrer,
+        }),
+        keepalive: true,
     }).catch(() => {});
   }, [location.pathname]);
 
