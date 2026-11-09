@@ -44,9 +44,9 @@ export default function AboutPage() {
               </p>
             </div>
             <AboutSummary />
-            <div className="flex justify-between items-center gap-3 sm:gap-4 w-full">
+            <div className="flex justify-between items-stretch gap-3 sm:gap-4 w-full">
               <ContactCard />
-              <div className="flex flex-col justify-center items-center gap-2.5">
+              <div className="flex flex-col justify-between items-stretch gap-2.5">
                 <ResumeCard />
                 <WorkWithMeCard />
               </div>

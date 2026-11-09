@@ -32,7 +32,7 @@ export default function ContactCard() {
 
   return (
     <div
-      className="relative rounded-2xl flex flex-col items-center justify-start overflow-visible transition-all duration-300"
+      className="relative rounded-2xl flex flex-col items-center justify-start self-stretch overflow-visible transition-all duration-300"
       style={{
         width: '135px',
         padding: '0.85rem 1rem',
@@ -51,7 +51,8 @@ export default function ContactCard() {
       </div>
 
       {/* 2x2 Grid */}
-      <div className="grid grid-cols-2 gap-2 place-items-center">
+      <div className="flex-1 flex items-center justify-center">
+        <div className="grid grid-cols-2 gap-2 place-items-center">
         {SOCIAL_LINKS.map((item) => (
           <div
             key={item.id}
@@ -83,6 +84,7 @@ export default function ContactCard() {
             </span>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
