@@ -2,6 +2,7 @@ import PhotoCarousel from '../components/about/PhotoCarousel';
 import AboutSummary from '../components/about/AboutSummary';
 import ContactCard from '../components/about/ContactCard';
 import ResumeCard from '../components/about/ResumeCard';
+import WorkWithMeCard from '../components/about/WorkWithMeCard';
 import LanguagesCard from '../components/about/LanguagesCard';
 import GitHubActivity from '../components/about/GitHubActivity';
 import LocationBadge from '../components/about/LocationBadge';
@@ -43,9 +44,12 @@ export default function AboutPage() {
               </p>
             </div>
             <AboutSummary />
-            <div className="flex justify-between items-stretch gap-3 sm:gap-4 w-full">
+            <div className="flex justify-between items-center gap-3 sm:gap-4 w-full">
               <ContactCard />
-              <ResumeCard />
+              <div className="flex flex-col justify-center items-center gap-2.5">
+                <ResumeCard />
+                <WorkWithMeCard />
+              </div>
               <LanguagesCard />
             </div>
           </div>

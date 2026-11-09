@@ -118,8 +118,12 @@ export const AGENT_ICONS = Object.entries(agentIconModules)
   })
   .map(([, url]) => url);
 
+// ── Personal photos ──
+export const PORTRAIT_PHOTO = new URL('../assets/personal_photos/20251210_140639.jpg', import.meta.url).href;
+
 export default {
   DEVICON_BASE,
+  PORTRAIT_PHOTO,
   AUTHORITY_LOGOS,
   EDUCATION_LOGOS,
   CATEGORY_ICONS,

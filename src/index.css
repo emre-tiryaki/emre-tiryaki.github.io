@@ -25,8 +25,13 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-/* ── Base Reset & Smooth Scroll ── */
-*, *::before, *::after {
+/* ── Base Reset & Smooth Scroll ──
+   This reset is unlayered, so it would beat Tailwind's layered utilities
+   (p-*, m-*). The /work-with-me page relies on those utilities, so it is
+   excluded here; Tailwind preflight already resets it. */
+:where(:not(.work-with-me-page, .work-with-me-page *)),
+:where(:not(.work-with-me-page, .work-with-me-page *))::before,
+:where(:not(.work-with-me-page, .work-with-me-page *))::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;

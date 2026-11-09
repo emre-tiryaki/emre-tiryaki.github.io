@@ -12,16 +12,7 @@ import ExperiencePage from './pages/ExperiencePage';
 import ProjectsPage from './pages/ProjectsPage';
 import CertificationsPage from './pages/CertificationsPage';
 import JsonEndpointPage from './pages/JsonEndpointPage';
-
-// These pages get full-width stretch (no horizontal centering constraint)
-const FULL_WIDTH_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications'];
-
-// Pages with a visible header title — content starts from top, not vertically centered
-const TOP_ALIGNED_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications'];
-
-// Pages that need vertical scrolling
-const SCROLLABLE_PAGES = ['/about', '/skills', '/education', '/experience', '/projects', '/certifications'];
-
+import WorkWithMePage from './pages/WorkWithMePage';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -66,14 +57,27 @@ function MainLayout() {
   );
 }
 
+function AppContent() {
+  const location = useLocation();
+  const isWorkWithMe = location.pathname === '/work-with-me';
+
+  if (isWorkWithMe) {
+    return <WorkWithMePage />;
+  }
+
+  return (
+    <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+      <StarfieldBackground />
+      <Navbar />
+      <MainLayout />
+    </div>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
-        <StarfieldBackground />
-        <Navbar />
-        <MainLayout />
-      </div>
+      <AppContent />
     </BrowserRouter>
   );
 }

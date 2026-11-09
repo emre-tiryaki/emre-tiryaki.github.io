@@ -12,7 +12,7 @@ export default function ResumeCard() {
       <button
         type="button"
         onClick={() => setIsModalOpen(true)}
-        className="group relative self-center inline-flex items-center justify-between gap-3.5 rounded-2xl select-none cursor-pointer transition-all duration-300 active:scale-95 whitespace-nowrap shrink-0 overflow-hidden"
+        className="group relative w-full inline-flex items-center justify-between gap-3.5 rounded-2xl select-none cursor-pointer transition-all duration-300 active:scale-95 whitespace-nowrap shrink-0 overflow-hidden"
         style={{
           padding: '0.75rem 1.25rem',
           background: 'rgba(255, 255, 255, 0.03)',
