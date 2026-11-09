@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { FiMail, FiSend, FiCheck, FiClock } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { WORK_WITH_ME_DATA } from '../../data/professional';
+import { AnimatePresence, motion } from 'framer-motion';
 import SectionHeader from './SectionHeader';
+import Reveal from './Reveal';
+import { EASE_OUT } from './motionPresets';
 import { PORTRAIT_PHOTO } from '../../lib/media';
 
 export default function WorkWithMeCTA() {
@@ -62,7 +65,7 @@ ${formData.details}
       <div className="pwm-container pwm-container--narrow">
         <SectionHeader center tag={cta.tag} title={cta.title} subtitle={cta.subtitle} />
 
-        <div className="pwm-card pwm-cta-intro -mt-4 mb-8">
+        <Reveal className="pwm-card pwm-cta-intro -mt-4 mb-8">
           <img
             src={PORTRAIT_PHOTO}
             alt={cta.intro.name}
@@ -86,19 +89,32 @@ ${formData.details}
               </span>
             </div>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="pwm-card pwm-card--form">
+        <Reveal className="pwm-card pwm-card--form" delay={0.1}>
           <div className="mb-8 pb-6 border-b border-slate-100">
             <h3 className="pwm-h3 pwm-h3--lg">{cta.formTitle}</h3>
             <p className="pwm-body">{cta.formSubtitle}</p>
           </div>
 
+          <AnimatePresence mode="wait" initial={false}>
           {submitted ? (
-            <div className="text-center py-8">
-              <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-5">
+            <motion.div
+              key="success"
+              className="text-center py-8"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.35, ease: EASE_OUT }}
+            >
+              <motion.div
+                className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-5"
+                initial={{ scale: 0, rotate: -45 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 16, delay: 0.1 }}
+              >
                 <FiCheck size={26} />
-              </div>
+              </motion.div>
               <h4 className="text-xl font-semibold text-slate-900 mb-2">{cta.successTitle}</h4>
               <p className="pwm-body max-w-md mx-auto mb-6">{cta.successDesc}</p>
               <button
@@ -108,9 +124,17 @@ ${formData.details}
               >
                 {cta.successReset}
               </button>
-            </div>
+            </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+            <motion.form
+              key="form"
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-6"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.3, ease: EASE_OUT }}
+            >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="pwm-name" className="pwm-label">
@@ -166,9 +190,10 @@ ${formData.details}
                   <FiSend size={16} />
                 </button>
               </div>
-            </form>
+            </motion.form>
           )}
-        </div>
+          </AnimatePresence>
+        </Reveal>
       </div>
     </section>
   );

@@ -7,6 +7,14 @@ import {
 import { useTranslation } from '../../hooks/translation';
 import { WORK_WITH_ME_DATA } from '../../data/professional';
 import WorkWithMeMockup from './WorkWithMeMockup';
+import { EASE_OUT } from './motionPresets';
+
+// Page-load entrance: each hero block rises in a little after the previous one.
+const enter = (delay) => ({
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, ease: EASE_OUT, delay },
+});
 
 // How long each showcase stays on screen before auto-advancing.
 const SLIDE_DURATION_MS = 7000;
@@ -112,7 +120,7 @@ export default function WorkWithMeHero() {
       <div className="pwm-container relative">
         {/* Copy */}
         <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-6 lg:gap-14 items-end">
-          <div className="min-w-0">
+          <motion.div className="min-w-0" {...enter(0.1)}>
             <div className="pwm-badge">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
               <span>{hero.badge}</span>
@@ -131,9 +139,9 @@ export default function WorkWithMeHero() {
                 index={active}
               />
             </h1>
-          </div>
+          </motion.div>
 
-          <div className="min-w-0 lg:pb-2">
+          <motion.div className="min-w-0 lg:pb-2" {...enter(0.25)}>
             <p className="pwm-lead">
               <TextRotator items={showcases.map((s) => s.description)} index={active} />
             </p>
@@ -155,11 +163,12 @@ export default function WorkWithMeHero() {
                 {hero.secondaryCta}
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Showcase: tabs + rotating wide mockup. Hover/focus pauses autoplay. */}
-        <div
+        <motion.div
+          {...enter(0.4)}
           className="mt-12 lg:mt-16"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
@@ -223,16 +232,16 @@ export default function WorkWithMeHero() {
           <div className="mt-4">
             <WorkWithMeMockup showcase={current} />
           </div>
-        </div>
+        </motion.div>
 
         <ul className="mt-8 flex flex-wrap justify-center gap-x-8 gap-y-3">
-          {hero.trustPoints.map((point) => (
-            <li key={point} className="flex items-center gap-2 text-sm font-medium text-slate-700">
+          {hero.trustPoints.map((point, i) => (
+            <motion.li key={point} {...enter(0.6 + i * 0.08)} className="flex items-center gap-2 text-sm font-medium text-slate-700">
               <span className="w-5 h-5 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
                 <FiCheck size={12} strokeWidth={3} />
               </span>
               {point}
-            </li>
+            </motion.li>
           ))}
         </ul>
       </div>

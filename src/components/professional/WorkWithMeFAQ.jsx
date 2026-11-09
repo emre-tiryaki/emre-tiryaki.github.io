@@ -2,13 +2,16 @@ import { useState } from 'react';
 import { FiPlus, FiMessageCircle } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { WORK_WITH_ME_DATA } from '../../data/professional';
+import { AnimatePresence, motion } from 'framer-motion';
 import SectionHeader from './SectionHeader';
+import Reveal from './Reveal';
+import { EASE_OUT, stagger } from './motionPresets';
 
 export default function WorkWithMeFAQ() {
   const { lang } = useTranslation();
   const data = WORK_WITH_ME_DATA[lang] || WORK_WITH_ME_DATA.tr;
   const { faq } = data;
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState(null);
 
   const handleScrollToContact = (e) => {
     e.preventDefault();
@@ -16,7 +19,7 @@ export default function WorkWithMeFAQ() {
   };
 
   return (
-    <section id="faq" className="pwm-section">
+    <section id="faq" className="pwm-section border-t border-slate-200">
       <div className="pwm-container pwm-container--narrow">
         <SectionHeader center tag={faq.tag} title={faq.title} subtitle={faq.subtitle} />
 
@@ -26,8 +29,10 @@ export default function WorkWithMeFAQ() {
             const panelId = `faq-panel-${index}`;
 
             return (
-              <div
+              <Reveal
                 key={item.question}
+                delay={stagger(index, 0.06)}
+                y={16}
                 className={`rounded-xl border bg-white transition-colors ${
                   isOpen ? 'border-blue-200 shadow-sm' : 'border-slate-200 hover:border-slate-300'
                 }`}
@@ -51,18 +56,36 @@ export default function WorkWithMeFAQ() {
                   </span>
                 </button>
 
-                {isOpen && (
-                  <div id={panelId} className="px-5 sm:px-6 pb-6 -mt-1">
-                    <p className="pwm-body max-w-2xl">{item.answer}</p>
-                  </div>
-                )}
-              </div>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      id={panelId}
+                      key="panel"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.32, ease: EASE_OUT }}
+                      className="overflow-hidden"
+                    >
+                      <motion.div
+                        initial={{ y: -8 }}
+                        animate={{ y: 0 }}
+                        exit={{ y: -8 }}
+                        transition={{ duration: 0.32, ease: EASE_OUT }}
+                        className="px-5 sm:px-6 pb-6 -mt-1"
+                      >
+                        <p className="pwm-body max-w-2xl">{item.answer}</p>
+                      </motion.div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </Reveal>
             );
           })}
         </div>
 
         {/* Still have questions */}
-        <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 p-6 rounded-xl bg-slate-50 border border-slate-200">
+        <Reveal className="mt-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 p-6 rounded-xl bg-slate-50 border border-slate-200">
           <div className="flex items-center gap-4">
             <span className="pwm-icon-tile">
               <FiMessageCircle size={20} />
@@ -81,7 +104,7 @@ export default function WorkWithMeFAQ() {
           <a href="#contact" onClick={handleScrollToContact} className="pwm-btn pwm-btn--secondary pwm-btn--sm">
             {lang === 'tr' ? 'Bana Ulaşın' : 'Get in Touch'}
           </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

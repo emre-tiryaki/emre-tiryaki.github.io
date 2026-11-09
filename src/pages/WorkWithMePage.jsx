@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { MotionConfig } from 'framer-motion';
 import { useTranslation } from '../hooks/translation';
 import { WORK_WITH_ME_DATA } from '../data/professional';
 import WorkWithMeHeader from '../components/professional/WorkWithMeHeader';
@@ -6,7 +7,6 @@ import WorkWithMeHero from '../components/professional/WorkWithMeHero';
 import WorkWithMeServices from '../components/professional/WorkWithMeServices';
 import WorkWithMeWhyMe from '../components/professional/WorkWithMeWhyMe';
 import WorkWithMeProcess from '../components/professional/WorkWithMeProcess';
-import WorkWithMeWork from '../components/professional/WorkWithMeWork';
 import WorkWithMeFAQ from '../components/professional/WorkWithMeFAQ';
 import WorkWithMeCTA from '../components/professional/WorkWithMeCTA';
 import WorkWithMeFooter from '../components/professional/WorkWithMeFooter';
@@ -47,6 +47,8 @@ export default function WorkWithMePage() {
   }, [lang, meta]);
 
   return (
+    // reducedMotion="user": honour the OS "reduce motion" setting (opacity only, no movement).
+    <MotionConfig reducedMotion="user">
     <div className="work-with-me-page">
       <WorkWithMeHeader />
       <main>
@@ -54,11 +56,11 @@ export default function WorkWithMePage() {
         <WorkWithMeServices />
         <WorkWithMeWhyMe />
         <WorkWithMeProcess />
-        <WorkWithMeWork />
         <WorkWithMeFAQ />
         <WorkWithMeCTA />
       </main>
       <WorkWithMeFooter />
     </div>
+    </MotionConfig>
   );
 }

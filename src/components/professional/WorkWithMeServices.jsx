@@ -5,6 +5,8 @@ import {
 import { useTranslation } from '../../hooks/translation';
 import { WORK_WITH_ME_DATA } from '../../data/professional';
 import SectionHeader from './SectionHeader';
+import Reveal from './Reveal';
+import { stagger } from './motionPresets';
 
 const SERVICE_ICONS = {
   layout: FiLayout,
@@ -30,16 +32,18 @@ export default function WorkWithMeServices() {
         <SectionHeader tag={services.tag} title={services.title} subtitle={services.subtitle} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-          {services.items.map((item) => {
+          {services.items.map((item, i) => {
             const Icon = SERVICE_ICONS[item.icon] || FiLayout;
             return (
-              <article key={item.id} className="pwm-card pwm-card--hover">
-                <span className="pwm-icon-tile mb-6">
-                  <Icon size={20} />
-                </span>
-                <h3 className="pwm-h3">{item.title}</h3>
-                <p className="pwm-body">{item.description}</p>
-              </article>
+              <Reveal key={item.id} delay={stagger(i)}>
+                <article className="pwm-card pwm-card--hover">
+                  <span className="pwm-icon-tile mb-6">
+                    <Icon size={20} />
+                  </span>
+                  <h3 className="pwm-h3">{item.title}</h3>
+                  <p className="pwm-body">{item.description}</p>
+                </article>
+              </Reveal>
             );
           })}
         </div>

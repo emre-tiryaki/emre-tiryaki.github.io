@@ -14,7 +14,6 @@ export const WORK_WITH_ME_DATA = {
       { label: "Hizmetler", href: "#services" },
       { label: "Neden Ben?", href: "#why-me" },
       { label: "Süreç", href: "#process" },
-      { label: "Çalışmalar", href: "#work" },
       { label: "SSS", href: "#faq" },
     ],
 
@@ -374,28 +373,38 @@ export const WORK_WITH_ME_DATA = {
       subtitle:
         "Karmaşık teknik terimler olmadan, şeffaf ve adım adım ilerleyen rahat bir çalışma süreci.",
       stepLabel: "Aşama",
+      clientLabel: "Sizden beklenen",
+      deliverablesLabel: "Elinize geçen",
       steps: [
         {
           step: "01",
           title: "Tanışalım & Dinleyelim",
+          client: "İşinizi, hedefinizi ve aklınızdaki fikri anlatmanız yeterli.",
+          deliverables: ["İhtiyaçlarınızın kısa özeti", "İlk öneri ve yol haritası"],
           description:
             "Ne yapmak istediğinizi, işletmenizi ve müşterilerinize nasıl bir deneyim sunmak istediğinizi samimiyetle konuşalım.",
         },
         {
           step: "02",
           title: "Planlayalım & Netleştirelim",
+          client: "Teklifi inceleyip onaylamanız.",
+          deliverables: ["Yazılı kapsam ve sayfa listesi", "Net fiyat ve teslim tarihi"],
           description:
             "İhtiyaçlarınıza en uygun çözümü, işin süresini ve yapılacakları net bir dille belirleyelim; sürprizlere yer bırakmayalım.",
         },
         {
           step: "03",
           title: "Geliştirelim & Paylaşalım",
+          client: "Ara demolara göz atıp geri bildirim vermeniz.",
+          deliverables: ["Ara demolar", "Canlı önizleme bağlantısı"],
           description:
             "Ürünü geliştirirken önemli aşamalarda size ara demolar göstererek fikirlerinizi alalım, birlikte şekillendirelim.",
         },
         {
           step: "04",
           title: "Yayına Alalım & Büyütelim",
+          client: "Son kontrolü yapıp onay vermeniz.",
+          deliverables: ["Yayındaki site veya uygulama", "Kısa kullanım rehberi", "Yayın sonrası destek"],
           description:
             "Tüm kontrolleri tamamlayıp sitenizi veya uygulamanızı canlıya alalım. Sonrasında ihtiyaç halinde geliştirmeye devam edelim.",
         },
@@ -550,7 +559,6 @@ export const WORK_WITH_ME_DATA = {
       title: "Yazılım Mühendisi",
       tagline: "İşletmeler ve kişiler için güvenilir, modern ve değer üreten dijital çözümler geliştiriyorum.",
       copyright: "© 2026 Emre Tiryaki. Tüm hakları saklıdır.",
-      developerPortfolioLink: "Geliştirici Portfolyosu (Dark) →",
     },
   },
 
@@ -564,7 +572,6 @@ export const WORK_WITH_ME_DATA = {
       { label: "Services", href: "#services" },
       { label: "Why Me?", href: "#why-me" },
       { label: "Process", href: "#process" },
-      { label: "Work", href: "#work" },
       { label: "FAQ", href: "#faq" },
     ],
 
@@ -924,28 +931,38 @@ export const WORK_WITH_ME_DATA = {
       subtitle:
         "No confusing tech jargon. Just a clear, step-by-step roadmap from initial chat to live product.",
       stepLabel: "Step",
+      clientLabel: "What you do",
+      deliverablesLabel: "What you get",
       steps: [
         {
           step: "01",
           title: "Chat & Discovery",
+          client: "Just tell me about your business, your goal and your idea.",
+          deliverables: ["A short summary of your needs", "First recommendation & roadmap"],
           description:
             "We sit down to talk about your business, the customers you serve, and what problem you'd like software to solve.",
         },
         {
           step: "02",
           title: "Plan & Proposal",
+          client: "Review and approve the proposal.",
+          deliverables: ["Written scope & page list", "Fixed price and delivery date"],
           description:
             "I outline the exact solution, clear timelines, and fixed scope in plain language so there are zero surprises.",
         },
         {
           step: "03",
           title: "Build & Review",
+          client: "Check the previews and share feedback.",
+          deliverables: ["Regular progress demos", "Live preview link"],
           description:
             "I develop your product step-by-step, sharing interactive previews along the way to gather your thoughts and fine-tune.",
         },
         {
           step: "04",
           title: "Launch & Support",
+          client: "Do a final review and give the go-ahead.",
+          deliverables: ["Your live website or app", "A short how-to guide", "Post-launch support"],
           description:
             "We run thorough quality tests and launch your site or software to the public, followed by ongoing support whenever needed.",
         },
@@ -1100,7 +1117,6 @@ export const WORK_WITH_ME_DATA = {
       title: "Software Engineer",
       tagline: "Building reliable, modern, and high-impact digital solutions for businesses and individuals.",
       copyright: "© 2026 Emre Tiryaki. All rights reserved.",
-      developerPortfolioLink: "Developer Portfolio (Dark) →",
     },
   },
 };
