@@ -832,6 +832,7 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
   const titleText = tData(experience.title);
   const locationText = experience.location ? tData(experience.location) : null;
   const achievementText = experience.achievement ? tData(experience.achievement) : null;
+  const teamNameText = experience.teamName ? tData(experience.teamName) : null;
   const storyText = experience.story ? tData(experience.story) : null;
   const durationText = experience.duration ? tData(experience.duration) : null;
   // Ongoing only when a range was started but not ended; single-date events (hackathons/competitions) are never ongoing
@@ -945,6 +946,26 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                 >
                   <FiAward size={13} style={{ color: '#facc15' }} />
                   <span>{achievementText}</span>
+                </span>
+              )}
+
+              {teamNameText && (
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    padding: '0.28rem 0.75rem',
+                    borderRadius: '999px',
+                    background: 'rgba(249, 115, 22, 0.12)',
+                    border: '1px solid rgba(249, 115, 22, 0.35)',
+                    color: '#fdba74',
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                  }}
+                >
+                  <FiUsers size={13} style={{ color: '#fb923c' }} />
+                  <span>{t('experience.details.teamName')}: {teamNameText}</span>
                 </span>
               )}
             </div>

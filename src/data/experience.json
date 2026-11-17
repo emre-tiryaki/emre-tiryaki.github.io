@@ -1,6 +1,7 @@
 [
   {
     "id": "nasa-space-apps-challenge",
+    "teamName": "2gbram",
     "company": "NASA Space Apps Challenge — Sivas",
     "url": "https://www.spaceappschallenge.org",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
@@ -157,6 +158,7 @@
   },
   {
     "id": "tua-hackathon",
+    "teamName": "Avicenna",
     "company": "TUA Astro Hackathon Malatya 2026",
     "url": "https://tuaastrohackathon.com/tr/astro-hackathon-2026/2026-local-events/malatya?tab=details",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
@@ -190,6 +192,7 @@
   },
   {
     "id": "aa-hackathon",
+    "teamName": "HEGS",
     "company": "Anadolu Ajansı Medya Teknolojileri Hackathonu v2.0",
     "url": "https://www.aa.com.tr/tr/info/infografik/47594",
     "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
