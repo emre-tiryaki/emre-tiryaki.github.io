@@ -111,6 +111,7 @@
     "prev": "Previous",
     "next": "Next",
     "filterAll": "All",
+    "contributionCount": "{count} contributions",
     "noResults": "No projects match the selected criteria.",
     "filterLabel": "Filter by Tech",
     "filterSelected": "{n} selected",

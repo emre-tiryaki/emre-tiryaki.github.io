@@ -30,38 +30,89 @@
     ]
   },
   {
-    "id": "ani-cli-exact-match",
+    "id": "ani-cli",
     "title": {
-      "tr": "ani-cli — Tam Eşleşme Modu",
-      "en": "ani-cli — Exact Match Mode"
+      "tr": "ani-cli",
+      "en": "ani-cli"
     },
     "description": {
-      "tr": "ani-cli projesinde, wrapper scriptlerin yanlış diziyi otomatik seçmesine yol açan sorunu çözmek için arama sonuçlarını sorgu ile büyük/küçük harf duyarsız tam eşleşmeye göre filtreleyen özelliği geliştirdim. Eşleşme yoksa kullanıcıya açık bir hata mesajı verilir. Maintainer'ın code review geri bildirimiyle CLI flag'i yerine ANI_CLI_EXACT ortam değişkeni olarak yeniden tasarlandı; boşluk ve özel karakter içeren başlıklar için sorgu normalizasyonu düzeltildi. Yardım metni, man sayfası ve sürüm numarası güncellendi.",
-      "en": "Implemented a case-insensitive exact-match filter for search results in ani-cli, fixing wrapper scripts silently auto-selecting the wrong show when only one result is returned. Reports a clear error when nothing matches. Redesigned from a CLI flag into the ANI_CLI_EXACT environment variable after maintainer review, and fixed query normalization for titles containing spaces and special characters. Updated help text, man page and version."
-    },
-    "achievements": {
-      "tr": "Pull Request upstream'e merge edildi (#1938, issue #1851)",
-      "en": "Pull Request merged upstream (#1938, issue #1851)"
+      "tr": "Terminalden anime aramak, izlemek ve indirmek için kullanılan popüler POSIX shell tabanlı açık kaynak CLI aracı. Upstream'e merge edilmiş katkılarım aşağıda listelenmiştir.",
+      "en": "A popular POSIX shell based open-source CLI for searching, streaming and downloading anime from the terminal. My contributions merged upstream are listed below."
     },
     "techStack": ["Shell", "POSIX", "GitHub"],
     "tags": ["Open Source", "CLI", "Shell"],
-    "sourceCode": "https://github.com/pystardust/ani-cli/pull/1938",
-    "liveDemo": null,
-    "isPrivate": false,
+    "sourceCode": "https://github.com/pystardust/ani-cli",
     "isOpenSource": true,
-    "preview": null,
-    "previews": [],
-    "usage": {
-      "language": "bash",
-      "code": {
-        "tr": "# Normal arama: Benzer tüm sonuçlar listelenir\nani-cli \"Jujutsu Kaisen\"\n\n# Tam eşleşme modu: Yalnızca başlığı birebir eşleşen seriyi filtreler\nANI_CLI_EXACT=1 ani-cli \"Jujutsu Kaisen\"",
-        "en": "# Standard search: Lists all partial and fuzzy matches\nani-cli \"Jujutsu Kaisen\"\n\n# Exact match mode: Only matches anime with identical title\nANI_CLI_EXACT=1 ani-cli \"Jujutsu Kaisen\""
+    "contributions": [
+      {
+        "id": "ani-cli-exact-match",
+        "title": {
+          "tr": "ani-cli — Tam Eşleşme Modu",
+          "en": "ani-cli — Exact Match Mode"
+        },
+        "description": {
+          "tr": "ani-cli projesinde, wrapper scriptlerin yanlış diziyi otomatik seçmesine yol açan sorunu çözmek için arama sonuçlarını sorgu ile büyük/küçük harf duyarsız tam eşleşmeye göre filtreleyen özelliği geliştirdim. Eşleşme yoksa kullanıcıya açık bir hata mesajı verilir. Maintainer'ın code review geri bildirimiyle CLI flag'i yerine ANI_CLI_EXACT ortam değişkeni olarak yeniden tasarlandı; boşluk ve özel karakter içeren başlıklar için sorgu normalizasyonu düzeltildi. Yardım metni, man sayfası ve sürüm numarası güncellendi.",
+          "en": "Implemented a case-insensitive exact-match filter for search results in ani-cli, fixing wrapper scripts silently auto-selecting the wrong show when only one result is returned. Reports a clear error when nothing matches. Redesigned from a CLI flag into the ANI_CLI_EXACT environment variable after maintainer review, and fixed query normalization for titles containing spaces and special characters. Updated help text, man page and version."
+        },
+        "achievements": {
+          "tr": "Pull Request upstream'e merge edildi (#1938, issue #1851)",
+          "en": "Pull Request merged upstream (#1938, issue #1851)"
+        },
+        "techStack": ["Shell", "POSIX", "GitHub"],
+        "tags": ["Open Source", "CLI", "Shell"],
+        "sourceCode": "https://github.com/pystardust/ani-cli/pull/1938",
+        "liveDemo": null,
+        "isPrivate": false,
+        "isOpenSource": true,
+        "preview": null,
+        "previews": [],
+        "usage": {
+          "language": "bash",
+          "code": {
+            "tr": "# Normal arama: Benzer tüm sonuçlar listelenir\nani-cli \"Jujutsu Kaisen\"\n\n# Tam eşleşme modu: Yalnızca başlığı birebir eşleşen seriyi filtreler\nANI_CLI_EXACT=1 ani-cli \"Jujutsu Kaisen\"",
+            "en": "# Standard search: Lists all partial and fuzzy matches\nani-cli \"Jujutsu Kaisen\"\n\n# Exact match mode: Only matches anime with identical title\nANI_CLI_EXACT=1 ani-cli \"Jujutsu Kaisen\""
+          },
+          "note": {
+            "tr": "Wrapper veya otomasyon scriptlerinde 'ANI_CLI_EXACT=1' tanımlandığında, arama sorgusu ile birebir (büyük/küçük harf duyarsız) eşleşen başlık hedeflenir. Tam eşleşen dizi bulunamazsa 'No exact match found.' uyarısıyla sonlanarak scriptlerin yanlış diziyi otomatik oynatması önlenir.",
+            "en": "Setting 'ANI_CLI_EXACT=1' in wrapper or automation scripts ensures case-insensitive exact title matching. If no exact match is found, it exits with 'No exact match found.', preventing scripts from auto-selecting the wrong series."
+          }
+        }
       },
-      "note": {
-        "tr": "Wrapper veya otomasyon scriptlerinde 'ANI_CLI_EXACT=1' tanımlandığında, arama sorgusu ile birebir (büyük/küçük harf duyarsız) eşleşen başlık hedeflenir. Tam eşleşen dizi bulunamazsa 'No exact match found.' uyarısıyla sonlanarak scriptlerin yanlış diziyi otomatik oynatması önlenir.",
-        "en": "Setting 'ANI_CLI_EXACT=1' in wrapper or automation scripts ensures case-insensitive exact title matching. If no exact match is found, it exits with 'No exact match found.', preventing scripts from auto-selecting the wrong series."
+      {
+        "id": "ani-cli-tmp-download-dir",
+        "title": {
+          "tr": "ani-cli — Geçici İndirme Dizini",
+          "en": "ani-cli — Temporary Download Directory"
+        },
+        "description": {
+          "tr": "ani-cli'a, yt-dlp ile indirme yapılırken oluşan ara dosyaların (.part, .ytdl ve eşzamanlı fragment indirmelerinin -FragN dosyaları) ayrı bir geçici dizine yazılmasını sağlayan isteğe bağlı bir özellik ekledim. Özellik varsayılan olarak kapalıdır; mevcut davranış korunur ve fragment'lar indirme dizinine yazılır. ANI_CLI_TMP_DIR ortam değişkeni tanımlandığında ara dosyalar bu dizinde tutulur ve indirme dizinine yalnızca tamamlanan bölüm düşer; böylece dosya yöneticisi kalabalığı ve SSD'de gereksiz yazma yükü önlenir. Diğer ANI_CLI_* ayarlarıyla uyumlu olarak yeni bir CLI flag'i eklenmedi.",
+          "en": "Added an opt-in feature to ani-cli that writes yt-dlp's intermediate files (.part, .ytdl and the -FragN files from concurrent fragment downloads) to a separate temporary directory. It is disabled by default, so the existing behaviour is kept and fragments are written to the download directory. When the ANI_CLI_TMP_DIR environment variable is set, intermediate files are kept there and only finished episodes land in the download directory, avoiding file-manager noise and needless SSD write churn. In line with the other ANI_CLI_* settings, no new CLI flag was added."
+        },
+        "achievements": {
+          "tr": "Pull Request upstream'e merge edildi (#1975, issue #1955)",
+          "en": "Pull Request merged upstream (#1975, issue #1955)"
+        },
+        "techStack": ["Shell", "POSIX", "yt-dlp", "GitHub"],
+        "tags": ["Open Source", "CLI", "Shell"],
+        "sourceCode": "https://github.com/pystardust/ani-cli/pull/1975",
+        "liveDemo": null,
+        "isPrivate": false,
+        "isOpenSource": true,
+        "preview": null,
+        "previews": [],
+        "usage": {
+          "language": "bash",
+          "code": {
+            "tr": "# Varsayılan (özellik kapalı): fragment'lar indirme dizinine yazılır\nani-cli -d -e 1-5 \"Violet Evergarden\"\n\n# Geçici dizin tanımlı: fragment'lar burada tutulur, indirme dizinine yalnızca biten bölüm düşer\nANI_CLI_TMP_DIR=\"$HOME/.cache/ani-cli\" ani-cli -d -e 1-5 \"Violet Evergarden\"\n\n# Özel indirme dizini ile birlikte\nANI_CLI_DOWNLOAD_DIR=\"$HOME/Videos/anime\" ANI_CLI_TMP_DIR=\"$HOME/.cache/ani-cli\" ani-cli -d -e 1-3 \"Violet Evergarden\"",
+            "en": "# Default (feature off): fragments are written to the download directory\nani-cli -d -e 1-5 \"Violet Evergarden\"\n\n# Temp directory set: fragments stay here, only finished episodes land in the download directory\nANI_CLI_TMP_DIR=\"$HOME/.cache/ani-cli\" ani-cli -d -e 1-5 \"Violet Evergarden\"\n\n# Combined with a custom download directory\nANI_CLI_DOWNLOAD_DIR=\"$HOME/Videos/anime\" ANI_CLI_TMP_DIR=\"$HOME/.cache/ani-cli\" ani-cli -d -e 1-3 \"Violet Evergarden\""
+          },
+          "note": {
+            "tr": "ANI_CLI_TMP_DIR tanımlanmadığı sürece davranış değişmez. Değişken tmpfs üzerindeki bir konuma (ör. /tmp) yönlendirilirse indirilmekte olan bölüm tamamlanana kadar RAM'de tutulur; RAM'i kısıtlı kullanıcılar disk tabanlı bir konum seçmelidir. Ayrı ses kanalı olduğunda kullanılan ffmpeg yolu değişmedi; doğrudan hedefe yazar ve fragment dosyası oluşturmaz.",
+            "en": "Behaviour is unchanged unless ANI_CLI_TMP_DIR is set. If it points to a tmpfs location (e.g. /tmp), the in-progress episode lives in RAM until it finishes, so users with limited RAM should choose a disk-backed location. The ffmpeg path (used when a separate audio track exists) is unchanged; it writes directly to the destination and creates no fragment files."
+          }
+        }
       }
-    }
+    ]
   },
   {
     "id": "clearsky",

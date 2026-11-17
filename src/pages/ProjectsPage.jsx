@@ -22,6 +22,7 @@ export default function ProjectsPage() {
   const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedId, setSelectedId] = useState(null);
+  const [expandedIds, setExpandedIds] = useState(() => new Set());
 
   const [listRef, listMaskStyle]     = useScrollMask('vertical', 24);
   const [detailRef, detailMaskStyle] = useScrollMask('vertical', 28);
@@ -39,11 +40,21 @@ export default function ProjectsPage() {
   /* ── Active project (persists selection if still visible after filter change) ── */
   const activeProject = useMemo(() => {
     if (!selectedId) return null;
-    return filtered.find((p) => p.id === selectedId) || null;
+    const flat = filtered.flatMap((p) => (p.contributions ? p.contributions : [p]));
+    return flat.find((p) => p.id === selectedId) || null;
   }, [selectedId, filtered]);
 
   const handleCardClick = (id) => {
     setSelectedId((prev) => (prev === id ? null : id));
+  };
+
+  const toggleGroup = (id) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   };
 
   const handleCategoryChange = (cat) => {
@@ -110,14 +121,52 @@ export default function ProjectsPage() {
                 {t('projects.noResults')}
               </p>
             ) : (
-              filtered.map((project) => (
-                <ProjectListCard
-                  key={project.id}
-                  project={project}
-                  isSelected={activeProject?.id === project.id}
-                  onClick={() => handleCardClick(project.id)}
-                />
-              ))
+              filtered.map((project) => {
+                if (!project.contributions) {
+                  return (
+                    <ProjectListCard
+                      key={project.id}
+                      project={project}
+                      isSelected={activeProject?.id === project.id}
+                      onClick={() => handleCardClick(project.id)}
+                    />
+                  );
+                }
+                const isExpanded = expandedIds.has(project.id);
+                const hasActiveChild = project.contributions.some((c) => c.id === activeProject?.id);
+                return (
+                  <div key={project.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <ProjectListCard
+                      project={project}
+                      isSelected={hasActiveChild && !isExpanded}
+                      groupCount={project.contributions.length}
+                      isExpanded={isExpanded}
+                      onClick={() => toggleGroup(project.id)}
+                    />
+                    {isExpanded && (
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '0.75rem',
+                          marginLeft: '0.9rem',
+                          paddingLeft: '0.9rem',
+                          borderLeft: `2px solid ${PROJECT_CATEGORY_CONFIG.openSource.borderInactive}`,
+                        }}
+                      >
+                        {project.contributions.map((child) => (
+                          <ProjectListCard
+                            key={child.id}
+                            project={child}
+                            isSelected={activeProject?.id === child.id}
+                            onClick={() => handleCardClick(child.id)}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
             )}
           </div>
         </div>

@@ -111,6 +111,7 @@
     "prev": "Önceki",
     "next": "Sonraki",
     "filterAll": "Tümü",
+    "contributionCount": "{count} katkı",
     "noResults": "Seçilen kriterlerle eşleşen proje bulunamadı.",
     "filterLabel": "Teknoloji Filtrele",
     "filterSelected": "{n} teknoloji seçili",

@@ -29,24 +29,26 @@ export default function ExperienceCard({
     : date
       ? resolveDate(date, lang)
       : null;
-  const isOngoing = !endDate; // ISO model: missing endDate => ongoing
+  // Ongoing only when a range was started but not ended; single-date events (hackathons/competitions) are never ongoing
+  const isOngoing = Boolean(startDate) && !endDate;
+
+  const idleBg = 'linear-gradient(135deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0.015) 100%)';
+  const idleBorder = 'rgba(255, 255, 255, 0.08)';
 
   return (
     <div
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
-      className="group relative flex flex-col justify-between gap-3.5 rounded-2xl transition-all duration-250"
+      className="group relative flex flex-col gap-3 overflow-hidden transition-all duration-300 hover:-translate-y-0.5"
       style={{
-        padding: '1.25rem 1.45rem',
+        padding: '1.2rem 1.4rem 1rem 1.6rem',
         borderRadius: '1.15rem',
         width: '100%',
         background: isSelected
-          ? (config.hoverBg || 'rgba(249, 115, 22, 0.08)')
-          : 'rgba(255, 255, 255, 0.03)',
-        border: isSelected
-          ? `1.5px solid ${config.color}`
-          : '1px solid rgba(255, 255, 255, 0.08)',
+          ? `linear-gradient(135deg, ${config.bg} 0%, ${config.hoverBg} 100%)`
+          : idleBg,
+        border: isSelected ? `1.5px solid ${config.color}` : `1px solid ${idleBorder}`,
         boxShadow: isSelected
           ? `0 12px 36px rgba(0, 0, 0, 0.55), 0 0 20px ${config.color}30, inset 0 0 16px ${config.color}12`
           : 'none',
@@ -56,20 +58,41 @@ export default function ExperienceCard({
       onMouseEnter={e => {
         if (!isSelected) {
           e.currentTarget.style.borderColor = config.hoverBorder;
-          e.currentTarget.style.background = config.hoverBg;
+          e.currentTarget.style.background = `linear-gradient(135deg, ${config.hoverBg} 0%, rgba(255, 255, 255, 0.02) 100%)`;
           e.currentTarget.style.boxShadow = `0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px ${config.hoverShadow}`;
         }
       }}
+      onMouseMove={e => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+        e.currentTarget.style.setProperty('--my', `${e.clientY - rect.top}px`);
+      }}
       onMouseLeave={e => {
         if (!isSelected) {
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+          e.currentTarget.style.borderColor = idleBorder;
+          e.currentTarget.style.background = idleBg;
           e.currentTarget.style.boxShadow = 'none';
         }
       }}
     >
-      {/* ── Top Header: Type Badge + (Ongoing / Achievement / Duration Pills) ── */}
-      <div className="flex items-center justify-between gap-2 flex-wrap">
+      {/* Left accent bar in the type color */}
+      <span
+        aria-hidden
+        className={`absolute left-0 top-0 bottom-0 w-[3px] transition-opacity duration-300 ${isSelected ? 'opacity-100' : 'opacity-40 group-hover:opacity-100'}`}
+        style={{ background: `linear-gradient(180deg, ${config.color}, ${config.color}00)` }}
+      />
+
+      {/* Cursor-following spotlight (position via --mx/--my set on mousemove) */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), ${config.color}26, transparent 70%)`,
+        }}
+      />
+
+      {/* ── Header: Type Badge + (Ongoing / Achievement / Duration Pills) ── */}
+      <div className="relative flex items-center justify-between gap-2 flex-wrap">
         <span
           className="inline-flex items-center gap-1.5 rounded-lg text-xs font-bold uppercase tracking-wider"
           style={{
@@ -132,40 +155,50 @@ export default function ExperienceCard({
         )}
       </div>
 
-      {/* ── Main Content Row: Left (Company & Title) | Far Right (Date & Location) ── */}
-      <div className="flex items-start justify-between gap-4 pt-0.5">
-        {/* Left: Company & Title */}
-        <div className="min-w-0 flex-1">
-          <h3
-            className="text-base font-extrabold text-slate-100 transition-colors leading-tight"
-            style={{ transition: 'color 0.2s ease' }}
-            onMouseEnter={e => e.currentTarget.style.color = config.titleHover}
-            onMouseLeave={e => e.currentTarget.style.color = '#f1f5f9'}
-          >
-            {company}
-          </h3>
-          <p className="text-sm font-semibold text-neutral-400 mt-1 select-none">
-            {tData(title)}
-          </p>
-        </div>
+      {/* ── Company & Title ── */}
+      <div className="relative min-w-0">
+        <h3
+          className="text-[1.05rem] font-extrabold leading-tight tracking-tight transition-colors duration-200"
+          style={{ color: isSelected ? config.titleHover : '#f1f5f9' }}
+        >
+          {company}
+        </h3>
+        <p className="text-sm font-semibold text-neutral-400 mt-1">
+          {tData(title)}
+        </p>
+      </div>
 
-        {/* Far Right: Date & Location */}
-        <div className="flex flex-col items-end text-right shrink-0">
+      {/* ── Footer: Location (left) | Date (bottom-right) ── */}
+      {(dateDisplay || location) && (
+        <div
+          className="relative flex flex-nowrap items-center justify-between gap-3 pt-2.5 mt-0.5"
+          style={{ borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}
+        >
+          {location ? (
+            <div
+              className="flex flex-1 items-center gap-1.5 text-[11px] font-medium text-neutral-400 min-w-0"
+              title={tData(location)}
+            >
+              <FiMapPin size={11} className="text-neutral-500 shrink-0" />
+              <span className="truncate min-w-0">{tData(location)}</span>
+            </div>
+          ) : <span />}
+
           {dateDisplay && (
-            <div className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-200 select-none">
-              <FiCalendar size={12} style={{ color: config.color }} className="shrink-0" />
+            <div
+              className="ml-auto inline-flex items-center gap-1.5 rounded-md text-[11px] font-semibold text-slate-200 shrink-0 whitespace-nowrap"
+              style={{
+                padding: '0.2rem 0.55rem',
+                background: config.badgeBg,
+                border: `1px solid ${config.badgeBorder}`,
+              }}
+            >
+              <FiCalendar size={11} style={{ color: config.color }} className="shrink-0" />
               <span>{dateDisplay}</span>
             </div>
           )}
-
-          {location && (
-            <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-neutral-400 mt-1">
-              <FiMapPin size={11} className="text-neutral-500 shrink-0" />
-              <span>{tData(location)}</span>
-            </div>
-          )}
         </div>
-      </div>
+      )}
     </div>
   );
 }

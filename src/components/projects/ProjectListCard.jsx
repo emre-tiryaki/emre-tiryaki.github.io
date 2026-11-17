@@ -17,7 +17,7 @@ const DEFAULT_PROJECT_THEME = {
   glow: 'rgba(249, 115, 22, 0.22)',
 };
 
-export default function ProjectListCard({ project, isSelected, onClick }) {
+export default function ProjectListCard({ project, isSelected, onClick, groupCount, isExpanded }) {
   const { t, tData } = useTranslation();
   const catKey = getProjectCategoryKey(project);
   const cfg = catKey === 'project' 
@@ -29,23 +29,29 @@ export default function ProjectListCard({ project, isSelected, onClick }) {
   const visibleTechs = (project.techStack || []).slice(0, 3);
   const extraCount = Math.max(0, (project.techStack || []).length - 3);
 
+  const idleBg = 'linear-gradient(135deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0.015) 100%)';
+  const idleBorder = 'rgba(255, 255, 255, 0.08)';
+
   return (
     <div
       onClick={onClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
-      className="group relative flex flex-col justify-between gap-3 rounded-2xl transition-all duration-200"
+      aria-expanded={groupCount ? !!isExpanded : undefined}
+      className="group relative flex shrink-0 flex-col justify-between gap-3 overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
       style={{
         position: 'relative',
         padding: '1.1rem 1.35rem',
         borderRadius: '1.15rem',
         width: '100%',
         boxSizing: 'border-box',
-        background: isSelected ? cfg.bgActive : 'rgba(255, 255, 255, 0.03)',
+        background: isSelected
+          ? `linear-gradient(135deg, ${cfg.bgActive} 0%, ${cfg.bgInactive} 100%)`
+          : idleBg,
         border: isSelected
           ? `1.5px solid ${cfg.borderActive}`
-          : '1px solid rgba(255, 255, 255, 0.08)',
+          : `1px solid ${idleBorder}`,
         boxShadow: isSelected
           ? `0 12px 36px rgba(0, 0, 0, 0.55), 0 0 20px ${cfg.glow}, inset 0 0 16px ${cfg.glow}`
           : 'none',
@@ -55,18 +61,39 @@ export default function ProjectListCard({ project, isSelected, onClick }) {
       onMouseEnter={(e) => {
         if (!isSelected) {
           e.currentTarget.style.borderColor = cfg.borderActive;
-          e.currentTarget.style.background = cfg.bgInactive;
-          e.currentTarget.style.boxShadow = `0 8px 24px rgba(0, 0, 0, 0.4), 0 0 14px ${cfg.glow}`;
+          e.currentTarget.style.background = `linear-gradient(135deg, ${cfg.bgInactive} 0%, rgba(255, 255, 255, 0.02) 100%)`;
+          e.currentTarget.style.boxShadow = `0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px ${cfg.glow}`;
         }
+      }}
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+        e.currentTarget.style.setProperty('--my', `${e.clientY - rect.top}px`);
       }}
       onMouseLeave={(e) => {
         if (!isSelected) {
-          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+          e.currentTarget.style.borderColor = idleBorder;
+          e.currentTarget.style.background = idleBg;
           e.currentTarget.style.boxShadow = 'none';
         }
       }}
     >
+      {/* Left accent bar in the category color */}
+      <span
+        aria-hidden
+        className={`absolute left-0 top-0 bottom-0 w-[3px] transition-opacity duration-300 ${isSelected ? 'opacity-100' : 'opacity-40 group-hover:opacity-100'}`}
+        style={{ background: `linear-gradient(180deg, ${cfg.color}, ${cfg.color}00)` }}
+      />
+
+      {/* Cursor-following spotlight (position via --mx/--my set on mousemove) */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), ${cfg.color}26, transparent 70%)`,
+        }}
+      />
+
       {/* ── Absolute Trophy Indicator (Never alters document flow / layout) ── */}
       {achievements && (
         <span
@@ -87,8 +114,8 @@ export default function ProjectListCard({ project, isSelected, onClick }) {
       )}
 
       {/* ── Category Badge (Only for special categories: competition, hackathon, openSource) ── */}
-      {catKey !== 'project' && (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      {catKey !== 'project' && !groupCount && (
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
           <span
             style={{
               display: 'inline-flex',
@@ -111,7 +138,8 @@ export default function ProjectListCard({ project, isSelected, onClick }) {
         </div>
       )}
 
-      {/* ── Title ── */}
+      {/* ── Title (group cards show the contribution count on the right) ── */}
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
       <h3
         style={{
           margin: 0,
@@ -125,10 +153,16 @@ export default function ProjectListCard({ project, isSelected, onClick }) {
       >
         {title}
       </h3>
+      {groupCount > 0 && (
+        <span style={{ flexShrink: 0, fontSize: '0.75rem', fontWeight: 600, color: '#94a3b8' }}>
+          {t('projects.contributionCount', { count: groupCount })}
+        </span>
+      )}
+      </div>
 
       {/* ── Tech Chips (first 3) ── */}
-      {visibleTechs.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1">
+      {visibleTechs.length > 0 && !groupCount && (
+        <div className="relative flex flex-wrap items-center gap-1">
           {visibleTechs.map((tech) => (
             <span
               key={tech}

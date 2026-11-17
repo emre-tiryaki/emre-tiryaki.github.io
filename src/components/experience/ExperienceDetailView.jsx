@@ -834,7 +834,8 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
   const achievementText = experience.achievement ? tData(experience.achievement) : null;
   const storyText = experience.story ? tData(experience.story) : null;
   const durationText = experience.duration ? tData(experience.duration) : null;
-  const isOngoing = !experience.endDate; // ISO model: missing endDate => ongoing
+  // Ongoing only when a range was started but not ended; single-date events (hackathons/competitions) are never ongoing
+  const isOngoing = Boolean(experience.startDate) && !experience.endDate;
 
   const dateDisplay =
     experience.startDate && experience.endDate

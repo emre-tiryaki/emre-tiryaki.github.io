@@ -159,7 +159,7 @@
     "id": "tua-hackathon",
     "company": "TUA Astro Hackathon Malatya 2026",
     "url": "https://tuaastrohackathon.com/tr/astro-hackathon-2026/2026-local-events/malatya?tab=details",
-    "title": { "tr": "Katılımcı", "en": "Participant" },
+    "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
     "location": { "tr": "Malatya", "en": "Malatya" },
     "date": "2026-04",
     "duration": { "tr": "2 gün", "en": "2 days" },
