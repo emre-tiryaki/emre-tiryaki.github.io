@@ -33,7 +33,7 @@
         "id": "certification",
         "title": { "tr": "Sertifika & Belgeler", "en": "Certificates & Documents" },
         "items": [
-          { "tr": "NASA Space Apps Challenge Sivas Katılım Belgesi", "en": "NASA Space Apps Challenge Sivas Participation Certificate" }
+          { "tr": "NASA Space Apps Challenge Sivas Katılım Belgesi", "en": "NASA Space Apps Challenge Sivas Participation Certificate", "document": "nasa-space-apps" }
         ]
       }
     ]

@@ -6,12 +6,6 @@ import PdfModal from '../components/ui/PdfModal';
 import certificationsData from '../data/certifications.json';
 import { useTranslation } from '../hooks/translation';
 import { useScrollMask } from '../hooks/useScrollMask';
-import { NASA_SPACE_APPS_CERT_PDF } from '../lib/media';
-
-// Map certification IDs to locally-resolved asset URLs (PDFs, etc.)
-const LOCAL_CERT_URLS = {
-  'nasa-space-apps-cert': NASA_SPACE_APPS_CERT_PDF,
-};
 
 export default function CertificationsPage() {
   const { t, tData } = useTranslation();
@@ -21,12 +15,9 @@ export default function CertificationsPage() {
   const grouped = useMemo(() => {
     const map = new Map();
     certificationsData.forEach((cert) => {
-      const resolved = LOCAL_CERT_URLS[cert.id]
-        ? { ...cert, url: LOCAL_CERT_URLS[cert.id] }
-        : cert;
-      const key = typeof resolved.authority === 'object' ? resolved.authority.tr : resolved.authority;
+      const key = typeof cert.authority === 'object' ? cert.authority.tr : cert.authority;
       if (!map.has(key)) map.set(key, []);
-      map.get(key).push(resolved);
+      map.get(key).push(cert);
     });
     return Array.from(map.entries());
   }, []);
@@ -164,7 +155,6 @@ export default function CertificationsPage() {
       {/* PDF Certificate Modal */}
       {activePdf && (
         <PdfModal
-          isOpen={Boolean(activePdf)}
           onClose={() => setActivePdf(null)}
           pdfUrl={activePdf.url}
           title={activePdf.title}

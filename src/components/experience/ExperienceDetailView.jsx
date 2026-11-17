@@ -26,15 +26,35 @@ import {
 } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { useScrollMask } from '../../hooks/useScrollMask';
-import { getExperienceTypeConfig } from '../../theme';
+import { getExperienceTypeConfig, THEME_COLORS } from '../../theme';
 import { resolveDate, formatDateRange } from '../../lib/date';
 import teamData from '../../data/team.json';
 import PdfModal from '../ui/PdfModal';
-import { NASA_SPACE_APPS_CERT_PDF } from '../../lib/media';
+import { getCertDocument } from '../../lib/media';
 
-const EXP_CERT_PDFS = {
-  'nasa-space-apps-challenge': NASA_SPACE_APPS_CERT_PDF,
-};
+const { accent } = THEME_COLORS;
+
+// Custom-section item that carries a `document` key: label + "View" button opening the PDF.
+function DocumentItem({ text, onView }) {
+  const { t } = useTranslation();
+  return (
+    <li style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem', flexWrap: 'wrap' }}>
+      <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', color: '#f8fafc', fontWeight: 500, fontSize: '0.9rem' }}>
+        <span>📜</span>
+        <span>{text}</span>
+      </span>
+      <button
+        type="button"
+        onClick={onView}
+        className="inline-flex items-center rounded-lg border border-orange-500/40 bg-orange-500/15 text-orange-400 hover:border-orange-500/70 hover:bg-orange-500/30 transition-all duration-150 cursor-pointer"
+        style={{ gap: '0.45rem', padding: '0.35rem 0.85rem', fontSize: '0.78rem', fontWeight: 600 }}
+      >
+        <FiFileText size={13} />
+        <span>{t('certifications.view')}</span>
+      </button>
+    </li>
+  );
+}
 
 const experiencePhotosModules = import.meta.glob(
   '../../assets/experience/**/*.{jpg,jpeg,png,webp,PNG,JPG,JPEG,gif,GIF,avif,AVIF,svg,SVG}',
@@ -1542,17 +1562,13 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
         {Array.isArray(experience.customSections) &&
           experience.customSections.map((sec) => {
             const secTitle = tData(sec.title);
-            const isCertSection = sec.id === 'certification';
-            const certPdfUrl = EXP_CERT_PDFS[experience.id];
+            const items = Array.isArray(sec.items) ? sec.items : null;
+            const SecIcon = items?.some((item) => item?.document) ? FiAward : FiCheckCircle;
 
             return (
               <div key={sec.id || secTitle} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  {isCertSection ? (
-                    <FiAward size={15} style={{ color: '#fb923c' }} />
-                  ) : (
-                    <FiCheckCircle size={14} style={{ color: '#fb923c' }} />
-                  )}
+                  <SecIcon size={SecIcon === FiAward ? 15 : 14} style={{ color: accent.light }} />
                   <h3
                     style={{
                       margin: 0,
@@ -1567,7 +1583,7 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                   </h3>
                 </div>
 
-                {Array.isArray(sec.items) && (
+                {items && (
                   <ul
                     style={{
                       margin: 0,
@@ -1581,54 +1597,16 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                       listStyleType: 'none',
                     }}
                   >
-                    {sec.items.map((item, i) => {
+                    {items.map((item, i) => {
                       const itemText = tData(item);
-                      if (isCertSection && certPdfUrl) {
+                      const pdfUrl = getCertDocument(item?.document);
+                      if (pdfUrl) {
                         return (
-                          <li
+                          <DocumentItem
                             key={i}
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'space-between',
-                              gap: '0.75rem',
-                              flexWrap: 'wrap',
-                            }}
-                          >
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', color: '#f8fafc', fontWeight: 500, fontSize: '0.9rem' }}>
-                              <span style={{ color: '#fb923c' }}>📜</span>
-                              <span>{itemText}</span>
-                            </span>
-                            <button
-                              type="button"
-                              onClick={() => setCertPdfModal({ url: certPdfUrl, title: itemText })}
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '0.45rem',
-                                padding: '0.35rem 0.85rem',
-                                borderRadius: '0.55rem',
-                                background: 'rgba(249, 115, 22, 0.15)',
-                                border: '1px solid rgba(249, 115, 22, 0.4)',
-                                color: '#fb923c',
-                                fontSize: '0.78rem',
-                                fontWeight: 600,
-                                cursor: 'pointer',
-                                transition: 'all 0.15s ease',
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.background = 'rgba(249, 115, 22, 0.28)';
-                                e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.7)';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.background = 'rgba(249, 115, 22, 0.15)';
-                                e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.4)';
-                              }}
-                            >
-                              <FiFileText size={13} />
-                              <span>{t('certifications.view') || 'Görüntüle'}</span>
-                            </button>
-                          </li>
+                            text={itemText}
+                            onView={() => setCertPdfModal({ url: pdfUrl, title: itemText })}
+                          />
                         );
                       }
 
@@ -1644,7 +1622,7 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                             lineHeight: 1.5,
                           }}
                         >
-                          <span style={{ color: '#fb923c', marginTop: '0.15rem' }}>▸</span>
+                          <span style={{ color: accent.light, marginTop: '0.15rem' }}>▸</span>
                           <span>{itemText}</span>
                         </li>
                       );
@@ -1658,7 +1636,6 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
         {/* Certificate PDF Modal */}
         {certPdfModal && (
           <PdfModal
-            isOpen={Boolean(certPdfModal)}
             onClose={() => setCertPdfModal(null)}
             pdfUrl={certPdfModal.url}
             title={certPdfModal.title}

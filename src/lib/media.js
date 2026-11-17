@@ -118,8 +118,15 @@ export const AGENT_ICONS = Object.entries(agentIconModules)
   })
   .map(([, url]) => url);
 
-// ── Certificate PDFs ──
-export const NASA_SPACE_APPS_CERT_PDF = new URL('../assets/NASA Space Apps Challenge.pdf', import.meta.url).href;
+// ── Certificate documents (keyed by the `document` field in certifications/experience JSON) ──
+export const CERT_DOCUMENTS = {
+  'nasa-space-apps': new URL('../assets/NASA Space Apps Challenge.pdf', import.meta.url).href,
+};
+
+/** Resolve a local certificate PDF by its `document` key. */
+export function getCertDocument(documentKey) {
+  return CERT_DOCUMENTS[documentKey] || null;
+}
 
 // ── Personal photos ──
 export const PORTRAIT_PHOTO = new URL('../assets/personal_photos/20251210_140639.jpg', import.meta.url).href;
@@ -128,11 +135,13 @@ export default {
   DEVICON_BASE,
   PORTRAIT_PHOTO,
   AUTHORITY_LOGOS,
+  CERT_DOCUMENTS,
   EDUCATION_LOGOS,
   CATEGORY_ICONS,
   SKILL_CUSTOM_ICONS,
   AGENT_ICONS,
   getAuthorityLogo,
+  getCertDocument,
   getEducationLogo,
   getCategoryIconSrc,
   getSkillIconSrc,

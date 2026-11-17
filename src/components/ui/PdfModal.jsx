@@ -2,35 +2,33 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { FiX, FiDownload, FiMaximize2, FiMinimize2 } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
+import { THEME_COLORS } from '../../theme';
 
-export default function PdfModal({ isOpen, onClose, pdfUrl, title, downloadName }) {
+const { accent } = THEME_COLORS;
+
+// Shared PDF viewer modal. Mount it only while open; unmounting closes it.
+export default function PdfModal({ onClose, pdfUrl, title, downloadName, viewerTitle }) {
   const { t } = useTranslation();
   const [isMaximized, setIsMaximized] = useState(false);
 
-  // Prevent background scrolling
+  // Lock background scroll while mounted
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isOpen]);
+  }, []);
 
-  // Handle ESC key press
+  // Close on ESC
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [onClose]);
 
-  if (!isOpen || !pdfUrl) return null;
+  if (!pdfUrl) return null;
 
   const fileName = downloadName || (title ? `${title.replace(/[\s/\\?%*:|"<>]+/g, '_')}.pdf` : 'document.pdf');
 
@@ -55,7 +53,7 @@ export default function PdfModal({ isOpen, onClose, pdfUrl, title, downloadName 
         style={{
           background: '#0d0d0d',
           border: '1px solid rgba(255, 255, 255, 0.12)',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(249, 115, 22, 0.15)',
+          boxShadow: `0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px ${accent.a15}`,
         }}
       >
         {/* ── Modal Header ── */}
@@ -84,12 +82,12 @@ export default function PdfModal({ isOpen, onClose, pdfUrl, title, downloadName 
                 height: '2rem',
                 padding: '0 18px',
                 gap: '8px',
-                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
-                boxShadow: '0 4px 12px rgba(249, 115, 22, 0.3)',
+                background: accent.gradient,
+                boxShadow: `0 4px 12px ${accent.borderSubtle}`,
               }}
             >
               <FiDownload size={13} className="shrink-0" />
-              <span className="whitespace-nowrap">{t('about.downloadCv') || 'İndir'}</span>
+              <span className="whitespace-nowrap">{t('about.downloadCv')}</span>
             </a>
 
             {/* Maximize / Restore Button */}
@@ -118,7 +116,7 @@ export default function PdfModal({ isOpen, onClose, pdfUrl, title, downloadName 
         <div className="relative flex-1 w-full h-full bg-[#111111] overflow-auto">
           <iframe
             src={`${pdfUrl}#toolbar=1&navpanes=0`}
-            title={title || 'PDF Document Viewer'}
+            title={viewerTitle || title || 'PDF Document Viewer'}
             className="w-full h-full border-none"
           />
         </div>
