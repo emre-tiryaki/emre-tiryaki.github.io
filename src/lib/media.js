@@ -118,6 +118,9 @@ export const AGENT_ICONS = Object.entries(agentIconModules)
   })
   .map(([, url]) => url);
 
+// ── Certificate PDFs ──
+export const NASA_SPACE_APPS_CERT_PDF = new URL('../assets/NASA Space Apps Challenge.pdf', import.meta.url).href;
+
 // ── Personal photos ──
 export const PORTRAIT_PHOTO = new URL('../assets/personal_photos/20251210_140639.jpg', import.meta.url).href;
 

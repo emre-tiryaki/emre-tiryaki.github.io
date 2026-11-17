@@ -6,12 +6,14 @@ import experienceData from '../data/experience.json';
 import educationData from '../data/education.json';
 import certificationsData from '../data/certifications.json';
 import skillsData from '../data/skills.json';
+import teamData from '../data/team.json';
 import siteConfig from '../data/siteConfig.json';
 
 // Tüm portfolyo verisini tek nesnede topla (kaynak tek nokta).
 const PORTFOLIO_DATA = {
   projects: projectsData,
   experience: experienceData,
+  team: teamData,
   education: educationData,
   certifications: certificationsData,
   skills: skillsData,

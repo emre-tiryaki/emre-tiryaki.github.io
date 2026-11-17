@@ -1,5 +1,44 @@
 [
   {
+    "id": "nasa-space-apps-challenge",
+    "company": "NASA Space Apps Challenge — Sivas",
+    "url": "https://www.spaceappschallenge.org",
+    "title": { "tr": "Katılımcı / Yarışmacı", "en": "Participant / Contestant" },
+    "location": { "tr": "Sivas", "en": "Sivas" },
+    "date": "2026-11",
+    "duration": { "tr": "2 gün", "en": "2 days" },
+    "type": "competition",
+    "achievement": { "tr": "Derece Ödülü", "en": "Winning Place" },
+    "story": {
+      "tr": "NASA tarafından düzenlenen uluslararası Space Apps Challenge yarışmasının Sivas ayağına katılarak Lunar Landing Navigator (Ay İniş Navigatörü) projesini geliştirdik. Ay yüzeyine güvenli iniş noktaları belirleyen ve navigasyon sağlayan bir sistem tasarlayarak kategorimizde derece elde ettik.",
+      "en": "Participated in the Sivas local event of the international NASA Space Apps Challenge and developed the Lunar Landing Navigator project. We designed a system that identifies safe landing spots on the lunar surface and provides navigation assistance, earning a winning place in our category."
+    },
+    "projectIds": ["lunar-landing-navigator"],
+    "photos": [],
+    "team": [
+      "taha-karaca",
+      "muhammet-temel",
+      "sinan-sonmez"
+    ],
+    "customSections": [
+      {
+        "id": "highlights",
+        "title": { "tr": "Teknik Çıkarımlar & Kazanımlar", "en": "Technical Learnings & Takeaways" },
+        "items": [
+          { "tr": "Ay yüzeyinde güvenli iniş noktası tespiti ve navigasyon algoritmaları", "en": "Safe lunar landing site detection and navigation algorithms" },
+          { "tr": "NASA açık veri setlerinin işlenmesi ve görselleştirilmesi", "en": "Processing and visualization of NASA open datasets" }
+        ]
+      },
+      {
+        "id": "certification",
+        "title": { "tr": "Sertifika & Belgeler", "en": "Certificates & Documents" },
+        "items": [
+          { "tr": "NASA Space Apps Challenge Sivas Katılım Belgesi", "en": "NASA Space Apps Challenge Sivas Participation Certificate" }
+        ]
+      }
+    ]
+  },
+  {
     "id": "avikon-full-stack-stajyerligi",
     "company": "Avikon",
     "url": "https://www.avikon.com.tr",
@@ -73,21 +112,9 @@
     "projectIds": ["okur"],
     "photos": [],
     "team": [
-      {
-        "name": "Mehmet Sinan Sönmez",
-        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
-        "github": "https://github.com/10sinan"
-      },
-      {
-        "name": "Mustafa Yıldız",
-        "linkedin": "https://www.linkedin.com/in/mustafayiildiz/",
-        "github": "https://github.com/Mustafayildiiz"
-      },
-      {
-        "name": "Selim Demirci",
-        "linkedin": "https://www.linkedin.com/in/selimdemirci/",
-        "github": "https://github.com/selimdmrc0"
-      }
+      "sinan-sonmez",
+      "mustafa-yildiz",
+      "selim-demirci"
     ],
     "customSections": [
       {
@@ -116,11 +143,7 @@
     "projectIds": ["ofa-smartpay"],
     "photos": [],
     "team": [
-      {
-        "name": "Mehmet Sinan Sönmez",
-        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
-        "github": "https://github.com/10sinan"
-      }
+      "sinan-sonmez"
     ],
     "customSections": [
       {
@@ -148,27 +171,10 @@
     "projectIds": ["avicenna"],
     "photos": [],
     "team": [
-      {
-        "name": "Elif Kavurga",
-        "portfolio": "https://elifkavurga.github.io/Portfolyo/",
-        "linkedin": "https://www.linkedin.com/in/elifkavurga/",
-        "github": "https://github.com/ElifKavurga"
-      },
-      {
-        "name": "Mehmet Sinan Sönmez",
-        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
-        "github": "https://github.com/10sinan"
-      },
-      {
-        "name": "Mustafa Yıldız",
-        "linkedin": "https://www.linkedin.com/in/mustafayiildiz/",
-        "github": "https://github.com/Mustafayildiiz"
-      },
-      {
-        "name": "Selim Demirci",
-        "linkedin": "https://www.linkedin.com/in/selimdemirci/",
-        "github": "https://github.com/selimdmrc0"
-      }
+      "elif-kavurga",
+      "sinan-sonmez",
+      "mustafa-yildiz",
+      "selim-demirci"
     ],
     "customSections": [
       {
@@ -198,19 +204,9 @@
     "projectIds": ["hegs-haber"],
     "photos": [],
     "team": [
-      {
-        "name": "Mehmet Sinan Sönmez",
-        "linkedin": "https://www.linkedin.com/in/msinansonmez/",
-        "github": "https://github.com/10sinan"
-      },
-      {
-        "name": "Hüseyin Kırteke",
-        "github": "https://github.com/KamerGG"
-      },
-      {
-        "name": "Taylan Mert (Güneş) Doğan",
-        "github": "https://github.com/Gunes00"
-      }
+      "sinan-sonmez",
+      "huseyin-kirteke",
+      "taylan-dogan"
     ],
     "customSections": [
       {

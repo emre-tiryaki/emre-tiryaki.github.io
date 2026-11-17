@@ -1,5 +1,35 @@
 [
   {
+    "id": "lunar-landing-navigator",
+    "title": {
+      "tr": "Lunar Landing Navigator — Ay İniş Navigatörü",
+      "en": "Lunar Landing Navigator"
+    },
+    "description": {
+      "tr": "NASA Space Apps Challenge kapsamında geliştirilen; Ay yüzeyinde güvenli iniş noktalarını tespit eden ve navigasyon sağlayan bir sistem. NASA açık veri setlerini işleyerek ay yüzeyinin topografik analizini gerçekleştiren ve optimal iniş koordinatlarını belirleyen uçtan uca bir platform.",
+      "en": "Developed for NASA Space Apps Challenge; a system that identifies safe landing spots on the lunar surface and provides navigation assistance. An end-to-end platform that processes NASA open datasets to perform topographic analysis of the lunar surface and determine optimal landing coordinates."
+    },
+    "achievements": {
+      "tr": "NASA Space Apps Challenge Derece Ödülü",
+      "en": "NASA Space Apps Challenge Winning Place"
+    },
+    "techStack": [],
+    "tags": ["Space Tech", "Navigation", "NASA"],
+    "sourceCode": "https://github.com/nasa-space-58/Nasa-Space-Apps-Challenge",
+    "liveDemo": null,
+    "isPrivate": false,
+    "isCompetition": true,
+    "preview": "Lunar_Landing_Navigator",
+    "previews": [
+      "Lunar_Landing_Navigator/Screenshot_20261117_152139.png",
+      "Lunar_Landing_Navigator/Screenshot_20261117_152151.png",
+      "Lunar_Landing_Navigator/Screenshot_20261117_152204.png",
+      "Lunar_Landing_Navigator/Screenshot_20261117_152521.png",
+      "Lunar_Landing_Navigator/Screenshot_20261117_152841.png",
+      "Lunar_Landing_Navigator/Screenshot_20261117_153059.png"
+    ]
+  },
+  {
     "id": "ani-cli-exact-match",
     "title": {
       "tr": "ani-cli — Tam Eşleşme Modu",

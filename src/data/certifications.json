@@ -1,5 +1,13 @@
 [
   {
+    "id": "nasa-space-apps-cert",
+    "name": { "tr": "NASA Space Apps Challenge Sivas Katılım Belgesi", "en": "NASA Space Apps Challenge Sivas Participation Certificate" },
+    "authority": { "tr": "NASA", "en": "NASA" },
+    "authorityKey": "nasa",
+    "date": "2026-11",
+    "url": "local:pdf"
+  },
+  {
     "id": "inufest-3rd-place-cert",
     "name": { "tr": "İnüfest 2026 Yazılım kategorisi 3.lük sertifikası", "en": "İnüfest 2026 Software Category 3rd Place Certificate" },
     "authority": { "tr": "İnönü Üniversitesi", "en": "İnönü University" },

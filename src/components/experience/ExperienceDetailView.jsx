@@ -22,11 +22,19 @@ import {
   FiUser,
   FiLinkedin,
   FiGlobe,
+  FiFileText,
 } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { useScrollMask } from '../../hooks/useScrollMask';
 import { getExperienceTypeConfig } from '../../theme';
 import { resolveDate, formatDateRange } from '../../lib/date';
+import teamData from '../../data/team.json';
+import PdfModal from '../ui/PdfModal';
+import { NASA_SPACE_APPS_CERT_PDF } from '../../lib/media';
+
+const EXP_CERT_PDFS = {
+  'nasa-space-apps-challenge': NASA_SPACE_APPS_CERT_PDF,
+};
 
 const experiencePhotosModules = import.meta.glob(
   '../../assets/experience/**/*.{jpg,jpeg,png,webp,PNG,JPG,JPEG,gif,GIF,avif,AVIF,svg,SVG}',
@@ -757,6 +765,7 @@ function EmbeddedProjectCard({ project }) {
 export default function ExperienceDetailView({ experience, projectsData = [] }) {
   const { t, lang, tData } = useTranslation();
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [certPdfModal, setCertPdfModal] = useState(null);
   const [galleryScrollRef, galleryMaskStyle] = useScrollMask('horizontal', 24);
 
   const scrollGallery = (direction) => {
@@ -781,10 +790,16 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
     return resolveExperiencePhotos(experience);
   }, [experience]);
 
-  // Resolve team members with deterministic random shuffle
+  // Resolve team members from central team.json with deterministic random shuffle
   const teamMembers = useMemo(() => {
     if (!experience || !Array.isArray(experience.team)) return [];
-    return pseudoRandomShuffle(experience.team, (experience.id || 'exp') + '_team_shuffle_v1');
+    const resolved = experience.team.map((member) => {
+      if (typeof member === 'string') {
+        return teamData[member] || { name: member };
+      }
+      return member;
+    });
+    return pseudoRandomShuffle(resolved, (experience.id || 'exp') + '_team_shuffle_v1');
   }, [experience]);
 
   if (!experience) {
@@ -1527,10 +1542,17 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
         {Array.isArray(experience.customSections) &&
           experience.customSections.map((sec) => {
             const secTitle = tData(sec.title);
+            const isCertSection = sec.id === 'certification';
+            const certPdfUrl = EXP_CERT_PDFS[experience.id];
+
             return (
               <div key={sec.id || secTitle} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <FiCheckCircle size={14} style={{ color: '#fb923c' }} />
+                  {isCertSection ? (
+                    <FiAward size={15} style={{ color: '#fb923c' }} />
+                  ) : (
+                    <FiCheckCircle size={14} style={{ color: '#fb923c' }} />
+                  )}
                   <h3
                     style={{
                       margin: 0,
@@ -1555,31 +1577,93 @@ export default function ExperienceDetailView({ experience, projectsData = [] }) 
                       borderRadius: '0.9rem',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '0.5rem',
+                      gap: '0.65rem',
                       listStyleType: 'none',
                     }}
                   >
-                    {sec.items.map((item, i) => (
-                      <li
-                        key={i}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: '0.55rem',
-                          color: '#cbd5e1',
-                          fontSize: '0.88rem',
-                          lineHeight: 1.5,
-                        }}
-                      >
-                        <span style={{ color: '#fb923c', marginTop: '0.15rem' }}>▸</span>
-                        <span>{tData(item)}</span>
-                      </li>
-                    ))}
+                    {sec.items.map((item, i) => {
+                      const itemText = tData(item);
+                      if (isCertSection && certPdfUrl) {
+                        return (
+                          <li
+                            key={i}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              gap: '0.75rem',
+                              flexWrap: 'wrap',
+                            }}
+                          >
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', color: '#f8fafc', fontWeight: 500, fontSize: '0.9rem' }}>
+                              <span style={{ color: '#fb923c' }}>📜</span>
+                              <span>{itemText}</span>
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => setCertPdfModal({ url: certPdfUrl, title: itemText })}
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '0.45rem',
+                                padding: '0.35rem 0.85rem',
+                                borderRadius: '0.55rem',
+                                background: 'rgba(249, 115, 22, 0.15)',
+                                border: '1px solid rgba(249, 115, 22, 0.4)',
+                                color: '#fb923c',
+                                fontSize: '0.78rem',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                transition: 'all 0.15s ease',
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.background = 'rgba(249, 115, 22, 0.28)';
+                                e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.7)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.background = 'rgba(249, 115, 22, 0.15)';
+                                e.currentTarget.style.borderColor = 'rgba(249, 115, 22, 0.4)';
+                              }}
+                            >
+                              <FiFileText size={13} />
+                              <span>{t('certifications.view') || 'Görüntüle'}</span>
+                            </button>
+                          </li>
+                        );
+                      }
+
+                      return (
+                        <li
+                          key={i}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '0.55rem',
+                            color: '#cbd5e1',
+                            fontSize: '0.88rem',
+                            lineHeight: 1.5,
+                          }}
+                        >
+                          <span style={{ color: '#fb923c', marginTop: '0.15rem' }}>▸</span>
+                          <span>{itemText}</span>
+                        </li>
+                      );
+                    })}
                   </ul>
                 )}
               </div>
             );
           })}
+
+        {/* Certificate PDF Modal */}
+        {certPdfModal && (
+          <PdfModal
+            isOpen={Boolean(certPdfModal)}
+            onClose={() => setCertPdfModal(null)}
+            pdfUrl={certPdfModal.url}
+            title={certPdfModal.title}
+          />
+        )}
       </motion.div>
     </AnimatePresence>
   );

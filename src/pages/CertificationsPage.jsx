@@ -1,21 +1,32 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { FiAward } from 'react-icons/fi';
 import PageLayout from '../components/layout/PageLayout';
 import CertificationCard from '../components/certifications/CertificationCard';
+import PdfModal from '../components/ui/PdfModal';
 import certificationsData from '../data/certifications.json';
 import { useTranslation } from '../hooks/translation';
 import { useScrollMask } from '../hooks/useScrollMask';
+import { NASA_SPACE_APPS_CERT_PDF } from '../lib/media';
+
+// Map certification IDs to locally-resolved asset URLs (PDFs, etc.)
+const LOCAL_CERT_URLS = {
+  'nasa-space-apps-cert': NASA_SPACE_APPS_CERT_PDF,
+};
 
 export default function CertificationsPage() {
   const { t, tData } = useTranslation();
   const [scrollRef, maskStyle] = useScrollMask('vertical', 24);
+  const [activePdf, setActivePdf] = useState(null);
 
   const grouped = useMemo(() => {
     const map = new Map();
     certificationsData.forEach((cert) => {
-      const key = typeof cert.authority === 'object' ? cert.authority.tr : cert.authority;
+      const resolved = LOCAL_CERT_URLS[cert.id]
+        ? { ...cert, url: LOCAL_CERT_URLS[cert.id] }
+        : cert;
+      const key = typeof resolved.authority === 'object' ? resolved.authority.tr : resolved.authority;
       if (!map.has(key)) map.set(key, []);
-      map.get(key).push(cert);
+      map.get(key).push(resolved);
     });
     return Array.from(map.entries());
   }, []);
@@ -95,7 +106,7 @@ export default function CertificationsPage() {
 
                   <div className="grid grid-cols-1 gap-4 flex-1">
                     {certs.map((cert) => (
-                      <CertificationCard key={cert.id} {...cert} />
+                      <CertificationCard key={cert.id} {...cert} onOpenPdf={setActivePdf} />
                     ))}
                   </div>
                 </div>
@@ -142,13 +153,23 @@ export default function CertificationsPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {certs.map((cert) => (
-                  <CertificationCard key={cert.id} {...cert} />
+                  <CertificationCard key={cert.id} {...cert} onOpenPdf={setActivePdf} />
                 ))}
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* PDF Certificate Modal */}
+      {activePdf && (
+        <PdfModal
+          isOpen={Boolean(activePdf)}
+          onClose={() => setActivePdf(null)}
+          pdfUrl={activePdf.url}
+          title={activePdf.title}
+        />
+      )}
     </PageLayout>
   );
 }

@@ -1,4 +1,4 @@
-import { FiAward, FiExternalLink, FiCalendar, FiCheckCircle } from 'react-icons/fi';
+import { FiAward, FiExternalLink, FiCalendar, FiCheckCircle, FiFileText } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
 import { getAuthorityLogo } from '../../lib/media';
@@ -6,15 +6,42 @@ import { resolveDate } from '../../lib/date';
 
 const { surface, certCard } = THEME_COLORS;
 
-export default function CertificationCard({ name, authority, authorityKey, date, url }) {
+export default function CertificationCard({ name, authority, authorityKey, date, url, onOpenPdf }) {
   const { t, lang, tData } = useTranslation();
   const certName = tData(name);
   const authName = tData(authority);
   const certDate = resolveDate(date, lang);
   const logo = getAuthorityLogo(authorityKey);
 
-  const Tag = url ? 'a' : 'div';
-  const extraProps = url
+  const isPdf = typeof url === 'string' && (
+    url.toLowerCase().includes('.pdf') ||
+    url.startsWith('blob:') ||
+    url.startsWith('data:application/pdf')
+  );
+
+  const handleClick = (e) => {
+    if (isPdf && onOpenPdf) {
+      e.preventDefault();
+      e.stopPropagation();
+      onOpenPdf({ url, title: certName });
+    }
+  };
+
+  const Tag = isPdf ? 'div' : (url ? 'a' : 'div');
+  const extraProps = isPdf
+    ? {
+        role: 'button',
+        tabIndex: 0,
+        onClick: handleClick,
+        onKeyDown: (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleClick(e);
+          }
+        },
+        title: `${certName} — ${t('certifications.view') || 'Görüntüle'}`,
+      }
+    : url
     ? {
         href: url,
         target: '_blank',
@@ -111,7 +138,7 @@ export default function CertificationCard({ name, authority, authorityKey, date,
           {certName}
         </h4>
 
-        {/* Verify Action Button at Far Right */}
+        {/* Verify / View Action Button at Far Right */}
         {url && (
           <span
             className="inline-flex items-center gap-2 rounded-lg text-xs font-semibold text-neutral-300 group-hover:text-orange-400 group-hover:border-orange-500/40 group-hover:bg-orange-500/10 transition-all duration-200 shrink-0 whitespace-nowrap select-none"
@@ -121,8 +148,12 @@ export default function CertificationCard({ name, authority, authorityKey, date,
               border: `1px solid ${surface.white10}`,
             }}
           >
-            <span>{t('certifications.verify')}</span>
-            <FiExternalLink size={12} className="text-neutral-400 group-hover:text-orange-400 transition-colors" />
+            <span>{isPdf ? (t('certifications.view') || 'Görüntüle') : t('certifications.verify')}</span>
+            {isPdf ? (
+              <FiFileText size={12} className="text-neutral-400 group-hover:text-orange-400 transition-colors" />
+            ) : (
+              <FiExternalLink size={12} className="text-neutral-400 group-hover:text-orange-400 transition-colors" />
+            )}
           </span>
         )}
       </div>
