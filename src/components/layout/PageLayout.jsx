@@ -12,8 +12,9 @@ export default function PageLayout({
     width: '100%',
     maxWidth,
     margin: '0 auto',
-    paddingLeft: '1.5rem',
-    paddingRight: '1.5rem',
+    // Dar ekranda 1rem, geniş ekranda 1.5rem; çentikli cihazda yatay safe-area'ya uyar
+    paddingLeft: 'max(clamp(1rem, 4vw, 1.5rem), env(safe-area-inset-left))',
+    paddingRight: 'max(clamp(1rem, 4vw, 1.5rem), env(safe-area-inset-right))',
     paddingTop: '0.5rem',
     paddingBottom: fullHeight ? '0' : '3rem',
     display: 'flex',

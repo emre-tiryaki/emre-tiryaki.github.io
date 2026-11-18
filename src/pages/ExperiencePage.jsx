@@ -8,6 +8,9 @@ import { useTranslation } from '../hooks/translation';
 import { useScrollMask } from '../hooks/useScrollMask';
 import { EXPERIENCE_TYPE_CONFIG } from '../theme';
 import Button from '../components/ui/Button';
+import FilterChips from '../components/ui/FilterChips';
+import MobileSheet from '../components/ui/MobileSheet';
+import { useMediaQuery, MEDIA } from '../hooks/useMediaQuery';
 
 const MONTHS = {
   ocak: 0, subat: 1, şubat: 1, mart: 2, nisan: 3, mayis: 4, mayıs: 4,
@@ -37,6 +40,8 @@ function getSortValue(item) {
 
 export default function ExperiencePage() {
   const { t } = useTranslation();
+  const isCompact = useMediaQuery(MEDIA.COMPACT);
+  const isPhone = useMediaQuery(MEDIA.PHONE);
   const [activeType, setActiveType] = useState('all');
   const [selectedId, setSelectedId] = useState(null);
 
@@ -76,6 +81,172 @@ export default function ExperiencePage() {
   const handleCardClick = (id) => {
     setSelectedId(prev => (prev === id ? null : id));
   };
+
+  const timelineItems = (
+    filtered.map((item, index) => {
+      const dotColor = TYPE_DOT_COLOR[item.type] || '#f97316';
+      const nextItem = filtered[index + 1];
+      const nextColor = nextItem ? (TYPE_DOT_COLOR[nextItem.type] || '#f97316') : null;
+      const isSelected = activeExperience?.id === item.id;
+
+      return (
+        <div
+          key={item.id}
+          style={{
+            display: 'flex',
+            alignItems: 'stretch',
+            gap: isPhone ? '0.75rem' : '1.25rem',
+            position: 'relative',
+          }}
+        >
+          {/* Left Column: Node + Connector to next node */}
+          <div
+            style={{
+              width: '2.25rem',
+              flexShrink: 0,
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            {/* Glowing Concentric Jewel Node on the line */}
+            <div
+              style={{
+                width: '2.25rem',
+                height: '2.25rem',
+                marginTop: '1.2rem',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'radial-gradient(circle at center, rgba(26,26,32,0.98) 0%, rgba(10,10,14,0.98) 100%)',
+                border: isSelected ? `2px solid ${dotColor}` : `1.5px solid ${dotColor}`,
+                boxShadow: isSelected
+                  ? `0 0 22px ${dotColor}, 0 0 8px ${dotColor}, inset 0 0 10px ${dotColor}`
+                  : `0 0 14px ${dotColor}55, 0 0 6px ${dotColor}80, inset 0 0 8px ${dotColor}25`,
+                position: 'relative',
+                zIndex: 3,
+                transition: 'all 0.2s ease',
+              }}
+            >
+              <div
+                style={{
+                  width: '1.15rem',
+                  height: '1.15rem',
+                  borderRadius: '50%',
+                  background: `${dotColor}18`,
+                  border: `1px solid ${dotColor}40`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <div
+                  style={{
+                    width: '0.45rem',
+                    height: '0.45rem',
+                    borderRadius: '50%',
+                    background: dotColor,
+                    boxShadow: `0 0 8px ${dotColor}`,
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Dynamic Gradient Connector line to the next dot */}
+            {nextColor && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '3.45rem',
+                  bottom: isCompact ? '-2.2rem' : '-2.45rem',
+                  width: '2px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background: `linear-gradient(to bottom, ${dotColor} 0%, ${nextColor} 100%)`,
+                  boxShadow: `0 0 8px ${dotColor}40`,
+                  zIndex: 1,
+                }}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: '-2px -2px',
+                    background: `linear-gradient(to bottom, ${dotColor}50 0%, ${nextColor}50 100%)`,
+                    filter: 'blur(3px)',
+                    pointerEvents: 'none',
+                  }}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Card */}
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+            <ExperienceCard
+              {...item}
+              isSelected={isSelected}
+              onClick={() => handleCardClick(item.id)}
+            />
+          </div>
+        </div>
+      );
+    })
+  );
+
+  const typeChipOptions = availableTypes.map((type) => ({
+    key: type,
+    label: t(`experience.types.${type}`),
+    color: TYPE_DOT_COLOR[type] || null,
+  }));
+
+  /* ── Dar ekran (lg altı): filtre çipleri + tam genişlik liste + tam ekran detay ── */
+  if (isCompact) {
+    return (
+      <PageLayout
+        title={t('experience.title')}
+        subtitle={t('experience.subtitle')}
+        maxWidth="48rem"
+        fullHeight
+      >
+        <FilterChips
+          label={t('experience.filter')}
+          options={typeChipOptions}
+          active={activeType}
+          onChange={setActiveType}
+        />
+        <div
+          ref={timelineRef}
+          style={{
+            flex: 1,
+            minHeight: 0,
+            overflowY: 'auto',
+            overscrollBehavior: 'contain',
+            paddingTop: '0.75rem',
+            paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))',
+            paddingLeft: isPhone ? '0.15rem' : '0.5rem',
+            paddingRight: isPhone ? '0.15rem' : '0.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            userSelect: 'none',
+            ...timelineMaskStyle,
+          }}
+        >
+          {timelineItems}
+        </div>
+
+        <MobileSheet
+          open={Boolean(activeExperience)}
+          onClose={() => setSelectedId(null)}
+          title={activeExperience?.company || t('experience.title')}
+        >
+          <ExperienceDetailView experience={activeExperience} projectsData={projectsData} />
+        </MobileSheet>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout
@@ -122,116 +293,7 @@ export default function ExperiencePage() {
               ...timelineMaskStyle,
             }}
           >
-            {filtered.map((item, index) => {
-              const dotColor = TYPE_DOT_COLOR[item.type] || '#f97316';
-              const nextItem = filtered[index + 1];
-              const nextColor = nextItem ? (TYPE_DOT_COLOR[nextItem.type] || '#f97316') : null;
-              const isSelected = activeExperience?.id === item.id;
-
-              return (
-                <div
-                  key={item.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'stretch',
-                    gap: '1.25rem',
-                    position: 'relative',
-                  }}
-                >
-                  {/* Left Column: Node + Connector to next node */}
-                  <div
-                    style={{
-                      width: '2.25rem',
-                      flexShrink: 0,
-                      position: 'relative',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                    }}
-                  >
-                    {/* Glowing Concentric Jewel Node on the line */}
-                    <div
-                      style={{
-                        width: '2.25rem',
-                        height: '2.25rem',
-                        marginTop: '1.2rem',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: 'radial-gradient(circle at center, rgba(26,26,32,0.98) 0%, rgba(10,10,14,0.98) 100%)',
-                        border: isSelected ? `2px solid ${dotColor}` : `1.5px solid ${dotColor}`,
-                        boxShadow: isSelected
-                          ? `0 0 22px ${dotColor}, 0 0 8px ${dotColor}, inset 0 0 10px ${dotColor}`
-                          : `0 0 14px ${dotColor}55, 0 0 6px ${dotColor}80, inset 0 0 8px ${dotColor}25`,
-                        position: 'relative',
-                        zIndex: 3,
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: '1.15rem',
-                          height: '1.15rem',
-                          borderRadius: '50%',
-                          background: `${dotColor}18`,
-                          border: `1px solid ${dotColor}40`,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: '0.45rem',
-                            height: '0.45rem',
-                            borderRadius: '50%',
-                            background: dotColor,
-                            boxShadow: `0 0 8px ${dotColor}`,
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Dynamic Gradient Connector line to the next dot */}
-                    {nextColor && (
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: '3.45rem',
-                          bottom: '-2.45rem',
-                          width: '2px',
-                          left: '50%',
-                          transform: 'translateX(-50%)',
-                          background: `linear-gradient(to bottom, ${dotColor} 0%, ${nextColor} 100%)`,
-                          boxShadow: `0 0 8px ${dotColor}40`,
-                          zIndex: 1,
-                        }}
-                      >
-                        <div
-                          style={{
-                            position: 'absolute',
-                            inset: '-2px -2px',
-                            background: `linear-gradient(to bottom, ${dotColor}50 0%, ${nextColor}50 100%)`,
-                            filter: 'blur(3px)',
-                            pointerEvents: 'none',
-                          }}
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Card */}
-                  <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-                    <ExperienceCard
-                      {...item}
-                      isSelected={isSelected}
-                      onClick={() => handleCardClick(item.id)}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+            {timelineItems}
           </div>
         </div>
 

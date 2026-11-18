@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
@@ -19,18 +19,45 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const { t, lang, setLanguage } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+  const [menuPath, setMenuPath] = useState(pathname);
+
+  // Rota değişince (örn. tarayıcı geri tuşu) menü açık kalmasın
+  if (menuPath !== pathname) {
+    setMenuPath(pathname);
+    setMenuOpen(false);
+  }
+
+  // Escape ile kapat
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
 
   return (
-    <header className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 select-none">
+    <header
+      className="fixed left-0 right-0 z-50 flex justify-center select-none"
+      style={{
+        top: 'calc(1rem + env(safe-area-inset-top))',
+        // px-4 global reset tarafından ezildiği için kenar boşluğu inline verilir
+        paddingLeft: 'max(1rem, env(safe-area-inset-left))',
+        paddingRight: 'max(1rem, env(safe-area-inset-right))',
+      }}
+    >
       <nav
         style={{
+          // Menü açıkken arka plan örtüsünün (z-40) üstünde kalsın; kapatma (X) butonu görünür olsun
+          position: 'relative',
+          zIndex: 50,
           width: '100%',
           maxWidth: '72rem',
           height: '3.75rem',          /* 60px — taller bar */
           display: 'flex',
           alignItems: 'center',
-          paddingLeft: '1.25rem',
-          paddingRight: '1.25rem',
+          paddingLeft: 'clamp(0.75rem, 3vw, 1.25rem)',
+          paddingRight: 'clamp(0.5rem, 3vw, 1.25rem)',
           borderRadius: '1rem',
           background: surface.nav,
           backdropFilter: 'blur(22px)',
@@ -110,16 +137,22 @@ export default function Navbar() {
         </div>
 
         {/* ── Mobile layout: logo left, controls right ── */}
-        <div className="lg:hidden flex items-center justify-between w-full">
-          <span style={{ fontSize: '0.95rem', fontWeight: 800, color: accent.light, letterSpacing: '-0.01em', userSelect: 'none', WebkitUserSelect: 'none' }}>ET.</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <div className="lg:hidden flex items-center justify-between w-full" style={{ gap: '0.5rem' }}>
+          <NavLink
+            to="/"
+            style={{ display: 'inline-flex', alignItems: 'center', minHeight: '2.75rem', minWidth: 0, paddingRight: '0.5rem', fontSize: '0.95rem', fontWeight: 800, color: accent.light, letterSpacing: '-0.01em', textDecoration: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', userSelect: 'none', WebkitUserSelect: 'none' }}
+          >
+            Emre Tiryaki
+          </NavLink>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
             <Button
               variant="secondary"
               size="sm"
               onClick={() => setLanguage(lang === 'tr' ? 'en' : 'tr')}
               aria-label={t('nav.changeLanguage')}
+              style={{ minHeight: '2.5rem' }}
             >
-              <span>{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
+              <span aria-hidden="true">{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
               <span>{lang.toUpperCase()}</span>
             </Button>
             <Button
@@ -127,9 +160,12 @@ export default function Navbar() {
               size="sm"
               onClick={() => setMenuOpen(v => !v)}
               aria-label={t('nav.menu')}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav-menu"
               className="!p-2"
+              style={{ width: '2.75rem', height: '2.75rem' }}
             >
-              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 {menuOpen
                   ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -149,10 +185,19 @@ export default function Navbar() {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
             />
-            <motion.div
-              className="fixed left-4 right-4 z-50 p-3 flex flex-col gap-1"
+            <motion.nav
+              id="mobile-nav-menu"
+              aria-label={t('nav.menu')}
+              className="fixed z-50 flex flex-col gap-1"
               style={{
-                top: '5.25rem',
+                top: 'calc(5.25rem + env(safe-area-inset-top))',
+                left: 'max(1rem, env(safe-area-inset-left))',
+                right: 'max(1rem, env(safe-area-inset-right))',
+                padding: '0.75rem',
+                // Yatay telefonda (kısa ekran) menü taşmasın, kaydırılabilsin
+                maxHeight: 'calc(100dvh - 6.25rem - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+                overflowY: 'auto',
+                overscrollBehavior: 'contain',
                 background: surface.navMobile,
                 backdropFilter: 'blur(24px)',
                 border: `1px solid ${surface.white10}`,
@@ -188,12 +233,12 @@ export default function Navbar() {
                       WebkitUserSelect: 'none',
                     }}>
                       <span>{t(`nav.${key}`)}</span>
-                      <span style={{ color: '#475569', fontSize: '0.75rem' }}>→</span>
+                      <span aria-hidden="true" style={{ color: '#475569', fontSize: '0.75rem' }}>→</span>
                     </div>
                   )}
                 </NavLink>
               ))}
-            </motion.div>
+            </motion.nav>
           </>
         )}
       </AnimatePresence>

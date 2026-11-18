@@ -32,9 +32,8 @@ export default function ContactCard() {
 
   return (
     <div
-      className="relative rounded-2xl flex flex-col items-center justify-start self-stretch overflow-visible transition-all duration-300"
+      className="relative rounded-2xl flex flex-col items-center justify-start self-stretch overflow-visible transition-all duration-300 w-full sm:w-[135px]"
       style={{
-        width: '135px',
         padding: '0.85rem 1rem',
         gap: '14px',
         background: 'rgba(255, 255, 255, 0.03)',
@@ -59,19 +58,22 @@ export default function ContactCard() {
             className="relative flex items-center justify-center"
             onMouseEnter={() => setHoveredSocial(item.id)}
             onMouseLeave={() => setHoveredSocial(null)}
+            onFocus={() => setHoveredSocial(item.id)}
+            onBlur={() => setHoveredSocial(null)}
           >
             <a
               href={item.href}
               target={item.href.startsWith('mailto') ? undefined : '_blank'}
               rel="noreferrer"
               aria-label={item.label}
-              className={`flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] text-neutral-300 transition-all duration-200 hover:scale-110 active:scale-95 ${item.hoverClass}`}
+              className={`flex items-center justify-center w-10 h-10 touch-target rounded-xl bg-white/[0.03] border border-white/[0.08] text-neutral-300 transition-all duration-200 hover:scale-110 active:scale-95 ${item.hoverClass}`}
             >
               <item.Icon size={18} />
             </a>
 
             {/* Tooltip */}
             <span
+              aria-hidden="true"
               className="absolute bottom-full mb-1 left-1/2 px-2.5 py-0.5 rounded-lg text-xs font-semibold text-neutral-200 whitespace-nowrap pointer-events-none transition-all duration-150 z-30 shadow-lg"
               style={{
                 background: 'rgba(10, 10, 10, 0.95)',

@@ -50,7 +50,7 @@ export default function CertificationCard({ name, authority, authorityKey, date,
       {...extraProps}
       className="group relative flex flex-col justify-between gap-3 rounded-2xl transition-all duration-250 overflow-hidden"
       style={{
-        padding: '1.25rem 1.35rem',
+        padding: '1.25rem clamp(1rem, 4vw, 1.35rem)',
         borderRadius: certCard.radius,
         background: certCard.bg,
         border: `1px solid ${certCard.border}`,
@@ -128,15 +128,16 @@ export default function CertificationCard({ name, authority, authorityKey, date,
       </div>
 
       {/* ── Center / Bottom: Certification Name + Verify Button on Far Right ── */}
-      <div className="flex items-center justify-between gap-3 pt-1">
-        <h4 className="text-[0.92rem] font-bold text-slate-100 group-hover:text-orange-300 transition-colors leading-snug line-clamp-2 flex-1">
+      {/* Telefon: başlık tam genişlik, buton altta sağda (başlık "…" ile kesilmesin) */}
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between pt-1">
+        <h4 className="text-[0.92rem] font-bold text-slate-100 group-hover:text-orange-300 transition-colors leading-snug line-clamp-3 sm:line-clamp-2 flex-1">
           {certName}
         </h4>
 
         {/* Verify / View Action Button at Far Right */}
         {hasAction && (
           <span
-            className="inline-flex items-center gap-2 rounded-lg text-xs font-semibold text-neutral-300 group-hover:text-orange-400 group-hover:border-orange-500/40 group-hover:bg-orange-500/10 transition-all duration-200 shrink-0 whitespace-nowrap select-none"
+            className="inline-flex items-center gap-2 self-end sm:self-auto rounded-lg text-xs font-semibold text-neutral-300 group-hover:text-orange-400 group-hover:border-orange-500/40 group-hover:bg-orange-500/10 transition-all duration-200 shrink-0 whitespace-nowrap select-none"
             style={{
               padding: '0.45rem 0.9rem',
               background: surface.white035,

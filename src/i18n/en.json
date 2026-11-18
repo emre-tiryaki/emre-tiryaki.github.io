@@ -3,7 +3,9 @@
     "verifiedAccount": "Verified Account",
     "close": "Close",
     "maximize": "Maximize",
-    "minimize": "Minimize"
+    "minimize": "Minimize",
+    "back": "Back",
+    "openInNewTab": "Open in new tab"
   },
   "nav": {
     "home": "Home",

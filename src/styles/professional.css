@@ -811,3 +811,9 @@
   border-bottom: 1px solid var(--pwm-border);
   box-shadow: 0 16px 32px -16px rgba(15, 23, 42, 0.2);
 }
+
+/* ── Touch targets: on touch devices, raise small controls to ~44px height ── */
+@media (pointer: coarse) {
+  .pwm-lang-toggle button { min-height: 2.5rem; min-width: 2.75rem; }
+  .pwm-footer-link { min-height: 2.75rem; }
+}

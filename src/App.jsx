@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, MotionConfig } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
 import VisitorTracker from "./components/layout/VisitorTracker";
 import StarfieldBackground from './components/layout/StarfieldBackground';
@@ -40,9 +40,9 @@ function MainLayout() {
         position: "relative",
         zIndex: 10,
         width: "100%",
-        height: "100vh",
-        paddingTop: "5rem" /* clears floating navbar */,
-        paddingBottom: "1.5rem",
+        height: "100dvh" /* mobil tarayıcı adres çubuğunu hesaba katar */,
+        paddingTop: "calc(5rem + env(safe-area-inset-top))" /* clears floating navbar */,
+        paddingBottom: "calc(1.5rem + env(safe-area-inset-bottom))",
         overflowY: "auto",
         display: "flex",
         flexDirection: "column",
@@ -66,7 +66,7 @@ function AppContent() {
   }
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', minHeight: '100dvh', overflow: 'hidden' }}>
       <StarfieldBackground />
       <Navbar />
       <MainLayout />
@@ -77,7 +77,10 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      {/* İşletim sisteminde "hareketi azalt" açıksa framer-motion animasyonları sadeleşir */}
+      <MotionConfig reducedMotion="user">
+        <AppContent />
+      </MotionConfig>
     </BrowserRouter>
   );
 }

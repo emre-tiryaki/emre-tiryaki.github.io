@@ -36,7 +36,7 @@ export default function WorkWithMeFooter() {
                 key={label}
                 href={href}
                 {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                className="flex items-center gap-2 hover:text-slate-900 transition-colors"
+                className="pwm-footer-link flex items-center gap-2 hover:text-slate-900 transition-colors"
               >
                 <Icon size={15} />
                 <span>{label}</span>

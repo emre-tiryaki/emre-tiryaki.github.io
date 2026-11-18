@@ -1,14 +1,15 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import SkillCard, { TooltipPortal } from './SkillCard';
 import { useTranslation } from '../../hooks/translation';
+import { useTapTooltip } from '../../hooks/useTapTooltip';
 import { getCategoryIconSrc } from '../../lib/media';
 
 export default function SkillGroup({ category, categoryIcon, categoryComment, comment, items }) {
   const { tData } = useTranslation();
   const title = tData(category);
   const commentText = tData(categoryComment || comment);
-  const [iconHovered, setIconHovered] = useState(false);
   const iconRef = useRef(null);
+  const [iconHovered, iconTooltipHandlers] = useTapTooltip(iconRef);
   const iconSrc = categoryIcon ? getCategoryIconSrc(categoryIcon) : null;
 
   return (
@@ -17,7 +18,7 @@ export default function SkillGroup({ category, categoryIcon, categoryComment, co
         background: 'rgba(255,255,255,0.035)',
         border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: '1rem',
-        padding: '1.5rem',        /* generous inner padding */
+        padding: 'clamp(1rem, 4vw, 1.5rem)',        /* generous inner padding; dar ekranda daralır */
         transition: 'border-color 0.25s',
       }}
       onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(249,115,22,0.4)'}
@@ -39,13 +40,22 @@ export default function SkillGroup({ category, categoryIcon, categoryComment, co
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              cursor: 'default',
+              cursor: commentText ? 'pointer' : 'default',
               userSelect: 'none',
+              // 26px ikon için ~42px dokunma alanı; negatif margin düzeni değiştirmez
+              padding: '0.5rem',
+              margin: '-0.5rem',
+              borderRadius: '0.6rem',
               transition: 'transform 0.18s ease',
               transform: iconHovered ? 'scale(1.15)' : 'scale(1)',
             }}
-            onMouseEnter={() => setIconHovered(true)}
-            onMouseLeave={() => setIconHovered(false)}
+            {...(commentText ? {
+              ...iconTooltipHandlers,
+              role: 'button',
+              tabIndex: 0,
+              'aria-expanded': iconHovered,
+              'aria-label': `${title}: ${commentText}`,
+            } : {})}
           >
             <img
               src={iconSrc}
@@ -69,8 +79,8 @@ export default function SkillGroup({ category, categoryIcon, categoryComment, co
       {/* Skill cards — 3 per row, generous gap */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '0.75rem',
+        gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+        gap: 'clamp(0.5rem, 2vw, 0.75rem)',
       }}>
         {items.map((item) => (
           <SkillCard key={item.name} {...item} />

@@ -40,9 +40,16 @@ export default function ExperienceCard({
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
+      aria-pressed={onClick ? isSelected : undefined}
+      onKeyDown={onClick ? (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      } : undefined}
       className="group relative flex flex-col gap-3 overflow-hidden transition-all duration-300 hover:-translate-y-0.5"
       style={{
-        padding: '1.2rem 1.4rem 1rem 1.6rem',
+        padding: '1.2rem clamp(1rem, 4vw, 1.4rem) 1rem clamp(1.15rem, 4.5vw, 1.6rem)',
         borderRadius: '1.15rem',
         width: '100%',
         background: isSelected
@@ -171,7 +178,7 @@ export default function ExperienceCard({
       {/* ── Footer: Location (left) | Date (bottom-right) ── */}
       {(dateDisplay || location) && (
         <div
-          className="relative flex flex-nowrap items-center justify-between gap-3 pt-2.5 mt-0.5"
+          className="relative flex flex-wrap items-center justify-between gap-x-3 gap-y-2 pt-2.5 mt-0.5"
           style={{ borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}
         >
           {location ? (

@@ -183,16 +183,20 @@ export default function GitHubActivity() {
   const MONTH_LABEL_H = 18;
   const LEGEND_H = 22;
   const GAP = 2;
-  const numWeeks = weeks.length || 53;
+  const MIN_CELL = 8;
+  /* Dar ekranda 53 hafta sığmaz: sadece sığan en son haftalar gösterilir (taşma yerine) */
+  const maxFitWeeks = Math.max(1, Math.floor((svgWidth - DAY_LABEL_W + GAP) / (MIN_CELL + GAP)));
+  const visibleWeeks = weeks.length > maxFitWeeks ? weeks.slice(-maxFitWeeks) : weeks;
+  const numWeeks = visibleWeeks.length || Math.min(53, maxFitWeeks);
   /* cellW fills exactly the available width */
-  const cellW = Math.max(8, Math.floor((svgWidth - DAY_LABEL_W - (numWeeks - 1) * GAP) / numWeeks));
+  const cellW = Math.max(MIN_CELL, Math.floor((svgWidth - DAY_LABEL_W - (numWeeks - 1) * GAP) / numWeeks));
   const cellH = cellW;    /* square cells */
   const STEP_X = cellW + GAP;
   const STEP_Y = cellH + GAP;
   const gridH = 7 * STEP_Y - GAP;
   const svgH  = MONTH_LABEL_H + gridH + LEGEND_H + 8;
 
-  const months = weeks.length ? monthLabels(weeks, cellW, cellH, GAP) : [];
+  const months = visibleWeeks.length ? monthLabels(visibleWeeks, cellW, cellH, GAP) : [];
 
   const handleMouseEnter = useCallback((e, day) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -206,17 +210,26 @@ export default function GitHubActivity() {
 
   const handleMouseLeave = useCallback(() => setTooltip(null), []);
 
+  /* Dokunmatik: hücreye dokununca tooltip birkaç saniye görünür */
+  const tapTimer = useRef(null);
+  const handleTap = useCallback((e, day) => {
+    handleMouseEnter(e, day);
+    clearTimeout(tapTimer.current);
+    tapTimer.current = setTimeout(() => setTooltip(null), 2500);
+  }, [handleMouseEnter]);
+  useEffect(() => () => clearTimeout(tapTimer.current), []);
+
   return (
     <div
       style={{
         background: 'rgba(255,255,255,0.03)',
         border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: '1rem',
-        padding: '1.25rem 1.5rem',
+        padding: '1.25rem clamp(1rem, 4vw, 1.5rem)',
       }}
     >
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', columnGap: '0.75rem', marginBottom: '1rem' }}>
         <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#cbd5e1' }}>
           {status === 'ok' && (
             <>
@@ -231,7 +244,7 @@ export default function GitHubActivity() {
         <a
           href={`https://github.com/${GITHUB_USERNAME}`}
           target="_blank" rel="noreferrer"
-          style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.72rem', color: '#475569', textDecoration: 'none' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', fontSize: '0.72rem', color: '#475569', textDecoration: 'none', minHeight: '2.25rem', paddingLeft: '0.5rem', marginTop: '-0.5rem', marginBottom: '-0.5rem' }}
           onMouseEnter={e => e.currentTarget.style.color = '#fb923c'}
           onMouseLeave={e => e.currentTarget.style.color = '#475569'}
         >
@@ -245,7 +258,7 @@ export default function GitHubActivity() {
         {/* Loading skeleton */}
         {status === 'loading' && (
           <svg width="100%" height={svgH} style={{ display: 'block' }}>
-            {Array.from({ length: 53 }).map((_, wi) =>
+            {Array.from({ length: numWeeks }).map((_, wi) =>
               Array.from({ length: 7 }).map((_, di) => (
                 <rect
                   key={`${wi}-${di}`}
@@ -299,7 +312,7 @@ export default function GitHubActivity() {
             ))}
 
             {/* Contribution cells */}
-            {weeks.map((week, wi) =>
+            {visibleWeeks.map((week, wi) =>
               week.contributionDays.map((day) => (
                 <rect
                   key={day.date}
@@ -314,6 +327,7 @@ export default function GitHubActivity() {
                   style={{ cursor: 'pointer', transition: 'filter 0.1s' }}
                   onMouseEnter={e => { e.currentTarget.setAttribute('filter', 'brightness(1.5)'); handleMouseEnter(e, day); }}
                   onMouseLeave={e => { e.currentTarget.removeAttribute('filter'); handleMouseLeave(); }}
+                  onPointerUp={e => { if (e.pointerType !== 'mouse') handleTap(e, day); }}
                 />
               ))
             )}

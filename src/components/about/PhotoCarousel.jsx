@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from '../../hooks/translation';
+import { useSwipe } from '../../hooks/useSwipe';
 
 const CAROUSEL_KEY = 'portfolio-carousel-index';
 
@@ -20,6 +21,9 @@ export default function PhotoCarousel() {
   });
 
   const total = photos.length;
+  const handlePrev = () => setIndex((p) => (p - 1 + total) % total);
+  const handleNext = () => setIndex((p) => (p + 1) % total);
+  const swipeHandlers = useSwipe({ onLeft: handleNext, onRight: handlePrev });
 
   useEffect(() => {
     localStorage.setItem(CAROUSEL_KEY, String(index));
@@ -33,9 +37,6 @@ export default function PhotoCarousel() {
     );
   }
 
-  const handlePrev = () => setIndex((p) => (p - 1 + total) % total);
-  const handleNext = () => setIndex((p) => (p + 1) % total);
-
   const leftIndex = (index - 1 + total) % total;
   const rightIndex = (index + 1) % total;
 
@@ -47,7 +48,11 @@ export default function PhotoCarousel() {
   };
 
   return (
-    <div className="carousel-container" id="photo-carousel">
+    <div
+      className="carousel-container"
+      id="photo-carousel"
+      {...(total > 1 ? swipeHandlers : {})}
+    >
       <div className="carousel-stage">
         {photos.map((photo, i) => {
           const slot = getSlot(i);
@@ -89,6 +94,7 @@ export default function PhotoCarousel() {
                 className={`carousel-indicator${i === index ? ' active' : ''}`}
                 onClick={() => setIndex(i)}
                 aria-label={t('about.carouselPhotoN', { n: i + 1 })}
+                aria-current={i === index ? 'true' : undefined}
               />
             ))}
           </div>

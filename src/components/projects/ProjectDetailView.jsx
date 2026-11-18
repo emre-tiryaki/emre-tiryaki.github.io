@@ -18,11 +18,16 @@ import {
   FiCopy,
   FiCheck,
 } from 'react-icons/fi';
+import { useSwipe } from '../../hooks/useSwipe';
 import { useTranslation } from '../../hooks/translation';
 import { useScrollMask } from '../../hooks/useScrollMask';
 import { PROJECT_CATEGORY_CONFIG } from '../../theme';
 import { getProjectCategoryKey } from './ProjectListCard';
 import ProjectEventContext from './ProjectEventContext';
+
+/* Yatay kaydırılabilir galeri: resim yüksekliği ekran genişliğiyle ölçeklenir,
+   böylece telefonda tek bir resim galeri alanına tam sığar. */
+const GALLERY_TILE_HEIGHT = 'clamp(100px, 33vw, 240px)';
 
 /* ── Asset resolution (copied from ProjectCard / ExperienceDetailView) ── */
 const previewModules = import.meta.glob(
@@ -57,29 +62,30 @@ function resolveProjectImages(project) {
 
 /* ── Fullscreen Gallery Lightbox ── */
 function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title }) {
+  const { t } = useTranslation();
   const total = images.length;
   const [[page], setPage] = useState([activeIndex, 0]);
 
+  // Üst bileşenin state'i updater fonksiyonu içinde değil, olay anında güncellenir
+  // (render sırasında başka bileşeni güncelleme uyarısını önler).
   const paginate = useCallback(
     (dir) => {
-      setPage(([curr]) => {
-        const next = (curr + dir + total) % total;
-        onSelectIndex(next);
-        return [next, dir];
-      });
+      const next = (page + dir + total) % total;
+      setPage([next, dir]);
+      onSelectIndex(next);
     },
-    [total, onSelectIndex]
+    [page, total, onSelectIndex]
   );
 
   const goTo = useCallback(
     (idx) => {
-      setPage(([curr]) => {
-        onSelectIndex(idx);
-        return [idx, idx > curr ? 1 : -1];
-      });
+      setPage([idx, idx > page ? 1 : -1]);
+      onSelectIndex(idx);
     },
-    [onSelectIndex]
+    [page, onSelectIndex]
   );
+
+const swipeHandlers = useSwipe({ onLeft: () => paginate(1), onRight: () => paginate(-1) });
 
   useEffect(() => {
     const onKey = (e) => {
@@ -93,6 +99,9 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
 
   return createPortal(
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
       style={{
         position: 'fixed',
         inset: 0,
@@ -104,7 +113,7 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '1.25rem 1.5rem',
+        padding: 'calc(clamp(0.75rem, 3vw, 1.25rem) + env(safe-area-inset-top)) max(clamp(0.75rem, 3vw, 1.5rem), env(safe-area-inset-right)) calc(clamp(0.75rem, 3vw, 1.25rem) + env(safe-area-inset-bottom)) max(clamp(0.75rem, 3vw, 1.5rem), env(safe-area-inset-left))',
       }}
       onClick={onClose}
     >
@@ -113,8 +122,8 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
         style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 10 }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <span style={{ fontSize: '1rem', fontWeight: 700, color: '#f8fafc' }}>{title}</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', minWidth: 0 }}>
+          <span style={{ fontSize: '1rem', fontWeight: 700, color: '#f8fafc', minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{title}</span>
           {total > 1 && (
             <span
               style={{
@@ -125,6 +134,8 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
                 border: '1px solid rgba(249, 115, 22, 0.4)',
                 color: '#fb923c',
                 fontWeight: 700,
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
               }}
             >
               {page + 1} / {total}
@@ -132,7 +143,9 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
           )}
         </div>
         <button
+          type="button"
           onClick={onClose}
+          aria-label={t('common.close')}
           style={{
             width: '2.5rem', height: '2.5rem', borderRadius: '50%',
             background: 'rgba(255, 255, 255, 0.08)',
@@ -149,13 +162,15 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
 
       {/* Main image + arrows */}
       <div
+        {...swipeHandlers}
         style={{ position: 'relative', width: '100%', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: '0.5rem 0' }}
         onClick={(e) => e.stopPropagation()}
       >
         {total > 1 && (
           <button
             onClick={() => paginate(-1)}
-            style={{ position: 'absolute', left: '1.5rem', width: '3.25rem', height: '3.25rem', borderRadius: '50%', background: 'rgba(0, 0, 0, 0.65)', border: '1px solid rgba(255, 255, 255, 0.2)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 20, transition: 'all 0.18s ease' }}
+            aria-label={t('about.carouselPrev')}
+            style={{ position: 'absolute', left: 'clamp(0.25rem, 2vw, 1.5rem)', width: 'clamp(2.75rem, 8vw, 3.25rem)', height: 'clamp(2.75rem, 8vw, 3.25rem)', borderRadius: '50%', background: 'rgba(0, 0, 0, 0.65)', border: '1px solid rgba(255, 255, 255, 0.2)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 20, transition: 'all 0.18s ease' }}
           >
             <FiChevronLeft size={26} />
           </button>
@@ -164,7 +179,7 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
           key={page}
           src={images[page]}
           alt=""
-          style={{ maxWidth: '92vw', maxHeight: total > 1 ? '70vh' : '78vh', width: 'auto', height: 'auto', objectFit: 'contain', borderRadius: '0.85rem', boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)' }}
+          style={{ maxWidth: '92vw', maxHeight: total > 1 ? '70dvh' : '78dvh', width: 'auto', height: 'auto', objectFit: 'contain', borderRadius: '0.85rem', boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)' }}
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.2 }}
@@ -172,7 +187,8 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
         {total > 1 && (
           <button
             onClick={() => paginate(1)}
-            style={{ position: 'absolute', right: '1.5rem', width: '3.25rem', height: '3.25rem', borderRadius: '50%', background: 'rgba(0, 0, 0, 0.65)', border: '1px solid rgba(255, 255, 255, 0.2)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 20, transition: 'all 0.18s ease' }}
+            aria-label={t('about.carouselNext')}
+            style={{ position: 'absolute', right: 'clamp(0.25rem, 2vw, 1.5rem)', width: 'clamp(2.75rem, 8vw, 3.25rem)', height: 'clamp(2.75rem, 8vw, 3.25rem)', borderRadius: '50%', background: 'rgba(0, 0, 0, 0.65)', border: '1px solid rgba(255, 255, 255, 0.2)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', zIndex: 20, transition: 'all 0.18s ease' }}
           >
             <FiChevronRight size={26} />
           </button>
@@ -189,6 +205,7 @@ function GalleryLightbox({ images, activeIndex, onClose, onSelectIndex, title })
             <button
               key={idx}
               onClick={() => goTo(idx)}
+                aria-label={t('about.carouselPhotoN', { n: idx + 1 })}
               style={{ width: '52px', height: '42px', borderRadius: '0.5rem', overflow: 'hidden', padding: 0, border: idx === page ? '2px solid #fb923c' : '1px solid rgba(255, 255, 255, 0.15)', opacity: idx === page ? 1 : 0.5, cursor: 'pointer', background: '#0a0a0f', flexShrink: 0, transition: 'all 0.15s ease' }}
             >
               <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -581,7 +598,9 @@ export default function ProjectDetailView({ project }) {
 
   const scrollGallery = (direction) => {
     if (galleryScrollRef.current) {
-      galleryScrollRef.current.scrollBy({ left: direction * 350, behavior: 'smooth' });
+      // Görünür alanın %80'i kadar kaydır (telefonda resim atlamasın; masaüstünde 350px ile sınırlı)
+      const step = Math.min(350, galleryScrollRef.current.clientWidth * 0.8);
+      galleryScrollRef.current.scrollBy({ left: direction * step, behavior: 'smooth' });
     }
   };
 
@@ -980,7 +999,10 @@ export default function ProjectDetailView({ project }) {
                   tabIndex={0}
                   onKeyDown={(e) => e.key === 'Enter' && setLightboxIndex(idx)}
                   style={{
-                    height: '240px',
+                    // Telefonda küçülür (≈105–140px), tablet/masaüstünde 240px kalır
+                    height: GALLERY_TILE_HEIGHT,
+                    // Çok geniş resimler de galeri alanına sığsın
+                    maxWidth: 'calc(100% - 1rem)',
                     flexShrink: 0,
                     borderRadius: '0.9rem',
                     overflow: 'hidden',
@@ -997,7 +1019,7 @@ export default function ProjectDetailView({ project }) {
                     src={src}
                     alt=""
                     loading="lazy"
-                    style={{ height: '100%', width: 'auto', display: 'block', objectFit: 'cover' }}
+                    style={{ height: '100%', width: 'auto', maxWidth: '100%', display: 'block', objectFit: 'contain' }}
                   />
                   <div
                     style={{ position: 'absolute', bottom: '0.5rem', right: '0.5rem', width: '1.75rem', height: '1.75rem', borderRadius: '0.45rem', background: 'rgba(0, 0, 0, 0.65)', border: '1px solid rgba(255, 255, 255, 0.2)', color: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}

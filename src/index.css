@@ -61,6 +61,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 
 #root {
   height: 100vh;
+  height: 100dvh; /* mobilde adres çubuğu açıkken alt içerik kesilmesin */
   overflow: hidden;
 }
 
@@ -284,6 +285,14 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   cursor: pointer;
   transition: all 250ms ease;
   padding: 0;
+  position: relative;
+}
+
+/* Görsel nokta 8px kalır; dokunma alanı 24px'e genişletilir */
+.carousel-indicator::before {
+  content: '';
+  position: absolute;
+  inset: -8px -4px;
 }
 
 .carousel-indicator.active {
@@ -291,6 +300,37 @@ h1, h2, h3, h4, h5, h6, .font-serif {
   width: 24px;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(249, 115, 22, 0.6);
+}
+
+.carousel-container {
+  touch-action: pan-y; /* yatay kaydırma carousel'e, dikey kaydırma sayfaya */
+}
+
+/* Küçük telefonlar: carousel orantılı küçülür */
+@media (max-width: 380px) {
+  .carousel-container { height: 380px; }
+  .carousel-slide { width: 216px; height: 310px; }
+  .carousel-arrow { width: 40px; height: 40px; }
+  .carousel-arrow--prev { left: -8px; }
+  .carousel-arrow--next { right: -8px; }
+}
+
+/* Dokunmatik cihazlarda (ekran genişliğinden bağımsız — yatay telefon dahil)
+   küçük ikon butonları en az 44x44 dokunma alanına çıkar */
+@media (pointer: coarse) {
+  .touch-target { min-width: 44px; min-height: 44px; }
+}
+
+/* Dokunmatik: noktalar arası boşluk açılır, her nokta 24x24 dokunma alanı alır */
+@media (pointer: coarse) {
+  .carousel-indicators { gap: 16px; }
+  .carousel-indicator::before { inset: -8px; }
+}
+
+/* Dokunmatik cihazlarda :hover dokunuştan sonra "yapışır"; kaydırma/büyütme efektlerini kapat */
+@media (hover: none) {
+  .btn:hover:not(:disabled) { transform: none; }
+  .carousel-arrow:hover { transform: translateY(-50%); }
 }
 
 /* ── Skeleton Loading ── */

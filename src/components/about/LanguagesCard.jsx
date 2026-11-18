@@ -21,7 +21,7 @@ export default function LanguagesCard() {
 
   return (
     <div
-      className="relative rounded-2xl flex flex-col items-center justify-start self-stretch overflow-visible transition-all duration-300"
+      className="relative rounded-2xl flex flex-col items-center justify-start self-stretch overflow-visible transition-all duration-300 w-full sm:w-auto"
       style={{
         minWidth: 0,
         flex: '0 1 auto',

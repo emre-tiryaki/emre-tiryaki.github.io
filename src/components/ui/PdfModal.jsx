@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { FiX, FiDownload, FiMaximize2, FiMinimize2 } from 'react-icons/fi';
+import { FiX, FiDownload, FiMaximize2, FiMinimize2, FiExternalLink } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
 
@@ -34,8 +34,15 @@ export default function PdfModal({ onClose, pdfUrl, title, downloadName, viewerT
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6"
+      className="fixed inset-0 flex items-center justify-center"
+      role="dialog"
+      aria-modal="true"
+      aria-label={title || fileName}
       style={{
+        // Mobil detay katmanının (z 60) ve navbar'ın üstünde
+        zIndex: 1000,
+        // p-2 sm:p-4 global reset tarafından ezildiği için inline; çentik/ana çubuk boşlukları dahil
+        padding: 'max(0.5rem, env(safe-area-inset-top)) max(0.5rem, env(safe-area-inset-right)) max(0.5rem, env(safe-area-inset-bottom)) max(0.5rem, env(safe-area-inset-left))',
         background: 'rgba(0, 0, 0, 0.55)',
         backdropFilter: 'blur(4px)',
         WebkitBackdropFilter: 'blur(4px)',
@@ -47,8 +54,8 @@ export default function PdfModal({ onClose, pdfUrl, title, downloadName, viewerT
       <div
         className={`relative flex flex-col rounded-2xl overflow-hidden transition-all duration-300 ${
           isMaximized
-            ? 'w-[98vw] h-[95vh]'
-            : 'w-full max-w-4xl h-[85vh]'
+            ? 'w-[98vw] h-full sm:h-[95vh]'
+            : 'w-full max-w-4xl h-full sm:h-[85vh]'
         }`}
         style={{
           background: '#0d0d0d',
@@ -58,9 +65,9 @@ export default function PdfModal({ onClose, pdfUrl, title, downloadName, viewerT
       >
         {/* ── Modal Header ── */}
         <div
-          className="flex items-center justify-between gap-4 border-b border-white/[0.08]"
+          className="flex items-center justify-between gap-2 sm:gap-4 border-b border-white/[0.08]"
           style={{
-            padding: '0.75rem 1rem',
+            padding: '0.625rem clamp(0.625rem, 3vw, 1rem)',
             background: 'rgba(255, 255, 255, 0.02)',
           }}
         >
@@ -74,20 +81,32 @@ export default function PdfModal({ onClose, pdfUrl, title, downloadName, viewerT
           {/* Right: Actions (Download, Maximize, Close) */}
           <div className="flex items-center gap-2 shrink-0">
             {/* Download Button */}
+            {/* Mobil tarayıcılar PDF'i iframe içinde göstermeyebilir: yeni sekmede açma yolu */}
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={t('common.openInNewTab')}
+              title={t('common.openInNewTab')}
+              className="flex items-center justify-center w-8 h-8 touch-target rounded-lg bg-white/[0.03] border border-white/[0.08] text-neutral-400 hover:text-neutral-100 hover:border-white/20 hover:bg-white/[0.08] transition-all duration-150 active:scale-95"
+            >
+              <FiExternalLink size={14} />
+            </a>
+
             <a
               href={pdfUrl}
               download={fileName}
-              className="group relative inline-flex items-center justify-center rounded-lg text-xs font-bold text-white transition-all duration-200 shadow-md hover:brightness-110 active:scale-95 cursor-pointer overflow-hidden"
+              aria-label={t('about.downloadCv')}
+              className="group relative inline-flex items-center justify-center rounded-lg text-xs font-bold text-white transition-all duration-200 shadow-md hover:brightness-110 active:scale-95 cursor-pointer overflow-hidden h-8 touch-target"
               style={{
-                height: '2rem',
-                padding: '0 18px',
+                padding: '0 clamp(12px, 3vw, 18px)',
                 gap: '8px',
                 background: accent.gradient,
                 boxShadow: `0 4px 12px ${accent.borderSubtle}`,
               }}
             >
               <FiDownload size={13} className="shrink-0" />
-              <span className="whitespace-nowrap">{t('about.downloadCv')}</span>
+              <span className="whitespace-nowrap hidden min-[400px]:inline">{t('about.downloadCv')}</span>
             </a>
 
             {/* Maximize / Restore Button */}
@@ -95,7 +114,7 @@ export default function PdfModal({ onClose, pdfUrl, title, downloadName, viewerT
               type="button"
               onClick={() => setIsMaximized((prev) => !prev)}
               aria-label={isMaximized ? t('common.minimize') : t('common.maximize')}
-              className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.08] text-neutral-400 hover:text-neutral-100 hover:border-white/20 hover:bg-white/[0.08] transition-all duration-150 active:scale-95"
+              className="hidden sm:flex items-center justify-center w-8 h-8 touch-target rounded-lg bg-white/[0.03] border border-white/[0.08] text-neutral-400 hover:text-neutral-100 hover:border-white/20 hover:bg-white/[0.08] transition-all duration-150 active:scale-95"
             >
               {isMaximized ? <FiMinimize2 size={14} /> : <FiMaximize2 size={14} />}
             </button>
@@ -105,7 +124,7 @@ export default function PdfModal({ onClose, pdfUrl, title, downloadName, viewerT
               type="button"
               onClick={onClose}
               aria-label={t('common.close')}
-              className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.08] text-neutral-400 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all duration-150 active:scale-95"
+              className="flex items-center justify-center w-8 h-8 touch-target rounded-lg bg-white/[0.03] border border-white/[0.08] text-neutral-400 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all duration-150 active:scale-95"
             >
               <FiX size={16} />
             </button>

@@ -3,7 +3,9 @@
     "verifiedAccount": "Doğrulanmış Hesap",
     "close": "Kapat",
     "maximize": "Tam Ekran",
-    "minimize": "Küçült"
+    "minimize": "Küçült",
+    "back": "Geri",
+    "openInNewTab": "Yeni sekmede aç"
   },
   "nav": {
     "home": "Ana Sayfa",

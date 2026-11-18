@@ -37,12 +37,18 @@ export default function ProjectListCard({ project, isSelected, onClick, groupCou
       onClick={onClick}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
       aria-expanded={groupCount ? !!isExpanded : undefined}
+      aria-pressed={groupCount ? undefined : !!isSelected}
       className="group relative flex shrink-0 flex-col justify-between gap-3 overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-0.5"
       style={{
         position: 'relative',
-        padding: '1.1rem 1.35rem',
+        padding: '1.1rem clamp(1rem, 4vw, 1.35rem)',
         borderRadius: '1.15rem',
         width: '100%',
         boxSizing: 'border-box',

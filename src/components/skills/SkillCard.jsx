@@ -1,6 +1,7 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from '../../hooks/translation';
+import { useTapTooltip } from '../../hooks/useTapTooltip';
 import { SKILL_CUSTOM_ICONS, AGENT_ICONS, getSkillIconSrc } from '../../lib/media';
 
 const ollamaIcon = SKILL_CUSTOM_ICONS['custom:ollama'];
@@ -129,9 +130,10 @@ export function TooltipPortal({ anchorRef, name, text }) {
 }
 
 export default function SkillCard({ name, icon, comment }) {
-  const [hovered, setHovered] = useState(false);
   const [agentIconIndex, setAgentIconIndex] = useState(0);
   const cardRef = useRef(null);
+  // Fare: hover; dokunmatik: dokun-aç/kapa; klavye: odak — yorum içeriği her cihazda erişilebilir
+  const [hovered, tooltipHandlers] = useTapTooltip(cardRef);
   const { tData } = useTranslation();
   const commentText = comment ? tData(comment) : null;
 
@@ -160,14 +162,21 @@ export default function SkillCard({ name, icon, comment }) {
         gap: '0.6rem',
         padding: '1rem 0.5rem',
         borderRadius: '0.75rem',
-        cursor: 'default',
+        cursor: commentText ? 'pointer' : 'default',
         userSelect: 'none',
+        minWidth: 0,
         background: 'rgba(255,255,255,0.03)',
         border: '1px solid rgba(255,255,255,0.06)',
         transition: 'all 0.18s ease',
       }}
+      {...(commentText ? {
+        ...tooltipHandlers,
+        role: 'button',
+        tabIndex: 0,
+        'aria-expanded': hovered,
+        'aria-label': `${name}: ${commentText}`,
+      } : {})}
       onMouseEnter={e => {
-        setHovered(true);
         randomizeAgentIcon();
         e.currentTarget.style.borderColor = 'rgba(249,115,22,0.55)';
         e.currentTarget.style.background   = 'rgba(249,115,22,0.07)';
@@ -175,7 +184,6 @@ export default function SkillCard({ name, icon, comment }) {
         e.currentTarget.style.boxShadow    = '0 6px 20px rgba(249,115,22,0.15)';
       }}
       onMouseLeave={e => {
-        setHovered(false);
         randomizeAgentIcon();
         e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
         e.currentTarget.style.background   = 'rgba(255,255,255,0.03)';
@@ -186,7 +194,7 @@ export default function SkillCard({ name, icon, comment }) {
       <div style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <SkillIcon icon={icon} name={name} activeAgentIcon={isAgent ? AGENT_ICONS[agentIconIndex] : null} />
       </div>
-      <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#cbd5e1', textAlign: 'center', lineHeight: 1.3 }}>
+      <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#cbd5e1', textAlign: 'center', lineHeight: 1.3, maxWidth: '100%', overflowWrap: 'anywhere' }}>
         {name}
       </span>
 

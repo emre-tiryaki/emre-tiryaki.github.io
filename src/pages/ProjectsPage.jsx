@@ -7,6 +7,9 @@ import { useTranslation } from '../hooks/translation';
 import { useScrollMask } from '../hooks/useScrollMask';
 import { PROJECT_CATEGORY_CONFIG } from '../theme';
 import Button from '../components/ui/Button';
+import FilterChips from '../components/ui/FilterChips';
+import MobileSheet from '../components/ui/MobileSheet';
+import { useMediaQuery, MEDIA } from '../hooks/useMediaQuery';
 
 /* Category key → dot color lookup */
 const CATEGORY_DOT_COLOR = {
@@ -19,7 +22,8 @@ const CATEGORY_DOT_COLOR = {
 const AVAILABLE_CATEGORIES = ['all', 'competition', 'hackathon', 'openSource'];
 
 export default function ProjectsPage() {
-  const { t } = useTranslation();
+  const { t, tData } = useTranslation();
+  const isCompact = useMediaQuery(MEDIA.COMPACT);
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedId, setSelectedId] = useState(null);
   const [expandedIds, setExpandedIds] = useState(() => new Set());
@@ -62,6 +66,121 @@ export default function ProjectsPage() {
     // keep selected project only if it is still in the filtered list
     // (the activeProject memo handles deselection automatically)
   };
+
+  const projectList = (
+    filtered.length === 0 ? (
+      <p
+        style={{
+          margin: '2rem auto',
+          fontSize: '0.88rem',
+          color: '#475569',
+          textAlign: 'center',
+        }}
+      >
+        {t('projects.noResults')}
+      </p>
+    ) : (
+      filtered.map((project) => {
+        if (!project.contributions) {
+          return (
+            <ProjectListCard
+              key={project.id}
+              project={project}
+              isSelected={activeProject?.id === project.id}
+              onClick={() => handleCardClick(project.id)}
+            />
+          );
+        }
+        const isExpanded = expandedIds.has(project.id);
+        const hasActiveChild = project.contributions.some((c) => c.id === activeProject?.id);
+        return (
+          <div key={project.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <ProjectListCard
+              project={project}
+              isSelected={hasActiveChild && !isExpanded}
+              groupCount={project.contributions.length}
+              isExpanded={isExpanded}
+              onClick={() => toggleGroup(project.id)}
+            />
+            {isExpanded && (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.75rem',
+                  marginLeft: '0.9rem',
+                  paddingLeft: '0.9rem',
+                  borderLeft: `2px solid ${PROJECT_CATEGORY_CONFIG.openSource.borderInactive}`,
+                }}
+              >
+                {project.contributions.map((child) => (
+                  <ProjectListCard
+                    key={child.id}
+                    project={child}
+                    isSelected={activeProject?.id === child.id}
+                    onClick={() => handleCardClick(child.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })
+    )
+  );
+
+  const categoryChipOptions = AVAILABLE_CATEGORIES.map((cat) => ({
+    key: cat,
+    label: t(`projects.categories.${cat}`),
+    color: CATEGORY_DOT_COLOR[cat] || null,
+  }));
+
+  /* ── Dar ekran (lg altı): filtre çipleri + tam genişlik liste + tam ekran detay ── */
+  if (isCompact) {
+    return (
+      <PageLayout
+        title={t('projects.title')}
+        subtitle={t('projects.subtitle')}
+        maxWidth="48rem"
+        fullHeight
+      >
+        <FilterChips
+          label={t('projects.filter')}
+          options={categoryChipOptions}
+          active={activeCategory}
+          onChange={handleCategoryChange}
+        />
+        <div
+          ref={listRef}
+          style={{
+            flex: 1,
+            minHeight: 0,
+            overflowY: 'auto',
+            overscrollBehavior: 'contain',
+            paddingTop: '0.75rem',
+            paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))',
+            paddingLeft: '0.15rem',
+            paddingRight: '0.15rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            userSelect: 'none',
+            ...listMaskStyle,
+          }}
+        >
+          {projectList}
+        </div>
+
+        <MobileSheet
+          open={Boolean(activeProject)}
+          onClose={() => setSelectedId(null)}
+          title={activeProject ? tData(activeProject.title) : t('projects.title')}
+        >
+          <ProjectDetailView project={activeProject} />
+        </MobileSheet>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout
@@ -109,65 +228,7 @@ export default function ProjectsPage() {
               ...listMaskStyle,
             }}
           >
-            {filtered.length === 0 ? (
-              <p
-                style={{
-                  margin: '2rem auto',
-                  fontSize: '0.88rem',
-                  color: '#475569',
-                  textAlign: 'center',
-                }}
-              >
-                {t('projects.noResults')}
-              </p>
-            ) : (
-              filtered.map((project) => {
-                if (!project.contributions) {
-                  return (
-                    <ProjectListCard
-                      key={project.id}
-                      project={project}
-                      isSelected={activeProject?.id === project.id}
-                      onClick={() => handleCardClick(project.id)}
-                    />
-                  );
-                }
-                const isExpanded = expandedIds.has(project.id);
-                const hasActiveChild = project.contributions.some((c) => c.id === activeProject?.id);
-                return (
-                  <div key={project.id} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    <ProjectListCard
-                      project={project}
-                      isSelected={hasActiveChild && !isExpanded}
-                      groupCount={project.contributions.length}
-                      isExpanded={isExpanded}
-                      onClick={() => toggleGroup(project.id)}
-                    />
-                    {isExpanded && (
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: '0.75rem',
-                          marginLeft: '0.9rem',
-                          paddingLeft: '0.9rem',
-                          borderLeft: `2px solid ${PROJECT_CATEGORY_CONFIG.openSource.borderInactive}`,
-                        }}
-                      >
-                        {project.contributions.map((child) => (
-                          <ProjectListCard
-                            key={child.id}
-                            project={child}
-                            isSelected={activeProject?.id === child.id}
-                            onClick={() => handleCardClick(child.id)}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              })
-            )}
+            {projectList}
           </div>
         </div>
 

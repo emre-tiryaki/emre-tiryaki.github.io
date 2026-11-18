@@ -78,10 +78,10 @@ ${formData.details}
             <p className="text-lg font-semibold text-slate-900 leading-tight">{cta.intro.name}</p>
             <p className="text-sm font-medium text-blue-600 mb-3">{cta.intro.role}</p>
             <p className="pwm-body mb-4">{cta.intro.note}</p>
-            <div className="flex flex-col sm:flex-row items-center gap-3">
-              <a href={`mailto:${cta.email}`} className="pwm-btn pwm-btn--secondary pwm-btn--sm">
-                <FiMail size={16} className="text-blue-600" />
-                <span className="truncate">{cta.emailBtn} {cta.email}</span>
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-center gap-3">
+              <a href={`mailto:${cta.email}`} className="pwm-btn pwm-btn--secondary pwm-btn--sm max-w-full">
+                <FiMail size={16} className="text-blue-600 shrink-0" />
+                <span className="min-w-0 whitespace-normal [overflow-wrap:anywhere] text-left sm:truncate">{cta.emailBtn} {cta.email}</span>
               </a>
               <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-slate-500">
                 <FiClock size={14} className="text-emerald-600" />

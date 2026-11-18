@@ -12,11 +12,12 @@ const PAGE_STYLE = {
   width: '100%',
   maxWidth: '72rem',
   margin: '0 auto',
-  paddingLeft: '1.5rem',
-  paddingRight: '1.5rem',
-  paddingTop: '2.5rem',
+  paddingLeft: 'max(clamp(1rem, 4vw, 1.5rem), env(safe-area-inset-left))',
+  paddingRight: 'max(clamp(1rem, 4vw, 1.5rem), env(safe-area-inset-right))',
+  paddingTop: 'clamp(1rem, 4vw, 2.5rem)',
   paddingBottom: '3rem',
   display: 'block',
+  overflowX: 'clip', // carousel'in yan fotoğrafları dar ekranda yatay kaydırma yaratmasın
 };
 
 export default function AboutPage() {
@@ -44,9 +45,11 @@ export default function AboutPage() {
               </p>
             </div>
             <AboutSummary />
-            <div className="flex justify-between items-stretch gap-3 sm:gap-4 w-full">
+            {/* Telefon: [İletişim | Diller] üstte, CV + Benimle Çalışın tam genişlik altta.
+                sm ve üstü: önceki tek satır düzen. */}
+            <div className="grid grid-cols-2 gap-3 sm:flex sm:justify-between sm:items-stretch sm:gap-4 w-full">
               <ContactCard />
-              <div className="flex flex-col justify-between items-stretch gap-2.5">
+              <div className="col-span-2 order-last sm:order-none flex flex-col justify-between items-stretch gap-2.5">
                 <ResumeCard />
                 <WorkWithMeCard />
               </div>
