@@ -30,4 +30,9 @@ export default defineConfig({
     jsonDump(),
   ],
   base: '/',
+  build: {
+    // Küçük görselleri/ikonları base64 yapma (HTML/JS şişmesin), ayrı dosya olarak cache'lensin
+    assetsInlineLimit: 2048,
+    chunkSizeWarningLimit: 900,
+  },
 });

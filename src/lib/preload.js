@@ -108,14 +108,14 @@ function isConstrained() {
 }
 
 /** Klasör adına göre ilk görsel (kapak) önce, kalanlar sonra gelsin. */
-function enqueueGallery(entries, group, coverPriority, restPriority) {
+function enqueueGallery(entries, group, coverPriority, restPriority, coversOnly = false) {
   const seenFolders = new Set();
   for (const { path, url } of entries) {
     const folder = path.split('/').slice(0, -1).join('/');
     if (!seenFolders.has(folder)) {
       seenFolders.add(folder);
       addImage(url, coverPriority, group);
-    } else {
+    } else if (!coversOnly) {
       addImage(url, restPriority, group);
     }
   }
@@ -156,8 +156,9 @@ function buildQueue() {
   Object.values(AUTHORITY_LOGOS).forEach((u) => addImage(u, 44, 'certifications'));
 
   /* 5) Projeler / Deneyim galerileri — en ağır olanlar en sona */
-  enqueueGallery(PROJECT_PREVIEW_IMAGES, 'projects', 40, 20);
-  enqueueGallery(EXPERIENCE_IMAGES, 'experience', 30, 10);
+  // Sadece kapak görselleri; kalan galeri görselleri sayfada loading="lazy" ile yüklenir
+  enqueueGallery(PROJECT_PREVIEW_IMAGES, 'projects', 40, 20, true);
+  enqueueGallery(EXPERIENCE_IMAGES, 'experience', 30, 10, true);
 }
 
 /** Uygulama açılışında bir kez çağrılır; tarayıcı boştayken başlar. */

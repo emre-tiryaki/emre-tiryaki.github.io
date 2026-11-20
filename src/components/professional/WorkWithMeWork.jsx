@@ -3,8 +3,8 @@ import { useTranslation } from '../../hooks/translation';
 import { WORK_WITH_ME_DATA } from '../../data/professional';
 import SectionHeader from './SectionHeader';
 
-import clearSkyImg from '../../assets/project_previews/ClearSky/Screenshot 2026-07-30 at 14-16-26 Clear Sky.png';
-import okurImg from '../../assets/project_previews/OKUR/OKUR.jpeg';
+import clearSkyImg from '../../assets/project_previews/ClearSky/Screenshot 2026-07-30 at 14-16-26 Clear Sky.webp';
+import okurImg from '../../assets/project_previews/OKUR/OKUR.webp';
 
 const PROJECT_IMAGE_MAP = {
   clearsky: clearSkyImg,

@@ -11,7 +11,7 @@ const previewModules = import.meta.glob(
 );
 
 // Build a quick lookup: keyed by the part of the path AFTER "project_previews/"
-// e.g. "ClearSky/Screenshot ....png" -> module url
+// e.g. "ClearSky/Screenshot ....webp" -> module url
 const previewLookup = Object.fromEntries(
   Object.entries(previewModules).map(([path, url]) => {
     const idx = path.indexOf('project_previews/');
@@ -23,7 +23,7 @@ const previewLookup = Object.fromEntries(
 /**
  * Resolve a project's preview image URLs.
  * Primary source: explicit `project.previews` array (paths relative to
- * src/assets/project_previews/, e.g. "ClearSky/1.png").
+ * src/assets/project_previews/, e.g. "ClearSky/1.webp").
  * Fallback: legacy single `project.preview` string (folder or file path).
  * The fragile folder-name fuzzy-matching heuristic was removed — every
  * project now declares its previews explicitly in projects.json.

@@ -129,9 +129,9 @@ export function getCertDocument(documentKey) {
 }
 
 // ── Personal photos ──
-export const PORTRAIT_PHOTO = new URL('../assets/personal_photos/20251210_140639.jpg', import.meta.url).href;
+export const PORTRAIT_PHOTO = new URL('../assets/personal_photos/20251210_140639.webp', import.meta.url).href;
 
-const personalPhotoModules = import.meta.glob('../assets/personal_photos/*.{jpg,jpeg,png,JPG,JPEG,PNG}', {
+const personalPhotoModules = import.meta.glob('../assets/personal_photos/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG}', {
   eager: true,
   import: 'default',
 });

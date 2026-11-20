@@ -21,12 +21,12 @@
     "isCompetition": true,
     "preview": "Lunar_Landing_Navigator",
     "previews": [
-      "Lunar_Landing_Navigator/Screenshot_20261117_152139.png",
-      "Lunar_Landing_Navigator/Screenshot_20261117_152151.png",
-      "Lunar_Landing_Navigator/Screenshot_20261117_152204.png",
-      "Lunar_Landing_Navigator/Screenshot_20261117_152521.png",
-      "Lunar_Landing_Navigator/Screenshot_20261117_152841.png",
-      "Lunar_Landing_Navigator/Screenshot_20261117_153059.png"
+      "Lunar_Landing_Navigator/Screenshot_20261117_152139.webp",
+      "Lunar_Landing_Navigator/Screenshot_20261117_152151.webp",
+      "Lunar_Landing_Navigator/Screenshot_20261117_152204.webp",
+      "Lunar_Landing_Navigator/Screenshot_20261117_152521.webp",
+      "Lunar_Landing_Navigator/Screenshot_20261117_152841.webp",
+      "Lunar_Landing_Navigator/Screenshot_20261117_153059.webp"
     ]
   },
   {
@@ -142,12 +142,12 @@
     "isPrivate": false,
     "preview": "ClearSky",
     "previews": [
-      "ClearSky/Screenshot 2026-07-30 at 14-16-26 Clear Sky.png",
-      "ClearSky/Screenshot 2026-07-30 at 14-20-13 Clear Sky.png",
-      "ClearSky/Screenshot 2026-08-26 at 13-57-13 Clear Sky.png",
-      "ClearSky/Screenshot 2026-08-26 at 13-57-39 Clear Sky.png",
-      "ClearSky/Screenshot 2026-08-26 at 13-58-23 Clear Sky.png",
-      "ClearSky/Screenshot 2026-08-26 at 13-59-50 Clear Sky.png"
+      "ClearSky/Screenshot 2026-07-30 at 14-16-26 Clear Sky.webp",
+      "ClearSky/Screenshot 2026-07-30 at 14-20-13 Clear Sky.webp",
+      "ClearSky/Screenshot 2026-08-26 at 13-57-13 Clear Sky.webp",
+      "ClearSky/Screenshot 2026-08-26 at 13-57-39 Clear Sky.webp",
+      "ClearSky/Screenshot 2026-08-26 at 13-58-23 Clear Sky.webp",
+      "ClearSky/Screenshot 2026-08-26 at 13-59-50 Clear Sky.webp"
     ]
   },
   {
@@ -167,7 +167,7 @@
     "liveDemo": null,
     "isPrivate": false,
     "preview": "repograb",
-    "previews": ["repograb/1.png", "repograb/2.png", "repograb/3.png"]
+    "previews": ["repograb/1.webp", "repograb/2.webp", "repograb/3.webp"]
   },
   {
     "id": "okur",
@@ -189,8 +189,8 @@
     "liveDemo": null,
     "isPrivate": true,
     "isCompetition": true,
-    "preview": "OKUR/OKUR.jpeg",
-    "previews": ["OKUR/OKUR.jpeg"]
+    "preview": "OKUR/OKUR.webp",
+    "previews": ["OKUR/OKUR.webp"]
   },
   {
     "id": "hegs-haber",
@@ -264,8 +264,8 @@
     "sourceCode": "https://github.com/emre-tiryaki/typing-game",
     "liveDemo": null,
     "isPrivate": false,
-    "preview": "typing_game/typing_game.png",
-    "previews": ["typing_game/typing_game.png"]
+    "preview": "typing_game/typing_game.webp",
+    "previews": ["typing_game/typing_game.webp"]
   },
   {
     "id": "project-toolkit",
@@ -283,8 +283,8 @@
     "sourceCode": "https://github.com/emre-tiryaki/project-toolkit",
     "liveDemo": null,
     "isPrivate": false,
-    "preview": "project_toolkit/project_toolkit.png",
-    "previews": ["project_toolkit/project_toolkit.png"]
+    "preview": "project_toolkit/project_toolkit.webp",
+    "previews": ["project_toolkit/project_toolkit.webp"]
   },
   {
     "id": "ofa-smartpay",
