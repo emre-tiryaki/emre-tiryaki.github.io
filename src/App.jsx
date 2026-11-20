@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, MotionConfig } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
@@ -13,6 +14,7 @@ import ProjectsPage from './pages/ProjectsPage';
 import CertificationsPage from './pages/CertificationsPage';
 import JsonEndpointPage from './pages/JsonEndpointPage';
 import WorkWithMePage from './pages/WorkWithMePage';
+import { startBackgroundPreload, boostRoute } from './lib/preload';
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -60,6 +62,16 @@ function MainLayout() {
 function AppContent() {
   const location = useLocation();
   const isWorkWithMe = location.pathname === '/work-with-me';
+
+  // Görselleri ve GitHub verisini arka planda, öncelik sırasıyla ön yükle
+  useEffect(() => {
+    if (!isWorkWithMe) startBackgroundPreload(location.pathname);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Kullanıcı bir sayfaya geçince o sayfanın bekleyen yüklemeleri öne alınır
+  useEffect(() => {
+    boostRoute(location.pathname);
+  }, [location.pathname]);
 
   if (isWorkWithMe) {
     return <WorkWithMePage />;

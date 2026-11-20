@@ -131,9 +131,33 @@ export function getCertDocument(documentKey) {
 // ── Personal photos ──
 export const PORTRAIT_PHOTO = new URL('../assets/personal_photos/20251210_140639.jpg', import.meta.url).href;
 
+const personalPhotoModules = import.meta.glob('../assets/personal_photos/*.{jpg,jpeg,png,JPG,JPEG,PNG}', {
+  eager: true,
+  import: 'default',
+});
+
+/** Hakkımda carousel fotoğrafları (dosya adına göre sıralı). */
+export const PERSONAL_PHOTOS = Object.entries(personalPhotoModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, src]) => src);
+
+// ── Galeri görselleri (arka plan ön yükleme için; yol + URL) ──
+const toEntries = (modules) =>
+  Object.entries(modules)
+    .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
+    .map(([path, url]) => ({ path, url }));
+
+export const PROJECT_PREVIEW_IMAGES = toEntries(
+  import.meta.glob('../assets/project_previews/**/*.{jpg,jpeg,png,webp,PNG,JPG,JPEG,gif,GIF,avif,AVIF}', { eager: true, import: 'default' })
+);
+export const EXPERIENCE_IMAGES = toEntries(
+  import.meta.glob('../assets/experience/**/*.{jpg,jpeg,png,webp,PNG,JPG,JPEG,gif,GIF,avif,AVIF}', { eager: true, import: 'default' })
+);
+
 export default {
   DEVICON_BASE,
   PORTRAIT_PHOTO,
+  PERSONAL_PHOTOS,
   AUTHORITY_LOGOS,
   CERT_DOCUMENTS,
   EDUCATION_LOGOS,

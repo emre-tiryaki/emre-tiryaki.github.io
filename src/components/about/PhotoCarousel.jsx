@@ -1,17 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from '../../hooks/translation';
 import { useSwipe } from '../../hooks/useSwipe';
+import { PERSONAL_PHOTOS } from '../../lib/media';
 
 const CAROUSEL_KEY = 'portfolio-carousel-index';
 
-const photoModules = import.meta.glob(
-  '../../assets/personal_photos/*.{jpg,jpeg,png,JPG,JPEG,PNG}',
-  { eager: true, import: 'default' }
-);
-
-const photos = Object.entries(photoModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, src]) => src);
+const photos = PERSONAL_PHOTOS;
 
 export default function PhotoCarousel() {
   const { t } = useTranslation();

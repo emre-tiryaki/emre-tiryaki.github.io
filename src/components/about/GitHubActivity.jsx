@@ -2,55 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { FiExternalLink } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
-
-const GITHUB_USERNAME = 'emre-tiryaki';
-const TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
-
-/* ── LocalStorage cache — 1 API call per user per calendar day ── */
-const CACHE_KEY = `gh_contributions_${GITHUB_USERNAME}`;
-
-function todayStr() {
-  return new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
-}
-
-function readCache() {
-  try {
-    const raw = localStorage.getItem(CACHE_KEY);
-    if (!raw) return null;
-    const { date, data } = JSON.parse(raw);
-    if (date !== todayStr()) return null;   // expired — new calendar day
-    return data;                            // { weeks, total }
-  } catch {
-    return null;
-  }
-}
-
-function writeCache(data) {
-  try {
-    localStorage.setItem(CACHE_KEY, JSON.stringify({ date: todayStr(), data }));
-  } catch {
-    /* quota exceeded or private browsing — silently ignore */
-  }
-}
-
-const GQL = `
-query($username: String!) {
-  user(login: $username) {
-    contributionsCollection {
-      contributionCalendar {
-        totalContributions
-        weeks {
-          firstDay
-          contributionDays {
-            date
-            contributionCount
-            weekday
-          }
-        }
-      }
-    }
-  }
-}`;
+import { GITHUB_USERNAME, hasGithubToken, readCache, loadContributions } from '../../lib/githubContributions';
 
 function countToColor(n) {
   if (n === 0)  return '#1a1a1a';
@@ -141,14 +93,13 @@ export default function GitHubActivity() {
     return () => ro.disconnect();
   }, []);
 
-  /* Fetch */
+  /* Fetch — veri çoğunlukla arka plan ön yüklemesiyle önbellekte hazırdır */
   useEffect(() => {
-    if (!TOKEN) {
+    if (!hasGithubToken) {
       queueMicrotask(() => setStatus('no-token'));
       return;
     }
 
-    /* ── 1. Try cache first ── */
     const cached = readCache();
     if (cached) {
       queueMicrotask(() => {
@@ -156,26 +107,20 @@ export default function GitHubActivity() {
         setTotal(cached.total);
         setStatus('ok');
       });
-      return;   // no API call needed today
+      return;
     }
 
-    /* ── 2. Cache miss → fetch from GitHub GraphQL ── */
-    fetch('https://api.github.com/graphql', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${TOKEN}` },
-      body: JSON.stringify({ query: GQL, variables: { username: GITHUB_USERNAME } }),
-    })
-      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-      .then(json => {
-        if (json.errors) throw new Error(json.errors[0]?.message);
-        const cal = json.data.user.contributionsCollection.contributionCalendar;
-        const payload = { weeks: cal.weeks, total: cal.totalContributions };
-        writeCache(payload);          // persist for the rest of today
+    // Ön yükleme sürüyorsa aynı promise paylaşılır (çift istek atılmaz)
+    let cancelled = false;
+    loadContributions()
+      .then((payload) => {
+        if (cancelled) return;
         setWeeks(payload.weeks);
         setTotal(payload.total);
         setStatus('ok');
       })
-      .catch(() => setStatus('error'));
+      .catch(() => { if (!cancelled) setStatus('error'); });
+    return () => { cancelled = true; };
   }, []);
 
   /* SVG layout math */
