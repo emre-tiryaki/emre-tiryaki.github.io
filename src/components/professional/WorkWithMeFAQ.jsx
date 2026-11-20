@@ -33,7 +33,7 @@ export default function WorkWithMeFAQ() {
                 key={item.question}
                 delay={stagger(index, 0.06)}
                 y={16}
-                className={`rounded-xl border bg-white transition-colors ${
+                className={`rounded-xl border bg-(--pwm-surface) transition-colors ${
                   isOpen ? 'border-blue-200 shadow-sm' : 'border-slate-200 hover:border-slate-300'
                 }`}
               >

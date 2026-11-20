@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FiMenu, FiX, FiArrowRight } from 'react-icons/fi';
+import { FiMenu, FiX, FiArrowRight, FiMoon, FiSun } from 'react-icons/fi';
 import { EASE_OUT } from './motionPresets';
 import { useTranslation } from '../../hooks/translation';
 import { WORK_WITH_ME_DATA } from '../../data/professional';
@@ -24,7 +24,19 @@ function LangToggle({ lang, setLanguage }) {
   );
 }
 
-export default function WorkWithMeHeader() {
+function ThemeToggle({ theme, onToggle, lang }) {
+  const isDark = theme === 'dark';
+  const label = isDark
+    ? (lang === 'tr' ? 'Açık temaya geç' : 'Switch to light theme')
+    : (lang === 'tr' ? 'Koyu temaya geç' : 'Switch to dark theme');
+  return (
+    <button type="button" className="pwm-theme-toggle" onClick={onToggle} aria-label={label} title={label}>
+      {isDark ? <FiSun size={17} aria-hidden="true" /> : <FiMoon size={17} aria-hidden="true" />}
+    </button>
+  );
+}
+
+export default function WorkWithMeHeader({ theme, onToggleTheme }) {
   const { lang, setLanguage } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -88,6 +100,7 @@ export default function WorkWithMeHeader() {
         {/* Desktop actions */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">
           <LangToggle lang={lang} setLanguage={setLanguage} />
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} lang={lang} />
           <a
             href="#contact"
             onClick={(e) => handleScrollTo(e, '#contact')}
@@ -101,6 +114,7 @@ export default function WorkWithMeHeader() {
         {/* Mobile controls */}
         <div className="flex lg:hidden items-center gap-2">
           <LangToggle lang={lang} setLanguage={setLanguage} />
+          <ThemeToggle theme={theme} onToggle={onToggleTheme} lang={lang} />
           <button
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}

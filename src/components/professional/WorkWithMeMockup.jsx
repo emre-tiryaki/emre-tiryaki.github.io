@@ -760,7 +760,7 @@ export default function WorkWithMeMockup({ showcase }) {
   const Scene = SCENES[showcase.id];
 
   return (
-    <div className="relative w-full" aria-hidden="true">
+    <div className="pwm-light-island relative w-full rounded-2xl" aria-hidden="true">
       <div className="relative bg-white rounded-2xl border border-slate-200 shadow-[0_24px_60px_-20px_rgba(15,23,42,0.25)] overflow-hidden">
         {/* Top bar */}
         <div className="flex items-center gap-4 px-4 py-3 bg-slate-50 border-b border-slate-200">

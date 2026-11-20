@@ -15,7 +15,7 @@ export default function WorkWithMeFooter() {
   ];
 
   return (
-    <footer className="py-12 bg-white">
+    <footer className="py-12 bg-(--pwm-surface)">
       <Reveal className="pwm-container" y={16}>
         <div className="pb-8 border-b border-slate-200">
           <div>

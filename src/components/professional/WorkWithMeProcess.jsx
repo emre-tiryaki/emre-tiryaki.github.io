@@ -36,9 +36,9 @@ export default function WorkWithMeProcess() {
           <svg className="pwm-flow__wave" viewBox="0 0 1000 144" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <linearGradient id="pwm-flow-gradient" x1="0" x2="1" y1="0" y2="0">
-                <stop offset="0%" stopColor="#bfdbfe" />
-                <stop offset="50%" stopColor="#2563eb" />
-                <stop offset="100%" stopColor="#bfdbfe" />
+                <stop offset="0%" style={{ stopColor: 'var(--pwm-flow-edge)' }} />
+                <stop offset="50%" style={{ stopColor: 'var(--pwm-accent)' }} />
+                <stop offset="100%" style={{ stopColor: 'var(--pwm-flow-edge)' }} />
               </linearGradient>
             </defs>
             {/* The wave draws itself left→right, then the flowing dots fade in. */}

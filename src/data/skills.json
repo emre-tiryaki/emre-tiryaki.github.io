@@ -29,6 +29,14 @@
         }
       },
       {
+        "name": "Bun",
+        "icon": "bun/bun-original",
+        "comment": {
+          "tr": "Node.js yerine daha performanslı olduğu için tercih ettiğim JavaScript çalışma ortamı ve paket yöneticisi.",
+          "en": "The JavaScript runtime and package manager I use instead of Node.js because it is more performant."
+        }
+      },
+      {
         "name": "Express.js",
         "icon": "express/express-original",
         "comment": {
@@ -308,6 +316,30 @@
         "comment": {
           "tr": "Sunucu ortamlarında reverse proxy, SSL sertifika yönetimi, yük dengeleme ve statik dosya sunumu için kullandığım web sunucusu.",
           "en": "Web server I use for reverse proxying, SSL certificate management, load balancing, and serving static files in production environments."
+        }
+      },
+      {
+        "name": "Cloudflare Workers",
+        "icon": "cloudflare/cloudflare-original",
+        "comment": {
+          "tr": "Sunucusuz (serverless) küçük API'ler için kullanıyorum. Bu sitedeki ziyaretçi bildirim servisi de bir Cloudflare Worker üzerinde çalışıyor.",
+          "en": "I use it for small serverless APIs. The visitor notification service on this site runs on a Cloudflare Worker."
+        }
+      },
+      {
+        "name": "Vercel",
+        "icon": "vercel/vercel-original",
+        "comment": {
+          "tr": "Frontend projelerimi hızlıca yayınlamak ve önizleme ortamları oluşturmak için kullandığım deploy platformu.",
+          "en": "The deployment platform I use to ship frontend projects quickly and spin up preview environments."
+        }
+      },
+      {
+        "name": "Postman",
+        "icon": "postman/postman-original",
+        "comment": {
+          "tr": "API'leri geliştirirken endpoint'leri test etmek, istekleri koleksiyonlar halinde düzenlemek ve dokümante etmek için kullanıyorum.",
+          "en": "I use it while building APIs to test endpoints, organize requests into collections, and document them."
         }
       }
     ]

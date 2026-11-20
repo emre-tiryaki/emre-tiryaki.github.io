@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
 import Button from '../ui/Button';
+import Flag from '../ui/Flag';
 
 const { accent, surface, text } = THEME_COLORS;
 const NAV_ITEMS = [
@@ -131,7 +132,7 @@ export default function Navbar() {
             aria-label={t('nav.changeLanguage')}
             className="!w-24 justify-center"
           >
-            <span>{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
+            <Flag code={lang} />
             <span>{lang.toUpperCase()}</span>
           </Button>
         </div>
@@ -152,7 +153,7 @@ export default function Navbar() {
               aria-label={t('nav.changeLanguage')}
               style={{ minHeight: '2.5rem' }}
             >
-              <span aria-hidden="true">{lang === 'tr' ? '🇹🇷' : '🇬🇧'}</span>
+              <Flag code={lang} />
               <span>{lang.toUpperCase()}</span>
             </Button>
             <Button

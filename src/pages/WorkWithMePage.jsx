@@ -10,12 +10,14 @@ import WorkWithMeProcess from '../components/professional/WorkWithMeProcess';
 import WorkWithMeFAQ from '../components/professional/WorkWithMeFAQ';
 import WorkWithMeCTA from '../components/professional/WorkWithMeCTA';
 import WorkWithMeFooter from '../components/professional/WorkWithMeFooter';
+import { usePwmTheme } from '../components/professional/usePwmTheme';
 import '../styles/professional.css';
 
 export default function WorkWithMePage() {
   const { lang } = useTranslation();
   const data = WORK_WITH_ME_DATA[lang] || WORK_WITH_ME_DATA.tr;
   const { meta } = data;
+  const { theme, toggleTheme } = usePwmTheme();
 
   useEffect(() => {
     // Set page SEO metadata dynamically based on selected language
@@ -49,8 +51,8 @@ export default function WorkWithMePage() {
   return (
     // reducedMotion="user": honour the OS "reduce motion" setting (opacity only, no movement).
     <MotionConfig reducedMotion="user">
-    <div className="work-with-me-page">
-      <WorkWithMeHeader />
+    <div className="work-with-me-page" data-theme={theme}>
+      <WorkWithMeHeader theme={theme} onToggleTheme={toggleTheme} />
       <main>
         <WorkWithMeHero />
         <WorkWithMeServices />

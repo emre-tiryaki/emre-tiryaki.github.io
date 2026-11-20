@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FiGithub, FiLinkedin, FiMail, FiGlobe, FiShare2, FiFileText } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
 import CvModal from './CvModal';
+import Flag from '../ui/Flag';
 
 const SOCIAL_LINKS = [
   {
@@ -30,13 +31,13 @@ const SOCIAL_LINKS = [
 const LANGUAGES = [
   {
     id: 'tr',
-    flag: '🇹🇷',
+    flag: 'tr',
     name: 'Türkçe',
     proficiency: { tr: 'Ana Dil', en: 'Native' },
   },
   {
     id: 'en',
-    flag: '🇬🇧',
+    flag: 'en',
     name: 'English',
     proficiency: { tr: 'İleri Seviye (C1)', en: 'Advanced (C1)' },
   },
@@ -164,7 +165,7 @@ export default function ContactAndLanguages() {
                 onMouseLeave={() => setHoveredLang(null)}
               >
                 <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] text-2xl cursor-default transition-all duration-200 hover:scale-110 hover:border-orange-500/40 hover:bg-orange-500/10 hover:shadow-[0_0_15px_rgba(249,115,22,0.2)]">
-                  {l.flag}
+                  <Flag code={l.flag} size="1.5rem" />
                 </div>
 
                 {/* Tooltip */}

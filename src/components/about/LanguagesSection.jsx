@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from '../../hooks/translation';
+import Flag from '../ui/Flag';
 
 const languages = [
-  { name: 'Türkçe', flag: '🇹🇷', proficiency: { tr: 'Ana Dil', en: 'Native' } },
-  { name: 'İngilizce', flag: '🇬🇧', proficiency: { tr: 'İleri Seviye (C1)', en: 'Advanced (C1)' } },
+  { name: 'Türkçe', flag: 'tr', proficiency: { tr: 'Ana Dil', en: 'Native' } },
+  { name: 'İngilizce', flag: 'en', proficiency: { tr: 'İleri Seviye (C1)', en: 'Advanced (C1)' } },
 ];
 
 export default function LanguagesSection() {
@@ -24,7 +25,7 @@ export default function LanguagesSection() {
             onMouseLeave={() => setHoveredIdx(null)}
           >
             <span className="flex items-center justify-center w-10 h-10 rounded-xl glass-card text-2xl cursor-default transition-transform duration-200 hover:scale-110">
-              {l.flag}
+              <Flag code={l.flag} size="1.5rem" />
             </span>
             {/* Tooltip */}
             <span

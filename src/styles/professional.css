@@ -19,6 +19,25 @@
   --pwm-accent-hover: #1d4ed8;
   --pwm-accent-soft: #eff6ff;
   --pwm-accent-ring: rgba(37, 99, 235, 0.18);
+  --pwm-surface: #ffffff;
+  --pwm-surface-tint: #f5f9ff;
+  --pwm-hover: #f1f5f9;
+  --pwm-bg-rgb: 255, 255, 255;
+  --pwm-shadow: 15, 23, 42;
+  --pwm-accent-rgb: 37, 99, 235;
+  --pwm-accent-border: #bfdbfe;
+  --pwm-accent-border-soft: #dbeafe;
+  --pwm-accent-border-strong: #93c5fd;
+  --pwm-selection: #dbeafe;
+  --pwm-success: #059669;
+  --pwm-success-soft: #ecfdf5;
+  --pwm-flow-track: #e0ecff;
+  --pwm-flow-edge: #bfdbfe;
+  --pwm-btn-primary: #2563eb;
+  --pwm-btn-primary-hover: #1d4ed8;
+  --pwm-btn-dark: #0f172a;
+  --pwm-btn-dark-hover: #1e293b;
+  --pwm-btn-dark-text: #ffffff;
   --pwm-header-h: 4rem;
 
   position: fixed;
@@ -33,7 +52,7 @@
   font-size: 16px;
   line-height: 1.6;
   scroll-behavior: smooth;
-  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-color: var(--pwm-border-strong) transparent;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -44,7 +63,7 @@
 }
 
 .work-with-me-page ::selection {
-  background: #dbeafe;
+  background: var(--pwm-selection);
   color: var(--pwm-text);
 }
 
@@ -57,9 +76,9 @@
 .work-with-me-page::-webkit-scrollbar { width: 10px; }
 .work-with-me-page::-webkit-scrollbar-track { background: transparent; }
 .work-with-me-page::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--pwm-border-strong);
   border-radius: 9999px;
-  border: 3px solid #fff;
+  border: 3px solid var(--pwm-bg);
 }
 
 /* ==========================================================================
@@ -177,7 +196,7 @@
   border: 1px solid var(--pwm-border);
   background: var(--pwm-bg);
   color: var(--pwm-text-2);
-  box-shadow: 0 4px 12px -4px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 4px 12px -4px rgba(var(--pwm-shadow), 0.2);
   cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
 }
@@ -205,7 +224,7 @@
 }
 .pwm-showcase-tab:hover { border-color: var(--pwm-border-strong); color: var(--pwm-text); }
 .pwm-showcase-tab.is-active {
-  border-color: #bfdbfe;
+  border-color: var(--pwm-accent-border);
   background: var(--pwm-accent-soft);
   color: var(--pwm-accent);
 }
@@ -268,10 +287,10 @@
   flex-direction: column;
   height: 100%;
   padding: 1.75rem;
-  background: #fff;
+  background: var(--pwm-surface);
   border: 1px solid var(--pwm-border);
   border-radius: 1rem;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 2px rgba(var(--pwm-shadow), 0.04);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 @media (min-width: 640px) { .pwm-card { padding: 2rem; } }
@@ -337,7 +356,7 @@
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 9999px;
-  background: #fff;
+  background: var(--pwm-surface);
   color: var(--pwm-accent);
   border: 2px solid var(--pwm-accent);
   box-shadow: 0 0 0 6px var(--pwm-accent-soft);
@@ -346,10 +365,10 @@
 
 .pwm-flow__card {
   position: relative;
-  background: #fff;
+  background: var(--pwm-surface);
   border: 1px solid var(--pwm-border);
   border-radius: 1rem;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 2px rgba(var(--pwm-shadow), 0.04);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .pwm-flow__face { padding: 1.25rem 1.375rem; }
@@ -402,8 +421,8 @@
   height: 1rem;
   margin-top: 0.1875rem;
   border-radius: 9999px;
-  background: #ecfdf5;
-  color: #059669;
+  background: var(--pwm-success-soft);
+  color: var(--pwm-success);
 }
 
 /* Active step (hover / keyboard focus) */
@@ -414,8 +433,8 @@
   box-shadow: 0 0 0 8px var(--pwm-accent-ring);
 }
 .pwm-flow__step:is(:hover, :focus-within) .pwm-flow__card {
-  border-color: #93c5fd;
-  box-shadow: 0 16px 36px -16px rgba(37, 99, 235, 0.28);
+  border-color: var(--pwm-accent-border-strong);
+  box-shadow: 0 16px 36px -16px rgba(var(--pwm-accent-rgb), 0.28);
 }
 
 /* ── Desktop: wave layout ── */
@@ -432,7 +451,7 @@
   }
   .pwm-flow__track {
     fill: none;
-    stroke: #e0ecff;
+    stroke: var(--pwm-flow-track);
     stroke-width: 10;
     stroke-linecap: round;
   }
@@ -497,10 +516,10 @@
   .pwm-flow__face {
     grid-area: 1 / 1;
     padding: 1.5rem 1.375rem;
-    background: #fff;
+    background: var(--pwm-surface);
     border: 1px solid var(--pwm-border);
     border-radius: 1rem;
-    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    box-shadow: 0 1px 2px rgba(var(--pwm-shadow), 0.04);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }
@@ -510,7 +529,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 100%);
+    background: linear-gradient(180deg, var(--pwm-surface) 0%, var(--pwm-surface-tint) 100%);
   }
   .pwm-flow__face--front .pwm-flow__num {
     margin-bottom: 0.75rem;
@@ -519,7 +538,7 @@
     line-height: 1;
     letter-spacing: -0.04em;
     color: transparent;
-    background: linear-gradient(180deg, #93c5fd, #dbeafe);
+    background: linear-gradient(180deg, var(--pwm-accent-border-strong), var(--pwm-accent-border-soft));
     -webkit-background-clip: text;
     background-clip: text;
   }
@@ -529,12 +548,12 @@
     position: absolute;
     right: 1rem;
     bottom: 1rem;
-    color: #93c5fd;
+    color: var(--pwm-accent-border-strong);
   }
   .pwm-flow__face--back {
     transform: rotateY(180deg);
-    border-color: #93c5fd;
-    box-shadow: 0 18px 40px -18px rgba(37, 99, 235, 0.35);
+    border-color: var(--pwm-accent-border-strong);
+    box-shadow: 0 18px 40px -18px rgba(var(--pwm-accent-rgb), 0.35);
   }
   .pwm-flow__face--back::before { display: none; }
 
@@ -573,8 +592,8 @@
   flex-shrink: 0;
   border-radius: 9999px;
   object-fit: cover;
-  border: 3px solid #fff;
-  box-shadow: 0 0 0 1px var(--pwm-border-strong), 0 8px 20px -8px rgba(15, 23, 42, 0.25);
+  border: 3px solid var(--pwm-bg);
+  box-shadow: 0 0 0 1px var(--pwm-border-strong), 0 8px 20px -8px rgba(var(--pwm-shadow), 0.25);
 }
 @media (min-width: 640px) {
   .pwm-cta-intro {
@@ -594,7 +613,7 @@
 
 .pwm-card--hover:hover {
   border-color: var(--pwm-border-strong);
-  box-shadow: 0 12px 32px -12px rgba(15, 23, 42, 0.14);
+  box-shadow: 0 12px 32px -12px rgba(var(--pwm-shadow), 0.14);
   transform: translateY(-2px);
 }
 
@@ -626,7 +645,7 @@
   font-weight: 600;
   color: var(--pwm-accent);
   background: var(--pwm-accent-soft);
-  border: 1px solid #dbeafe;
+  border: 1px solid var(--pwm-accent-border-soft);
 }
 
 .pwm-tag {
@@ -671,29 +690,29 @@
 }
 
 .pwm-btn--primary {
-  background: var(--pwm-accent);
+  background: var(--pwm-btn-primary);
   color: #fff;
-  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.25), 0 4px 12px -4px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 1px 2px rgba(var(--pwm-accent-rgb), 0.25), 0 4px 12px -4px rgba(var(--pwm-accent-rgb), 0.4);
 }
 .pwm-btn--primary:hover {
-  background: var(--pwm-accent-hover);
+  background: var(--pwm-btn-primary-hover);
 }
 
 .pwm-btn--secondary {
-  background: #fff;
+  background: var(--pwm-surface);
   color: var(--pwm-text);
   border-color: var(--pwm-border-strong);
 }
 .pwm-btn--secondary:hover {
   background: var(--pwm-bg-muted);
-  border-color: #94a3b8;
+  border-color: var(--pwm-text-3);
 }
 
 .pwm-btn--dark {
-  background: var(--pwm-text);
-  color: #fff;
+  background: var(--pwm-btn-dark);
+  color: var(--pwm-btn-dark-text);
 }
-.pwm-btn--dark:hover { background: #1e293b; }
+.pwm-btn--dark:hover { background: var(--pwm-btn-dark-hover); }
 
 /* ==========================================================================
    FORM
@@ -704,7 +723,7 @@
   margin-bottom: 0.5rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #334155;
+  color: var(--pwm-text-2);
 }
 
 .pwm-input,
@@ -712,7 +731,7 @@
 .pwm-textarea {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: #fff;
+  background: var(--pwm-surface);
   color: var(--pwm-text);
   border: 1px solid var(--pwm-border-strong);
   border-radius: 0.75rem;
@@ -722,7 +741,7 @@
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .pwm-input::placeholder,
-.pwm-textarea::placeholder { color: #94a3b8; }
+.pwm-textarea::placeholder { color: var(--pwm-text-3); }
 
 .pwm-textarea { resize: vertical; min-height: 9rem; }
 
@@ -751,16 +770,16 @@
   top: 0;
   z-index: 40;
   height: var(--pwm-header-h);
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(var(--pwm-bg-rgb), 0.72);
   backdrop-filter: saturate(180%) blur(14px);
   -webkit-backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 .pwm-header--scrolled {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(var(--pwm-bg-rgb), 0.9);
   border-bottom-color: var(--pwm-border);
-  box-shadow: 0 1px 12px -6px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 1px 12px -6px rgba(var(--pwm-shadow), 0.12);
 }
 
 .pwm-nav-link {
@@ -774,14 +793,14 @@
 }
 .pwm-nav-link:hover {
   color: var(--pwm-text);
-  background: #f1f5f9;
+  background: var(--pwm-hover);
 }
 
 .pwm-lang-toggle {
   display: inline-flex;
   padding: 0.1875rem;
   border-radius: 0.625rem;
-  background: #f1f5f9;
+  background: var(--pwm-hover);
   border: 1px solid var(--pwm-border);
 }
 .pwm-lang-toggle button {
@@ -798,8 +817,8 @@
 }
 .pwm-lang-toggle button[aria-pressed="true"] {
   color: var(--pwm-text);
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1);
+  background: var(--pwm-surface);
+  box-shadow: 0 1px 2px rgba(var(--pwm-shadow), 0.1);
 }
 
 .pwm-mobile-menu {
@@ -807,9 +826,9 @@
   top: var(--pwm-header-h);
   left: 0;
   right: 0;
-  background: #fff;
+  background: var(--pwm-surface);
   border-bottom: 1px solid var(--pwm-border);
-  box-shadow: 0 16px 32px -16px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 16px 32px -16px rgba(var(--pwm-shadow), 0.2);
 }
 
 /* ── Touch targets: on touch devices, raise small controls to ~44px height ── */
@@ -817,3 +836,102 @@
   .pwm-lang-toggle button { min-height: 2.5rem; min-width: 2.75rem; }
   .pwm-footer-link { min-height: 2.75rem; }
 }
+
+/* ==========================================================================
+   DARK THEME  (data-theme="dark" on .work-with-me-page)
+   Remaps the --pwm-* tokens and the Tailwind palette variables the
+   components use (slate / blue / emerald). --color-white is left alone so
+   `text-white` on coloured fills keeps working.
+   ========================================================================== */
+
+.work-with-me-page[data-theme="dark"] {
+  --pwm-bg: #0b1120;
+  --pwm-bg-muted: #0f172a;
+  --pwm-surface: #111a2e;
+  --pwm-surface-tint: #14213d;
+  --pwm-hover: #1a2540;
+  --pwm-bg-rgb: 11, 17, 32;
+  --pwm-shadow: 0, 0, 0;
+  --pwm-text: #f1f5f9;
+  --pwm-text-2: #b6c2d4;
+  --pwm-text-3: #8d9bb0;
+  --pwm-border: #1e293b;
+  --pwm-border-strong: #334155;
+  --pwm-accent: #3b82f6;
+  --pwm-accent-hover: #60a5fa;
+  --pwm-accent-soft: #14264d;
+  --pwm-accent-ring: rgba(96, 165, 250, 0.25);
+  --pwm-accent-rgb: 59, 130, 246;
+  --pwm-accent-border: #1e3a8a;
+  --pwm-accent-border-soft: #1e3a8a;
+  --pwm-accent-border-strong: #3b6fd0;
+  --pwm-selection: #1e3a8a;
+  --pwm-success: #34d399;
+  --pwm-success-soft: #06281f;
+  --pwm-flow-track: #172554;
+  --pwm-flow-edge: #1e3a8a;
+  --pwm-btn-primary: #2563eb;
+  --pwm-btn-primary-hover: #1d4ed8;
+  --pwm-btn-dark: #f1f5f9;
+  --pwm-btn-dark-hover: #ffffff;
+  --pwm-btn-dark-text: #0f172a;
+  color-scheme: dark;
+
+  /* Tailwind palette remap (utilities read these variables) */
+  --color-slate-50: #0f172a;
+  --color-slate-100: #1a2540;
+  --color-slate-200: #1e293b;
+  --color-slate-300: #334155;
+  --color-slate-400: #7b8aa1;
+  --color-slate-500: #94a3b8;
+  --color-slate-600: #a9b6c9;
+  --color-slate-700: #cbd5e1;
+  --color-slate-800: #e2e8f0;
+  --color-slate-900: #f1f5f9;
+  --color-blue-50: #14264d;
+  --color-blue-100: #1e3a8a;
+  --color-blue-600: #3b82f6;
+  --color-blue-700: #7db0fb;
+  --color-emerald-50: #06281f;
+  --color-emerald-600: #34d399;
+  --color-emerald-700: #6ee7b7;
+}
+
+/* Product-mockup stays a light "screenshot" in dark mode: restore the
+   default Tailwind values inside it. */
+.work-with-me-page[data-theme="dark"] .pwm-light-island {
+  color: #0f172a;
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-emerald-50: #ecfdf5;
+  --color-emerald-600: #059669;
+  --color-emerald-700: #047857;
+}
+
+/* Theme toggle button */
+.pwm-theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.625rem;
+  border: 1px solid var(--pwm-border);
+  background: var(--pwm-hover);
+  color: var(--pwm-text-2);
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.pwm-theme-toggle:hover { color: var(--pwm-text); }
+@media (pointer: coarse) { .pwm-theme-toggle { width: 2.5rem; height: 2.5rem; } }

@@ -1,16 +1,17 @@
 import { FiGlobe } from 'react-icons/fi';
 import { useTranslation } from '../../hooks/translation';
+import Flag from '../ui/Flag';
 
 const LANGUAGES = [
   {
     id: 'tr',
-    flag: '🇹🇷',
+    flag: 'tr',
     name: 'Türkçe',
     proficiency: { tr: 'Ana Dil', en: 'Native' },
   },
   {
     id: 'en',
-    flag: '🇬🇧',
+    flag: 'en',
     name: 'English',
     proficiency: { tr: 'İleri Seviye (C1)', en: 'Advanced (C1)' },
   },
@@ -45,7 +46,7 @@ export default function LanguagesCard() {
         {LANGUAGES.map((l) => (
           <div key={l.id} className="flex items-center gap-2 min-w-0">
             <div className="flex items-center justify-center w-8 h-8 shrink-0 rounded-xl bg-white/[0.03] border border-white/[0.08] text-lg select-none">
-              {l.flag}
+              <Flag code={l.flag} size="1.25rem" />
             </div>
             <div className="flex flex-col items-start min-w-0 leading-tight">
               <span className="text-sm font-bold text-neutral-100 truncate max-w-full">

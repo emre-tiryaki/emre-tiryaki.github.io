@@ -3,8 +3,9 @@ import SkillCard, { TooltipPortal } from './SkillCard';
 import { useTranslation } from '../../hooks/translation';
 import { useTapTooltip } from '../../hooks/useTapTooltip';
 import { getCategoryIconSrc } from '../../lib/media';
+import { getInnerColumns } from '../../lib/skillsLayout';
 
-export default function SkillGroup({ category, categoryIcon, categoryComment, comment, items }) {
+export default function SkillGroup({ category, categoryIcon, categoryComment, comment, items, columns }) {
   const { tData } = useTranslation();
   const title = tData(category);
   const commentText = tData(categoryComment || comment);
@@ -18,7 +19,7 @@ export default function SkillGroup({ category, categoryIcon, categoryComment, co
         background: 'rgba(255,255,255,0.035)',
         border: '1px solid rgba(255,255,255,0.08)',
         borderRadius: '1rem',
-        padding: 'clamp(1rem, 4vw, 1.5rem)',        /* generous inner padding; dar ekranda daralır */
+        padding: '1rem',                               /* skillsLayout.GROUP_PADDING ile aynı olmalı */
         transition: 'border-color 0.25s',
       }}
       onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(249,115,22,0.4)'}
@@ -76,10 +77,10 @@ export default function SkillGroup({ category, categoryIcon, categoryComment, co
         </span>
       </div>
 
-      {/* Skill cards — 3 per row, generous gap */}
+      {/* Skill cards — sütun sayısı düzen motorundan gelir (1 = dikey sıralama) */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+        gridTemplateColumns: `repeat(${columns ?? getInnerColumns(items.length)}, minmax(0, 1fr))`,
         gap: 'clamp(0.5rem, 2vw, 0.75rem)',
       }}>
         {items.map((item) => (
