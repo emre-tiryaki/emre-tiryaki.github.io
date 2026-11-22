@@ -118,7 +118,7 @@ export default function GuestbookPage() {
       )}
 
       {opened && (
-        <Modal title={t('guestbook.detailTitle')} onClose={() => setOpened(null)}>
+        <Modal title={t('guestbook.detailTitle')} onClose={() => setOpened(null)} maxWidth="48rem">
           <CommentCard comment={opened} pending={pending.some((p) => p.id === opened.id)} />
         </Modal>
       )}
