@@ -5,6 +5,7 @@ import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
 import Button from '../ui/Button';
 import Flag from '../ui/Flag';
+import siteConfig from '../../data/siteConfig.json';
 
 const { accent, surface, text } = THEME_COLORS;
 const NAV_ITEMS = [
@@ -15,6 +16,7 @@ const NAV_ITEMS = [
   { path: '/experience',    key: 'experience'    },
   { path: '/projects',      key: 'projects'      },
   { path: '/certifications', key: 'certifications' },
+  ...(siteConfig.showGuestbook ? [{ path: '/guestbook', key: 'guestbook' }] : []),
 ];
 
 export default function Navbar() {
