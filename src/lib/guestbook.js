@@ -158,28 +158,23 @@ export async function checkMine() {
   return stillPending;
 }
 
-/** Seçilen resmi ortadan kare kırpıp 96x96 WebP data URL'e çevirir (~5 KB). */
-export async function resizeImageToDataUrl(file) {
-  if (!file || !file.type.startsWith('image/')) throw new Error('guestbook-invalid-avatar');
-  const bitmap = await createImageBitmap(file);
+/** Kaynağın (sx, sy) noktasından başlayan side×side karesini 96x96 WebP data URL'e çevirir (~5 KB). */
+export function cropToDataUrl(source, sx, sy, side) {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = AVATAR_SIZE;
+  canvas.getContext('2d').drawImage(source, sx, sy, side, side, 0, 0, AVATAR_SIZE, AVATAR_SIZE);
+  const url = canvas.toDataURL('image/webp', 0.8);
+  if (!isSafeAvatar(url)) throw new Error('guestbook-invalid-avatar'); // tarayıcı WebP üretemedi
+  return url;
+}
+
+/** Hazır avatarı (asset URL'i) ortadan kare kırpıp 96x96 WebP data URL'e çevirir. */
+export async function avatarUrlToDataUrl(src) {
+  const blob = await (await fetch(src)).blob();
+  const bitmap = await createImageBitmap(blob);
   try {
     const side = Math.min(bitmap.width, bitmap.height);
-    const canvas = document.createElement('canvas');
-    canvas.width = canvas.height = AVATAR_SIZE;
-    canvas.getContext('2d').drawImage(
-      bitmap,
-      (bitmap.width - side) / 2,
-      (bitmap.height - side) / 2,
-      side,
-      side,
-      0,
-      0,
-      AVATAR_SIZE,
-      AVATAR_SIZE,
-    );
-    const url = canvas.toDataURL('image/webp', 0.8);
-    if (!isSafeAvatar(url)) throw new Error('guestbook-invalid-avatar'); // tarayıcı WebP üretemedi
-    return url;
+    return cropToDataUrl(bitmap, (bitmap.width - side) / 2, (bitmap.height - side) / 2, side);
   } finally {
     bitmap.close?.();
   }

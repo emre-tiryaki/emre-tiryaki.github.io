@@ -1,18 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
-import { FiImage, FiX } from 'react-icons/fi';
+import { FiShuffle, FiUpload } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
+import { COMMENT_FALLBACK_AVATARS } from '../../lib/media';
 import { useTranslation } from '../../hooks/translation';
 import Button from '../ui/Button';
 import FormField from '../ui/FormField';
+import AvatarCropper from './AvatarCropper';
 import {
   GUESTBOOK_LIMITS,
   cooldownRemaining,
+  avatarUrlToDataUrl,
   isValidEmail,
-  resizeImageToDataUrl,
   submitComment,
 } from '../../lib/guestbook';
 
-const { surface, text, status, accent } = THEME_COLORS;
+const { text, status } = THEME_COLORS;
 const EMPTY = { name: '', message: '', email: '', website: '' };
 
 /**
@@ -23,7 +25,9 @@ export default function CommentForm({ onSubmitted }) {
   const { t } = useTranslation();
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState({});
+  // Avatar seçimi: null = rastgele, { type: 'preset', src } hazır avatar, { type: 'custom', dataUrl } kırpılmış yükleme
   const [avatar, setAvatar] = useState(null);
+  const [cropSrc, setCropSrc] = useState(null);
   const [busy, setBusy] = useState(false);
   const [feedback, setFeedback] = useState(null); // { type: 'success' | 'error', text }
   const fileRef = useRef(null);
@@ -37,17 +41,21 @@ export default function CommentForm({ onSubmitted }) {
 
   const setField = (name, value) => setValues((v) => ({ ...v, [name]: value }));
 
-  const pickPhoto = async (e) => {
+  const pickPhoto = (e) => {
     const file = e.target.files?.[0];
     e.target.value = '';
     if (!file) return;
-    try {
-      setAvatar(await resizeImageToDataUrl(file));
-      setErrors((er) => ({ ...er, photo: undefined }));
-    } catch {
-      setAvatar(null);
+    if (!file.type.startsWith('image/')) {
       setErrors((er) => ({ ...er, photo: t('guestbook.errors.photo') }));
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setErrors((er) => ({ ...er, photo: undefined }));
+      setCropSrc(reader.result);
+    };
+    reader.onerror = () => setErrors((er) => ({ ...er, photo: t('guestbook.errors.photo') }));
+    reader.readAsDataURL(file);
   };
 
   const validate = () => {
@@ -82,7 +90,8 @@ export default function CommentForm({ onSubmitted }) {
 
     setBusy(true);
     try {
-      const mine = await submitComment({ ...values, avatar });
+      const dataUrl = !avatar ? null : avatar.type === 'custom' ? avatar.dataUrl : await avatarUrlToDataUrl(avatar.src);
+      const mine = await submitComment({ ...values, avatar: dataUrl });
       setValues(EMPTY);
       setAvatar(null);
       onSubmitted(mine);
@@ -92,6 +101,19 @@ export default function CommentForm({ onSubmitted }) {
       setBusy(false);
     }
   };
+
+  if (cropSrc) {
+    return (
+      <AvatarCropper
+        src={cropSrc}
+        onCancel={() => setCropSrc(null)}
+        onConfirm={(dataUrl) => {
+          setAvatar({ type: 'custom', dataUrl });
+          setCropSrc(null);
+        }}
+      />
+    );
+  }
 
   return (
     <form
@@ -143,41 +165,54 @@ export default function CommentForm({ onSubmitted }) {
         aria-invalid={Boolean(errors.email)}
       />
 
-      {/* Fotoğraf: tarayıcıda 96x96 WebP'ye küçültülür, dosya boyutu sınırı yok */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-        <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#a3a3a3' }}>
+      {/* Avatar: rastgele, hazır avatarlardan biri ya da kendi fotoğrafın (yuvarlak kırpılır, 96x96 WebP) */}
+      <fieldset style={{ margin: 0, padding: 0, border: 0, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <legend style={{ padding: 0, marginBottom: '0.35rem', fontSize: '0.78rem', fontWeight: 600, color: '#a3a3a3' }}>
           {t('guestbook.form.photo')}
-        </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
-          {avatar && (
-            <img
-              src={avatar}
-              alt={t('guestbook.form.photoPreview')}
-              width={48}
-              height={48}
-              style={{ width: '3rem', height: '3rem', borderRadius: '50%', objectFit: 'cover', border: `1px solid ${surface.white10}` }}
-            />
+        </legend>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+          <label className="avatar-opt" title={t('guestbook.form.avatarRandom')}>
+            <input type="radio" name="avatar" checked={!avatar} onChange={() => setAvatar(null)} />
+            <span className="avatar-opt__face"><FiShuffle aria-hidden="true" /></span>
+            <span className="sr-only">{t('guestbook.form.avatarRandom')}</span>
+          </label>
+          {COMMENT_FALLBACK_AVATARS.map((src, i) => (
+            <label key={src} className="avatar-opt">
+              <input
+                type="radio"
+                name="avatar"
+                checked={avatar?.type === 'preset' && avatar.src === src}
+                onChange={() => setAvatar({ type: 'preset', src })}
+              />
+              <span className="avatar-opt__face">
+                <img src={src} alt="" width={48} height={48} loading="lazy" draggable={false} />
+              </span>
+              <span className="sr-only">{t('guestbook.form.avatarN', { n: i + 1 })}</span>
+            </label>
+          ))}
+          {avatar?.type === 'custom' && (
+            <label className="avatar-opt">
+              <input type="radio" name="avatar" checked readOnly />
+              <span className="avatar-opt__face">
+                <img src={avatar.dataUrl} alt="" width={48} height={48} draggable={false} />
+              </span>
+              <span className="sr-only">{t('guestbook.form.photoPreview')}</span>
+            </label>
           )}
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            onChange={pickPhoto}
-            hidden
-            aria-label={t('guestbook.form.photo')}
-          />
-          <Button type="button" variant="secondary" size="sm" onClick={() => fileRef.current?.click()}>
-            <FiImage aria-hidden="true" /> {avatar ? t('guestbook.form.photoChange') : t('guestbook.form.photoChoose')}
-          </Button>
-          {avatar && (
-            <Button type="button" variant="ghost" size="sm" onClick={() => setAvatar(null)}>
-              <FiX aria-hidden="true" /> {t('guestbook.form.photoRemove')}
-            </Button>
-          )}
+          <input ref={fileRef} type="file" accept="image/*" onChange={pickPhoto} hidden aria-label={t('guestbook.form.photoChoose')} />
+          <button
+            type="button"
+            className="avatar-opt avatar-opt--upload"
+            onClick={() => fileRef.current?.click()}
+            title={t('guestbook.form.photoChoose')}
+          >
+            <span className="avatar-opt__face"><FiUpload aria-hidden="true" /></span>
+            <span className="sr-only">{avatar?.type === 'custom' ? t('guestbook.form.photoChange') : t('guestbook.form.photoChoose')}</span>
+          </button>
         </div>
         <span style={{ fontSize: '0.72rem', color: text.muted }}>{t('guestbook.form.photoHelp')}</span>
         {errors.photo && <span role="alert" style={{ fontSize: '0.72rem', color: status.dangerSoft }}>{errors.photo}</span>}
-      </div>
+      </fieldset>
 
       {/* Honeypot: ekran okuyuculardan ve klavyeden gizli */}
       <div aria-hidden="true" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)', opacity: 0, pointerEvents: 'none' }}>
@@ -192,8 +227,6 @@ export default function CommentForm({ onSubmitted }) {
           onChange={(e) => setField('website', e.target.value)}
         />
       </div>
-
-      <p style={{ margin: 0, fontSize: '0.78rem', color: accent.lighter }}>{t('guestbook.form.notice')}</p>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
         <Button type="submit" variant="primary" disabled={busy}>

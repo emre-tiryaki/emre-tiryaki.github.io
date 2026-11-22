@@ -169,7 +169,18 @@
     "retry": "Tekrar dene",
     "empty": "Henüz yorum yok. İlk notu sen bırak.",
     "unavailable": "Ziyaretçi defteri şu an kullanılamıyor.",
-    "success": "Teşekkürler! Yorumun onaylandıktan sonra herkese görünecek.",
+    "notice": {
+      "title": "Yorumun alındı",
+      "body": "Yorumun manuel olarak onaylanacak. Onaylanana kadar sadece sen görürsün; onaylanınca herkese görünür.",
+      "ok": "Tamam"
+    },
+    "crop": {
+      "help": "Sürükleyerek konumlandır, kaydırıcıyla yakınlaştır.",
+      "area": "Kırpma alanı (ok tuşlarıyla kaydır)",
+      "zoom": "Yakınlaştır",
+      "cancel": "Vazgeç",
+      "confirm": "Kullan"
+    },
     "form": {
       "title": "Yorum bırak",
       "name": "Adın",
@@ -177,13 +188,14 @@
       "email": "E-posta (isteğe bağlı)",
       "emailPlaceholder": "ornek@mail.com",
       "emailHelp": "Teşekkür edebilmem için e-posta yaz. Herkese açık gösterilmez.",
-      "photo": "Fotoğraf (isteğe bağlı)",
-      "photoChoose": "Fotoğraf seç",
+      "photo": "Avatar (isteğe bağlı)",
+      "photoChoose": "Fotoğraf yükle",
+      "avatarRandom": "Rastgele avatar",
+      "avatarN": "Avatar {n}",
       "photoChange": "Fotoğrafı değiştir",
       "photoRemove": "Kaldır",
       "photoPreview": "Seçilen fotoğraf önizlemesi",
-      "photoHelp": "Fotoğraf yoksa rastgele bir avatar gösterilir. Seçtiğin resim tarayıcında küçültülür.",
-      "notice": "Yorumun benim tarafımdan manuel onaylanacak. Onaylanana kadar sadece sen görürsün.",
+      "photoHelp": "Rastgele bırakırsan günlük bir avatar atanır. Kendi fotoğrafını yükleyip yuvarlak kırpabilirsin.",
       "submit": "Gönder",
       "submitting": "Gönderiliyor..."
     },

@@ -4,6 +4,7 @@ import CommentForm from '../components/guestbook/CommentForm';
 import CommentCard from '../components/guestbook/CommentCard';
 import CommentOrbit from '../components/guestbook/CommentOrbit';
 import Modal from '../components/ui/Modal';
+import Button from '../components/ui/Button';
 import { useTranslation } from '../hooks/translation';
 import { THEME_COLORS } from '../theme';
 import {
@@ -25,7 +26,7 @@ export default function GuestbookPage() {
   const [error, setError] = useState(false);
   const [composing, setComposing] = useState(false);
   const [opened, setOpened] = useState(null);
-  const [thanks, setThanks] = useState(false);
+  const [notice, setNotice] = useState(false); // gönderim sonrası "manuel onaylanacak" uyarısı
   const pickFallback = useRef(createFallbackPicker());
   const scatter = useRef(createScatter());
 
@@ -55,16 +56,10 @@ export default function GuestbookPage() {
     if (isGuestbookAvailable) load();
   }, [load]);
 
-  useEffect(() => {
-    if (!thanks) return undefined;
-    const id = setTimeout(() => setThanks(false), 6000);
-    return () => clearTimeout(id);
-  }, [thanks]);
-
   const handleSubmitted = (mine) => {
     setPending((p) => [decorate(mine), ...p]);
     setComposing(false);
-    setThanks(true);
+    setNotice(true);
   };
 
   return (
@@ -77,7 +72,6 @@ export default function GuestbookPage() {
           error={error}
           onRetry={load}
           onCompose={() => {
-            setThanks(false);
             setComposing(true);
           }}
           onOpen={setOpened}
@@ -88,32 +82,22 @@ export default function GuestbookPage() {
         </p>
       )}
 
-      {/* Gönderim sonrası geri bildirim: sayfa kaymasın diye sahnenin altına sabit */}
-      <div
-        role="status"
-        aria-live="polite"
-        style={{
-          position: 'fixed',
-          left: '50%',
-          bottom: 'max(1rem, env(safe-area-inset-bottom))',
-          transform: 'translateX(-50%)',
-          zIndex: 300,
-          maxWidth: 'calc(100vw - 2rem)',
-          textAlign: 'center',
-          fontSize: '0.85rem',
-          padding: thanks ? '0.6rem 1rem' : 0,
-          borderRadius: '0.75rem',
-          color: THEME_COLORS.status.successSoft,
-          background: thanks ? 'rgba(10, 10, 10, 0.9)' : 'transparent',
-          border: thanks ? `1px solid ${THEME_COLORS.status.successBorder}` : 'none',
-        }}
-      >
-        {thanks && t('guestbook.success')}
-      </div>
-
       {composing && (
         <Modal title={t('guestbook.form.title')} onClose={() => setComposing(false)}>
           <CommentForm onSubmitted={handleSubmitted} />
+        </Modal>
+      )}
+
+      {notice && (
+        <Modal title={t('guestbook.notice.title')} onClose={() => setNotice(false)} maxWidth="26rem">
+          <p style={{ margin: '0 0 1rem', fontSize: '0.9rem', lineHeight: 1.6, color: THEME_COLORS.text.secondary }}>
+            {t('guestbook.notice.body')}
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant="primary" data-autofocus onClick={() => setNotice(false)}>
+              {t('guestbook.notice.ok')}
+            </Button>
+          </div>
         </Modal>
       )}
 
