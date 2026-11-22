@@ -19,6 +19,19 @@ const NAV_ITEMS = [
   ...(siteConfig.showGuestbook ? [{ path: '/guestbook', key: 'guestbook' }] : []),
 ];
 
+const LOGO_STYLE = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  fontSize: '1.35rem',
+  fontWeight: 800,
+  color: accent.primary,
+  letterSpacing: '-0.02em',
+  textDecoration: 'none',
+  whiteSpace: 'nowrap',
+  userSelect: 'none',
+  WebkitUserSelect: 'none',
+};
+
 export default function Navbar() {
   const { t, lang, setLanguage } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -71,10 +84,12 @@ export default function Navbar() {
           WebkitUserSelect: 'none',
         }}
       >
-        {/* ── Desktop layout: [spacer] [nav links centered] [lang button] ── */}
-        <div className="hidden lg:flex" style={{ flex: 1 }}>
-          {/* Left spacer — same width as lang button so links end up truly centered */}
-          <div style={{ width: '6rem' }} />
+        {/* ── Desktop layout: [logo] [nav links centered] [lang button] ── */}
+        <div className="hidden lg:flex items-center" style={{ flex: 1 }}>
+          {/* Sol logo — flex:1 ile sağ taraf dengelenir, linkler gerçekten ortada kalır */}
+          <NavLink to="/" aria-label={t('nav.home')} style={LOGO_STYLE}>
+            ET.
+          </NavLink>
         </div>
 
         {/* Center: nav links */}
@@ -143,9 +158,10 @@ export default function Navbar() {
         <div className="lg:hidden flex items-center justify-between w-full" style={{ gap: '0.5rem' }}>
           <NavLink
             to="/"
-            style={{ display: 'inline-flex', alignItems: 'center', minHeight: '2.75rem', minWidth: 0, paddingRight: '0.5rem', fontSize: '0.95rem', fontWeight: 800, color: accent.light, letterSpacing: '-0.01em', textDecoration: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', userSelect: 'none', WebkitUserSelect: 'none' }}
+            aria-label={t('nav.home')}
+            style={{ ...LOGO_STYLE, minHeight: '2.75rem', minWidth: 0, paddingRight: '0.5rem' }}
           >
-            Emre Tiryaki
+            ET.
           </NavLink>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
             <Button
