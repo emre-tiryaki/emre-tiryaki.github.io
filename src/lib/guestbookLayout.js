@@ -36,37 +36,52 @@ function place(seeds, pinned, W, H, rem, k) {
   const w = Math.min(16 * rem * k, W * 0.46) + gap;
   const h = 9.2 * rem * k + gap;
   const fixed = [{ x: W / 2, y: H / 2, w: 9 * rem, h: 10 * rem }]; // merkezdeki buton
-  const placed = [];
-  const out = new Array(seeds.length);
-  let total = 0;
+  const minX = Math.min(w / 2 + margin, W / 2);
+  const maxX = Math.max(W - w / 2 - margin, W / 2);
+  const minY = Math.min(h / 2 + margin, H / 2);
+  const maxY = Math.max(H - h / 2 - margin, H / 2);
 
-  seeds.forEach((_, i) => {
-    if (!pinned[i]) return;
-    const p = { x: pinned[i].x, y: pinned[i].y, w, h };
-    placed.push(p);
-    out[i] = p;
-  });
-
-  seeds.forEach((seed, i) => {
-    if (pinned[i]) return;
+  const sample = (seed, others) => {
     const rnd = mulberry32(seed);
-    const minX = Math.min(w / 2 + margin, W / 2);
-    const maxX = Math.max(W - w / 2 - margin, W / 2);
-    const minY = Math.min(h / 2 + margin, H / 2);
-    const maxY = Math.max(H - h / 2 - margin, H / 2);
     let best = null;
     for (let i = 0; i < CANDIDATES; i++) {
       const cand = { x: minX + rnd() * (maxX - minX), y: minY + rnd() * (maxY - minY), w, h };
       let pen = 0;
       for (const o of fixed) pen += overlapArea(cand, o);
-      for (const o of placed) pen += overlapArea(cand, o);
+      for (const o of others) pen += overlapArea(cand, o);
       if (!best || pen < best.pen) best = { ...cand, pen };
       if (pen === 0) break;
     }
-    total += best.pen;
-    placed.push(best);
-    out[i] = best;
+    return best;
+  };
+
+  // 1) Sabitlenmemiş gibi tüm kartların taban yerleşimi (kartlar sabitlenince diğerleri oynamasın diye)
+  const base = [];
+  for (const seed of seeds) base.push(sample(seed, base));
+
+  // 2) Sabitlenenler yerinde; diğerleri tabandaki yerinde kalır, sabitlenenle çakışırsa yeniden seçilir
+  const out = new Array(seeds.length);
+  const anchors = [];
+  seeds.forEach((_, i) => {
+    if (!pinned[i]) return;
+    out[i] = { x: pinned[i].x, y: pinned[i].y, w, h, pen: 0 };
+    anchors.push(out[i]);
   });
+  seeds.forEach((seed, i) => {
+    if (pinned[i]) return;
+    const clash = anchors.some((o) => overlapArea(base[i], o) > 0);
+    out[i] = clash ? sample(seed, anchors) : base[i];
+    anchors.push(out[i]);
+  });
+
+  let total = 0;
+  for (let i = 0; i < out.length; i++) {
+    for (const o of fixed) total += overlapArea(out[i], o);
+    for (let j = i + 1; j < out.length; j++) {
+      if (pinned[i] && pinned[j]) continue; // kullanıcı bilerek üst üste koyduysa küçültme
+      total += overlapArea(out[i], out[j]);
+    }
+  }
   return { placed: out, total };
 }
 
