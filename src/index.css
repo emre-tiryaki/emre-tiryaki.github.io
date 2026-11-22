@@ -517,3 +517,155 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 
 
+
+/* ── Ziyaretçi defteri: butonun etrafına dağılmış yorum kartları ── */
+.gb-stage {
+  /* --gb-k: kart sayısına göre CommentOrbit'in verdiği ölçek (0.6–1) */
+  --gb-cw: min(calc(16rem * var(--gb-k, 1)), 46vw); /* kart genişliği (azami 16rem) */
+  --gb-ch: calc(9rem * var(--gb-k, 1)); /* kart yüksekliği (yaklaşık) */
+}
+.gb-tile {
+  position: absolute;
+  width: var(--gb-cw);
+  left: clamp(calc(var(--gb-cw) / 2 + 0.25rem), var(--x), calc(100% - var(--gb-cw) / 2 - 0.25rem));
+  top: clamp(calc(var(--gb-ch) / 2 + 0.25rem), var(--y), calc(100% - var(--gb-ch) / 2 - 0.25rem));
+  z-index: var(--z);
+  transform: translate(-50%, -50%) rotate(var(--r));
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  animation: gb-pop 480ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--d);
+}
+.gb-tile:hover,
+.gb-tile:focus-visible {
+  z-index: 150;
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.07);
+  border-color: rgba(249, 115, 22, 0.45) !important;
+}
+.gb-tile:focus-visible {
+  outline: 2px solid rgba(249, 115, 22, 0.7);
+  outline-offset: 2px;
+}
+.gb-tile { touch-action: none; user-select: none; -webkit-user-select: none; }
+.gb-tile--drag {
+  z-index: 160;
+  cursor: grabbing !important;
+  animation: none;
+  transition: box-shadow 220ms ease;
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.07);
+}
+.gb-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 200; /* kartların üstünde */
+}
+@keyframes gb-pop {
+  from { opacity: 0; transform: translate(-50%, -50%) rotate(var(--r)) scale(0.6); }
+  to { opacity: 1; transform: translate(-50%, -50%) rotate(var(--r)) scale(1); }
+}
+@media (max-width: 640px) {
+  .gb-tile--extra { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gb-tile { animation: none; transition: none; }
+}
+
+/* Ziyaretçi defteri: avatar seçici (yuvarlak, radyo tabanlı) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.avatar-opt {
+  position: relative;
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.avatar-opt input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+.avatar-opt__face {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #a3a3a3;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+.avatar-opt__face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar-opt:hover .avatar-opt__face {
+  border-color: rgba(249, 115, 22, 0.5);
+  transform: scale(1.06);
+}
+.avatar-opt input:checked + .avatar-opt__face {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
+}
+.avatar-opt input:focus-visible + .avatar-opt__face,
+.avatar-opt--upload:focus-visible .avatar-opt__face {
+  outline: 2px solid #fdba74;
+  outline-offset: 2px;
+}
+.avatar-opt--upload .avatar-opt__face {
+  border-style: dashed;
+}
+@media (prefers-reduced-motion: reduce) {
+  .avatar-opt__face { transition: none; }
+}
+
+/* Formun üstündeki tek büyük avatar düğmesi */
+.avatar-main {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.avatar-main__face {
+  display: grid;
+  place-items: center;
+  width: 6rem;
+  height: 6rem;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #a3a3a3;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+.avatar-main__face img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-main:hover .avatar-main__face { transform: scale(1.04); border-color: rgba(249, 115, 22, 0.5) !important; }
+.avatar-main__badge {
+  position: absolute;
+  right: 0;
+  bottom: 0.1rem;
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  color: #fff;
+  border: 2px solid #0d0d0d;
+}
+.avatar-main:focus-visible { outline: 2px solid #fdba74; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .avatar-main__face { transition: none; } }

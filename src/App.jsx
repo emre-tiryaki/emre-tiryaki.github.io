@@ -5,6 +5,7 @@ import Navbar from './components/layout/Navbar';
 import VisitorTracker from "./components/layout/VisitorTracker";
 import PageTransition from './components/layout/PageTransition';
 import HomePage from './pages/HomePage';
+import siteConfig from './data/siteConfig.json';
 
 // Sayfalar ve ağır bileşenler (three.js, framer-motion sayfaları) ilk pakette değil, ihtiyaç anında yüklenir
 const pageLoaders = {
@@ -15,6 +16,7 @@ const pageLoaders = {
   projects: () => import('./pages/ProjectsPage'),
   certifications: () => import('./pages/CertificationsPage'),
   json: () => import('./pages/JsonEndpointPage'),
+  guestbook: () => import('./pages/GuestbookPage'),
   workWithMe: () => import('./pages/WorkWithMePage'),
 };
 const AboutPage = lazy(pageLoaders.about);
@@ -24,6 +26,7 @@ const ExperiencePage = lazy(pageLoaders.experience);
 const ProjectsPage = lazy(pageLoaders.projects);
 const CertificationsPage = lazy(pageLoaders.certifications);
 const JsonEndpointPage = lazy(pageLoaders.json);
+const GuestbookPage = lazy(pageLoaders.guestbook);
 const WorkWithMePage = lazy(pageLoaders.workWithMe);
 const StarfieldBackground = lazy(() => import('./components/layout/StarfieldBackground'));
 
@@ -42,6 +45,9 @@ function AnimatedRoutes() {
         <Route path="/experience" element={<PageTransition><ExperiencePage /></PageTransition>} />
         <Route path="/projects" element={<PageTransition><ProjectsPage /></PageTransition>} />
         <Route path="/certifications" element={<PageTransition><CertificationsPage /></PageTransition>} />
+        {siteConfig.showGuestbook && (
+          <Route path="/guestbook" element={<PageTransition><GuestbookPage /></PageTransition>} />
+        )}
         {/* JSON endpoint: token ile korunur, ham JSON yanıtı döner (sayfa değil) */}
         <Route path="/json" element={<JsonEndpointPage />} />
       </Routes>
@@ -84,7 +90,7 @@ function AppContent() {
     startBackgroundPreload(location.pathname);
     // Tarayıcı boştayken diğer sayfaların kodunu önceden indir (gezinme anında gecikme olmasın)
     const prefetch = () => {
-      const { workWithMe, json, ...pages } = pageLoaders; // eslint-disable-line no-unused-vars
+      const { workWithMe, json, guestbook, ...pages } = pageLoaders; // eslint-disable-line no-unused-vars
       Object.values(pages).forEach((load) => load().catch(() => {}));
     };
     const id = typeof requestIdleCallback === 'function'

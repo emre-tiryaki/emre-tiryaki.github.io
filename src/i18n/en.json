@@ -15,6 +15,7 @@
     "experience": "Experience",
     "projects": "Projects",
     "certifications": "Certifications",
+    "guestbook": "Guestbook",
     "changeLanguage": "Change language",
     "menu": "Menu"
   },
@@ -154,6 +155,60 @@
       "usageTitle": "Usage",
       "copy": "Copy",
       "copied": "Copied!"
+    }
+  },
+  "guestbook": {
+    "title": "Guestbook",
+    "subtitle": "Leave a note and say hi.",
+    "open": "Leave a comment",
+    "detailTitle": "Comment",
+    "commentsTitle": "Comments",
+    "pending": "Awaiting approval",
+    "loading": "Loading comments",
+    "loadError": "Comments could not be loaded.",
+    "retry": "Try again",
+    "empty": "No comments yet. Be the first to leave a note.",
+    "unavailable": "The guestbook is unavailable right now.",
+    "notice": {
+      "title": "Comment received",
+      "body": "Your comment will be approved manually. Until then only you can see it; once approved it becomes public.",
+      "ok": "Got it"
+    },
+    "crop": {
+      "help": "Drag to position, use the slider to zoom.",
+      "area": "Crop area (move with arrow keys)",
+      "zoom": "Zoom",
+      "cancel": "Cancel",
+      "confirm": "Use"
+    },
+    "form": {
+      "title": "Leave a comment",
+      "name": "Your name",
+      "message": "Your message",
+      "email": "Email (optional)",
+      "emailPlaceholder": "name@example.com",
+      "emailHelp": "Add your email so I can thank you. It is never shown publicly.",
+      "photo": "Avatar (optional)",
+      "photoChoose": "Upload photo",
+      "avatarTitle": "Choose avatar",
+      "avatarChange": "Change avatar",
+      "avatarRandomHint": "Pick an avatar (random if left empty)",
+      "avatarRandom": "Random avatar",
+      "avatarN": "Avatar {n}",
+      "photoChange": "Change photo",
+      "photoRemove": "Remove",
+      "photoPreview": "Selected photo preview",
+      "photoHelp": "Leave it on random and a daily avatar is picked. Or upload your own photo and crop it into a circle.",
+      "submit": "Send",
+      "submitting": "Sending..."
+    },
+    "errors": {
+      "name": "Please enter your name.",
+      "message": "Please write a message.",
+      "email": "Enter a valid email address.",
+      "photo": "This image could not be used. Try another one.",
+      "cooldown": "Wait {seconds}s before sending another comment.",
+      "submit": "Could not send the comment. Try again in a moment."
     }
   },
   "certifications": {

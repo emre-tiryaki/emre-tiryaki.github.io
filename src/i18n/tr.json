@@ -15,6 +15,7 @@
     "experience": "Deneyim",
     "projects": "Projeler",
     "certifications": "Sertifikalar",
+    "guestbook": "Ziyaretçi Defteri",
     "changeLanguage": "Dil değiştir",
     "menu": "Menü"
   },
@@ -154,6 +155,60 @@
       "usageTitle": "Kullanım",
       "copy": "Kopyala",
       "copied": "Kopyalandı!"
+    }
+  },
+  "guestbook": {
+    "title": "Ziyaretçi Defteri",
+    "subtitle": "Bir not bırak, selam ver.",
+    "open": "Yorum bırak",
+    "detailTitle": "Yorum",
+    "commentsTitle": "Yorumlar",
+    "pending": "Onay bekliyor",
+    "loading": "Yorumlar yükleniyor",
+    "loadError": "Yorumlar yüklenemedi.",
+    "retry": "Tekrar dene",
+    "empty": "Henüz yorum yok. İlk notu sen bırak.",
+    "unavailable": "Ziyaretçi defteri şu an kullanılamıyor.",
+    "notice": {
+      "title": "Yorumun alındı",
+      "body": "Yorumun manuel olarak onaylanacak. Onaylanana kadar sadece sen görürsün; onaylanınca herkese görünür.",
+      "ok": "Tamam"
+    },
+    "crop": {
+      "help": "Sürükleyerek konumlandır, kaydırıcıyla yakınlaştır.",
+      "area": "Kırpma alanı (ok tuşlarıyla kaydır)",
+      "zoom": "Yakınlaştır",
+      "cancel": "Vazgeç",
+      "confirm": "Kullan"
+    },
+    "form": {
+      "title": "Yorum bırak",
+      "name": "Adın",
+      "message": "Mesajın",
+      "email": "E-posta (isteğe bağlı)",
+      "emailPlaceholder": "ornek@mail.com",
+      "emailHelp": "Teşekkür edebilmem için e-posta yaz. Herkese açık gösterilmez.",
+      "photo": "Avatar (isteğe bağlı)",
+      "photoChoose": "Fotoğraf yükle",
+      "avatarTitle": "Avatar seç",
+      "avatarChange": "Avatarı değiştir",
+      "avatarRandomHint": "Avatar seç (boşsa rastgele atanır)",
+      "avatarRandom": "Rastgele avatar",
+      "avatarN": "Avatar {n}",
+      "photoChange": "Fotoğrafı değiştir",
+      "photoRemove": "Kaldır",
+      "photoPreview": "Seçilen fotoğraf önizlemesi",
+      "photoHelp": "Rastgele bırakırsan günlük bir avatar atanır. Kendi fotoğrafını yükleyip yuvarlak kırpabilirsin.",
+      "submit": "Gönder",
+      "submitting": "Gönderiliyor..."
+    },
+    "errors": {
+      "name": "Lütfen adını yaz.",
+      "message": "Lütfen bir mesaj yaz.",
+      "email": "Geçerli bir e-posta adresi yaz.",
+      "photo": "Bu resim kullanılamadı. Başka bir resim dene.",
+      "cooldown": "Yeni bir yorum için {seconds} sn bekle.",
+      "submit": "Yorum gönderilemedi. Biraz sonra tekrar dene."
     }
   },
   "certifications": {

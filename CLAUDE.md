@@ -13,7 +13,7 @@ npm run preview   # serve the built dist/
 npm run lint      # ESLint 9 flat config (eslint.config.js)
 ```
 
-There is no test suite. Deployment is automatic: pushing to `main` runs `.github/workflows/deploy.yml` (Node 22, `npm run build`, upload `dist/` to Pages). Build-time env vars come from repo secrets; see `.env.example` (`VITE_GITHUB_TOKEN` for the GitHub heatmap, `VITE_FIREBASE_*` currently unused in `src/`).
+There is no test suite. Deployment is automatic: pushing to `main` runs `.github/workflows/deploy.yml` (Node 22, `npm run build`, upload `dist/` to Pages). Build-time env vars come from repo secrets; see `.env.example` (`VITE_GITHUB_TOKEN` for the GitHub heatmap, `VITE_FIREBASE_*` used only by the guestbook).
 
 ## Architecture
 
@@ -40,7 +40,9 @@ There is no test suite. Deployment is automatic: pushing to `main` runs `.github
 - `GitHubActivity` queries the GitHub GraphQL API with `VITE_GITHUB_TOKEN`, caches daily in localStorage, and shows a fallback with no API call when the token is missing.
 - `src/lib/translate.js` provides keyless TR↔EN auto-translation (Google Translate client endpoint, MyMemory fallback).
 
-`siteConfig.json` holds global feature flags (e.g. `showHireMeCard`).
+**Guestbook (`/guestbook`, Firebase Firestore).** Visitors post comments that stay hidden until the owner sets `approved=true` in the Firebase Console. `src/lib/firebase.js` initializes Firestore (`db = null` when env is missing); `src/lib/guestbook.js` holds reads/writes, avatar resizing (canvas → 96px WebP data URL) and the localStorage "pending" list (`guestbook-my-comments`). Optional emails go to the write-only `guestbookPrivate` collection. Security lives in `firestore.rules` + `firestore.indexes.json` (deploy manually: `npx firebase-tools deploy --only firestore`; nothing deploys them automatically). The Firebase SDK loads only with the guestbook page chunk (excluded from idle prefetch in `App.jsx`). Fallback avatars: `src/assets/comment_pfps/`, exposed as `COMMENT_FALLBACK_AVATARS` in `media.js`. Toggle with `siteConfig.showGuestbook`.
+
+`siteConfig.json` holds global feature flags (e.g. `showHireMeCard`, `showGuestbook`).
 
 ## graphify
 

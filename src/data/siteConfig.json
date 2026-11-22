@@ -1,4 +1,5 @@
 {
   "showHireMeCard": true,
+  "showGuestbook": true,
   "jsonEndpointToken": "vault-readonly-2026"
 }

@@ -154,8 +154,18 @@ export const EXPERIENCE_IMAGES = toEntries(
   import.meta.glob('../assets/experience/**/*.{jpg,jpeg,png,webp,PNG,JPG,JPEG,gif,GIF,avif,AVIF}', { eager: true, import: 'default' })
 );
 
+// ── Ziyaretçi defteri: fotoğrafı olmayan yorumlar için yedek avatarlar ──
+const commentAvatarModules = import.meta.glob('../assets/comment_pfps/*.{jpg,jpeg,png,webp}', {
+  eager: true,
+  import: 'default',
+});
+
+/** Klasöre dosya ekleyip silerek değiştirilir. */
+export const COMMENT_FALLBACK_AVATARS = Object.values(commentAvatarModules);
+
 export default {
   DEVICON_BASE,
+  COMMENT_FALLBACK_AVATARS,
   PORTRAIT_PHOTO,
   PERSONAL_PHOTOS,
   AUTHORITY_LOGOS,
