@@ -2,7 +2,8 @@
  * Yorum kartlarını sahnede üst üste binmeyecek şekilde yerleştirir (piksel cinsinden).
  * Her kartın kendi tohumundan (`layout.seed`) aday konumlar üretilir; ilk çakışmasız aday seçilir.
  * Hepsi çakışmasız sığana kadar ölçek (k) küçültülür; sığmazsa en küçük ölçekte en az çakışan
- * konumlar kullanılır.
+ * konumlar kullanılır. Kullanıcının sabitlediği kartlar (`pinned`) olduğu yerde kalır, diğerleri
+ * onların etrafına yerleşir.
  */
 export const MAX_SCALE = 1;
 export const MIN_SCALE = 0.4;
@@ -28,7 +29,7 @@ function overlapArea(a, b) {
   return ox > 0 && oy > 0 ? ox * oy : 0;
 }
 
-function place(seeds, W, H, rem, k) {
+function place(seeds, pinned, W, H, rem, k) {
   const gap = GAP_REM * rem;
   const margin = MARGIN_REM * rem;
   // Genişlik CSS'teki min(16rem*k, 46vw) ile aynı; yükseklik yaklaşık
@@ -36,9 +37,18 @@ function place(seeds, W, H, rem, k) {
   const h = 9.2 * rem * k + gap;
   const fixed = [{ x: W / 2, y: H / 2, w: 9 * rem, h: 10 * rem }]; // merkezdeki buton
   const placed = [];
+  const out = new Array(seeds.length);
   let total = 0;
 
-  for (const seed of seeds) {
+  seeds.forEach((_, i) => {
+    if (!pinned[i]) return;
+    const p = { x: pinned[i].x, y: pinned[i].y, w, h };
+    placed.push(p);
+    out[i] = p;
+  });
+
+  seeds.forEach((seed, i) => {
+    if (pinned[i]) return;
     const rnd = mulberry32(seed);
     const minX = Math.min(w / 2 + margin, W / 2);
     const maxX = Math.max(W - w / 2 - margin, W / 2);
@@ -55,19 +65,21 @@ function place(seeds, W, H, rem, k) {
     }
     total += best.pen;
     placed.push(best);
-  }
-  return { placed, total };
+    out[i] = best;
+  });
+  return { placed: out, total };
 }
 
 /**
  * @param {number[]} seeds kart tohumları (sırayla yerleştirilir)
+ * @param {({x:number,y:number}|null)[]} pinned seeds ile aynı sırada; doluysa kart o piksel konumda sabit
  * @returns {{ scale: number, positions: {x:number,y:number}[] }}
  */
-export function packTiles(seeds, W, H, rem) {
+export function packTiles(seeds, pinned, W, H, rem) {
   let result = null;
   let k = MAX_SCALE;
   for (; k >= MIN_SCALE - 1e-9; k -= STEP) {
-    result = place(seeds, W, H, rem, k);
+    result = place(seeds, pinned, W, H, rem, k);
     if (result.total === 0) break;
   }
   const scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, k));

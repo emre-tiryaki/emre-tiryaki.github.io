@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { FiClock } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
@@ -9,16 +10,71 @@ const { accent, text, status, surface } = THEME_COLORS;
  * Butonun etrafındaki küçük yorum kartı. Konum/dönüş/katman `comment.layout`'tan gelir
  * (CSS değişkenleri; stiller src/index.css `.gb-tile`). Tıklayınca tam yorum açılır.
  */
-export default function CommentTile({ comment, pending, extra, place, onOpen }) {
+const DRAG_THRESHOLD = 6; // px; altındaki hareket tıklama sayılır
+
+export default function CommentTile({ comment, pending, extra, place, dragging, onDrag, onDrop, onOpen }) {
   const { t } = useTranslation();
   const { layout } = comment;
+  const gesture = useRef(null);
+  const suppress = useRef(false); // sürükleme sonrası gelen click'i yut
+
+  // Basılı tutup sürükleme: sahneye göre piksel konumu üretir; eşik aşılmadıysa normal tıklama
+  const onPointerDown = (e) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    const stage = e.currentTarget.offsetParent.getBoundingClientRect();
+    const tile = e.currentTarget.getBoundingClientRect();
+    gesture.current = {
+      sx: e.clientX,
+      sy: e.clientY,
+      ox: tile.left + tile.width / 2 - stage.left - e.clientX,
+      oy: tile.top + tile.height / 2 - stage.top - e.clientY,
+      stage,
+      moved: false,
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const pointAt = (g, e) => ({
+    x: Math.min(g.stage.width, Math.max(0, e.clientX - g.stage.left + g.ox)),
+    y: Math.min(g.stage.height, Math.max(0, e.clientY - g.stage.top + g.oy)),
+  });
+  const onPointerMove = (e) => {
+    const g = gesture.current;
+    if (!g) return;
+    if (!g.moved && Math.hypot(e.clientX - g.sx, e.clientY - g.sy) < DRAG_THRESHOLD) return;
+    g.moved = true;
+    const p = pointAt(g, e);
+    onDrag(p.x, p.y);
+  };
+  const onPointerUp = (e) => {
+    const g = gesture.current;
+    gesture.current = null;
+    if (!g?.moved) return;
+    const p = pointAt(g, e);
+    onDrop(p.x, p.y);
+    suppress.current = true;
+  };
+  const handleClick = () => {
+    if (suppress.current) {
+      suppress.current = false;
+      return;
+    }
+    onOpen(comment);
+  };
+
   const src = isSafeAvatar(comment.avatar) ? comment.avatar : comment.fallbackAvatar;
 
   return (
     <button
       type="button"
-      onClick={() => onOpen(comment)}
-      className={`gb-tile${extra ? ' gb-tile--extra' : ''}`}
+      onClick={handleClick}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={() => {
+        gesture.current = null;
+        if (dragging) onDrop(place.x, place.y);
+      }}
+      className={`gb-tile${extra ? ' gb-tile--extra' : ''}${dragging ? ' gb-tile--drag' : ''}`}
       aria-label={`${comment.name}${pending ? `, ${t('guestbook.pending')}` : ''}`}
       style={{
         '--x': place ? `${place.x}px` : layout.x,

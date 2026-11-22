@@ -67,6 +67,31 @@ function writeMine(list) {
   }
 }
 
+const PINS_KEY = 'guestbook-card-positions';
+
+/** Kullanıcının sürükleyip yerleştirdiği kartlar: { [id]: { fx, fy } } (sahneye oranla 0..1). */
+export function readPins() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(PINS_KEY) || '{}');
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
+    const out = {};
+    for (const [id, p] of Object.entries(raw)) {
+      if (Number.isFinite(p?.fx) && Number.isFinite(p?.fy)) out[id] = { fx: p.fx, fy: p.fy };
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
+export function writePins(pins) {
+  try {
+    localStorage.setItem(PINS_KEY, JSON.stringify(pins));
+  } catch {
+    /* localStorage dolu/kapalı: konum sadece bu oturumda kalır */
+  }
+}
+
 /** Gönderim için kalan bekleme süresi (sn); 0 ise gönderilebilir. */
 export function cooldownRemaining() {
   const last = Number(localStorage.getItem(LAST_SUBMIT_KEY)) || 0;
