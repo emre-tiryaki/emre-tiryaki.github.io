@@ -15,6 +15,7 @@
     "experience": "Deneyim",
     "projects": "Projeler",
     "certifications": "Sertifikalar",
+    "guestbook": "Ziyaretçi Defteri",
     "changeLanguage": "Dil değiştir",
     "menu": "Menü"
   },
@@ -154,6 +155,44 @@
       "usageTitle": "Kullanım",
       "copy": "Kopyala",
       "copied": "Kopyalandı!"
+    }
+  },
+  "guestbook": {
+    "title": "Ziyaretçi Defteri",
+    "subtitle": "Bir not bırak, selam ver.",
+    "commentsTitle": "Yorumlar",
+    "pendingList": "Onay bekleyen yorumların",
+    "pending": "Onay bekliyor",
+    "loading": "Yorumlar yükleniyor",
+    "loadError": "Yorumlar yüklenemedi.",
+    "retry": "Tekrar dene",
+    "empty": "Henüz yorum yok. İlk notu sen bırak.",
+    "unavailable": "Ziyaretçi defteri şu an kullanılamıyor.",
+    "success": "Teşekkürler! Yorumun onaylandıktan sonra herkese görünecek.",
+    "form": {
+      "title": "Yorum bırak",
+      "name": "Adın",
+      "message": "Mesajın",
+      "email": "E-posta (isteğe bağlı)",
+      "emailPlaceholder": "ornek@mail.com",
+      "emailHelp": "Teşekkür edebilmem için e-posta yaz. Herkese açık gösterilmez.",
+      "photo": "Fotoğraf (isteğe bağlı)",
+      "photoChoose": "Fotoğraf seç",
+      "photoChange": "Fotoğrafı değiştir",
+      "photoRemove": "Kaldır",
+      "photoPreview": "Seçilen fotoğraf önizlemesi",
+      "photoHelp": "Fotoğraf yoksa rastgele bir avatar gösterilir. Seçtiğin resim tarayıcında küçültülür.",
+      "notice": "Yorumun benim tarafımdan manuel onaylanacak. Onaylanana kadar sadece sen görürsün.",
+      "submit": "Gönder",
+      "submitting": "Gönderiliyor..."
+    },
+    "errors": {
+      "name": "Lütfen adını yaz.",
+      "message": "Lütfen bir mesaj yaz.",
+      "email": "Geçerli bir e-posta adresi yaz.",
+      "photo": "Bu resim kullanılamadı. Başka bir resim dene.",
+      "cooldown": "Yeni bir yorum için {seconds} sn bekle.",
+      "submit": "Yorum gönderilemedi. Biraz sonra tekrar dene."
     }
   },
   "certifications": {

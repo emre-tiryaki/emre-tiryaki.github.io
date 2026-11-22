@@ -11,6 +11,7 @@ import {
   writeBatch,
 } from 'firebase/firestore';
 import { db } from './firebase';
+import { COMMENT_FALLBACK_AVATARS } from './media';
 
 export const GUESTBOOK_LIMITS = { name: 40, message: 500, email: 120 };
 const MY_COMMENTS_KEY = 'guestbook-my-comments';
@@ -157,4 +158,23 @@ export async function resizeImageToDataUrl(file) {
   } finally {
     bitmap.close?.();
   }
+}
+
+/**
+ * Fotoğrafı olmayan yorumlar için rastgele yedek avatar seçici. Seçim her sayfa açılışında
+ * yapılır, belgeye kaydedilmez. Karıştırılmış desteden çeker; böylece liste bitmeden tekrar olmaz.
+ */
+export function createFallbackPicker() {
+  let deck = [];
+  return () => {
+    if (COMMENT_FALLBACK_AVATARS.length === 0) return null;
+    if (deck.length === 0) {
+      deck = [...COMMENT_FALLBACK_AVATARS];
+      for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+    }
+    return deck.pop();
+  };
 }

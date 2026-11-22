@@ -15,6 +15,7 @@
     "experience": "Experience",
     "projects": "Projects",
     "certifications": "Certifications",
+    "guestbook": "Guestbook",
     "changeLanguage": "Change language",
     "menu": "Menu"
   },
@@ -154,6 +155,44 @@
       "usageTitle": "Usage",
       "copy": "Copy",
       "copied": "Copied!"
+    }
+  },
+  "guestbook": {
+    "title": "Guestbook",
+    "subtitle": "Leave a note and say hi.",
+    "commentsTitle": "Comments",
+    "pendingList": "Your comments awaiting approval",
+    "pending": "Awaiting approval",
+    "loading": "Loading comments",
+    "loadError": "Comments could not be loaded.",
+    "retry": "Try again",
+    "empty": "No comments yet. Be the first to leave a note.",
+    "unavailable": "The guestbook is unavailable right now.",
+    "success": "Thanks! Your comment will be visible to everyone once approved.",
+    "form": {
+      "title": "Leave a comment",
+      "name": "Your name",
+      "message": "Your message",
+      "email": "Email (optional)",
+      "emailPlaceholder": "name@example.com",
+      "emailHelp": "Add your email so I can thank you. It is never shown publicly.",
+      "photo": "Photo (optional)",
+      "photoChoose": "Choose photo",
+      "photoChange": "Change photo",
+      "photoRemove": "Remove",
+      "photoPreview": "Selected photo preview",
+      "photoHelp": "Without a photo, a random avatar is shown. The image is resized in your browser.",
+      "notice": "Your comment will be approved manually by me. Until then only you can see it.",
+      "submit": "Send",
+      "submitting": "Sending..."
+    },
+    "errors": {
+      "name": "Please enter your name.",
+      "message": "Please write a message.",
+      "email": "Enter a valid email address.",
+      "photo": "This image could not be used. Try another one.",
+      "cooldown": "Wait {seconds}s before sending another comment.",
+      "submit": "Could not send the comment. Try again in a moment."
     }
   },
   "certifications": {
