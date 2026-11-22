@@ -60,18 +60,11 @@ function place(seeds, pinned, W, H, rem, k) {
   for (const seed of seeds) base.push(sample(seed, base));
 
   // 2) Sabitlenenler yerinde; diğerleri tabandaki yerinde kalır, sabitlenenle çakışırsa yeniden seçilir
-  const out = new Array(seeds.length);
-  const anchors = [];
-  seeds.forEach((_, i) => {
-    if (!pinned[i]) return;
-    out[i] = { x: pinned[i].x, y: pinned[i].y, w, h, pen: 0 };
-    anchors.push(out[i]);
-  });
+  const out = base.map((b, i) => (pinned[i] ? { x: pinned[i].x, y: pinned[i].y, w, h, pen: 0 } : b));
   seeds.forEach((seed, i) => {
     if (pinned[i]) return;
-    const clash = anchors.some((o) => overlapArea(base[i], o) > 0);
-    out[i] = clash ? sample(seed, anchors) : base[i];
-    anchors.push(out[i]);
+    const clash = out.some((o, j) => j !== i && pinned[j] && overlapArea(out[i], o) > 0);
+    if (clash) out[i] = sample(seed, out.filter((_, j) => j !== i));
   });
 
   let total = 0;
@@ -91,12 +84,13 @@ function place(seeds, pinned, W, H, rem, k) {
  * @returns {{ scale: number, positions: {x:number,y:number}[] }}
  */
 export function packTiles(seeds, pinned, W, H, rem) {
-  let result = null;
+  // Ölçek sabitlemelerden bağımsız seçilir; yoksa bir kart taşınınca hepsi yeniden yerleşir
+  const free = seeds.map(() => null);
   let k = MAX_SCALE;
   for (; k >= MIN_SCALE - 1e-9; k -= STEP) {
-    result = place(seeds, pinned, W, H, rem, k);
-    if (result.total === 0) break;
+    if (place(seeds, free, W, H, rem, k).total === 0) break;
   }
   const scale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, k));
+  const result = place(seeds, pinned, W, H, rem, scale);
   return { scale, positions: result.placed.map(({ x, y }) => ({ x, y })) };
 }
