@@ -26,8 +26,8 @@ export default function CommentTile({ comment, pending, extra, place, dragging, 
     gesture.current = {
       sx: e.clientX,
       sy: e.clientY,
-      ox: tile.left + tile.width / 2 - stage.left - e.clientX,
-      oy: tile.top + tile.height / 2 - stage.top - e.clientY,
+      ox: tile.left + tile.width / 2 - e.clientX,
+      oy: tile.top + tile.height / 2 - e.clientY,
       stage,
       moved: false,
     };
