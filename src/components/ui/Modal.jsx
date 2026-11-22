@@ -11,7 +11,7 @@ const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([t
  * Erişilebilir modal (WAI-ARIA dialog): Escape / arka plan tıklaması kapatır, odak içeride kalır,
  * kapanınca odak açan öğeye döner. Sadece açıkken mount edin; unmount kapatır.
  */
-export default function Modal({ title, onClose, children, maxWidth = '30rem' }) {
+export default function Modal({ title, onClose, children, maxWidth = '30rem', bare = false }) {
   const { t } = useTranslation();
   const titleId = useId();
   const panelRef = useRef(null);
@@ -69,8 +69,18 @@ export default function Modal({ title, onClose, children, maxWidth = '30rem' }) 
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={titleId}
-        style={{
+        aria-labelledby={bare ? undefined : titleId}
+        aria-label={bare ? title : undefined}
+        style={bare ? {
+          position: 'relative',
+          width: '100%',
+          maxWidth,
+          maxHeight: '100%',
+          overflowY: 'auto',
+          borderRadius: '1rem',
+          background: '#0d0d0d',
+          boxShadow: `0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px ${accent.a15}`,
+        } : {
           width: '100%',
           maxWidth,
           maxHeight: '100%',
@@ -83,6 +93,17 @@ export default function Modal({ title, onClose, children, maxWidth = '30rem' }) 
           overflow: 'hidden',
         }}
       >
+        {bare ? (
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={t('common.close')}
+            className="btn btn--ghost btn--sm"
+            style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', zIndex: 1 }}
+          >
+            <FiX aria-hidden="true" />
+          </button>
+        ) : (
         <div
           style={{
             display: 'flex',
@@ -105,7 +126,8 @@ export default function Modal({ title, onClose, children, maxWidth = '30rem' }) 
             <FiX aria-hidden="true" />
           </button>
         </div>
-        <div style={{ padding: '1rem', overflowY: 'auto' }}>{children}</div>
+        )}
+        {bare ? children : <div style={{ padding: '1rem', overflowY: 'auto' }}>{children}</div>}
       </div>
     </div>,
     document.body,
