@@ -9,7 +9,8 @@ const { accent, surface, text, status } = THEME_COLORS;
  * Tek yorum kartı. İçerik düz metin olarak render edilir (HTML yorumlanmaz).
  * `comment.fallbackAvatar` fotoğrafı olmayan yorumlar için sayfa açılışında seçilir.
  */
-export default function CommentCard({ comment, pending = false }) {
+export default function CommentCard({ comment, pending = false, large = false }) {
+  const avatar = large ? 64 : 44;
   const { t, lang } = useTranslation();
   const src = isSafeAvatar(comment.avatar) ? comment.avatar : comment.fallbackAvatar;
   const date = comment.createdAt
@@ -24,8 +25,8 @@ export default function CommentCard({ comment, pending = false }) {
     <article
       style={{
         display: 'flex',
-        gap: '0.9rem',
-        padding: '1rem 1.1rem',
+        gap: large ? '1.25rem' : '0.9rem',
+        padding: large ? '1.75rem 1.75rem 1.75rem 1.5rem' : '1rem 1.1rem',
         borderRadius: '1rem',
         background: THEME_COLORS.card.bg,
         border: `1px solid ${pending ? accent.borderSubtle : THEME_COLORS.card.border}`,
@@ -35,13 +36,13 @@ export default function CommentCard({ comment, pending = false }) {
         <img
           src={src}
           alt=""
-          width={44}
-          height={44}
+          width={avatar}
+          height={avatar}
           loading="lazy"
           decoding="async"
           style={{
-            width: '2.75rem',
-            height: '2.75rem',
+            width: `${avatar / 16}rem`,
+            height: `${avatar / 16}rem`,
             borderRadius: '50%',
             objectFit: 'cover',
             flexShrink: 0,
@@ -52,8 +53,8 @@ export default function CommentCard({ comment, pending = false }) {
         <span
           aria-hidden="true"
           style={{
-            width: '2.75rem',
-            height: '2.75rem',
+            width: `${avatar / 16}rem`,
+            height: `${avatar / 16}rem`,
             borderRadius: '50%',
             flexShrink: 0,
             display: 'flex',
@@ -62,6 +63,7 @@ export default function CommentCard({ comment, pending = false }) {
             background: accent.a15,
             color: accent.light,
             fontWeight: 700,
+            fontSize: large ? '1.5rem' : undefined,
           }}
         >
           {comment.name.trim().charAt(0).toUpperCase()}
@@ -70,7 +72,7 @@ export default function CommentCard({ comment, pending = false }) {
 
       <div style={{ minWidth: 0, flex: 1 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.25rem 0.6rem' }}>
-          <strong style={{ color: text.primary, fontSize: '0.95rem', overflowWrap: 'anywhere' }}>
+          <strong style={{ color: text.primary, fontSize: large ? '1.25rem' : '0.95rem', overflowWrap: 'anywhere' }}>
             {comment.name}
           </strong>
           {pending ? (
@@ -79,7 +81,7 @@ export default function CommentCard({ comment, pending = false }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '0.3rem',
-                fontSize: '0.7rem',
+                fontSize: large ? '0.85rem' : '0.7rem',
                 fontWeight: 600,
                 padding: '0.1rem 0.5rem',
                 borderRadius: '999px',
@@ -92,15 +94,15 @@ export default function CommentCard({ comment, pending = false }) {
               {t('guestbook.pending')}
             </span>
           ) : (
-            date && <span style={{ color: text.muted, fontSize: '0.75rem' }}>{date}</span>
+            date && <span style={{ color: text.muted, fontSize: large ? '0.9rem' : '0.75rem' }}>{date}</span>
           )}
         </div>
         <p
           style={{
-            margin: '0.35rem 0 0',
+            margin: large ? '0.6rem 0 0' : '0.35rem 0 0',
             color: text.secondary,
-            fontSize: '0.9rem',
-            lineHeight: 1.6,
+            fontSize: large ? '1.15rem' : '0.9rem',
+            lineHeight: large ? 1.7 : 1.6,
             whiteSpace: 'pre-wrap',
             overflowWrap: 'anywhere',
           }}
