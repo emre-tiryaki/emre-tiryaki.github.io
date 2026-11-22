@@ -5,6 +5,8 @@ import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 
 const { accent, text } = THEME_COLORS;
+// Açık modallar; Escape/Tab sadece en üsttekini etkiler (iç içe modal için)
+const openModals = [];
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([tabindex="-1"]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 /**
@@ -19,9 +21,11 @@ export default function Modal({ title, onClose, children, maxWidth = '30rem', ba
   useEffect(() => {
     const opener = document.activeElement;
     const panel = panelRef.current;
+    openModals.push(panel);
     (panel?.querySelector('[data-autofocus]') || panel?.querySelector(FOCUSABLE))?.focus();
 
     const onKey = (e) => {
+      if (openModals[openModals.length - 1] !== panel) return;
       if (e.key === 'Escape') {
         e.stopPropagation();
         onClose();
@@ -43,6 +47,7 @@ export default function Modal({ title, onClose, children, maxWidth = '30rem', ba
     document.addEventListener('keydown', onKey);
     return () => {
       document.removeEventListener('keydown', onKey);
+      openModals.splice(openModals.indexOf(panel), 1);
       opener?.focus?.();
     };
   }, [onClose]);

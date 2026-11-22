@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import { FiShuffle, FiUpload } from 'react-icons/fi';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { FiEdit2, FiShuffle } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
-import { COMMENT_FALLBACK_AVATARS } from '../../lib/media';
 import { useTranslation } from '../../hooks/translation';
 import Button from '../ui/Button';
 import FormField from '../ui/FormField';
-import AvatarCropper from './AvatarCropper';
+import AvatarPicker from './AvatarPicker';
 import {
   GUESTBOOK_LIMITS,
   cooldownRemaining,
@@ -14,7 +13,7 @@ import {
   submitComment,
 } from '../../lib/guestbook';
 
-const { text, status } = THEME_COLORS;
+const { text, surface, accent } = THEME_COLORS;
 const EMPTY = { name: '', message: '', email: '', website: '' };
 
 /**
@@ -27,10 +26,9 @@ export default function CommentForm({ onSubmitted }) {
   const [errors, setErrors] = useState({});
   // Avatar seçimi: null = rastgele, { type: 'preset', src } hazır avatar, { type: 'custom', dataUrl } kırpılmış yükleme
   const [avatar, setAvatar] = useState(null);
-  const [cropSrc, setCropSrc] = useState(null);
+  const [picking, setPicking] = useState(false);
   const [busy, setBusy] = useState(false);
   const [feedback, setFeedback] = useState(null); // { type: 'success' | 'error', text }
-  const fileRef = useRef(null);
   const nameRef = useRef(null);
 
   // İlk hatalı alana odaklan
@@ -41,22 +39,8 @@ export default function CommentForm({ onSubmitted }) {
 
   const setField = (name, value) => setValues((v) => ({ ...v, [name]: value }));
 
-  const pickPhoto = (e) => {
-    const file = e.target.files?.[0];
-    e.target.value = '';
-    if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      setErrors((er) => ({ ...er, photo: t('guestbook.errors.photo') }));
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      setErrors((er) => ({ ...er, photo: undefined }));
-      setCropSrc(reader.result);
-    };
-    reader.onerror = () => setErrors((er) => ({ ...er, photo: t('guestbook.errors.photo') }));
-    reader.readAsDataURL(file);
-  };
+  const closePicker = useCallback(() => setPicking(false), []);
+  const avatarSrc = avatar ? (avatar.type === 'custom' ? avatar.dataUrl : avatar.src) : null;
 
   const validate = () => {
     const next = {};
@@ -102,25 +86,31 @@ export default function CommentForm({ onSubmitted }) {
     }
   };
 
-  if (cropSrc) {
-    return (
-      <AvatarCropper
-        src={cropSrc}
-        onCancel={() => setCropSrc(null)}
-        onConfirm={(dataUrl) => {
-          setAvatar({ type: 'custom', dataUrl });
-          setCropSrc(null);
-        }}
-      />
-    );
-  }
-
   return (
     <form
       onSubmit={handleSubmit}
       noValidate
       style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}
     >
+
+      {/* Avatar: tek yuvarlak önizleme; tıklayınca seçenekler ayrı modalda açılır */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
+        <button
+          type="button"
+          onClick={() => setPicking(true)}
+          aria-label={t('guestbook.form.avatarChange')}
+          aria-haspopup="dialog"
+          className="avatar-main"
+        >
+          <span className="avatar-main__face" style={{ borderColor: surface.white10 }}>
+            {avatarSrc ? <img src={avatarSrc} alt="" width={96} height={96} draggable={false} /> : <FiShuffle aria-hidden="true" size={28} />}
+          </span>
+          <span className="avatar-main__badge" style={{ background: accent.primary }}><FiEdit2 aria-hidden="true" size={13} /></span>
+        </button>
+        <span style={{ fontSize: '0.72rem', color: text.muted }}>
+          {avatar ? t('guestbook.form.avatarChange') : t('guestbook.form.avatarRandomHint')}
+        </span>
+      </div>
 
       <FormField
         ref={nameRef}
@@ -165,55 +155,6 @@ export default function CommentForm({ onSubmitted }) {
         aria-invalid={Boolean(errors.email)}
       />
 
-      {/* Avatar: rastgele, hazır avatarlardan biri ya da kendi fotoğrafın (yuvarlak kırpılır, 96x96 WebP) */}
-      <fieldset style={{ margin: 0, padding: 0, border: 0, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <legend style={{ padding: 0, marginBottom: '0.35rem', fontSize: '0.78rem', fontWeight: 600, color: '#a3a3a3' }}>
-          {t('guestbook.form.photo')}
-        </legend>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-          <label className="avatar-opt" title={t('guestbook.form.avatarRandom')}>
-            <input type="radio" name="avatar" checked={!avatar} onChange={() => setAvatar(null)} />
-            <span className="avatar-opt__face"><FiShuffle aria-hidden="true" /></span>
-            <span className="sr-only">{t('guestbook.form.avatarRandom')}</span>
-          </label>
-          {COMMENT_FALLBACK_AVATARS.map((src, i) => (
-            <label key={src} className="avatar-opt">
-              <input
-                type="radio"
-                name="avatar"
-                checked={avatar?.type === 'preset' && avatar.src === src}
-                onChange={() => setAvatar({ type: 'preset', src })}
-              />
-              <span className="avatar-opt__face">
-                <img src={src} alt="" width={48} height={48} loading="lazy" draggable={false} />
-              </span>
-              <span className="sr-only">{t('guestbook.form.avatarN', { n: i + 1 })}</span>
-            </label>
-          ))}
-          {avatar?.type === 'custom' && (
-            <label className="avatar-opt">
-              <input type="radio" name="avatar" checked readOnly />
-              <span className="avatar-opt__face">
-                <img src={avatar.dataUrl} alt="" width={48} height={48} draggable={false} />
-              </span>
-              <span className="sr-only">{t('guestbook.form.photoPreview')}</span>
-            </label>
-          )}
-          <input ref={fileRef} type="file" accept="image/*" onChange={pickPhoto} hidden aria-label={t('guestbook.form.photoChoose')} />
-          <button
-            type="button"
-            className="avatar-opt avatar-opt--upload"
-            onClick={() => fileRef.current?.click()}
-            title={t('guestbook.form.photoChoose')}
-          >
-            <span className="avatar-opt__face"><FiUpload aria-hidden="true" /></span>
-            <span className="sr-only">{avatar?.type === 'custom' ? t('guestbook.form.photoChange') : t('guestbook.form.photoChoose')}</span>
-          </button>
-        </div>
-        <span style={{ fontSize: '0.72rem', color: text.muted }}>{t('guestbook.form.photoHelp')}</span>
-        {errors.photo && <span role="alert" style={{ fontSize: '0.72rem', color: status.dangerSoft }}>{errors.photo}</span>}
-      </fieldset>
-
       {/* Honeypot: ekran okuyuculardan ve klavyeden gizli */}
       <div aria-hidden="true" style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clipPath: 'inset(50%)', opacity: 0, pointerEvents: 'none' }}>
         <label htmlFor="website">Website</label>
@@ -236,6 +177,7 @@ export default function CommentForm({ onSubmitted }) {
           {feedback?.text}
         </div>
       </div>
+      {picking && <AvatarPicker value={avatar} onChange={setAvatar} onClose={closePicker} />}
     </form>
   );
 }

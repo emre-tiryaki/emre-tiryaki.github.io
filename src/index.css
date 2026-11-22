@@ -631,3 +631,41 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 @media (prefers-reduced-motion: reduce) {
   .avatar-opt__face { transition: none; }
 }
+
+/* Formun üstündeki tek büyük avatar düğmesi */
+.avatar-main {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.avatar-main__face {
+  display: grid;
+  place-items: center;
+  width: 6rem;
+  height: 6rem;
+  overflow: hidden;
+  border-radius: 50%;
+  color: #a3a3a3;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+.avatar-main__face img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-main:hover .avatar-main__face { transform: scale(1.04); border-color: rgba(249, 115, 22, 0.5) !important; }
+.avatar-main__badge {
+  position: absolute;
+  right: 0;
+  bottom: 0.1rem;
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  color: #fff;
+  border: 2px solid #0d0d0d;
+}
+.avatar-main:focus-visible { outline: 2px solid #fdba74; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .avatar-main__face { transition: none; } }
