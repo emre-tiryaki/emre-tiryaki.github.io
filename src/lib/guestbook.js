@@ -186,21 +186,22 @@ export async function resizeImageToDataUrl(file) {
 }
 
 /**
- * Fotoğrafı olmayan yorumlar için rastgele yedek avatar seçici. Seçim her sayfa açılışında
- * yapılır, belgeye kaydedilmez. Karıştırılmış desteden çeker; böylece liste bitmeden tekrar olmaz.
+ * Fotoğrafı olmayan yorumlar için yedek avatar seçici. Seçim gün + yorum anahtarından türetilir:
+ * aynı gün aynı yorum hep aynı avatarı alır, ertesi gün değişir. Belgeye kaydedilmez.
  */
 export function createFallbackPicker() {
-  let deck = [];
-  return () => {
-    if (COMMENT_FALLBACK_AVATARS.length === 0) return null;
-    if (deck.length === 0) {
-      deck = [...COMMENT_FALLBACK_AVATARS];
-      for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-      }
+  const d = new Date();
+  const day = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  return (key = '') => {
+    const n = COMMENT_FALLBACK_AVATARS.length;
+    if (n === 0) return null;
+    const str = `${day}|${key}`;
+    let h = 2166136261; // FNV-1a
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
     }
-    return deck.pop();
+    return COMMENT_FALLBACK_AVATARS[(h >>> 0) % n];
   };
 }
 

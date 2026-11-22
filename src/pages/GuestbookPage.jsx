@@ -31,7 +31,7 @@ export default function GuestbookPage() {
 
   // Avatar ve konum seçimleri render dışında, veri geldiğinde yapılır
   const decorate = useCallback(
-    (c) => ({ ...c, fallbackAvatar: c.avatar ? null : pickFallback.current(), layout: scatter.current() }),
+    (c) => ({ ...c, fallbackAvatar: c.avatar ? null : pickFallback.current(c.id ?? `${c.name}|${c.message}`), layout: scatter.current() }),
     [],
   );
 
