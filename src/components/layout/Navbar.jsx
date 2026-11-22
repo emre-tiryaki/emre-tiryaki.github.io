@@ -15,8 +15,8 @@ const NAV_ITEMS = [
   { path: '/education',      key: 'education'      },
   { path: '/experience',    key: 'experience'    },
   { path: '/projects',      key: 'projects'      },
-  { path: '/certifications', key: 'certifications' },
   ...(siteConfig.showGuestbook ? [{ path: '/guestbook', key: 'guestbook' }] : []),
+  { path: '/certifications', key: 'certifications' },
 ];
 
 const LOGO_STYLE = {
