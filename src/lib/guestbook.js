@@ -178,3 +178,34 @@ export function createFallbackPicker() {
     return deck.pop();
   };
 }
+
+/**
+ * Yorumları butonun etrafına rastgele ama dengeli dağıtır: altın açı spirali üzerindeki sabit
+ * yuvalar karıştırılıp sırayla verilir. Dönen değerler stage'e göre yüzde (x, y), derece (rotate),
+ * katman sırası (z) ve giriş gecikmesidir. Seçim sayfa açılışında yapılır, kaydedilmez.
+ */
+const SLOTS = 24;
+export function createScatter() {
+  let order = [];
+  let n = 0;
+  return () => {
+    if (order.length === 0) {
+      order = Array.from({ length: SLOTS }, (_, i) => i);
+      for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+      }
+    }
+    const k = order.pop();
+    const radius = 0.5 + 0.5 * Math.sqrt((k + 0.5) / SLOTS); // 0.5 (merkeze yakın) .. 1 (kenar)
+    const angle = k * 2.39996 + (Math.random() - 0.5) * 0.5;
+    const jitter = () => (Math.random() - 0.5) * 6;
+    return {
+      x: `${50 + radius * 46 * Math.cos(angle) + jitter()}%`,
+      y: `${50 + radius * 44 * Math.sin(angle) + jitter()}%`,
+      rotate: Math.round((Math.random() - 0.5) * 14),
+      z: 1 + Math.floor(Math.random() * 40),
+      delay: Math.min(n++, 24) * 45,
+    };
+  };
+}

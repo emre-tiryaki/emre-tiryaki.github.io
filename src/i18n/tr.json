@@ -160,8 +160,9 @@
   "guestbook": {
     "title": "Ziyaretçi Defteri",
     "subtitle": "Bir not bırak, selam ver.",
+    "open": "Yorum bırak",
+    "detailTitle": "Yorum",
     "commentsTitle": "Yorumlar",
-    "pendingList": "Onay bekleyen yorumların",
     "pending": "Onay bekliyor",
     "loading": "Yorumlar yükleniyor",
     "loadError": "Yorumlar yüklenemedi.",

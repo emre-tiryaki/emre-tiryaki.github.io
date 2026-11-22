@@ -85,7 +85,6 @@ export default function CommentForm({ onSubmitted }) {
       const mine = await submitComment({ ...values, avatar });
       setValues(EMPTY);
       setAvatar(null);
-      setFeedback({ type: 'success', text: t('guestbook.success') });
       onSubmitted(mine);
     } catch {
       setFeedback({ type: 'error', text: t('guestbook.errors.submit') });
@@ -98,21 +97,8 @@ export default function CommentForm({ onSubmitted }) {
     <form
       onSubmit={handleSubmit}
       noValidate
-      aria-labelledby="guestbook-form-title"
-      style={{
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '0.9rem',
-        padding: '1.25rem',
-        borderRadius: '1rem',
-        background: THEME_COLORS.card.bg,
-        border: `1px solid ${THEME_COLORS.card.border}`,
-      }}
+      style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}
     >
-      <h2 id="guestbook-form-title" style={{ margin: 0, fontSize: '1.1rem', color: text.primary }}>
-        {t('guestbook.form.title')}
-      </h2>
 
       <FormField
         ref={nameRef}

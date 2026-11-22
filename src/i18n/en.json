@@ -160,8 +160,9 @@
   "guestbook": {
     "title": "Guestbook",
     "subtitle": "Leave a note and say hi.",
+    "open": "Leave a comment",
+    "detailTitle": "Comment",
     "commentsTitle": "Comments",
-    "pendingList": "Your comments awaiting approval",
     "pending": "Awaiting approval",
     "loading": "Loading comments",
     "loadError": "Comments could not be loaded.",
