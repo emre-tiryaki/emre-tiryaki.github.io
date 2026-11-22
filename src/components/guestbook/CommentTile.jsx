@@ -28,18 +28,19 @@ export default function CommentTile({ comment, pending, extra, onOpen }) {
         '--d': `${layout.delay}ms`,
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.4rem',
-        padding: '0.65rem 0.75rem',
+        gap: '0.5em',
+        padding: '0.8em 0.95em',
+        fontSize: 'calc(1rem * var(--gb-k, 1))',
         textAlign: 'left',
         cursor: 'pointer',
-        borderRadius: '0.9rem',
+        borderRadius: '1.1em',
         background: 'rgba(18, 18, 18, 0.92)',
         border: `1px solid ${pending ? accent.borderSubtle : surface.white12}`,
         boxShadow: THEME_COLORS.card.shadow,
         font: 'inherit',
       }}
     >
-      <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0 }}>
+      <span style={{ display: 'flex', alignItems: 'center', gap: '0.6em', minWidth: 0 }}>
         {src ? (
           <img
             src={src}
@@ -48,14 +49,14 @@ export default function CommentTile({ comment, pending, extra, onOpen }) {
             height={28}
             loading="lazy"
             decoding="async"
-            style={{ width: '1.75rem', height: '1.75rem', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+            style={{ width: '2.4em', height: '2.4em', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
           />
         ) : (
           <span
             aria-hidden="true"
             style={{
-              width: '1.75rem',
-              height: '1.75rem',
+              width: '2.4em',
+              height: '2.4em',
               borderRadius: '50%',
               flexShrink: 0,
               display: 'flex',
@@ -63,7 +64,7 @@ export default function CommentTile({ comment, pending, extra, onOpen }) {
               justifyContent: 'center',
               background: accent.a15,
               color: accent.light,
-              fontSize: '0.75rem',
+              fontSize: '1em',
               fontWeight: 700,
             }}
           >
@@ -73,7 +74,7 @@ export default function CommentTile({ comment, pending, extra, onOpen }) {
         <strong
           style={{
             color: text.primary,
-            fontSize: '0.8rem',
+            fontSize: '0.95em',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -82,16 +83,16 @@ export default function CommentTile({ comment, pending, extra, onOpen }) {
         >
           {comment.name}
         </strong>
-        {pending && <FiClock aria-hidden="true" size={12} color={status.warningSoft} style={{ flexShrink: 0 }} />}
+        {pending && <FiClock aria-hidden="true" size={14} color={status.warningSoft} style={{ flexShrink: 0 }} />}
       </span>
       <span
         style={{
           color: text.secondary,
-          fontSize: '0.75rem',
+          fontSize: '0.88em',
           lineHeight: 1.45,
           overflow: 'hidden',
           display: '-webkit-box',
-          WebkitLineClamp: 3,
+          WebkitLineClamp: 4,
           WebkitBoxOrient: 'vertical',
           overflowWrap: 'anywhere',
         }}

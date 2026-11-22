@@ -520,8 +520,9 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 
 /* ── Ziyaretçi defteri: butonun etrafına dağılmış yorum kartları ── */
 .gb-stage {
-  --gb-cw: min(11rem, 42vw); /* kart genişliği */
-  --gb-ch: 6.5rem; /* kart yüksekliği (yaklaşık) */
+  /* --gb-k: kart sayısına göre CommentOrbit'in verdiği ölçek (0.6–1) */
+  --gb-cw: min(calc(16rem * var(--gb-k, 1)), 46vw); /* kart genişliği (azami 16rem) */
+  --gb-ch: calc(9rem * var(--gb-k, 1)); /* kart yüksekliği (yaklaşık) */
 }
 .gb-tile {
   position: absolute;

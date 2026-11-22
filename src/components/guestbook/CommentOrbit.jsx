@@ -6,6 +6,8 @@ import CommentTile from './CommentTile';
 
 const { text, status } = THEME_COLORS;
 const MOBILE_VISIBLE = 10; // dar ekranda fazlası gizlenir (üst üste binmesin)
+const FULL_SIZE_COUNT = 8; // bu sayıya kadar kartlar azami boyutta
+const MIN_SCALE = 0.6; // çok kalabalıkta kartların inebileceği en küçük oran
 
 /**
  * Sayfanın tamamını kaplayan, kaydırılmayan sahne: ortada "yorum bırak" butonu,
@@ -14,13 +16,15 @@ const MOBILE_VISIBLE = 10; // dar ekranda fazlası gizlenir (üst üste binmesin
 export default function CommentOrbit({ pending, comments, loading, error, onRetry, onCompose, onOpen }) {
   const { t } = useTranslation();
   const all = [...pending.map((c) => ({ c, isPending: true })), ...comments.map((c) => ({ c, isPending: false }))];
+  // Kart sayısı arttıkça kartlar küçülür (alan ~ 1/n → ölçek ~ 1/√n)
+  const scale = Math.max(MIN_SCALE, Math.min(1, Math.sqrt(FULL_SIZE_COUNT / Math.max(all.length, 1))));
   const showEmpty = !loading && !error && all.length === 0;
 
   return (
     <section
       aria-label={t('guestbook.commentsTitle')}
       className="gb-stage"
-      style={{ position: 'relative', flex: 1, minHeight: 0, overflow: 'hidden' }}
+      style={{ position: 'relative', flex: 1, minHeight: 0, overflow: 'hidden', '--gb-k': scale }}
     >
       {!loading && !error &&
         all.map(({ c, isPending }, i) => (
