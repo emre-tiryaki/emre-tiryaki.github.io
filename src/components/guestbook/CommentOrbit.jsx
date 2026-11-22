@@ -64,19 +64,18 @@ export default function CommentOrbit({ pending, comments, loading, error, onRetr
       <div className="gb-center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
         <Button
           variant="primary"
+          size="lg"
           onClick={onCompose}
           style={{
-            width: '7.5rem',
-            height: '7.5rem',
-            borderRadius: '50%',
-            flexDirection: 'column',
-            gap: '0.35rem',
-            textAlign: 'center',
-            lineHeight: 1.2,
-            boxShadow: `0 0 40px ${THEME_COLORS.accent.glowStrong}`,
+            gap: '0.6rem',
+            padding: '0.85rem 2rem',
+            borderRadius: '0.9rem',
+            fontWeight: 600,
+            letterSpacing: '0.01em',
+            boxShadow: `0 8px 30px ${THEME_COLORS.accent.glowStrong}`,
           }}
         >
-          <FiMessageSquare aria-hidden="true" size={24} />
+          <FiMessageSquare aria-hidden="true" size={20} />
           {t('guestbook.open')}
         </Button>
 
