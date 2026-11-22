@@ -21,6 +21,7 @@ import {
   PROJECT_PREVIEW_IMAGES,
   EXPERIENCE_IMAGES,
   AGENT_ICONS,
+  COMMENT_FALLBACK_AVATARS,
   AUTHORITY_LOGOS,
   EDUCATION_LOGOS,
   CATEGORY_ICONS,
@@ -42,6 +43,7 @@ const ROUTE_GROUPS = {
   '/certifications': ['certifications'],
   '/projects': ['projects'],
   '/experience': ['experience', 'projects'],
+  '/guestbook': ['guestbook'],
 };
 
 const queue = []; // { key, run, priority, group }
@@ -155,7 +157,10 @@ function buildQueue() {
   Object.values(EDUCATION_LOGOS).forEach((u) => addImage(u, 44, 'education'));
   Object.values(AUTHORITY_LOGOS).forEach((u) => addImage(u, 44, 'certifications'));
 
-  /* 5) Projeler / Deneyim galerileri — en ağır olanlar en sona */
+  /* 5) Ziyaretçi defteri yedek avatarları (düşük öncelik) */
+  COMMENT_FALLBACK_AVATARS.forEach((u) => addImage(u, 15, 'guestbook'));
+
+  /* 6) Projeler / Deneyim galerileri — en ağır olanlar en sona */
   // Sadece kapak görselleri; kalan galeri görselleri sayfada loading="lazy" ile yüklenir
   enqueueGallery(PROJECT_PREVIEW_IMAGES, 'projects', 40, 20, true);
   enqueueGallery(EXPERIENCE_IMAGES, 'experience', 30, 10, true);
