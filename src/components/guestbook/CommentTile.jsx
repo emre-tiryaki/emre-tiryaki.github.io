@@ -9,7 +9,7 @@ const { accent, text, status, surface } = THEME_COLORS;
  * Butonun etrafındaki küçük yorum kartı. Konum/dönüş/katman `comment.layout`'tan gelir
  * (CSS değişkenleri; stiller src/index.css `.gb-tile`). Tıklayınca tam yorum açılır.
  */
-export default function CommentTile({ comment, pending, extra, onOpen }) {
+export default function CommentTile({ comment, pending, extra, place, onOpen }) {
   const { t } = useTranslation();
   const { layout } = comment;
   const src = isSafeAvatar(comment.avatar) ? comment.avatar : comment.fallbackAvatar;
@@ -21,8 +21,8 @@ export default function CommentTile({ comment, pending, extra, onOpen }) {
       className={`gb-tile${extra ? ' gb-tile--extra' : ''}`}
       aria-label={`${comment.name}${pending ? `, ${t('guestbook.pending')}` : ''}`}
       style={{
-        '--x': layout.x,
-        '--y': layout.y,
+        '--x': place ? `${place.x}px` : layout.x,
+        '--y': place ? `${place.y}px` : layout.y,
         '--r': `${layout.rotate}deg`,
         '--z': layout.z,
         '--d': `${layout.delay}ms`,

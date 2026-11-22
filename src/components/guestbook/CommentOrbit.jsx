@@ -1,13 +1,13 @@
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { FiAlertTriangle, FiMessageSquare } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 import Button from '../ui/Button';
 import CommentTile from './CommentTile';
+import { packTiles } from '../../lib/guestbookLayout';
 
 const { text, status } = THEME_COLORS;
 const MOBILE_VISIBLE = 10; // dar ekranda fazlası gizlenir (üst üste binmesin)
-const FULL_SIZE_COUNT = 8; // bu sayıya kadar kartlar azami boyutta
-const MIN_SCALE = 0.6; // çok kalabalıkta kartların inebileceği en küçük oran
 
 /**
  * Sayfanın tamamını kaplayan, kaydırılmayan sahne: ortada "yorum bırak" butonu,
@@ -16,19 +16,49 @@ const MIN_SCALE = 0.6; // çok kalabalıkta kartların inebileceği en küçük 
 export default function CommentOrbit({ pending, comments, loading, error, onRetry, onCompose, onOpen }) {
   const { t } = useTranslation();
   const all = [...pending.map((c) => ({ c, isPending: true })), ...comments.map((c) => ({ c, isPending: false }))];
-  // Kart sayısı arttıkça kartlar küçülür (alan ~ 1/n → ölçek ~ 1/√n)
-  const scale = Math.max(MIN_SCALE, Math.min(1, Math.sqrt(FULL_SIZE_COUNT / Math.max(all.length, 1))));
+  const stageRef = useRef(null);
+  const [size, setSize] = useState({ w: 0, h: 0 });
+
+  useLayoutEffect(() => {
+    const el = stageRef.current;
+    if (!el) return undefined;
+    const measure = () => setSize({ w: el.clientWidth, h: el.clientHeight });
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Kartlar çakışmayacak şekilde yerleştirilir; sığmazsa ölçek küçülür. Dar ekranda gizlenenler hesaba girmez.
+  const narrow = size.w <= 640;
+  const { scale, positions } = useMemo(() => {
+    if (!size.w || !size.h) return { scale: 1, positions: [] };
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const visible = narrow ? Math.min(all.length, MOBILE_VISIBLE) : all.length;
+    const seeds = all.map(({ c }) => c.layout.seed);
+    const packed = packTiles(seeds.slice(0, visible), size.w, size.h, rem);
+    return { scale: packed.scale, positions: packed.positions };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [size.w, size.h, narrow, pending, comments]);
   const showEmpty = !loading && !error && all.length === 0;
 
   return (
     <section
       aria-label={t('guestbook.commentsTitle')}
       className="gb-stage"
+      ref={stageRef}
       style={{ position: 'relative', flex: 1, minHeight: 0, overflow: 'hidden', '--gb-k': scale }}
     >
       {!loading && !error &&
         all.map(({ c, isPending }, i) => (
-          <CommentTile key={c.id} comment={c} pending={isPending} extra={i >= MOBILE_VISIBLE} onOpen={onOpen} />
+          <CommentTile
+            key={c.id}
+            comment={c}
+            pending={isPending}
+            extra={i >= MOBILE_VISIBLE}
+            place={positions[i]}
+            onOpen={onOpen}
+          />
         ))}
 
       <div className="gb-center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>

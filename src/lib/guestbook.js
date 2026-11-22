@@ -206,6 +206,7 @@ export function createScatter() {
       rotate: Math.round((Math.random() - 0.5) * 14),
       z: 1 + Math.floor(Math.random() * 40),
       delay: Math.min(n++, 24) * 45,
+      seed: Math.floor(Math.random() * 2 ** 31),
     };
   };
 }
