@@ -1,5 +1,6 @@
 import { FaGithub, FaInstagram, FaLinkedin, FaXTwitter, FaYoutube } from 'react-icons/fa6';
 import teamData from '../data/team.json';
+import experienceData from '../data/experience.json';
 import { FiGlobe, FiLink } from 'react-icons/fi';
 
 export const MAX_LINKS = 4;
@@ -65,4 +66,12 @@ export function teamLinks(id) {
   const m = id && teamData[id];
   if (!m) return {};
   return sanitizeLinks({ github: m.github, linkedin: m.linkedin, website: m.portfolio });
+}
+
+/** Takım üyesinin yer aldığı deneyimler: [{ id, company }]. */
+export function teamExperiences(id) {
+  if (!id || !teamData[id]) return [];
+  return experienceData
+    .filter((e) => Array.isArray(e.team) && e.team.includes(id))
+    .map((e) => ({ id: e.id, company: e.company }));
 }

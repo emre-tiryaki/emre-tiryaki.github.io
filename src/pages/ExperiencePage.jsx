@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import PageLayout from '../components/layout/PageLayout';
 import ExperienceCard from '../components/experience/ExperienceCard';
 import ExperienceDetailView from '../components/experience/ExperienceDetailView';
@@ -43,7 +44,8 @@ export default function ExperiencePage() {
   const isCompact = useMediaQuery(MEDIA.COMPACT);
   const isPhone = useMediaQuery(MEDIA.PHONE);
   const [activeType, setActiveType] = useState('all');
-  const [selectedId, setSelectedId] = useState(null);
+  const [searchParams] = useSearchParams();
+  const [selectedId, setSelectedId] = useState(() => searchParams.get('exp'));
 
   const [timelineRef, timelineMaskStyle] = useScrollMask('vertical', 24);
   const [detailRef, detailMaskStyle] = useScrollMask('vertical', 28);
