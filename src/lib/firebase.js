@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 // Yapılandırma build-time env'den gelir. Eksikse db = null olur ve sayfa formu gizler.
@@ -13,4 +14,7 @@ const config = {
 
 const isConfigured = Boolean(config.apiKey && config.projectId && config.appId);
 
-export const db = isConfigured ? getFirestore(initializeApp(config)) : null;
+const app = isConfigured ? initializeApp(config) : null;
+
+export const db = app ? getFirestore(app) : null;
+export const auth = app ? getAuth(app) : null;
