@@ -13,7 +13,7 @@ const { accent, surface, text, status } = THEME_COLORS;
  * `comment.fallbackAvatar` fotoğrafı olmayan yorumlar için sayfa açılışında seçilir.
  */
 export default function CommentCard({ comment, pending = false, large = false }) {
-  const avatar = large ? 112 : 44;
+  const avatar = large ? 96 : 44;
   const { t, lang } = useTranslation();
   const src = isSafeAvatar(comment.avatar) ? comment.avatar : comment.fallbackAvatar;
   const date = comment.createdAt
@@ -34,14 +34,15 @@ export default function CommentCard({ comment, pending = false, large = false })
     <article
       style={{
         display: 'flex',
-        flexWrap: large ? 'wrap' : undefined,
-        gap: large ? '1.5rem' : '0.9rem',
-        padding: large ? '2rem' : '1rem 1.1rem',
+        flexDirection: large ? 'column' : 'row',
+        gap: large ? '1.25rem' : '0.9rem',
+        padding: large ? '1.75rem' : '1rem 1.1rem',
         borderRadius: '1rem',
         background: THEME_COLORS.card.bg,
         border: `1px solid ${pending ? accent.borderSubtle : THEME_COLORS.card.border}`,
       }}
     >
+      <div style={{ display: 'flex', gap: large ? '1.25rem' : '0.9rem', minWidth: 0, flex: 1 }}>
       {src ? (
         <img
           src={src}
@@ -80,7 +81,7 @@ export default function CommentCard({ comment, pending = false, large = false })
         </span>
       )}
 
-      <div style={{ minWidth: 0, flex: large ? '2 1 20rem' : 1 }}>
+      <div style={{ minWidth: 0, flex: 1 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.25rem 0.6rem' }}>
           <strong style={{ color: text.primary, fontSize: large ? '1.25rem' : '0.95rem', overflowWrap: 'anywhere' }}>
             {comment.name}
@@ -124,12 +125,11 @@ export default function CommentCard({ comment, pending = false, large = false })
           <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
         )}
       </div>
+      </div>
       {large && hasLinks && (
-        <aside
-          style={{ flex: '1 1 15rem', maxWidth: '100%', minWidth: 0, alignSelf: 'flex-start' }}
-        >
-          <CommentLinks column links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
-        </aside>
+        <footer style={{ paddingTop: '1.25rem', borderTop: `1px solid ${surface.white10}` }}>
+          <CommentLinks panel links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
+        </footer>
       )}
     </article>
   );
