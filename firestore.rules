@@ -8,6 +8,24 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
+    // Link değeri: https://, ≤ 200 karakter, boşluksuz (istemcide src/lib/guestbookLinks.js ile aynı kural).
+    function validUrl(v) {
+      return v is string && v.size() <= 200 && v.matches('^https://[^\\s]+$');
+    }
+
+    function validLinks(l) {
+      return l is map
+        && l.keys().hasOnly(['github', 'linkedin', 'website', 'x', 'instagram', 'youtube', 'other'])
+        && l.keys().size() <= 4
+        && (!('github' in l) || (validUrl(l.github) && l.github.matches('^https://(www\\.)?github\\.com/.*')))
+        && (!('linkedin' in l) || (validUrl(l.linkedin) && l.linkedin.matches('^https://([a-z]+\\.)?linkedin\\.com/.*')))
+        && (!('website' in l) || validUrl(l.website))
+        && (!('x' in l) || validUrl(l.x))
+        && (!('instagram' in l) || validUrl(l.instagram))
+        && (!('youtube' in l) || validUrl(l.youtube))
+        && (!('other' in l) || validUrl(l.other));
+    }
+
     match /admins/{uid} {
       allow read, write: if false;
     }
@@ -16,7 +34,7 @@ service cloud.firestore {
     match /guestbook/{id} {
       allow read: if resource.data.approved == true || isAdmin();
 
-      allow create: if request.resource.data.keys().hasOnly(['name', 'message', 'avatar', 'approved', 'createdAt'])
+      allow create: if request.resource.data.keys().hasOnly(['name', 'message', 'avatar', 'links', 'publicEmail', 'approved', 'createdAt'])
         && request.resource.data.keys().hasAll(['name', 'message', 'approved', 'createdAt'])
         && request.resource.data.name is string
         && request.resource.data.name.size() >= 1
@@ -29,12 +47,19 @@ service cloud.firestore {
         && (!('avatar' in request.resource.data)
             || (request.resource.data.avatar is string
                 && request.resource.data.avatar.size() < 30000
-                && request.resource.data.avatar.matches('^data:image/webp;base64,[A-Za-z0-9+/=]+$')));
+                && request.resource.data.avatar.matches('^data:image/webp;base64,[A-Za-z0-9+/=]+$')))
+        && (!('links' in request.resource.data) || validLinks(request.resource.data.links))
+        && (!('publicEmail' in request.resource.data)
+            || (request.resource.data.publicEmail is string
+                && request.resource.data.publicEmail.size() <= 120
+                && request.resource.data.publicEmail.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')));
 
-      // Admin sadece approved alanını değiştirebilir ve yorumu silebilir.
+      // Admin sadece approved ve teamMemberId (rozet) alanlarını değiştirebilir, yorumu silebilir.
       allow update: if isAdmin()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['approved'])
-        && request.resource.data.approved is bool;
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['approved', 'teamMemberId'])
+        && request.resource.data.approved is bool
+        && (!('teamMemberId' in request.resource.data)
+            || (request.resource.data.teamMemberId is string && request.resource.data.teamMemberId.size() <= 40));
       allow delete: if isAdmin();
     }
 
