@@ -2,9 +2,19 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Sahibi: admins/{uid} belgesi Console'dan elle oluşturulur; istemciden okunamaz/yazılamaz.
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    match /admins/{uid} {
+      allow read, write: if false;
+    }
+
     // Ziyaretçi defteri: sadece sahibi tarafından onaylanmış (approved == true) yorumlar okunur.
     match /guestbook/{id} {
-      allow read: if resource.data.approved == true;
+      allow read: if resource.data.approved == true || isAdmin();
 
       allow create: if request.resource.data.keys().hasOnly(['name', 'message', 'avatar', 'approved', 'createdAt'])
         && request.resource.data.keys().hasAll(['name', 'message', 'approved', 'createdAt'])
@@ -21,7 +31,11 @@ service cloud.firestore {
                 && request.resource.data.avatar.size() < 30000
                 && request.resource.data.avatar.matches('^data:image/webp;base64,[A-Za-z0-9+/=]+$')));
 
-      allow update, delete: if false;
+      // Admin sadece approved alanını değiştirebilir ve yorumu silebilir.
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['approved'])
+        && request.resource.data.approved is bool;
+      allow delete: if isAdmin();
     }
 
     // E-posta ayrı koleksiyonda: herkes yazabilir, kimse okuyamaz (sahibi Console'dan görür).
@@ -33,7 +47,8 @@ service cloud.firestore {
         && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
         && existsAfter(/databases/$(database)/documents/guestbook/$(id));
 
-      allow read, update, delete: if false;
+      allow read, delete: if isAdmin();
+      allow update: if false;
     }
   }
 }
