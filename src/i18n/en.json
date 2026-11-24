@@ -200,7 +200,11 @@
       "photoPreview": "Selected photo preview",
       "photoHelp": "Leave it on random and a daily avatar is picked. Or upload your own photo and crop it into a circle.",
       "submit": "Send",
-      "submitting": "Sending..."
+      "submitting": "Sending...",
+      "showEmail": "Show my email publicly on the comment",
+      "showEmailWarn": "It becomes public; you may get spam.",
+      "links": "Add links (optional)",
+      "linksHelp": "Up to {max} links. Only https:// URLs."
     },
     "errors": {
       "name": "Please enter your name.",
@@ -209,7 +213,21 @@
       "photo": "This image could not be used. Try another one.",
       "cooldown": "Wait {seconds}s before sending another comment.",
       "submit": "Could not send the comment. Try again in a moment."
-    }
+    },
+    "linkTypes": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "website": "Website",
+      "x": "X",
+      "instagram": "Instagram",
+      "youtube": "YouTube",
+      "other": "Other"
+    },
+    "linkErrors": {
+      "invalid": "Enter a valid https:// link.",
+      "tooMany": "You can add up to {max} links."
+    },
+    "teammate": "Teammate"
   },
   "certifications": {
     "title": "Certifications",
@@ -249,6 +267,13 @@
     "cancel": "Cancel",
     "confirmDelete": "Delete",
     "actionError": "Action failed. Try again.",
-    "email": "Email"
+    "email": "Email",
+    "teammate": "Teammate",
+    "teammateNone": "No badge",
+    "teammateSuggest": "May be a teammate: {name}",
+    "teammateBadge": "Badge",
+    "links": "Links",
+    "publicEmail": "Public email",
+    "badgeError": "Could not save badge."
   }
 }

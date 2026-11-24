@@ -12,6 +12,8 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { COMMENT_FALLBACK_AVATARS } from './media';
+import { sanitizeLinks } from './guestbookLinks';
+import teamData from '../data/team.json';
 
 export const GUESTBOOK_LIMITS = { name: 40, message: 500, email: 120 };
 const MY_COMMENTS_KEY = 'guestbook-my-comments';
@@ -27,6 +29,16 @@ export const isGuestbookAvailable = Boolean(db);
 /** Avatar <img src> olarak sadece güvenli WebP data URL kabul edilir (rules ile aynı kural). */
 export const isSafeAvatar = (src) => typeof src === 'string' && src.length < 30000 && AVATAR_RE.test(src);
 export const isValidEmail = (email) => email.length <= GUESTBOOK_LIMITS.email && EMAIL_RE.test(email);
+
+/** Belgeden okunan ortak alanlar: linkler yeniden sanitize edilir, bilinmeyen teamMemberId rozet vermez. */
+export function readExtras(data) {
+  const links = sanitizeLinks(data.links);
+  return {
+    links,
+    publicEmail: typeof data.publicEmail === 'string' && isValidEmail(data.publicEmail) ? data.publicEmail : null,
+    teamMemberId: typeof data.teamMemberId === 'string' && teamData[data.teamMemberId] ? data.teamMemberId : null,
+  };
+}
 
 /** Onaylı yorumlar, yeniden eskiye. */
 export async function fetchApproved(max = 20) {
@@ -46,6 +58,7 @@ export async function fetchApproved(max = 20) {
       message: data.message,
       avatar: isSafeAvatar(data.avatar) ? data.avatar : null,
       createdAt: data.createdAt?.toMillis?.() ?? null,
+      ...readExtras(data),
     };
   });
 }
@@ -102,7 +115,7 @@ export function cooldownRemaining() {
  * Yorumu onaysız (approved:false) olarak yazar. E-posta varsa ayrı gizli koleksiyona,
  * aynı batch'te ve aynı id ile yazılır. Dönen kayıt yerel "onay bekliyor" listesine eklenir.
  */
-export async function submitComment({ name, message, email, avatar }) {
+export async function submitComment({ name, message, email, avatar, links, showEmail }) {
   if (!db) throw new Error('guestbook-unavailable');
   const cleanName = name.trim();
   const cleanMessage = message.trim();
@@ -120,11 +133,23 @@ export async function submitComment({ name, message, email, avatar }) {
     createdAt: serverTimestamp(),
   };
   if (avatar) data.avatar = avatar;
+  const cleanLinks = sanitizeLinks(links);
+  if (Object.keys(cleanLinks).length) data.links = cleanLinks;
+  if (showEmail && cleanEmail) data.publicEmail = cleanEmail;
   batch.set(ref, data);
   if (cleanEmail) batch.set(doc(db, 'guestbookPrivate', ref.id), { email: cleanEmail });
   await batch.commit();
 
-  const mine = { id: ref.id, name: cleanName, message: cleanMessage, avatar: avatar || null, createdAt: Date.now() };
+  const mine = {
+    id: ref.id,
+    name: cleanName,
+    message: cleanMessage,
+    avatar: avatar || null,
+    createdAt: Date.now(),
+    links: cleanLinks,
+    publicEmail: data.publicEmail || null,
+    teamMemberId: null,
+  };
   writeMine([mine, ...readMine()]);
   localStorage.setItem(LAST_SUBMIT_KEY, String(Date.now()));
   return mine;

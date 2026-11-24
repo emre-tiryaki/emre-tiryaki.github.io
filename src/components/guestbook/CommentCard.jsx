@@ -2,6 +2,8 @@ import { FiClock } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 import { isSafeAvatar } from '../../lib/guestbook';
+import CommentLinks from './CommentLinks';
+import TeamBadge from './TeamBadge';
 
 const { accent, surface, text, status } = THEME_COLORS;
 
@@ -75,6 +77,7 @@ export default function CommentCard({ comment, pending = false, large = false })
           <strong style={{ color: text.primary, fontSize: large ? '1.25rem' : '0.95rem', overflowWrap: 'anywhere' }}>
             {comment.name}
           </strong>
+          <TeamBadge id={comment.teamMemberId} />
           {pending ? (
             <span
               style={{
@@ -109,6 +112,7 @@ export default function CommentCard({ comment, pending = false, large = false })
         >
           {comment.message}
         </p>
+        <CommentLinks links={comment.links} publicEmail={comment.publicEmail} />
       </div>
     </article>
   );

@@ -6,9 +6,9 @@ import {
   signInWithEmailAndPassword,
   signOut as fbSignOut,
 } from 'firebase/auth';
-import { collection, deleteDoc, doc, getDoc, getDocs, limit as limitTo, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, deleteField, doc, getDoc, getDocs, limit as limitTo, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { auth, db } from './firebase';
-import { isSafeAvatar } from './guestbook';
+import { isSafeAvatar, readExtras } from './guestbook';
 
 export const isAdminAvailable = Boolean(auth && db);
 
@@ -39,11 +39,17 @@ export async function fetchByStatus(approved, max = 50) {
       message: data.message,
       avatar: isSafeAvatar(data.avatar) ? data.avatar : null,
       createdAt: data.createdAt?.toMillis?.() ?? null,
+      ...readExtras(data),
     };
   });
 }
 
-export const setApproved = (id, approved) => updateDoc(doc(db, 'guestbook', id), { approved });
+/** teamMemberId verilirse (null = rozeti kaldır) aynı updateDoc içinde yazılır. */
+export const setApproved = (id, approved, teamMemberId) =>
+  updateDoc(doc(db, 'guestbook', id), teamMemberId === undefined ? { approved } : { approved, teamMemberId: teamMemberId ?? deleteField() });
+
+export const setTeamMember = (id, teamMemberId) =>
+  updateDoc(doc(db, 'guestbook', id), { teamMemberId: teamMemberId ?? deleteField() });
 
 /** Yorum ve (varsa) e-posta belgesi silinir; e-posta belgesi yoksa deleteDoc sessizce geçer. */
 export async function deleteComment(id) {

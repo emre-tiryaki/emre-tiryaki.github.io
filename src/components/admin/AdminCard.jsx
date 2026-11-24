@@ -5,15 +5,22 @@ import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
 import { isSafeAvatar } from '../../lib/guestbook';
 import { fetchPrivateEmail } from '../../lib/admin';
+import { matchTeamMember } from '../../lib/guestbookLinks';
+import CommentLinks from '../guestbook/CommentLinks';
+import TeamBadge from '../guestbook/TeamBadge';
+import teamData from '../../data/team.json';
 
 const { text, accent, card, surface, status } = THEME_COLORS;
 
 const AVATAR = '2.75rem';
 
 /** Moderasyon kartı: yorum + e-posta + aksiyonlar tek yüzeyde. */
-export default function AdminCard({ comment, approved, busy, onToggle, onDelete }) {
+export default function AdminCard({ comment, approved, busy, onToggle, onDelete, onBadge }) {
   const { t, lang } = useTranslation();
   const [email, setEmail] = useState(null);
+  const suggested = matchTeamMember(comment.links, teamData);
+  // Bekleyende yorumda seçim onayla birlikte yazılır; onaylıda dropdown anında kaydeder.
+  const [badge, setBadge] = useState(comment.teamMemberId || '');
 
   useEffect(() => {
     let alive = true;
@@ -79,6 +86,7 @@ export default function AdminCard({ comment, approved, busy, onToggle, onDelete 
         <div style={{ minWidth: 0, flex: 1 }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '0.15rem 0.7rem' }}>
             <strong style={{ color: text.primary, fontSize: '0.95rem', overflowWrap: 'anywhere' }}>{comment.name}</strong>
+            <TeamBadge id={comment.teamMemberId} small />
             {date && (
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: text.muted, fontSize: '0.75rem' }}>
                 <FiClock aria-hidden="true" size={11} />
@@ -98,6 +106,7 @@ export default function AdminCard({ comment, approved, busy, onToggle, onDelete 
           >
             {comment.message}
           </p>
+          <CommentLinks links={comment.links} publicEmail={comment.publicEmail} size={14} />
         </div>
       </div>
 
@@ -124,6 +133,15 @@ export default function AdminCard({ comment, approved, busy, onToggle, onDelete 
             overflowWrap: 'anywhere',
           }}
         >
+          {suggested && suggested !== badge && (
+            <button
+              type="button"
+              onClick={() => { setBadge(suggested); if (approved) onBadge(suggested); }}
+              style={{ background: 'none', border: 0, padding: 0, color: accent.light, font: 'inherit', cursor: 'pointer', textAlign: 'left' }}
+            >
+              {t('admin.teammateSuggest', { name: teamData[suggested].name })}
+            </button>
+          )}
           {email && (
             <>
               <FiMail aria-hidden="true" size={13} style={{ flexShrink: 0 }} />
@@ -132,7 +150,24 @@ export default function AdminCard({ comment, approved, busy, onToggle, onDelete 
             </>
           )}
         </span>
-        <Button size="sm" variant={approved ? 'secondary' : 'success'} disabled={busy} onClick={onToggle}>
+        <label style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.78rem', color: text.muted }}>
+          <span className="sr-only">{t('admin.teammateBadge')}</span>
+          <select
+            value={badge}
+            disabled={busy}
+            onChange={(e) => {
+              setBadge(e.target.value);
+              if (approved) onBadge(e.target.value || null);
+            }}
+            style={{ background: surface.input, color: text.primary, border: `1px solid ${surface.white08}`, borderRadius: '0.5rem', padding: '0.25rem 0.4rem', fontSize: '0.78rem', maxWidth: '12rem' }}
+          >
+            <option value="">{t('admin.teammateNone')}</option>
+            {Object.entries(teamData).map(([id, m]) => (
+              <option key={id} value={id}>{m.name}{id === suggested ? ' ★' : ''}</option>
+            ))}
+          </select>
+        </label>
+        <Button size="sm" variant={approved ? 'secondary' : 'success'} disabled={busy} onClick={() => onToggle(badge || null)}>
           {approved ? <FiRotateCcw aria-hidden="true" size={13} /> : <FiCheck aria-hidden="true" size={13} />}
           {approved ? t('admin.unapprove') : t('admin.approve')}
         </Button>

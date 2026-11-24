@@ -200,7 +200,11 @@
       "photoPreview": "Seçilen fotoğraf önizlemesi",
       "photoHelp": "Rastgele bırakırsan günlük bir avatar atanır. Kendi fotoğrafını yükleyip yuvarlak kırpabilirsin.",
       "submit": "Gönder",
-      "submitting": "Gönderiliyor..."
+      "submitting": "Gönderiliyor...",
+      "showEmail": "E-postam yorumda herkese görünsün",
+      "showEmailWarn": "Herkese açık olur; spam alabilirsin.",
+      "links": "Bağlantı ekle (opsiyonel)",
+      "linksHelp": "En fazla {max} bağlantı. Yalnızca https:// ile başlayanlar."
     },
     "errors": {
       "name": "Lütfen adını yaz.",
@@ -209,7 +213,21 @@
       "photo": "Bu resim kullanılamadı. Başka bir resim dene.",
       "cooldown": "Yeni bir yorum için {seconds} sn bekle.",
       "submit": "Yorum gönderilemedi. Biraz sonra tekrar dene."
-    }
+    },
+    "linkTypes": {
+      "github": "GitHub",
+      "linkedin": "LinkedIn",
+      "website": "Website",
+      "x": "X",
+      "instagram": "Instagram",
+      "youtube": "YouTube",
+      "other": "Diğer"
+    },
+    "linkErrors": {
+      "invalid": "Geçerli bir https:// bağlantısı yaz.",
+      "tooMany": "En fazla {max} bağlantı ekleyebilirsin."
+    },
+    "teammate": "Takım arkadaşı"
   },
   "certifications": {
     "title": "Sertifikalar",
@@ -249,6 +267,13 @@
     "cancel": "Vazgeç",
     "confirmDelete": "Sil",
     "actionError": "İşlem başarısız. Tekrar dene.",
-    "email": "E-posta"
+    "email": "E-posta",
+    "teammate": "Takım arkadaşı",
+    "teammateNone": "Rozet yok",
+    "teammateSuggest": "Takım arkadaşı olabilir: {name}",
+    "teammateBadge": "Rozet",
+    "links": "Bağlantılar",
+    "publicEmail": "Herkese açık e-posta",
+    "badgeError": "Rozet kaydedilemedi."
   }
 }

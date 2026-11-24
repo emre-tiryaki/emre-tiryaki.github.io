@@ -5,7 +5,7 @@ import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import { useTranslation } from '../../hooks/translation';
 import { THEME_COLORS } from '../../theme';
-import { deleteComment, fetchByStatus, setApproved, signOut } from '../../lib/admin';
+import { deleteComment, fetchByStatus, setApproved, setTeamMember, signOut } from '../../lib/admin';
 
 const { text, card, status, surface } = THEME_COLORS;
 
@@ -139,7 +139,17 @@ export default function Dashboard() {
                 comment={c}
                 approved={approved}
                 busy={busyId === c.id}
-                onToggle={() => run(c, () => setApproved(c.id, !approved))}
+                onToggle={(badge) => run(c, () => setApproved(c.id, !approved, approved ? undefined : badge))}
+                onBadge={async (badge) => {
+                  setActionError(false);
+                  try {
+                    await setTeamMember(c.id, badge);
+                    setItems((list) => list.map((x) => (x.id === c.id ? { ...x, teamMemberId: badge } : x)));
+                  } catch (err) {
+                    console.error('admin badge failed:', err?.code || err);
+                    setActionError(true);
+                  }
+                }}
                 onDelete={() => setToDelete(c)}
               />
             </li>

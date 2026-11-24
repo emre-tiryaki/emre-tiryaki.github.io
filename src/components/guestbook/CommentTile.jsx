@@ -3,6 +3,7 @@ import { FiClock } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 import { isSafeAvatar } from '../../lib/guestbook';
+import TeamBadge from './TeamBadge';
 
 const { accent, text, status, surface } = THEME_COLORS;
 
@@ -139,6 +140,7 @@ export default function CommentTile({ comment, pending, extra, place, dragging, 
         >
           {comment.name}
         </strong>
+        <TeamBadge id={comment.teamMemberId} small />
         {pending && <FiClock aria-hidden="true" size={14} color={status.warningSoft} style={{ flexShrink: 0 }} />}
       </span>
       <span
