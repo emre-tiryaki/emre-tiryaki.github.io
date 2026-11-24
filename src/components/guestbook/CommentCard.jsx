@@ -2,6 +2,7 @@ import { FiClock } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 import { isSafeAvatar } from '../../lib/guestbook';
+import { teamExperiences, teamLinks } from '../../lib/guestbookLinks';
 import CommentLinks from './CommentLinks';
 import TeamBadge from './TeamBadge';
 
@@ -12,7 +13,7 @@ const { accent, surface, text, status } = THEME_COLORS;
  * `comment.fallbackAvatar` fotoğrafı olmayan yorumlar için sayfa açılışında seçilir.
  */
 export default function CommentCard({ comment, pending = false, large = false }) {
-  const avatar = large ? 64 : 44;
+  const avatar = large ? 112 : 44;
   const { t, lang } = useTranslation();
   const src = isSafeAvatar(comment.avatar) ? comment.avatar : comment.fallbackAvatar;
   const date = comment.createdAt
@@ -23,12 +24,19 @@ export default function CommentCard({ comment, pending = false, large = false })
       })
     : null;
 
+  const hasLinks =
+    Object.keys(comment.links || {}).length > 0 ||
+    !!comment.publicEmail ||
+    Object.keys(teamLinks(comment.teamMemberId)).length > 0 ||
+    teamExperiences(comment.teamMemberId).length > 0;
+
   return (
     <article
       style={{
         display: 'flex',
-        gap: large ? '1.25rem' : '0.9rem',
-        padding: large ? '1.75rem 1.75rem 1.75rem 1.5rem' : '1rem 1.1rem',
+        flexWrap: large ? 'wrap' : undefined,
+        gap: large ? '1.5rem' : '0.9rem',
+        padding: large ? '2rem' : '1rem 1.1rem',
         borderRadius: '1rem',
         background: THEME_COLORS.card.bg,
         border: `1px solid ${pending ? accent.borderSubtle : THEME_COLORS.card.border}`,
@@ -72,7 +80,7 @@ export default function CommentCard({ comment, pending = false, large = false })
         </span>
       )}
 
-      <div style={{ minWidth: 0, flex: 1 }}>
+      <div style={{ minWidth: 0, flex: large ? '2 1 20rem' : 1 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.25rem 0.6rem' }}>
           <strong style={{ color: text.primary, fontSize: large ? '1.25rem' : '0.95rem', overflowWrap: 'anywhere' }}>
             {comment.name}
@@ -112,8 +120,21 @@ export default function CommentCard({ comment, pending = false, large = false })
         >
           {comment.message}
         </p>
-        <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
+        {!large && (
+          <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
+        )}
       </div>
+      {large && hasLinks && (
+        <aside
+          aria-label={t('guestbook.linksTitle')}
+          style={{ flex: '1 1 15rem', maxWidth: '100%', minWidth: 0, alignSelf: 'flex-start' }}
+        >
+          <h3 style={{ margin: '0 0 0.6rem', fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: text.muted }}>
+            {t('guestbook.linksTitle')}
+          </h3>
+          <CommentLinks column links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
+        </aside>
+      )}
     </article>
   );
 }
