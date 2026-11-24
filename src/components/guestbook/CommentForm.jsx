@@ -93,7 +93,8 @@ export default function CommentForm({ onSubmitted }) {
       setValues(EMPTY);
       setAvatar(null);
       onSubmitted(mine);
-    } catch {
+    } catch (err) {
+      console.error('guestbook submit failed:', err?.code || err);
       setFeedback({ type: 'error', text: t('guestbook.errors.submit') });
     } finally {
       setBusy(false);
