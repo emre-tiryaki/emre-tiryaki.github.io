@@ -67,36 +67,56 @@ export default function CommentLinks({ links = {}, publicEmail = null, teamMembe
         )}
       </span>
     );
+    const heading = { margin: '0 0 0.6rem', fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: text.muted };
+    const list = { listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' };
+    const hasLinks = entries.length > 0 || !!publicEmail;
     return (
-      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        {entries.map((key) => {
-          const Icon = LINK_TYPES[key].icon;
-          return (
-            <li key={key} style={{ minWidth: 0 }}>
-              <a href={links[key]} target="_blank" rel="noopener noreferrer nofollow ugc" style={row}>
-                <span style={icon}><Icon aria-hidden="true" size={18} /></span>
-                {body(t(`guestbook.linkTypes.${key}`), hint(links[key]))}
-              </a>
-            </li>
-          );
-        })}
-        {experiences.map((e) => (
-          <li key={e.id} style={{ minWidth: 0 }}>
-            <Link to={`/experience?exp=${encodeURIComponent(e.id)}`} style={row}>
-              <span style={icon}><FiBriefcase aria-hidden="true" size={18} /></span>
-              {body(e.company, null)}
-            </Link>
-          </li>
-        ))}
-        {publicEmail && (
-          <li style={{ minWidth: 0 }}>
-            <a href={`mailto:${publicEmail}`} style={row}>
-              <span style={icon}><FiMail aria-hidden="true" size={18} /></span>
-              {body('E-mail', publicEmail)}
-            </a>
-          </li>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        {experiences.length > 0 && (
+          <section aria-label={t('guestbook.experienceTitle')}>
+            <h3 style={heading}>{t('guestbook.experienceTitle')}</h3>
+            <ul style={list}>
+              {experiences.map((e) => (
+                <li key={e.id} style={{ minWidth: 0 }}>
+                  <Link
+                    to={`/experience?exp=${encodeURIComponent(e.id)}`}
+                    style={{ ...row, background: accent.a12, border: `1px solid ${accent.borderSubtle}` }}
+                  >
+                    <span style={icon}><FiBriefcase aria-hidden="true" size={18} /></span>
+                    {body(e.company, t('guestbook.viewExperience'))}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
-      </ul>
+        {hasLinks && (
+          <section aria-label={t('guestbook.linksTitle')}>
+            <h3 style={heading}>{t('guestbook.linksTitle')}</h3>
+            <ul style={list}>
+              {entries.map((key) => {
+                const Icon = LINK_TYPES[key].icon;
+                return (
+                  <li key={key} style={{ minWidth: 0 }}>
+                    <a href={links[key]} target="_blank" rel="noopener noreferrer nofollow ugc" style={row}>
+                      <span style={icon}><Icon aria-hidden="true" size={18} /></span>
+                      {body(t(`guestbook.linkTypes.${key}`), hint(links[key]))}
+                    </a>
+                  </li>
+                );
+              })}
+              {publicEmail && (
+                <li style={{ minWidth: 0 }}>
+                  <a href={`mailto:${publicEmail}`} style={row}>
+                    <span style={icon}><FiMail aria-hidden="true" size={18} /></span>
+                    {body('E-mail', publicEmail)}
+                  </a>
+                </li>
+              )}
+            </ul>
+          </section>
+        )}
+      </div>
     );
   }
 

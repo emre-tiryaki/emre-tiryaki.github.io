@@ -126,12 +126,8 @@ export default function CommentCard({ comment, pending = false, large = false })
       </div>
       {large && hasLinks && (
         <aside
-          aria-label={t('guestbook.linksTitle')}
           style={{ flex: '1 1 15rem', maxWidth: '100%', minWidth: 0, alignSelf: 'flex-start' }}
         >
-          <h3 style={{ margin: '0 0 0.6rem', fontSize: '0.75rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: text.muted }}>
-            {t('guestbook.linksTitle')}
-          </h3>
           <CommentLinks column links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
         </aside>
       )}
