@@ -106,7 +106,7 @@ export default function AdminCard({ comment, approved, busy, onToggle, onDelete,
           >
             {comment.message}
           </p>
-          <CommentLinks links={comment.links} publicEmail={comment.publicEmail} size={14} />
+          <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} size={14} />
         </div>
       </div>
 

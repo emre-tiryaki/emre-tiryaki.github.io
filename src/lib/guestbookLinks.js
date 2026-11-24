@@ -1,4 +1,5 @@
 import { FaGithub, FaInstagram, FaLinkedin, FaXTwitter, FaYoutube } from 'react-icons/fa6';
+import teamData from '../data/team.json';
 import { FiGlobe, FiLink } from 'react-icons/fi';
 
 export const MAX_LINKS = 4;
@@ -57,4 +58,11 @@ export function matchTeamMember(links, teamData) {
     if (urls.some((u) => mine.has(normalizeLink(u)))) return id;
   }
   return null;
+}
+
+/** Takım üyesinin team.json linkleri (github, linkedin, portfolio → website); yorumcu eklemese de gösterilir. */
+export function teamLinks(id) {
+  const m = id && teamData[id];
+  if (!m) return {};
+  return sanitizeLinks({ github: m.github, linkedin: m.linkedin, website: m.portfolio });
 }

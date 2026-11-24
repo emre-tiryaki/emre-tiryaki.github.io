@@ -1,13 +1,14 @@
 import { FiMail } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
-import { LINK_KEYS, LINK_TYPES } from '../../lib/guestbookLinks';
+import { LINK_KEYS, LINK_TYPES, teamLinks } from '../../lib/guestbookLinks';
 
 const { text, surface } = THEME_COLORS;
 
-/** Yorumcunun linkleri + herkese açık e-postası, ikon satırı. Yeni sekme, nofollow. */
-export default function CommentLinks({ links = {}, publicEmail = null, size = 16 }) {
+/** Yorumcunun linkleri (takım arkadaşıysa team.json linkleri eksikleri tamamlar) + herkese açık e-postası, ikon satırı. Yeni sekme, nofollow. */
+export default function CommentLinks({ links = {}, publicEmail = null, teamMemberId = null, size = 16 }) {
   const { t } = useTranslation();
+  links = { ...teamLinks(teamMemberId), ...links };
   const entries = LINK_KEYS.filter((k) => links[k]);
   if (entries.length === 0 && !publicEmail) return null;
 

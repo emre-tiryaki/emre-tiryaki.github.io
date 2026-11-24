@@ -112,7 +112,7 @@ export default function CommentCard({ comment, pending = false, large = false })
         >
           {comment.message}
         </p>
-        <CommentLinks links={comment.links} publicEmail={comment.publicEmail} />
+        <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
       </div>
     </article>
   );
