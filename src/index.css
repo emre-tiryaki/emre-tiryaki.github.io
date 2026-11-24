@@ -669,3 +669,35 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 .avatar-main:focus-visible { outline: 2px solid #fdba74; outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .avatar-main__face { transition: none; } }
+
+/* ── Admin: segmented tabs ── */
+.admin-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+.admin-tab:hover { color: #f8fafc; }
+.admin-tab[aria-pressed='true'] {
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.12);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+.admin-tab:focus-visible { outline: 2px solid rgba(249, 115, 22, 0.7); outline-offset: 2px; }
+.admin-tab__count {
+  min-width: 1.25rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: rgba(249, 115, 22, 0.2);
+  font-size: 0.7rem;
+  line-height: 1.25rem;
+  text-align: center;
+}
