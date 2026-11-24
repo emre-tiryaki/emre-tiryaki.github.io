@@ -10,7 +10,7 @@ export default function VisitorTracker() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!import.meta.env.PROD || location.pathname === "/json") {
+    if (!import.meta.env.PROD || location.pathname === "/json" || location.pathname === "/admin") {
       return;
     }
 

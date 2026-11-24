@@ -219,5 +219,36 @@
     "verified": "Verified",
     "official": "Official Certificate",
     "countLabel": "{n} Certificates"
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Guestbook comments",
+    "unavailable": "Firebase is not configured.",
+    "login": {
+      "email": "Email",
+      "password": "Password",
+      "remember": "Remember me",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "error": "Could not sign in."
+    },
+    "logout": "Sign out",
+    "tabs": {
+      "pending": "Pending",
+      "approved": "Approved"
+    },
+    "loading": "Loading",
+    "loadError": "Could not load comments.",
+    "retry": "Try again",
+    "empty": "No comments in this tab.",
+    "approve": "Approve",
+    "unapprove": "Unapprove",
+    "delete": "Delete",
+    "deleteTitle": "Delete comment",
+    "deleteBody": "This comment will be permanently deleted.",
+    "cancel": "Cancel",
+    "confirmDelete": "Delete",
+    "actionError": "Action failed. Try again.",
+    "email": "Email"
   }
 }

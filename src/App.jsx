@@ -17,6 +17,7 @@ const pageLoaders = {
   certifications: () => import('./pages/CertificationsPage'),
   json: () => import('./pages/JsonEndpointPage'),
   guestbook: () => import('./pages/GuestbookPage'),
+  admin: () => import('./pages/AdminPage'),
   workWithMe: () => import('./pages/WorkWithMePage'),
 };
 const AboutPage = lazy(pageLoaders.about);
@@ -27,6 +28,7 @@ const ProjectsPage = lazy(pageLoaders.projects);
 const CertificationsPage = lazy(pageLoaders.certifications);
 const JsonEndpointPage = lazy(pageLoaders.json);
 const GuestbookPage = lazy(pageLoaders.guestbook);
+const AdminPage = lazy(pageLoaders.admin);
 const WorkWithMePage = lazy(pageLoaders.workWithMe);
 const StarfieldBackground = lazy(() => import('./components/layout/StarfieldBackground'));
 
@@ -48,6 +50,8 @@ function AnimatedRoutes() {
         {siteConfig.showGuestbook && (
           <Route path="/guestbook" element={<PageTransition><GuestbookPage /></PageTransition>} />
         )}
+        {/* Gizli yönetim sayfası: navbar'da yok, Firebase Auth + rules ile korunur */}
+        <Route path="/admin" element={<PageTransition><AdminPage /></PageTransition>} />
         {/* JSON endpoint: token ile korunur, ham JSON yanıtı döner (sayfa değil) */}
         <Route path="/json" element={<JsonEndpointPage />} />
       </Routes>
@@ -90,7 +94,7 @@ function AppContent() {
     startBackgroundPreload(location.pathname);
     // Tarayıcı boştayken diğer sayfaların kodunu önceden indir (gezinme anında gecikme olmasın)
     const prefetch = () => {
-      const { workWithMe, json, guestbook, ...pages } = pageLoaders; // eslint-disable-line no-unused-vars
+      const { workWithMe, json, guestbook, admin, ...pages } = pageLoaders; // eslint-disable-line no-unused-vars
       Object.values(pages).forEach((load) => load().catch(() => {}));
     };
     const id = typeof requestIdleCallback === 'function'

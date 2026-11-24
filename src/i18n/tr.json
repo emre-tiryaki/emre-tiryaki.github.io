@@ -219,5 +219,36 @@
     "verified": "Doğrulanmış",
     "official": "Resmi Sertifika",
     "countLabel": "{n} Sertifika"
+  },
+  "admin": {
+    "title": "Yönetim",
+    "subtitle": "Ziyaretçi defteri yorumları",
+    "unavailable": "Firebase yapılandırılmamış.",
+    "login": {
+      "email": "E-posta",
+      "password": "Şifre",
+      "remember": "Beni hatırla",
+      "submit": "Giriş yap",
+      "submitting": "Giriş yapılıyor...",
+      "error": "Giriş yapılamadı."
+    },
+    "logout": "Çıkış",
+    "tabs": {
+      "pending": "Bekleyen",
+      "approved": "Onaylı"
+    },
+    "loading": "Yükleniyor",
+    "loadError": "Yorumlar yüklenemedi.",
+    "retry": "Tekrar dene",
+    "empty": "Bu sekmede yorum yok.",
+    "approve": "Onayla",
+    "unapprove": "Onayı kaldır",
+    "delete": "Sil",
+    "deleteTitle": "Yorumu sil",
+    "deleteBody": "Bu yorum kalıcı olarak silinecek.",
+    "cancel": "Vazgeç",
+    "confirmDelete": "Sil",
+    "actionError": "İşlem başarısız. Tekrar dene.",
+    "email": "E-posta"
   }
 }
