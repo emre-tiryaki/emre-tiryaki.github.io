@@ -232,6 +232,14 @@
         }
       },
       {
+        "name": "SQLite",
+        "icon": "sqlite/sqlite-original",
+        "comment": {
+          "tr": "Hafif, sunucusuz ve tek dosyalı yapısıyla küçük projeler, prototipler ve yerel depolama için tercih ediyorum.",
+          "en": "I choose it for small projects, prototypes, and local storage thanks to its lightweight, serverless, single-file design."
+        }
+      },
+      {
         "name": "Firebase",
         "icon": "firebase/firebase-plain",
         "comment": {
