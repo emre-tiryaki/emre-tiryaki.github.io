@@ -127,7 +127,7 @@ export default function CommentCard({ comment, pending = false, large = false })
       </div>
       </div>
       {large && hasLinks && (
-        <footer style={{ paddingTop: '1.25rem', borderTop: `1px solid ${surface.white10}` }}>
+        <footer style={{ minWidth: 0, textAlign: 'center', paddingTop: '1.25rem', borderTop: `1px solid ${surface.white10}` }}>
           <CommentLinks panel links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
         </footer>
       )}

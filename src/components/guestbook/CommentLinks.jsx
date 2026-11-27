@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { FiBriefcase, FiMail } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
+import ExperienceTimeline from './ExperienceTimeline';
 import { LINK_KEYS, LINK_TYPES, teamExperiences, teamLinks } from '../../lib/guestbookLinks';
 
 const { text, surface, accent } = THEME_COLORS;
@@ -26,29 +27,34 @@ export default function CommentLinks({ links = {}, publicEmail = null, teamMembe
   };
 
   if (panel) {
-    const row = {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.75rem',
-      padding: '0.5rem 0.7rem',
-      borderRadius: '0.65rem',
-      color: text.primary,
-      background: surface.white05,
-      border: `1px solid ${surface.white10}`,
-      textDecoration: 'none',
-      minWidth: 0,
-    };
-    const icon = {
-      flexShrink: 0,
+    // Chip ortak stili (kompakt, hap şeklinde)
+    const chip = {
       display: 'inline-flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      width: '1.9rem',
-      height: '1.9rem',
-      borderRadius: '0.5rem',
-      color: accent.light,
-      background: accent.a15,
+      gap: '0.35rem',
+      padding: '0.3rem 0.7rem',
+      borderRadius: '999px',
+      fontSize: '0.8rem',
+      color: text.primary,
+      textDecoration: 'none',
+      background: surface.white05,
+      border: `1px solid ${surface.white10}`,
+      transition: 'background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease',
     };
+    // Hover/odak: turuncu vurgu + hafif yukarı kalkma (inline stil, ExperienceCard ile aynı yaklaşım)
+    const setActive = (el, on) => {
+      el.style.background = on ? accent.a12 : surface.white05;
+      el.style.borderColor = on ? accent.borderSubtle : surface.white10;
+      el.style.color = on ? accent.light : text.primary;
+      el.style.transform = on ? 'translateY(-1px)' : 'none';
+    };
+    const hover = {
+      onMouseEnter: (e) => setActive(e.currentTarget, true),
+      onMouseLeave: (e) => setActive(e.currentTarget, document.activeElement === e.currentTarget),
+      onFocus: (e) => setActive(e.currentTarget, true),
+      onBlur: (e) => setActive(e.currentTarget, false),
+    };
+    const list = { listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexWrap: 'wrap', gap: '0.4rem' };
     const hint = (url) => {
       try {
         const u = new URL(url);
@@ -57,55 +63,27 @@ export default function CommentLinks({ links = {}, publicEmail = null, teamMembe
         return url;
       }
     };
-    const body = (label, sub) => (
-      <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-        <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>{label}</span>
-        {sub && (
-          <span style={{ fontSize: '0.75rem', color: text.muted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {sub}
-          </span>
-        )}
-      </span>
-    );
-    const hasLinks = entries.length > 0 || !!publicEmail;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-        {experiences.map((e) => (
-          <Link
-            key={e.id}
-            to={`/experience?exp=${encodeURIComponent(e.id)}`}
-            style={{ ...row, background: accent.a12, border: `1px solid ${accent.borderSubtle}` }}
-          >
-            <span style={icon}><FiBriefcase aria-hidden="true" size={16} /></span>
-            <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
-              <span style={{ fontSize: '0.7rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: accent.light }}>
-                {t('guestbook.experienceTitle')}
-              </span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 600 }}>{e.company}</span>
-            </span>
-            <span style={{ fontSize: '0.75rem', color: text.secondary, whiteSpace: 'nowrap' }}>
-              {t('guestbook.viewExperience')} →
-            </span>
-          </Link>
-        ))}
-        {hasLinks && (
-          <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(12rem, 1fr))', gap: '0.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
+        <ExperienceTimeline experiences={experiences} />
+        {(entries.length > 0 || publicEmail) && (
+          <ul style={{ ...list, justifyContent: 'center' }}>
             {entries.map((key) => {
               const Icon = LINK_TYPES[key].icon;
               return (
-                <li key={key} style={{ minWidth: 0 }}>
-                  <a href={links[key]} target="_blank" rel="noopener noreferrer nofollow ugc" style={row}>
-                    <span style={icon}><Icon aria-hidden="true" size={16} /></span>
-                    {body(t(`guestbook.linkTypes.${key}`), hint(links[key]))}
+                <li key={key}>
+                  <a href={links[key]} target="_blank" rel="noopener noreferrer nofollow ugc" title={hint(links[key])} style={chip} {...hover}>
+                    <Icon aria-hidden="true" size={14} color={accent.light} />
+                    <span style={{ fontWeight: 600 }}>{t(`guestbook.linkTypes.${key}`)}</span>
                   </a>
                 </li>
               );
             })}
             {publicEmail && (
-              <li style={{ minWidth: 0 }}>
-                <a href={`mailto:${publicEmail}`} style={row}>
-                  <span style={icon}><FiMail aria-hidden="true" size={16} /></span>
-                  {body('E-mail', publicEmail)}
+              <li>
+                <a href={`mailto:${publicEmail}`} title={publicEmail} style={chip} {...hover}>
+                  <FiMail aria-hidden="true" size={14} color={accent.light} />
+                  <span style={{ fontWeight: 600 }}>E-mail</span>
                 </a>
               </li>
             )}
@@ -133,7 +111,7 @@ export default function CommentLinks({ links = {}, publicEmail = null, teamMembe
           </a>
         );
       })}
-      {experiences.map((e) => (
+      {experiences.slice(0, 2).map((e) => (
         <Link
           key={e.id}
           to={`/experience?exp=${encodeURIComponent(e.id)}`}
@@ -144,6 +122,14 @@ export default function CommentLinks({ links = {}, publicEmail = null, teamMembe
           {e.company}
         </Link>
       ))}
+      {experiences.length > 2 && (
+        <span
+          title={experiences.slice(2).map((e) => e.company).join(', ')}
+          style={{ ...style, width: 'auto', borderRadius: '999px', padding: '0 0.65rem', fontSize: '0.75rem' }}
+        >
+          +{experiences.length - 2}
+        </span>
+      )}
       {publicEmail && (
         <a href={`mailto:${publicEmail}`} aria-label={publicEmail} title={publicEmail} style={style}>
           <FiMail aria-hidden="true" size={size} />

@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import PageLayout from '../components/layout/PageLayout';
 import ExperienceCard from '../components/experience/ExperienceCard';
+import TimelineNode from '../components/experience/TimelineNode';
 import ExperienceDetailView from '../components/experience/ExperienceDetailView';
 import experienceData from '../data/experience.json';
 import projectsData from '../data/projects.json';
@@ -113,48 +114,7 @@ export default function ExperiencePage() {
             }}
           >
             {/* Glowing Concentric Jewel Node on the line */}
-            <div
-              style={{
-                width: '2.25rem',
-                height: '2.25rem',
-                marginTop: '1.2rem',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'radial-gradient(circle at center, rgba(26,26,32,0.98) 0%, rgba(10,10,14,0.98) 100%)',
-                border: isSelected ? `2px solid ${dotColor}` : `1.5px solid ${dotColor}`,
-                boxShadow: isSelected
-                  ? `0 0 22px ${dotColor}, 0 0 8px ${dotColor}, inset 0 0 10px ${dotColor}`
-                  : `0 0 14px ${dotColor}55, 0 0 6px ${dotColor}80, inset 0 0 8px ${dotColor}25`,
-                position: 'relative',
-                zIndex: 3,
-                transition: 'all 0.2s ease',
-              }}
-            >
-              <div
-                style={{
-                  width: '1.15rem',
-                  height: '1.15rem',
-                  borderRadius: '50%',
-                  background: `${dotColor}18`,
-                  border: `1px solid ${dotColor}40`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <div
-                  style={{
-                    width: '0.45rem',
-                    height: '0.45rem',
-                    borderRadius: '50%',
-                    background: dotColor,
-                    boxShadow: `0 0 8px ${dotColor}`,
-                  }}
-                />
-              </div>
-            </div>
+            <TimelineNode color={dotColor} selected={isSelected} style={{ marginTop: '1.2rem' }} />
 
             {/* Dynamic Gradient Connector line to the next dot */}
             {nextColor && (
