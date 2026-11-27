@@ -519,20 +519,6 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 
 
 /* ── Ziyaretçi defteri: butonun etrafına dağılmış yorum kartları ── */
-/* Yorum detayı başlığı: çeviri butonu isim satırının sağında sabit kalır, alta kaymaz.
-   Başlık daraldığında buton yalnızca ikona iner (erişilebilir ad aria-label'dan gelir). */
-.gb-card-head {
-  container-type: inline-size;
-}
-@container (max-width: 20rem) {
-  .gb-translate-label {
-    display: none;
-  }
-  .gb-translate-btn {
-    padding: 0.45rem;
-  }
-}
-
 .gb-stage {
   /* --gb-k: kart sayısına göre CommentOrbit'in verdiği ölçek (0.6–1) */
   --gb-cw: min(calc(16rem * var(--gb-k, 1)), 46vw); /* kart genişliği (azami 16rem) */

@@ -33,6 +33,13 @@ export default function CommentCard({ comment, pending = false, large = false })
   const sameLang = !translated && (local?.text === null || cachedTranslations([comment], lang)[comment.id]?.text === null);
   const canTranslate = !translated && !sameLang && !!comment.message?.trim();
   const showButton = large && (translated || canTranslate);
+  const buttonLabels = [
+    t('guestbook.translate.single'),
+    t('guestbook.translate.busy'),
+    t('guestbook.translate.retry'),
+    t('guestbook.translate.showOriginal'),
+    t('guestbook.translate.showTranslation'),
+  ];
   const buttonLabel = translated
     ? showOriginal
       ? t('guestbook.translate.showTranslation')
@@ -118,10 +125,7 @@ export default function CommentCard({ comment, pending = false, large = false })
       )}
 
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div className="gb-card-head" style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-        <div
-          style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.25rem 0.6rem', minWidth: 0, flex: 1 }}
-        >
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.25rem 0.6rem' }}>
           <strong style={{ color: text.primary, fontSize: large ? '1.25rem' : '0.95rem', overflowWrap: 'anywhere' }}>
             {comment.name}
           </strong>
@@ -148,23 +152,6 @@ export default function CommentCard({ comment, pending = false, large = false })
             date && <span style={{ color: text.muted, fontSize: large ? '0.9rem' : '0.75rem' }}>{date}</span>
           )}
         </div>
-          {showButton && (
-            <Button
-              variant="secondary"
-              size="sm"
-              className="gb-translate-btn"
-              onClick={translated ? () => setShowOriginal((v) => !v) : translateSingle}
-              disabled={singleBusy}
-              aria-busy={singleBusy}
-              aria-label={buttonLabel}
-              title={local?.failed && !singleBusy ? t('guestbook.translate.failed') : buttonLabel}
-              style={{ flexShrink: 0, gap: '0.4rem', whiteSpace: 'nowrap' }}
-            >
-              <FiGlobe aria-hidden="true" size={13} />
-              <span className="gb-translate-label">{buttonLabel}</span>
-            </Button>
-          )}
-        </div>
         <p
           style={{
             margin: large ? '0.6rem 0 0' : '0.35rem 0 0',
@@ -177,24 +164,52 @@ export default function CommentCard({ comment, pending = false, large = false })
         >
           {translated && !showOriginal ? translatedText : originalText}
         </p>
-        {translated && (
-          <p
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              margin: '0.5rem 0 0',
-              fontSize: large ? '0.8rem' : '0.72rem',
-              color: text.muted,
-            }}
-          >
-            <FiGlobe aria-hidden="true" size={12} />
-            {showOriginal
-              ? t('guestbook.translate.originalText')
-              : fromName
-                ? t('guestbook.translate.from', { lang: fromName })
-                : t('guestbook.translate.translated')}
-          </p>
+        {(translated || showButton) && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '0.75rem' }}>
+            {translated && (
+              <p
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  flex: 1,
+                  minWidth: 0,
+                  margin: 0,
+                  fontSize: large ? '0.8rem' : '0.72rem',
+                  color: text.muted,
+                }}
+              >
+                <FiGlobe aria-hidden="true" size={12} style={{ flexShrink: 0 }} />
+                {showOriginal
+                  ? t('guestbook.translate.originalText')
+                  : fromName
+                    ? t('guestbook.translate.from', { lang: fromName })
+                    : t('guestbook.translate.translated')}
+              </p>
+            )}
+            {showButton && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={translated ? () => setShowOriginal((v) => !v) : translateSingle}
+                disabled={singleBusy}
+                aria-busy={singleBusy}
+                aria-label={buttonLabel}
+                title={local?.failed && !singleBusy ? t('guestbook.translate.failed') : undefined}
+                style={{ flexShrink: 0, marginLeft: 'auto', gap: '0.4rem', whiteSpace: 'nowrap' }}
+              >
+                <FiGlobe aria-hidden="true" size={13} />
+                {/* Tüm etiketler aynı hücrede üst üste durur: buton en uzun etiket kadar sabit genişlikte kalır */}
+                <span aria-hidden="true" style={{ display: 'inline-grid' }}>
+                  {buttonLabels.map((label) => (
+                    <span key={label} style={{ gridArea: '1 / 1', visibility: label === buttonLabel ? 'visible' : 'hidden' }}>
+                      {label}
+                    </span>
+                  ))}
+                </span>
+              </Button>
+            )}
+          </div>
         )}
         {!large && (
           <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
