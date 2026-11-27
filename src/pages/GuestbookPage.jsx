@@ -36,12 +36,14 @@ export default function GuestbookPage() {
     [],
   );
 
-  const load = useCallback(async () => {
+  const load = useCallback(async ({ force = false } = {}) => {
     setLoading(true);
     setError(false);
     try {
-      // Önce yerel kayıtlar sunucuyla karşılaştırılır (onaylananlar listeden düşer), sonra onaylı liste gelir
-      const [mine, approved] = await Promise.all([checkMine(), fetchApproved(20)]);
+      // Bekleyen yorumlar her girişte sunucuyla karşılaştırılır; onaylı liste 2 saatlik önbellekten gelir.
+      // Kullanıcının bir yorumu yeni onaylandıysa önbellek atlanır ki yorum hemen listede görünsün.
+      const { pending: mine, approvedCount } = await checkMine();
+      const approved = await fetchApproved(20, { force: force || approvedCount > 0 });
       setPending(mine.map(decorate));
       setComments(approved.map(decorate));
     } catch (err) {
@@ -70,7 +72,7 @@ export default function GuestbookPage() {
           comments={comments}
           loading={loading}
           error={error}
-          onRetry={load}
+          onRetry={() => load({ force: true })}
           onCompose={() => {
             setComposing(true);
           }}
