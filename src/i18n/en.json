@@ -238,7 +238,10 @@
       "from": "Translated from {lang}",
       "translated": "Translated",
       "showOriginal": "Show original",
-      "showTranslation": "Show translation"
+      "showTranslation": "Show translation",
+      "single": "Translate this comment",
+      "same": "This comment is already in this language",
+      "failed": "Translation is unavailable right now."
     }
   },
   "certifications": {

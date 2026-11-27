@@ -3,11 +3,22 @@ import { FiClock, FiGlobe } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 import { isSafeAvatar } from '../../lib/guestbook';
+import { cachedTranslations, translateComments } from '../../lib/commentTranslate';
 import { teamExperiences, teamLinks } from '../../lib/guestbookLinks';
 import CommentLinks from './CommentLinks';
 import TeamBadge from './TeamBadge';
 
 const { accent, surface, text, status } = THEME_COLORS;
+const linkButton = {
+  padding: 0,
+  border: 0,
+  background: 'none',
+  font: 'inherit',
+  color: accent.light,
+  cursor: 'pointer',
+  textDecoration: 'underline',
+  textUnderlineOffset: '2px',
+};
 
 /**
  * Tek yorum kartı. İçerik düz metin olarak render edilir (HTML yorumlanmaz).
@@ -17,8 +28,28 @@ export default function CommentCard({ comment, pending = false, large = false })
   const avatar = large ? 96 : 44;
   const { t, lang } = useTranslation();
   const [showOriginal, setShowOriginal] = useState(false);
-  const translated = typeof comment.original === 'string';
-  const fromName = translated && comment.translatedFrom ? languageName(comment.translatedFrom, lang) : null;
+  // Tek yorum çevirisi: { lang, text, source } veya { lang, failed: true }; site dili değişince geçersiz sayılır
+  const [single, setSingle] = useState(null);
+  const [singleBusy, setSingleBusy] = useState(false);
+  const local = single?.lang === lang ? single : null;
+  const globalTranslated = typeof comment.original === 'string';
+  const originalText = globalTranslated ? comment.original : comment.message;
+  const translatedText = globalTranslated ? comment.message : local?.text;
+  const translated = typeof translatedText === 'string';
+  const source = globalTranslated ? comment.translatedFrom : local?.source;
+  const fromName = translated && source ? languageName(source, lang) : null;
+  // Önbellek "zaten bu dilde" diyorsa çevir butonu gösterilmez
+  const sameLang = !translated && (local?.text === null || cachedTranslations([comment], lang)[comment.id]?.text === null);
+  const canTranslate = large && !translated && !sameLang && !!comment.message?.trim();
+
+  const translateSingle = async () => {
+    setSingleBusy(true);
+    const target = lang;
+    const res = (await translateComments([{ id: comment.id, message: originalText }], target))[comment.id];
+    setSingle(res ? { lang: target, ...res } : { lang: target, failed: true });
+    setShowOriginal(false);
+    setSingleBusy(false);
+  };
   const src = isSafeAvatar(comment.avatar) ? comment.avatar : comment.fallbackAvatar;
   const date = comment.createdAt
     ? new Date(comment.createdAt).toLocaleDateString(lang === 'en' ? 'en-GB' : 'tr-TR', {
@@ -123,8 +154,32 @@ export default function CommentCard({ comment, pending = false, large = false })
             overflowWrap: 'anywhere',
           }}
         >
-          {translated && showOriginal ? comment.original : comment.message}
+          {translated && !showOriginal ? translatedText : originalText}
         </p>
+        {(canTranslate || (large && sameLang && local)) && (
+          <p
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              margin: '0.5rem 0 0',
+              fontSize: '0.8rem',
+              color: text.muted,
+            }}
+          >
+            <FiGlobe aria-hidden="true" size={12} />
+            {sameLang ? (
+              t('guestbook.translate.same')
+            ) : (
+              <>
+                <button type="button" onClick={translateSingle} disabled={singleBusy} aria-busy={singleBusy} style={linkButton}>
+                  {singleBusy ? t('guestbook.translate.busy') : t('guestbook.translate.single')}
+                </button>
+                {local?.failed && !singleBusy && <span role="status">{t('guestbook.translate.failed')}</span>}
+              </>
+            )}
+          </p>
+        )}
         {translated && (
           <p
             style={{
@@ -144,16 +199,7 @@ export default function CommentCard({ comment, pending = false, large = false })
               type="button"
               onClick={() => setShowOriginal((v) => !v)}
               aria-pressed={showOriginal}
-              style={{
-                padding: 0,
-                border: 0,
-                background: 'none',
-                font: 'inherit',
-                color: accent.light,
-                cursor: 'pointer',
-                textDecoration: 'underline',
-                textUnderlineOffset: '2px',
-              }}
+              style={linkButton}
             >
               {showOriginal ? t('guestbook.translate.showTranslation') : t('guestbook.translate.showOriginal')}
             </button>

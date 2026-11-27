@@ -238,7 +238,10 @@
       "from": "{lang} dilinden çevrildi",
       "translated": "Çevrildi",
       "showOriginal": "Orijinali göster",
-      "showTranslation": "Çeviriyi göster"
+      "showTranslation": "Çeviriyi göster",
+      "single": "Bu yorumu çevir",
+      "same": "Bu yorum zaten bu dilde",
+      "failed": "Çeviri şu an yapılamadı."
     }
   },
   "certifications": {
