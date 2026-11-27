@@ -118,7 +118,10 @@ export default function CommentCard({ comment, pending = false, large = false })
       )}
 
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.25rem 0.6rem' }}>
+        <div className="gb-card-head" style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+        <div
+          style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.25rem 0.6rem', minWidth: 0, flex: 1 }}
+        >
           <strong style={{ color: text.primary, fontSize: large ? '1.25rem' : '0.95rem', overflowWrap: 'anywhere' }}>
             {comment.name}
           </strong>
@@ -144,19 +147,21 @@ export default function CommentCard({ comment, pending = false, large = false })
           ) : (
             date && <span style={{ color: text.muted, fontSize: large ? '0.9rem' : '0.75rem' }}>{date}</span>
           )}
+        </div>
           {showButton && (
             <Button
               variant="secondary"
               size="sm"
+              className="gb-translate-btn"
               onClick={translated ? () => setShowOriginal((v) => !v) : translateSingle}
               disabled={singleBusy}
               aria-busy={singleBusy}
-              aria-pressed={translated ? !showOriginal : undefined}
-              title={local?.failed && !singleBusy ? t('guestbook.translate.failed') : undefined}
-              style={{ marginLeft: 'auto', gap: '0.4rem' }}
+              aria-label={buttonLabel}
+              title={local?.failed && !singleBusy ? t('guestbook.translate.failed') : buttonLabel}
+              style={{ flexShrink: 0, gap: '0.4rem', whiteSpace: 'nowrap' }}
             >
               <FiGlobe aria-hidden="true" size={13} />
-              {buttonLabel}
+              <span className="gb-translate-label">{buttonLabel}</span>
             </Button>
           )}
         </div>
