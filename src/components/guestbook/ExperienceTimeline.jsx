@@ -1,6 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { FiBriefcase } from 'react-icons/fi';
-import ExperienceCard from '../experience/ExperienceCard';
+import ExperienceMiniCard from './ExperienceMiniCard';
 import TimelineNode from '../experience/TimelineNode';
 import { THEME_COLORS, EXPERIENCE_TYPE_CONFIG } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
@@ -8,7 +7,7 @@ import { useScrollMask } from '../../hooks/useScrollMask';
 
 const { accent } = THEME_COLORS;
 const FALLBACK_COLOR = '#f97316';
-const ITEM_WIDTH = '16rem';
+const ITEM_WIDTH = '9.5rem';
 const GAP = '1.25rem';
 
 const colorOf = (type) => EXPERIENCE_TYPE_CONFIG[type]?.dotColor || FALLBACK_COLOR;
@@ -16,7 +15,6 @@ const colorOf = (type) => EXPERIENCE_TYPE_CONFIG[type]?.dotColor || FALLBACK_COL
 /** Deneyim sayfasındaki zaman çizelgesinin yatay, kaydırılabilir hali (guestbook detay görünümü). */
 export default function ExperienceTimeline({ experiences = [] }) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const [scrollRef] = useScrollMask('horizontal', 24);
   if (experiences.length === 0) return null;
 
@@ -54,7 +52,7 @@ export default function ExperienceTimeline({ experiences = [] }) {
               key={exp.id}
               style={{ width: ITEM_WIDTH, flexShrink: 0, scrollSnapAlign: 'start', position: 'relative' }}
             >
-              <div style={{ position: 'relative', height: '2.25rem', marginBottom: '0.9rem' }}>
+              <div style={{ position: 'relative', height: '2.25rem', marginBottom: '0.6rem' }}>
                 <TimelineNode color={color} />
                 {next && (
                   // Düğüm merkezinden sonraki düğümün merkezine
@@ -83,7 +81,7 @@ export default function ExperienceTimeline({ experiences = [] }) {
                   </div>
                 )}
               </div>
-              <ExperienceCard {...exp} onClick={() => navigate(`/experience?exp=${encodeURIComponent(exp.id)}`)} />
+              <ExperienceMiniCard id={exp.id} company={exp.company} type={exp.type} />
             </li>
           );
         })}
