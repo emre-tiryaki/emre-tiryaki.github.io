@@ -68,10 +68,12 @@ export function teamLinks(id) {
   return sanitizeLinks({ github: m.github, linkedin: m.linkedin, website: m.portfolio });
 }
 
-/** Takım üyesinin yer aldığı deneyimler: [{ id, company }]. */
+/** Takım üyesinin yer aldığı deneyimler (ExperienceCard'ın ihtiyaç duyduğu alanlarla). */
 export function teamExperiences(id) {
   if (!id || !teamData[id]) return [];
   return experienceData
     .filter((e) => Array.isArray(e.team) && e.team.includes(id))
-    .map((e) => ({ id: e.id, company: e.company }));
+    .map(({ id, company, title, location, type, date, startDate, endDate, duration, achievement }) => ({
+      id, company, title, location, type, date, startDate, endDate, duration, achievement,
+    }));
 }

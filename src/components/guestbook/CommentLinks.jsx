@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiBriefcase, FiMail } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
+import ExperienceTimeline from './ExperienceTimeline';
 import { LINK_KEYS, LINK_TYPES, teamExperiences, teamLinks } from '../../lib/guestbookLinks';
 
 const { text, surface, accent } = THEME_COLORS;
@@ -10,7 +10,6 @@ const { text, surface, accent } = THEME_COLORS;
 /** Yorumcunun linkleri (takım arkadaşıysa team.json linkleri eksikleri tamamlar) + herkese açık e-postası, ikon satırı. Yeni sekme, nofollow. */
 export default function CommentLinks({ links = {}, publicEmail = null, teamMemberId = null, size = 16, panel = false }) {
   const { t } = useTranslation();
-  const [expanded, setExpanded] = useState(false);
   links = { ...teamLinks(teamMemberId), ...links };
   const entries = LINK_KEYS.filter((k) => links[k]);
   const experiences = teamExperiences(teamMemberId);
@@ -50,46 +49,11 @@ export default function CommentLinks({ links = {}, publicEmail = null, teamMembe
         return url;
       }
     };
-    const shown = expanded ? experiences : experiences.slice(0, 4);
-    const hidden = experiences.length - 4;
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-        {experiences.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.7rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: accent.light }}>
-              <FiBriefcase aria-hidden="true" size={12} />
-              {t('guestbook.experienceTitle')}
-            </span>
-            <ul style={list}>
-              {shown.map((e) => (
-                <li key={e.id}>
-                  <Link
-                    to={`/experience?exp=${encodeURIComponent(e.id)}`}
-                    title={`${e.company} — ${t('guestbook.viewExperience')}`}
-                    aria-label={`${e.company} — ${t('guestbook.viewExperience')}`}
-                    style={{ ...chip, background: accent.a12, border: `1px solid ${accent.borderSubtle}` }}
-                  >
-                    {e.company}
-                  </Link>
-                </li>
-              ))}
-              {hidden > 0 && (
-                <li>
-                  <button
-                    type="button"
-                    aria-expanded={expanded}
-                    onClick={() => setExpanded((v) => !v)}
-                    style={{ ...chip, cursor: 'pointer', fontFamily: 'inherit', color: accent.light, background: accent.a12, border: `1px solid ${accent.borderSubtle}` }}
-                  >
-                    {expanded ? t('guestbook.showLess') : `+${hidden}`}
-                  </button>
-                </li>
-              )}
-            </ul>
-          </div>
-        )}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
+        <ExperienceTimeline experiences={experiences} />
         {(entries.length > 0 || publicEmail) && (
-          <ul style={list}>
+          <ul style={{ ...list, justifyContent: 'center' }}>
             {entries.map((key) => {
               const Icon = LINK_TYPES[key].icon;
               return (
