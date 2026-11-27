@@ -50,9 +50,17 @@ export default function ExperienceTimeline({ experiences = [] }) {
           return (
             <li
               key={exp.id}
-              style={{ width: ITEM_WIDTH, flexShrink: 0, scrollSnapAlign: 'start', position: 'relative' }}
+              style={{
+                width: ITEM_WIDTH,
+                flexShrink: 0,
+                scrollSnapAlign: 'start',
+                position: 'relative',
+                // Az deneyim varsa ortala; taşınca auto margin 0 olur, kaydırma bozulmaz
+                marginLeft: i === 0 ? 'auto' : undefined,
+                marginRight: !next ? 'auto' : undefined,
+              }}
             >
-              <div style={{ position: 'relative', height: '2.25rem', marginBottom: '0.6rem' }}>
+              <div style={{ position: 'relative', height: '2.25rem', marginBottom: '0.6rem', display: 'flex', justifyContent: 'center' }}>
                 <TimelineNode color={color} />
                 {next && (
                   // Düğüm merkezinden sonraki düğümün merkezine
@@ -61,7 +69,7 @@ export default function ExperienceTimeline({ experiences = [] }) {
                     style={{
                       position: 'absolute',
                       top: 'calc(50% - 1px)',
-                      left: '1.125rem',
+                      left: '50%',
                       width: `calc(${ITEM_WIDTH} + ${GAP})`,
                       height: '2px',
                       background: `linear-gradient(to right, ${color} 0%, ${colorOf(next.type)} 100%)`,
