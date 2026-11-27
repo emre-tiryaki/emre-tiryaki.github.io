@@ -20,6 +20,8 @@ const MY_COMMENTS_KEY = 'guestbook-my-comments';
 const LAST_SUBMIT_KEY = 'guestbook-last-submit';
 const COOLDOWN_MS = 60 * 1000;
 const PENDING_TTL_MS = 30 * 24 * 60 * 60 * 1000; // reddedilen yorum sonsuza kadar "bekliyor" kalmasın
+const APPROVED_CACHE_KEY = 'guestbook-approved-cache';
+const APPROVED_CACHE_TTL_MS = 2 * 60 * 60 * 1000; // onaylı liste en fazla 2 saatte bir Firestore'dan çekilir
 const AVATAR_SIZE = 96;
 const AVATAR_RE = /^data:image\/webp;base64,[A-Za-z0-9+/=]+$/;
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
@@ -40,9 +42,45 @@ export function readExtras(data) {
   };
 }
 
-/** Onaylı yorumlar, yeniden eskiye. */
-export async function fetchApproved(max = 20) {
+function readApprovedCache(max) {
+  try {
+    const raw = JSON.parse(localStorage.getItem(APPROVED_CACHE_KEY) || 'null');
+    if (!raw || raw.max !== max || !Array.isArray(raw.items)) return null;
+    if (!(Date.now() - raw.at < APPROVED_CACHE_TTL_MS)) return null;
+    // Yerel depo kullanıcı tarafından değiştirilebilir: avatar ve linkler yine doğrulanır
+    return raw.items
+      .filter((c) => c && typeof c.id === 'string' && typeof c.name === 'string' && typeof c.message === 'string')
+      .map((c) => ({
+        id: c.id,
+        name: c.name,
+        message: c.message,
+        avatar: isSafeAvatar(c.avatar) ? c.avatar : null,
+        createdAt: Number.isFinite(c.createdAt) ? c.createdAt : null,
+        ...readExtras(c),
+      }));
+  } catch {
+    return null;
+  }
+}
+
+function writeApprovedCache(max, items) {
+  try {
+    localStorage.setItem(APPROVED_CACHE_KEY, JSON.stringify({ at: Date.now(), max, items }));
+  } catch {
+    /* localStorage dolu/kapalı: bir sonraki girişte yeniden çekilir */
+  }
+}
+
+/**
+ * Onaylı yorumlar, yeniden eskiye. Sonuç localStorage'da 2 saat saklanır;
+ * force=true önbelleği atlayıp Firestore'dan çeker.
+ */
+export async function fetchApproved(max = 20, { force = false } = {}) {
   if (!db) return [];
+  if (!force) {
+    const cached = readApprovedCache(max);
+    if (cached) return cached;
+  }
   const q = query(
     collection(db, 'guestbook'),
     where('approved', '==', true),
@@ -50,7 +88,7 @@ export async function fetchApproved(max = 20) {
     limitTo(max),
   );
   const snap = await getDocs(q);
-  return snap.docs.map((d) => {
+  const items = snap.docs.map((d) => {
     const data = d.data();
     return {
       id: d.id,
@@ -61,6 +99,8 @@ export async function fetchApproved(max = 20) {
       ...readExtras(data),
     };
   });
+  writeApprovedCache(max, items);
+  return items;
 }
 
 function readMine() {
@@ -158,14 +198,15 @@ export async function submitComment({ name, message, email, avatar, links, showE
 /**
  * Yerel yorumları sunucuyla karşılaştırır. Kurallar yalnızca approved==true okumaya izin verir:
  * okunabiliyorsa onaylanmıştır (yerel kayıt silinir), permission-denied ise hâlâ beklemededir.
- * Dönen liste hâlâ bekleyen yorumlardır.
+ * Her sayfa girişinde çalışır (önbelleğe alınmaz). Dönen { pending } hâlâ bekleyen yorumlar,
+ * approvedCount bu kontrolde onaylandığı anlaşılan yorum sayısıdır.
  */
 export async function checkMine() {
   const now = Date.now();
   const fresh = readMine().filter((c) => c?.id && now - c.createdAt < PENDING_TTL_MS);
   if (!db || fresh.length === 0) {
     writeMine(fresh);
-    return [];
+    return { pending: [], approvedCount: 0 };
   }
   const results = await Promise.all(
     fresh.map(async (c) => {
@@ -180,7 +221,7 @@ export async function checkMine() {
   // Ağ hatası gibi belirsiz durumlarda kaydı silme, beklemede göster
   const stillPending = results.filter((r) => r.state !== 'approved').map((r) => r.c);
   writeMine(stillPending);
-  return stillPending;
+  return { pending: stillPending, approvedCount: results.length - stillPending.length };
 }
 
 /** Kaynağın (sx, sy) noktasından başlayan side×side karesini 96x96 WebP data URL'e çevirir (~5 KB). */
