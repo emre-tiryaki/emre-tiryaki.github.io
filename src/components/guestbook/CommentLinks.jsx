@@ -39,6 +39,20 @@ export default function CommentLinks({ links = {}, publicEmail = null, teamMembe
       textDecoration: 'none',
       background: surface.white05,
       border: `1px solid ${surface.white10}`,
+      transition: 'background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease',
+    };
+    // Hover/odak: turuncu vurgu + hafif yukarı kalkma (inline stil, ExperienceCard ile aynı yaklaşım)
+    const setActive = (el, on) => {
+      el.style.background = on ? accent.a12 : surface.white05;
+      el.style.borderColor = on ? accent.borderSubtle : surface.white10;
+      el.style.color = on ? accent.light : text.primary;
+      el.style.transform = on ? 'translateY(-1px)' : 'none';
+    };
+    const hover = {
+      onMouseEnter: (e) => setActive(e.currentTarget, true),
+      onMouseLeave: (e) => setActive(e.currentTarget, document.activeElement === e.currentTarget),
+      onFocus: (e) => setActive(e.currentTarget, true),
+      onBlur: (e) => setActive(e.currentTarget, false),
     };
     const list = { listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexWrap: 'wrap', gap: '0.4rem' };
     const hint = (url) => {
@@ -58,7 +72,7 @@ export default function CommentLinks({ links = {}, publicEmail = null, teamMembe
               const Icon = LINK_TYPES[key].icon;
               return (
                 <li key={key}>
-                  <a href={links[key]} target="_blank" rel="noopener noreferrer nofollow ugc" title={hint(links[key])} style={chip}>
+                  <a href={links[key]} target="_blank" rel="noopener noreferrer nofollow ugc" title={hint(links[key])} style={chip} {...hover}>
                     <Icon aria-hidden="true" size={14} color={accent.light} />
                     <span style={{ fontWeight: 600 }}>{t(`guestbook.linkTypes.${key}`)}</span>
                   </a>
@@ -67,7 +81,7 @@ export default function CommentLinks({ links = {}, publicEmail = null, teamMembe
             })}
             {publicEmail && (
               <li>
-                <a href={`mailto:${publicEmail}`} title={publicEmail} style={chip}>
+                <a href={`mailto:${publicEmail}`} title={publicEmail} style={chip} {...hover}>
                   <FiMail aria-hidden="true" size={14} color={accent.light} />
                   <span style={{ fontWeight: 600 }}>E-mail</span>
                 </a>

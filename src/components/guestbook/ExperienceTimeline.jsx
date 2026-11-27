@@ -60,6 +60,8 @@ export default function ExperienceTimeline({ experiences = [] }) {
                 marginRight: !next ? 'auto' : undefined,
               }}
             >
+              {/* Tek deneyimde çizgi/düğüm gösterilmez */}
+              {experiences.length > 1 && (
               <div style={{ position: 'relative', height: '2.25rem', marginBottom: '0.6rem', display: 'flex', justifyContent: 'center' }}>
                 <TimelineNode color={color} />
                 {next && (
@@ -89,6 +91,7 @@ export default function ExperienceTimeline({ experiences = [] }) {
                   </div>
                 )}
               </div>
+              )}
               <ExperienceMiniCard id={exp.id} company={exp.company} type={exp.type} />
             </li>
           );
