@@ -239,9 +239,10 @@
       "translated": "Çevrildi",
       "showOriginal": "Orijinali göster",
       "showTranslation": "Çeviriyi göster",
-      "single": "Bu yorumu çevir",
-      "same": "Bu yorum zaten bu dilde",
-      "failed": "Çeviri şu an yapılamadı."
+      "single": "Çevir",
+      "failed": "Çeviri şu an yapılamadı.",
+      "retry": "Tekrar dene",
+      "originalText": "Orijinal metin"
     }
   },
   "certifications": {

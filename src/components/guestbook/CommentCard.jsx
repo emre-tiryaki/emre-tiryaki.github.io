@@ -7,18 +7,9 @@ import { cachedTranslations, translateComments } from '../../lib/commentTranslat
 import { teamExperiences, teamLinks } from '../../lib/guestbookLinks';
 import CommentLinks from './CommentLinks';
 import TeamBadge from './TeamBadge';
+import Button from '../ui/Button';
 
 const { accent, surface, text, status } = THEME_COLORS;
-const linkButton = {
-  padding: 0,
-  border: 0,
-  background: 'none',
-  font: 'inherit',
-  color: accent.light,
-  cursor: 'pointer',
-  textDecoration: 'underline',
-  textUnderlineOffset: '2px',
-};
 
 /**
  * Tek yorum kartı. İçerik düz metin olarak render edilir (HTML yorumlanmaz).
@@ -40,7 +31,17 @@ export default function CommentCard({ comment, pending = false, large = false })
   const fromName = translated && source ? languageName(source, lang) : null;
   // Önbellek "zaten bu dilde" diyorsa çevir butonu gösterilmez
   const sameLang = !translated && (local?.text === null || cachedTranslations([comment], lang)[comment.id]?.text === null);
-  const canTranslate = large && !translated && !sameLang && !!comment.message?.trim();
+  const canTranslate = !translated && !sameLang && !!comment.message?.trim();
+  const showButton = large && (translated || canTranslate);
+  const buttonLabel = translated
+    ? showOriginal
+      ? t('guestbook.translate.showTranslation')
+      : t('guestbook.translate.showOriginal')
+    : singleBusy
+      ? t('guestbook.translate.busy')
+      : local?.failed
+        ? t('guestbook.translate.retry')
+        : t('guestbook.translate.single');
 
   const translateSingle = async () => {
     setSingleBusy(true);
@@ -143,6 +144,21 @@ export default function CommentCard({ comment, pending = false, large = false })
           ) : (
             date && <span style={{ color: text.muted, fontSize: large ? '0.9rem' : '0.75rem' }}>{date}</span>
           )}
+          {showButton && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={translated ? () => setShowOriginal((v) => !v) : translateSingle}
+              disabled={singleBusy}
+              aria-busy={singleBusy}
+              aria-pressed={translated ? !showOriginal : undefined}
+              title={local?.failed && !singleBusy ? t('guestbook.translate.failed') : undefined}
+              style={{ marginLeft: 'auto', gap: '0.4rem' }}
+            >
+              <FiGlobe aria-hidden="true" size={13} />
+              {buttonLabel}
+            </Button>
+          )}
         </div>
         <p
           style={{
@@ -156,35 +172,10 @@ export default function CommentCard({ comment, pending = false, large = false })
         >
           {translated && !showOriginal ? translatedText : originalText}
         </p>
-        {(canTranslate || (large && sameLang && local)) && (
-          <p
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              margin: '0.5rem 0 0',
-              fontSize: '0.8rem',
-              color: text.muted,
-            }}
-          >
-            <FiGlobe aria-hidden="true" size={12} />
-            {sameLang ? (
-              t('guestbook.translate.same')
-            ) : (
-              <>
-                <button type="button" onClick={translateSingle} disabled={singleBusy} aria-busy={singleBusy} style={linkButton}>
-                  {singleBusy ? t('guestbook.translate.busy') : t('guestbook.translate.single')}
-                </button>
-                {local?.failed && !singleBusy && <span role="status">{t('guestbook.translate.failed')}</span>}
-              </>
-            )}
-          </p>
-        )}
         {translated && (
           <p
             style={{
               display: 'flex',
-              flexWrap: 'wrap',
               alignItems: 'center',
               gap: '0.4rem',
               margin: '0.5rem 0 0',
@@ -193,16 +184,11 @@ export default function CommentCard({ comment, pending = false, large = false })
             }}
           >
             <FiGlobe aria-hidden="true" size={12} />
-            {fromName ? t('guestbook.translate.from', { lang: fromName }) : t('guestbook.translate.translated')}
-            <span aria-hidden="true">·</span>
-            <button
-              type="button"
-              onClick={() => setShowOriginal((v) => !v)}
-              aria-pressed={showOriginal}
-              style={linkButton}
-            >
-              {showOriginal ? t('guestbook.translate.showTranslation') : t('guestbook.translate.showOriginal')}
-            </button>
+            {showOriginal
+              ? t('guestbook.translate.originalText')
+              : fromName
+                ? t('guestbook.translate.from', { lang: fromName })
+                : t('guestbook.translate.translated')}
           </p>
         )}
         {!large && (

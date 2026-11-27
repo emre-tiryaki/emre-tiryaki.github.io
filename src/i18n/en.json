@@ -239,9 +239,10 @@
       "translated": "Translated",
       "showOriginal": "Show original",
       "showTranslation": "Show translation",
-      "single": "Translate this comment",
-      "same": "This comment is already in this language",
-      "failed": "Translation is unavailable right now."
+      "single": "Translate",
+      "failed": "Translation is unavailable right now.",
+      "retry": "Try again",
+      "originalText": "Original text"
     }
   },
   "certifications": {
