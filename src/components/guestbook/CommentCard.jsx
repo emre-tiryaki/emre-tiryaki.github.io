@@ -2,6 +2,7 @@ import { FiClock } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 import { isSafeAvatar } from '../../lib/guestbook';
+import { teamExperiences, teamLinks } from '../../lib/guestbookLinks';
 import CommentLinks from './CommentLinks';
 import TeamBadge from './TeamBadge';
 
@@ -12,7 +13,7 @@ const { accent, surface, text, status } = THEME_COLORS;
  * `comment.fallbackAvatar` fotoğrafı olmayan yorumlar için sayfa açılışında seçilir.
  */
 export default function CommentCard({ comment, pending = false, large = false }) {
-  const avatar = large ? 64 : 44;
+  const avatar = large ? 96 : 44;
   const { t, lang } = useTranslation();
   const src = isSafeAvatar(comment.avatar) ? comment.avatar : comment.fallbackAvatar;
   const date = comment.createdAt
@@ -23,17 +24,25 @@ export default function CommentCard({ comment, pending = false, large = false })
       })
     : null;
 
+  const hasLinks =
+    Object.keys(comment.links || {}).length > 0 ||
+    !!comment.publicEmail ||
+    Object.keys(teamLinks(comment.teamMemberId)).length > 0 ||
+    teamExperiences(comment.teamMemberId).length > 0;
+
   return (
     <article
       style={{
         display: 'flex',
+        flexDirection: large ? 'column' : 'row',
         gap: large ? '1.25rem' : '0.9rem',
-        padding: large ? '1.75rem 1.75rem 1.75rem 1.5rem' : '1rem 1.1rem',
+        padding: large ? '1.75rem' : '1rem 1.1rem',
         borderRadius: '1rem',
         background: THEME_COLORS.card.bg,
         border: `1px solid ${pending ? accent.borderSubtle : THEME_COLORS.card.border}`,
       }}
     >
+      <div style={{ display: 'flex', gap: large ? '1.25rem' : '0.9rem', minWidth: 0, flex: 1 }}>
       {src ? (
         <img
           src={src}
@@ -112,8 +121,16 @@ export default function CommentCard({ comment, pending = false, large = false })
         >
           {comment.message}
         </p>
-        <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
+        {!large && (
+          <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
+        )}
       </div>
+      </div>
+      {large && hasLinks && (
+        <footer style={{ paddingTop: '1.25rem', borderTop: `1px solid ${surface.white10}` }}>
+          <CommentLinks panel links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
+        </footer>
+      )}
     </article>
   );
 }
