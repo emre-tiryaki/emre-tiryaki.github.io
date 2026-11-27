@@ -1,4 +1,5 @@
-import { FiClock } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiClock, FiGlobe } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 import { isSafeAvatar } from '../../lib/guestbook';
@@ -15,6 +16,9 @@ const { accent, surface, text, status } = THEME_COLORS;
 export default function CommentCard({ comment, pending = false, large = false }) {
   const avatar = large ? 96 : 44;
   const { t, lang } = useTranslation();
+  const [showOriginal, setShowOriginal] = useState(false);
+  const translated = typeof comment.original === 'string';
+  const fromName = translated && comment.translatedFrom ? languageName(comment.translatedFrom, lang) : null;
   const src = isSafeAvatar(comment.avatar) ? comment.avatar : comment.fallbackAvatar;
   const date = comment.createdAt
     ? new Date(comment.createdAt).toLocaleDateString(lang === 'en' ? 'en-GB' : 'tr-TR', {
@@ -119,8 +123,42 @@ export default function CommentCard({ comment, pending = false, large = false })
             overflowWrap: 'anywhere',
           }}
         >
-          {comment.message}
+          {translated && showOriginal ? comment.original : comment.message}
         </p>
+        {translated && (
+          <p
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '0.4rem',
+              margin: '0.5rem 0 0',
+              fontSize: large ? '0.8rem' : '0.72rem',
+              color: text.muted,
+            }}
+          >
+            <FiGlobe aria-hidden="true" size={12} />
+            {fromName ? t('guestbook.translate.from', { lang: fromName }) : t('guestbook.translate.translated')}
+            <span aria-hidden="true">·</span>
+            <button
+              type="button"
+              onClick={() => setShowOriginal((v) => !v)}
+              aria-pressed={showOriginal}
+              style={{
+                padding: 0,
+                border: 0,
+                background: 'none',
+                font: 'inherit',
+                color: accent.light,
+                cursor: 'pointer',
+                textDecoration: 'underline',
+                textUnderlineOffset: '2px',
+              }}
+            >
+              {showOriginal ? t('guestbook.translate.showTranslation') : t('guestbook.translate.showOriginal')}
+            </button>
+          </p>
+        )}
         {!large && (
           <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
         )}
@@ -133,4 +171,12 @@ export default function CommentCard({ comment, pending = false, large = false })
       )}
     </article>
   );
+}
+
+function languageName(code, uiLang) {
+  try {
+    return new Intl.DisplayNames([uiLang], { type: 'language' }).of(code) || code;
+  } catch {
+    return code;
+  }
 }

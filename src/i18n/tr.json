@@ -230,7 +230,16 @@
       "invalid": "Geçerli bir https:// bağlantısı yaz.",
       "tooMany": "En fazla {max} bağlantı ekleyebilirsin."
     },
-    "teammate": "Takım arkadaşı"
+    "teammate": "Takım arkadaşı",
+    "translate": {
+      "action": "Yorumları çevir",
+      "original": "Orijinallerini göster",
+      "busy": "Çevriliyor…",
+      "from": "{lang} dilinden çevrildi",
+      "translated": "Çevrildi",
+      "showOriginal": "Orijinali göster",
+      "showTranslation": "Çeviriyi göster"
+    }
   },
   "certifications": {
     "title": "Sertifikalar",
