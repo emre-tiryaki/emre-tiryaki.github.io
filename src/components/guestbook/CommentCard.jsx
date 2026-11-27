@@ -1,10 +1,13 @@
-import { FiClock } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiClock, FiGlobe } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 import { isSafeAvatar } from '../../lib/guestbook';
+import { cachedTranslations, translateComments } from '../../lib/commentTranslate';
 import { teamExperiences, teamLinks } from '../../lib/guestbookLinks';
 import CommentLinks from './CommentLinks';
 import TeamBadge from './TeamBadge';
+import Button from '../ui/Button';
 
 const { accent, surface, text, status } = THEME_COLORS;
 
@@ -15,6 +18,46 @@ const { accent, surface, text, status } = THEME_COLORS;
 export default function CommentCard({ comment, pending = false, large = false }) {
   const avatar = large ? 96 : 44;
   const { t, lang } = useTranslation();
+  const [showOriginal, setShowOriginal] = useState(false);
+  // Tek yorum çevirisi: { lang, text, source } veya { lang, failed: true }; site dili değişince geçersiz sayılır
+  const [single, setSingle] = useState(null);
+  const [singleBusy, setSingleBusy] = useState(false);
+  const local = single?.lang === lang ? single : null;
+  const globalTranslated = typeof comment.original === 'string';
+  const originalText = globalTranslated ? comment.original : comment.message;
+  const translatedText = globalTranslated ? comment.message : local?.text;
+  const translated = typeof translatedText === 'string';
+  const source = globalTranslated ? comment.translatedFrom : local?.source;
+  const fromName = translated && source ? languageName(source, lang) : null;
+  // Önbellek "zaten bu dilde" diyorsa çevir butonu gösterilmez
+  const sameLang = !translated && (local?.text === null || cachedTranslations([comment], lang)[comment.id]?.text === null);
+  const canTranslate = !translated && !sameLang && !!comment.message?.trim();
+  const showButton = large && (translated || canTranslate);
+  const buttonLabels = [
+    t('guestbook.translate.single'),
+    t('guestbook.translate.busy'),
+    t('guestbook.translate.retry'),
+    t('guestbook.translate.showOriginal'),
+    t('guestbook.translate.showTranslation'),
+  ];
+  const buttonLabel = translated
+    ? showOriginal
+      ? t('guestbook.translate.showTranslation')
+      : t('guestbook.translate.showOriginal')
+    : singleBusy
+      ? t('guestbook.translate.busy')
+      : local?.failed
+        ? t('guestbook.translate.retry')
+        : t('guestbook.translate.single');
+
+  const translateSingle = async () => {
+    setSingleBusy(true);
+    const target = lang;
+    const res = (await translateComments([{ id: comment.id, message: originalText }], target))[comment.id];
+    setSingle(res ? { lang: target, ...res } : { lang: target, failed: true });
+    setShowOriginal(false);
+    setSingleBusy(false);
+  };
   const src = isSafeAvatar(comment.avatar) ? comment.avatar : comment.fallbackAvatar;
   const date = comment.createdAt
     ? new Date(comment.createdAt).toLocaleDateString(lang === 'en' ? 'en-GB' : 'tr-TR', {
@@ -119,8 +162,55 @@ export default function CommentCard({ comment, pending = false, large = false })
             overflowWrap: 'anywhere',
           }}
         >
-          {comment.message}
+          {translated && !showOriginal ? translatedText : originalText}
         </p>
+        {(translated || showButton) && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginTop: '0.75rem' }}>
+            {translated && (
+              <p
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                  flex: 1,
+                  minWidth: 0,
+                  margin: 0,
+                  fontSize: large ? '0.8rem' : '0.72rem',
+                  color: text.muted,
+                }}
+              >
+                <FiGlobe aria-hidden="true" size={12} style={{ flexShrink: 0 }} />
+                {showOriginal
+                  ? t('guestbook.translate.originalText')
+                  : fromName
+                    ? t('guestbook.translate.from', { lang: fromName })
+                    : t('guestbook.translate.translated')}
+              </p>
+            )}
+            {showButton && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={translated ? () => setShowOriginal((v) => !v) : translateSingle}
+                disabled={singleBusy}
+                aria-busy={singleBusy}
+                aria-label={buttonLabel}
+                title={local?.failed && !singleBusy ? t('guestbook.translate.failed') : undefined}
+                style={{ flexShrink: 0, marginLeft: 'auto', gap: '0.4rem', whiteSpace: 'nowrap' }}
+              >
+                <FiGlobe aria-hidden="true" size={13} />
+                {/* Tüm etiketler aynı hücrede üst üste durur: buton en uzun etiket kadar sabit genişlikte kalır */}
+                <span aria-hidden="true" style={{ display: 'inline-grid' }}>
+                  {buttonLabels.map((label) => (
+                    <span key={label} style={{ gridArea: '1 / 1', visibility: label === buttonLabel ? 'visible' : 'hidden' }}>
+                      {label}
+                    </span>
+                  ))}
+                </span>
+              </Button>
+            )}
+          </div>
+        )}
         {!large && (
           <CommentLinks links={comment.links} publicEmail={comment.publicEmail} teamMemberId={comment.teamMemberId} />
         )}
@@ -133,4 +223,12 @@ export default function CommentCard({ comment, pending = false, large = false })
       )}
     </article>
   );
+}
+
+function languageName(code, uiLang) {
+  try {
+    return new Intl.DisplayNames([uiLang], { type: 'language' }).of(code) || code;
+  } catch {
+    return code;
+  }
 }

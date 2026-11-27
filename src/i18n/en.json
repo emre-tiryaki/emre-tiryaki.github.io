@@ -230,7 +230,20 @@
       "invalid": "Enter a valid https:// link.",
       "tooMany": "You can add up to {max} links."
     },
-    "teammate": "Teammate"
+    "teammate": "Teammate",
+    "translate": {
+      "action": "Translate comments",
+      "original": "Show originals",
+      "busy": "Translating…",
+      "from": "Translated from {lang}",
+      "translated": "Translated",
+      "showOriginal": "Show original",
+      "showTranslation": "Show translation",
+      "single": "Translate",
+      "failed": "Translation is unavailable right now.",
+      "retry": "Try again",
+      "originalText": "Original text"
+    }
   },
   "certifications": {
     "title": "Certifications",

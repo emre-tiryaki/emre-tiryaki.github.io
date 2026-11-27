@@ -1,5 +1,5 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { FiAlertTriangle, FiMessageSquare } from 'react-icons/fi';
+import { FiAlertTriangle, FiGlobe, FiMessageSquare } from 'react-icons/fi';
 import { THEME_COLORS } from '../../theme';
 import { useTranslation } from '../../hooks/translation';
 import Button from '../ui/Button';
@@ -14,7 +14,7 @@ const MOBILE_VISIBLE = 10; // dar ekranda fazlası gizlenir (üst üste binmesin
  * Sayfanın tamamını kaplayan, kaydırılmayan sahne: ortada "yorum bırak" butonu,
  * çevresinde rastgele katmanlanmış yorum kartları. Durum mesajları butonun altında görünür.
  */
-export default function CommentOrbit({ pending, comments, loading, error, onRetry, onCompose, onOpen }) {
+export default function CommentOrbit({ pending, comments, loading, error, onRetry, onCompose, onOpen, translate }) {
   const { t } = useTranslation();
   const all = [...pending.map((c) => ({ c, isPending: true })), ...comments.map((c) => ({ c, isPending: false }))];
   const stageRef = useRef(null);
@@ -98,6 +98,24 @@ export default function CommentOrbit({ pending, comments, loading, error, onRetr
           <FiMessageSquare aria-hidden="true" size={20} />
           {t('guestbook.open')}
         </Button>
+
+        {translate && !loading && !error && all.length > 0 && (
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={translate.onToggle}
+            aria-pressed={translate.on}
+            aria-busy={translate.busy}
+            style={{ gap: '0.45rem', background: 'rgba(10, 10, 10, 0.75)' }}
+          >
+            <FiGlobe aria-hidden="true" size={14} />
+            {translate.on
+              ? translate.busy
+                ? t('guestbook.translate.busy')
+                : t('guestbook.translate.original')
+              : t('guestbook.translate.action')}
+          </Button>
+        )}
 
         <div
           role={error ? 'alert' : 'status'}
